@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+ENV/
+.eggs/
+*.egg-info/
+*.egg
+
+# Whisper models
+*.bin
+*.pt
+whisper_models/
+
+# Audio files (may contain PHI)
+*.wav
+*.webm
+*.mp3
+*.m4a
+*.ogg
+*.flac
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+*.log
+logs/
+
+# Temp files
+/tmp/
+*.tmp

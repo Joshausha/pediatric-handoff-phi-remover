@@ -1,0 +1,602 @@
+/* =============================================================================
+   Pediatric Handoff PHI Remover - Stylesheet
+   ============================================================================= */
+
+:root {
+    /* Colors */
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success: #059669;
+    --success-light: #d1fae5;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --error: #dc2626;
+    --error-light: #fee2e2;
+
+    --bg: #f7f8fa;
+    --surface: #ffffff;
+    --text: #1f2937;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+
+    /* Recording */
+    --record-red: #dc2626;
+    --record-red-light: #fecaca;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+
+    /* Border radius */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* =============================================================================
+   Base Styles
+   ============================================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-lg);
+}
+
+/* =============================================================================
+   Header
+   ============================================================================= */
+
+.header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.header h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+.header-badges {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.privacy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background: var(--success-light);
+    color: var(--success);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.privacy-badge::before {
+    content: "🔒";
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.status-checking {
+    background: var(--warning-light);
+    color: var(--warning);
+}
+
+.status-ready {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+.status-error {
+    background: var(--error-light);
+    color: var(--error);
+}
+
+/* =============================================================================
+   Panels
+   ============================================================================= */
+
+.panel {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-bottom: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border);
+}
+
+.panel h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    color: var(--text);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =============================================================================
+   Recording Controls
+   ============================================================================= */
+
+.record-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.record-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 4px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.record-button:hover:not(:disabled) {
+    border-color: var(--record-red);
+    transform: scale(1.05);
+}
+
+.record-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.record-button.recording {
+    border-color: var(--record-red);
+    animation: pulse 1.5s infinite;
+}
+
+.record-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--record-red);
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.record-button.recording .record-icon {
+    border-radius: var(--radius-sm);
+    width: 24px;
+    height: 24px;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 15px rgba(220, 38, 38, 0);
+    }
+}
+
+.timer {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--record-red);
+    font-variant-numeric: tabular-nums;
+}
+
+/* =============================================================================
+   Audio Preview
+   ============================================================================= */
+
+.audio-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+}
+
+.audio-preview audio {
+    width: 100%;
+    max-width: 400px;
+}
+
+.preview-actions {
+    display: flex;
+    gap: var(--space-md);
+}
+
+/* =============================================================================
+   Upload Area
+   ============================================================================= */
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: var(--space-lg) 0;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.divider span {
+    padding: 0 var(--space-md);
+}
+
+.upload-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.file-name {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+/* =============================================================================
+   Buttons
+   ============================================================================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm) var(--space-lg);
+    border-radius: var(--radius-md);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.btn-secondary {
+    background: var(--bg);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: var(--border);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.btn-outline:hover:not(:disabled) {
+    background: var(--primary);
+    color: white;
+}
+
+/* =============================================================================
+   Processing Steps
+   ============================================================================= */
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.step {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    grid-template-rows: auto auto;
+    gap: var(--space-xs) var(--space-md);
+    align-items: start;
+}
+
+.step-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    grid-row: span 2;
+    align-self: center;
+}
+
+.step-icon.pending {
+    background: var(--bg);
+    border: 2px solid var(--border);
+}
+
+.step-icon.active {
+    background: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.step-icon.active::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border: 2px solid white;
+    border-top: none;
+    border-left: none;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.step-icon.complete {
+    background: var(--success);
+    border: 2px solid var(--success);
+}
+
+.step-icon.complete::after {
+    content: "✓";
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.step-text {
+    font-weight: 500;
+}
+
+.step-desc {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+/* =============================================================================
+   Results
+   ============================================================================= */
+
+.phi-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--success-light);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+}
+
+.phi-count {
+    display: flex;
+    flex-direction: column;
+}
+
+.phi-number {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--success);
+}
+
+.phi-label {
+    font-size: 0.875rem;
+    color: var(--success);
+}
+
+.phi-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: center;
+}
+
+.phi-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    background: white;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: 0.8125rem;
+}
+
+.phi-tag-count {
+    background: var(--success);
+    color: white;
+    padding: 0 var(--space-xs);
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.transcript-section {
+    margin-bottom: var(--space-lg);
+}
+
+.transcript-section h3 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+}
+
+.transcript {
+    background: var(--bg);
+    padding: var(--space-lg);
+    border-radius: var(--radius-md);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.result-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.entities-details {
+    margin-top: var(--space-lg);
+}
+
+.entities-details summary {
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.entities-list {
+    margin-top: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.entity-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+}
+
+.entity-type {
+    font-weight: 500;
+}
+
+.entity-preview {
+    color: var(--text-muted);
+    font-family: monospace;
+}
+
+.entity-score {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.warnings {
+    margin-top: var(--space-lg);
+    padding: var(--space-md);
+    background: var(--warning-light);
+    border-radius: var(--radius-md);
+    color: var(--warning);
+    font-size: 0.875rem;
+}
+
+/* =============================================================================
+   Footer
+   ============================================================================= */
+
+.footer {
+    text-align: center;
+    padding: var(--space-lg);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.footer p {
+    margin: var(--space-xs) 0;
+}
+
+/* =============================================================================
+   Responsive
+   ============================================================================= */
+
+@media (max-width: 640px) {
+    .container {
+        padding: var(--space-md);
+    }
+
+    .panel {
+        padding: var(--space-lg);
+    }
+
+    .header h1 {
+        font-size: 1.5rem;
+    }
+
+    .record-button {
+        width: 70px;
+        height: 70px;
+    }
+
+    .result-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}

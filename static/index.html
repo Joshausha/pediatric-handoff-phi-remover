@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handoff Transcriber - PHI De-identification</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>Handoff Transcriber</h1>
+                <p class="subtitle">De-identify patient handoffs for safe review</p>
+            </div>
+            <div class="header-badges">
+                <span class="privacy-badge">100% Local Processing</span>
+                <span id="status-indicator" class="status-badge status-checking">Connecting...</span>
+            </div>
+        </header>
+
+        <!-- Recording Panel -->
+        <section class="panel recording-panel">
+            <h2>Record or Upload Audio</h2>
+
+            <div class="record-controls">
+                <button id="record-btn" class="record-button" disabled>
+                    <span class="record-icon"></span>
+                </button>
+                <div id="recording-timer" class="timer hidden">00:00</div>
+            </div>
+
+            <div id="audio-preview" class="audio-preview hidden">
+                <audio id="audio-player" controls></audio>
+                <div class="preview-actions">
+                    <button id="process-btn" class="btn btn-primary">Process Recording</button>
+                    <button id="discard-btn" class="btn btn-secondary">Discard</button>
+                </div>
+            </div>
+
+            <div class="divider">
+                <span>or upload a file</span>
+            </div>
+
+            <div class="upload-area">
+                <input type="file" id="file-input" accept="audio/*" hidden>
+                <button id="upload-btn" class="btn btn-outline">
+                    Choose Audio File
+                </button>
+                <span id="file-name" class="file-name"></span>
+            </div>
+        </section>
+
+        <!-- Processing Panel -->
+        <section id="processing-panel" class="panel processing-panel hidden">
+            <h2>Processing</h2>
+            <div class="steps">
+                <div id="step-transcribe" class="step">
+                    <span class="step-icon pending"></span>
+                    <span class="step-text">Transcribing audio</span>
+                    <span class="step-desc">Converting speech to text using local Whisper model</span>
+                </div>
+                <div id="step-deidentify" class="step">
+                    <span class="step-icon pending"></span>
+                    <span class="step-text">Removing PHI</span>
+                    <span class="step-desc">Detecting and replacing protected health information</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Panel -->
+        <section id="results-panel" class="panel results-panel hidden">
+            <h2>Results</h2>
+
+            <div class="phi-summary">
+                <div class="phi-count">
+                    <span id="phi-total" class="phi-number">0</span>
+                    <span class="phi-label">PHI elements removed</span>
+                </div>
+                <div id="phi-breakdown" class="phi-breakdown"></div>
+            </div>
+
+            <div class="transcript-section">
+                <h3>De-identified Transcript</h3>
+                <div id="clean-transcript" class="transcript"></div>
+            </div>
+
+            <div class="result-actions">
+                <button id="copy-btn" class="btn btn-primary">Copy to Clipboard</button>
+                <button id="download-btn" class="btn btn-secondary">Download as Text</button>
+                <button id="new-btn" class="btn btn-outline">New Recording</button>
+            </div>
+
+            <details class="entities-details">
+                <summary>View detected PHI details</summary>
+                <div id="entities-list" class="entities-list"></div>
+            </details>
+
+            <div id="warnings" class="warnings hidden"></div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>All processing happens locally on your device.</p>
+            <p>No patient data is transmitted over the network.</p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
