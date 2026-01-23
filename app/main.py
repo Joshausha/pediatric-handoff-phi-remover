@@ -135,11 +135,71 @@ async def lifespan(app: FastAPI):
 # FastAPI Application
 # =============================================================================
 
+API_DESCRIPTION = """
+## Pediatric Handoff PHI Remover
+
+HIPAA-compliant web application for transcribing pediatric patient handoff
+recordings and removing Protected Health Information (PHI).
+
+### Key Features
+
+- **100% Local Processing**: All transcription and de-identification happens
+  on your machine. No patient data ever leaves the server.
+- **Pediatric-Optimized**: Custom recognizers for guardian names ("Mom Sarah"),
+  baby names ("Baby Smith"), detailed ages ("3 weeks 2 days old"), and more.
+- **Audit Logging**: HIPAA-compliant logs with entity counts (no PHI stored).
+
+### PHI Detection
+
+Automatically detects and removes:
+- Patient names (including "Baby LastName" patterns)
+- Guardian names ("Mom/Dad [Name]")
+- Phone numbers, email addresses
+- Dates (admission dates, birth dates)
+- Locations and addresses
+- Medical record numbers (MRN)
+- Room/bed numbers
+- Detailed ages (e.g., "3 weeks 2 days old")
+
+### Security
+
+- Rate limiting to prevent abuse
+- CORS restricted to configured origins
+- Security headers (CSP, X-Frame-Options, etc.)
+- Non-persistent processing (no storage of audio or transcripts)
+
+### Usage
+
+1. Upload audio file (webm, wav, mp3, m4a)
+2. Wait for transcription (~1 minute per minute of audio on CPU)
+3. Review de-identified transcript
+
+For full documentation, see [GitHub](https://github.com/Joshausha/pediatric-handoff-phi-remover).
+"""
+
+tags_metadata = [
+    {
+        "name": "processing",
+        "description": "Audio transcription and PHI de-identification endpoints",
+    },
+    {
+        "name": "health",
+        "description": "Health check and system status",
+    },
+    {
+        "name": "utilities",
+        "description": "Helper endpoints for testing and estimation",
+    },
+]
+
 app = FastAPI(
     title="Pediatric Handoff PHI Remover",
-    description="HIPAA-compliant local transcription with PHI de-identification",
+    description=API_DESCRIPTION,
     version="1.0.0",
-    lifespan=lifespan
+    lifespan=lifespan,
+    openapi_tags=tags_metadata,
+    docs_url="/docs",
+    redoc_url="/redoc",
 )
 
 # Rate limiter
@@ -180,9 +240,14 @@ async def serve_frontend():
     )
 
 
-@app.get("/health", response_model=HealthResponse)
+@app.get("/health", response_model=HealthResponse, tags=["health"])
 async def health_check():
-    """Check application health and model status."""
+    """
+    Check application health and model status.
+
+    Returns the current status of the application including whether
+    the Whisper and Presidio models are loaded and ready.
+    """
     return HealthResponse(
         status="healthy",
         whisper_model=settings.whisper_model,
@@ -191,14 +256,16 @@ async def health_check():
     )
 
 
-@app.post("/api/transcribe")
+@app.post("/api/transcribe", tags=["utilities"])
 @limiter.limit(f"{settings.rate_limit_requests}/{settings.rate_limit_window_seconds}seconds")
 async def transcribe_only(request: Request, file: UploadFile = File(...)):
     """
     Transcribe audio without de-identification.
 
     For testing transcription independently. Rate limited.
-    WARNING: Returns raw transcript - may contain PHI.
+
+    ⚠️ **WARNING**: Returns raw transcript which may contain PHI.
+    Use /api/process for production to ensure PHI is removed.
     """
     # Validate file size
     content = await file.read()
@@ -227,15 +294,20 @@ async def transcribe_only(request: Request, file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.post("/api/deidentify", response_model=DeidentifyResponse)
+@app.post("/api/deidentify", response_model=DeidentifyResponse, tags=["utilities"])
 async def deidentify_only(
     text: str = Query(..., description="Text to de-identify"),
-    strategy: str = Query("type_marker", description="Replacement strategy")
+    strategy: str = Query("type_marker", description="Replacement strategy: 'type_marker' (default) or 'redact'")
 ):
     """
     De-identify text without transcription.
 
-    For testing de-identification independently.
+    For testing de-identification independently. Useful for verifying
+    PHI detection on sample text before processing audio.
+
+    **Strategies**:
+    - `type_marker`: Replace PHI with `[ENTITY_TYPE]` (e.g., `[PERSON]`)
+    - `redact`: Replace PHI with `[REDACTED]`
     """
     result = deidentify_text(text, strategy)
 
@@ -254,15 +326,34 @@ async def deidentify_only(
     )
 
 
-@app.post("/api/process", response_model=ProcessResponse)
+@app.post("/api/process", response_model=ProcessResponse, tags=["processing"])
 @limiter.limit(f"{settings.rate_limit_requests}/{settings.rate_limit_window_seconds}seconds")
 async def process_audio(request: Request, file: UploadFile = File(...)):
     """
-    Main endpoint: Transcribe audio and remove PHI.
+    **Main endpoint**: Transcribe audio and remove all PHI.
 
-    Accepts audio file, returns de-identified transcript with statistics.
-    Rate limited to prevent abuse.
-    """
+    This is the primary endpoint for production use. It:
+    1. Transcribes audio using local Whisper model
+    2. Detects and removes all PHI using Presidio + custom pediatric recognizers
+    3. Returns the clean transcript with statistics
+
+    **Supported formats**: webm, wav, mp3, m4a, ogg, flac
+
+    **Processing time**: ~1 minute per minute of audio on CPU
+
+    **Rate limited**: {rate_limit} requests per {window} seconds
+
+    **Returns**:
+    - `clean_transcript`: De-identified text safe for sharing
+    - `original_transcript`: Raw transcript (for verification only)
+    - `phi_removed`: Count of PHI entities removed by type
+    - `entities`: Details of each detected entity
+    - `audio_duration_seconds`: Length of the audio file
+    - `warnings`: Any validation warnings
+    """.format(
+        rate_limit=settings.rate_limit_requests,
+        window=settings.rate_limit_window_seconds
+    )
     start_time = time.time()
     request_id = generate_request_id()
     client_ip_hash = hash_client_ip(get_remote_address(request) or "unknown")
@@ -389,12 +480,13 @@ async def process_audio(request: Request, file: UploadFile = File(...)):
         )
 
 
-@app.get("/api/estimate-time", response_model=EstimateResponse)
-async def estimate_time(file_size_bytes: int = Query(..., gt=0)):
+@app.get("/api/estimate-time", response_model=EstimateResponse, tags=["utilities"])
+async def estimate_time(file_size_bytes: int = Query(..., gt=0, description="Audio file size in bytes")):
     """
     Estimate processing time for a given file size.
 
-    Helps frontend show realistic progress expectations.
+    Helps frontend show realistic progress expectations before upload.
+    Estimate is based on the configured Whisper model and device (CPU/GPU).
     """
     estimate = estimate_transcription_time(file_size_bytes)
 
