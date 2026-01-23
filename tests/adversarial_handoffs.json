@@ -1,0 +1,1969 @@
+{
+  "metadata": {
+    "generated_at": "2026-01-23T13:17:20.513430",
+    "n_samples": 100,
+    "phi_types": [
+      "MEDICAL_RECORD_NUMBER",
+      "PERSON",
+      "PHONE_NUMBER",
+      "ROOM",
+      "PEDIATRIC_AGE",
+      "DATE_TIME",
+      "LOCATION",
+      "EMAIL_ADDRESS"
+    ]
+  },
+  "handoffs": [
+    {
+      "id": 0,
+      "text": "Um, this is uh Michael Thomas, a 12 month old old with um meningitis.",
+      "template_id": 0,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 15,
+          "end": 29,
+          "text": "Michael Thomas"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 33,
+          "end": 45,
+          "text": "12 month old"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 1,
+      "text": "So, like, contact Lisa Palmer at like 001-359-886-6201 for uh questions.",
+      "template_id": 1,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 18,
+          "end": 29,
+          "text": "Lisa Palmer"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 38,
+          "end": 54,
+          "text": "001-359-886-6201"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 2,
+      "text": "The uh the patient Christopher Davenport was seen on um January 03.",
+      "template_id": 2,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 19,
+          "end": 40,
+          "text": "Christopher Davenport"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 56,
+          "end": 66,
+          "text": "January 03"
+        }
+      ],
+      "phi_types": [
+        "DATE_TIME",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 3,
+      "text": "Room room 637, I mean room 304, for Antonio Martin.",
+      "template_id": 3,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 10,
+          "end": 13,
+          "text": "637"
+        },
+        {
+          "entity_type": "ROOM",
+          "start": 27,
+          "end": 30,
+          "text": "304"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 36,
+          "end": 50,
+          "text": "Antonio Martin"
+        }
+      ],
+      "phi_types": [
+        "ROOM",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 4,
+      "text": "Patient is John no wait Billy Hanson, age 17yo.",
+      "template_id": 4,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 24,
+          "end": 36,
+          "text": "Billy Hanson"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 42,
+          "end": 46,
+          "text": "17yo"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 5,
+      "text": "Call mom at 555 uh +1-201-697-5587x2215 for updates.",
+      "template_id": 5,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 19,
+          "end": 39,
+          "text": "+1-201-697-5587x2215"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 6,
+      "text": "MRN is 12 no sorry MRN4120696 for this patient.",
+      "template_id": 6,
+      "phi_spans": [
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 19,
+          "end": 29,
+          "text": "MRN4120696"
+        }
+      ],
+      "phi_types": [
+        "MEDICAL_RECORD_NUMBER"
+      ]
+    },
+    {
+      "id": 7,
+      "text": "Admitted to bed 12 I mean Bay 3 on January 15.",
+      "template_id": 7,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 26,
+          "end": 31,
+          "text": "Bay 3"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 35,
+          "end": 45,
+          "text": "January 15"
+        }
+      ],
+      "phi_types": [
+        "ROOM",
+        "DATE_TIME"
+      ]
+    },
+    {
+      "id": 8,
+      "text": "Contact parent, um, Steven Chandler, at (660)376-9152x129.",
+      "template_id": 8,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 20,
+          "end": 35,
+          "text": "Steven Chandler"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 40,
+          "end": 57,
+          "text": "(660)376-9152x129"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 9,
+      "text": "The attending, uh, Dr. Vaughn, will follow up.",
+      "template_id": 9,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 23,
+          "end": 29,
+          "text": "Vaughn"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 10,
+      "text": "Patient Kevin Thomas admitted to 910 with croup.",
+      "template_id": 10,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 8,
+          "end": 20,
+          "text": "Kevin Thomas"
+        },
+        {
+          "entity_type": "ROOM",
+          "start": 33,
+          "end": 36,
+          "text": "910"
+        }
+      ],
+      "phi_types": [
+        "ROOM",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 11,
+      "text": "Mom Alan Mejia can be reached at 001-551-887-4756x10136.",
+      "template_id": 11,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 14,
+          "text": "Alan Mejia"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 33,
+          "end": 55,
+          "text": "001-551-887-4756x10136"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 12,
+      "text": "Dad Kevin Gaines present at bedside, email raymond02@example.net.",
+      "template_id": 12,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 16,
+          "text": "Kevin Gaines"
+        },
+        {
+          "entity_type": "EMAIL_ADDRESS",
+          "start": 43,
+          "end": 64,
+          "text": "raymond02@example.net"
+        }
+      ],
+      "phi_types": [
+        "EMAIL_ADDRESS",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 13,
+      "text": "Attending is Dr. Thompson on service.",
+      "template_id": 13,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 17,
+          "end": 25,
+          "text": "Thompson"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 14,
+      "text": "Contact Michelle Hanna at +1-334-235-3366x30780 for family updates.",
+      "template_id": 14,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 8,
+          "end": 22,
+          "text": "Michelle Hanna"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 26,
+          "end": 47,
+          "text": "+1-334-235-3366x30780"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 15,
+      "text": "Patient Scott Bradford Jr., age 4 year old, has congenital heart disease.",
+      "template_id": 15,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 8,
+          "end": 22,
+          "text": "Scott Bradford"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 32,
+          "end": 42,
+          "text": "4 year old"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 16,
+      "text": "Grandmother Daniel Cole is primary caregiver.",
+      "template_id": 16,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 12,
+          "end": 23,
+          "text": "Daniel Cole"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 17,
+      "text": "David Rodriguez is a 4 day old old admitted for gastroenteritis.",
+      "template_id": 17,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 15,
+          "text": "David Rodriguez"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 21,
+          "end": 30,
+          "text": "4 day old"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 18,
+      "text": "(461)502-6155x4828 is the callback number for the family.",
+      "template_id": 18,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 0,
+          "end": 18,
+          "text": "(461)502-6155x4828"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 19,
+      "text": "8 is where patient will be transferred.",
+      "template_id": 19,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 0,
+          "end": 1,
+          "text": "8"
+        }
+      ],
+      "phi_types": [
+        "ROOM"
+      ]
+    },
+    {
+      "id": 20,
+      "text": "Patient admitted is John Boyle.",
+      "template_id": 20,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 20,
+          "end": 30,
+          "text": "John Boyle"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 21,
+      "text": "Family contact: Rebecca Olson.",
+      "template_id": 21,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 16,
+          "end": 29,
+          "text": "Rebecca Olson"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 22,
+      "text": "Best number to call: 625-930-3724x97477.",
+      "template_id": 22,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 21,
+          "end": 39,
+          "text": "625-930-3724x97477"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 23,
+      "text": "Call (+1-496-268-9139) for updates.",
+      "template_id": 23,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 6,
+          "end": 21,
+          "text": "+1-496-268-9139"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 24,
+      "text": "Patient: Rebecca Little, MRN: 97586311.",
+      "template_id": 24,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 9,
+          "end": 23,
+          "text": "Rebecca Little"
+        },
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 30,
+          "end": 38,
+          "text": "97586311"
+        }
+      ],
+      "phi_types": [
+        "MEDICAL_RECORD_NUMBER",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 25,
+      "text": "Room: 7; Bed: A.",
+      "template_id": 25,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 6,
+          "end": 7,
+          "text": "7"
+        }
+      ],
+      "phi_types": [
+        "ROOM"
+      ]
+    },
+    {
+      "id": 26,
+      "text": "Email: <scotttodd@example.com>",
+      "template_id": 26,
+      "phi_spans": [
+        {
+          "entity_type": "EMAIL_ADDRESS",
+          "start": 8,
+          "end": 29,
+          "text": "scotttodd@example.com"
+        }
+      ],
+      "phi_types": [
+        "EMAIL_ADDRESS"
+      ]
+    },
+    {
+      "id": 27,
+      "text": "Present: Austin Ellis, Kathleen Wilson, and nurse.",
+      "template_id": 27,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 9,
+          "end": 21,
+          "text": "Austin Ellis"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 23,
+          "end": 38,
+          "text": "Kathleen Wilson"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 28,
+      "text": "Contacts: 655-851-6754x33725, 594.480.2422.",
+      "template_id": 28,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 10,
+          "end": 28,
+          "text": "655-851-6754x33725"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 30,
+          "end": 42,
+          "text": "594.480.2422"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 29,
+      "text": "Seen on January 04, January 21, and January 13.",
+      "template_id": 29,
+      "phi_spans": [
+        {
+          "entity_type": "DATE_TIME",
+          "start": 8,
+          "end": 18,
+          "text": "January 04"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 20,
+          "end": 30,
+          "text": "January 21"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 36,
+          "end": 46,
+          "text": "January 13"
+        }
+      ],
+      "phi_types": [
+        "DATE_TIME"
+      ]
+    },
+    {
+      "id": 30,
+      "text": "Susan Green is mom and primary decision maker.",
+      "template_id": 30,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 11,
+          "text": "Susan Green"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 31,
+      "text": "Dr. Cody Scott PhD is dad, cell 001-885-221-6484x1298.",
+      "template_id": 31,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 18,
+          "text": "Dr. Cody Scott PhD"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 32,
+          "end": 53,
+          "text": "001-885-221-6484x1298"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 32,
+      "text": "Jeffrey Stevens is the grandmother, contact at gdaniels@example.org.",
+      "template_id": 32,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 15,
+          "text": "Jeffrey Stevens"
+        },
+        {
+          "entity_type": "EMAIL_ADDRESS",
+          "start": 47,
+          "end": 67,
+          "text": "gdaniels@example.org"
+        }
+      ],
+      "phi_types": [
+        "EMAIL_ADDRESS",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 33,
+      "text": "mom Katelyn Cardenas at bedside.",
+      "template_id": 33,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 20,
+          "text": "Katelyn Cardenas"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 34,
+      "text": "dad Michael Harris called for update.",
+      "template_id": 34,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 18,
+          "text": "Michael Harris"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 35,
+      "text": "patient Melanie Stephens stable overnight.",
+      "template_id": 35,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 8,
+          "end": 24,
+          "text": "Melanie Stephens"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 36,
+      "text": "MRN MRN 29776461, or is it 7018128? Please verify.",
+      "template_id": 36,
+      "phi_spans": [
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 4,
+          "end": 16,
+          "text": "MRN 29776461"
+        },
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 27,
+          "end": 34,
+          "text": "7018128"
+        }
+      ],
+      "phi_types": [
+        "MEDICAL_RECORD_NUMBER"
+      ]
+    },
+    {
+      "id": 37,
+      "text": "Call 2147501852 or 351.567.0013 for mom.",
+      "template_id": 37,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 5,
+          "end": 15,
+          "text": "2147501852"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 19,
+          "end": 31,
+          "text": "351.567.0013"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 38,
+      "text": "Weight is 2503g kg, repeat 3752g kilograms.",
+      "template_id": 38,
+      "phi_spans": [],
+      "phi_types": []
+    },
+    {
+      "id": 39,
+      "text": "Patient stable on NC, not in NC (the state).",
+      "template_id": 39,
+      "phi_spans": [],
+      "phi_types": []
+    },
+    {
+      "id": 40,
+      "text": "Give IV fluids, patient from OR (operating room).",
+      "template_id": 40,
+      "phi_spans": [],
+      "phi_types": []
+    },
+    {
+      "id": 41,
+      "text": "Patient in ER, not from the city called ER.",
+      "template_id": 41,
+      "phi_spans": [],
+      "phi_types": []
+    },
+    {
+      "id": 42,
+      "text": "Brian Torres... Shane Barnett is the patient name.",
+      "template_id": 42,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 12,
+          "text": "Brian Torres"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 16,
+          "end": 29,
+          "text": "Shane Barnett"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 43,
+      "text": "Room bed 9, that's 4-11.",
+      "template_id": 43,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 5,
+          "end": 10,
+          "text": "bed 9"
+        },
+        {
+          "entity_type": "ROOM",
+          "start": 19,
+          "end": 23,
+          "text": "4-11"
+        }
+      ],
+      "phi_types": [
+        "ROOM"
+      ]
+    },
+    {
+      "id": 44,
+      "text": "Email again: amarsh@example.net, dalvarado@example.com.",
+      "template_id": 44,
+      "phi_spans": [
+        {
+          "entity_type": "EMAIL_ADDRESS",
+          "start": 13,
+          "end": 31,
+          "text": "amarsh@example.net"
+        },
+        {
+          "entity_type": "EMAIL_ADDRESS",
+          "start": 33,
+          "end": 54,
+          "text": "dalvarado@example.com"
+        }
+      ],
+      "phi_types": [
+        "EMAIL_ADDRESS"
+      ]
+    },
+    {
+      "id": 45,
+      "text": "Christina Kim (MRN MRN 12256515) admitted to 27 on January 10.",
+      "template_id": 45,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 13,
+          "text": "Christina Kim"
+        },
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 19,
+          "end": 31,
+          "text": "MRN 12256515"
+        },
+        {
+          "entity_type": "ROOM",
+          "start": 45,
+          "end": 47,
+          "text": "27"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 51,
+          "end": 61,
+          "text": "January 10"
+        }
+      ],
+      "phi_types": [
+        "ROOM",
+        "DATE_TIME",
+        "MEDICAL_RECORD_NUMBER",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 46,
+      "text": "Mom Cassandra Dillon (871-571-1048) and dad William Allen MD ((812)208-9116x0131) available.",
+      "template_id": 46,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 20,
+          "text": "Cassandra Dillon"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 22,
+          "end": 34,
+          "text": "871-571-1048"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 44,
+          "end": 60,
+          "text": "William Allen MD"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 62,
+          "end": 80,
+          "text": "(812)208-9116x0131"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 47,
+      "text": "Patient Stephen Flores, 11 weeks 3 days old, from South Jenniferland, MRN 92220775.",
+      "template_id": 47,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 8,
+          "end": 22,
+          "text": "Stephen Flores"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 24,
+          "end": 43,
+          "text": "11 weeks 3 days old"
+        },
+        {
+          "entity_type": "LOCATION",
+          "start": 50,
+          "end": 68,
+          "text": "South Jenniferland"
+        },
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 74,
+          "end": 82,
+          "text": "92220775"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "MEDICAL_RECORD_NUMBER",
+        "PERSON",
+        "LOCATION"
+      ]
+    },
+    {
+      "id": 48,
+      "text": "If Alejandro Nelson's condition worsens, call +1-640-657-4016 immediately.",
+      "template_id": 48,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 3,
+          "end": 19,
+          "text": "Alejandro Nelson"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 46,
+          "end": 61,
+          "text": "+1-640-657-4016"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 49,
+      "text": "Angela Williams at amybutler@example.com is the case manager.",
+      "template_id": 49,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 15,
+          "text": "Angela Williams"
+        },
+        {
+          "entity_type": "EMAIL_ADDRESS",
+          "start": 19,
+          "end": 40,
+          "text": "amybutler@example.com"
+        }
+      ],
+      "phi_types": [
+        "EMAIL_ADDRESS",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 50,
+      "text": "Transfer to bay 15 per Dr. Nielsen.",
+      "template_id": 50,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 12,
+          "end": 18,
+          "text": "bay 15"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 27,
+          "end": 34,
+          "text": "Nielsen"
+        }
+      ],
+      "phi_types": [
+        "ROOM",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 51,
+      "text": "According to mom (Jonathan Lopez Jr.), patient (John Walker) has BPD.",
+      "template_id": 51,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 18,
+          "end": 36,
+          "text": "Jonathan Lopez Jr."
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 48,
+          "end": 59,
+          "text": "John Walker"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 52,
+      "text": "Dr. Griffith spoke with Mario Garcia at 254-219-8878x74660 on January 04.",
+      "template_id": 52,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 12,
+          "text": "Griffith"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 24,
+          "end": 36,
+          "text": "Mario Garcia"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 40,
+          "end": 58,
+          "text": "254-219-8878x74660"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 62,
+          "end": 72,
+          "text": "January 04"
+        }
+      ],
+      "phi_types": [
+        "DATE_TIME",
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 53,
+      "text": "Baby is 24 day old old.",
+      "template_id": 53,
+      "phi_spans": [
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 8,
+          "end": 18,
+          "text": "24 day old"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE"
+      ]
+    },
+    {
+      "id": 54,
+      "text": "Infant born on January 19, now 10 year old.",
+      "template_id": 54,
+      "phi_spans": [
+        {
+          "entity_type": "DATE_TIME",
+          "start": 15,
+          "end": 25,
+          "text": "January 19"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 31,
+          "end": 42,
+          "text": "10 year old"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "DATE_TIME"
+      ]
+    },
+    {
+      "id": 55,
+      "text": "Patient is approximately 4 yo.",
+      "template_id": 55,
+      "phi_spans": [
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 25,
+          "end": 29,
+          "text": "4 yo"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE"
+      ]
+    },
+    {
+      "id": 56,
+      "text": "3 week old patient, weight 3.2kg.",
+      "template_id": 56,
+      "phi_spans": [],
+      "phi_types": []
+    },
+    {
+      "id": 57,
+      "text": "5 day old infant in room 5.",
+      "template_id": 57,
+      "phi_spans": [],
+      "phi_types": []
+    },
+    {
+      "id": 58,
+      "text": "Patient 2 years 3 months, give 2.3 mL.",
+      "template_id": 58,
+      "phi_spans": [],
+      "phi_types": []
+    },
+    {
+      "id": 59,
+      "text": "Um, this is uh Lauren Nelson, a 8yo old with um febrile neutropenia.",
+      "template_id": 0,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 15,
+          "end": 28,
+          "text": "Lauren Nelson"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 32,
+          "end": 35,
+          "text": "8yo"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 60,
+      "text": "So, like, contact Nathaniel Smith at like 620.442.1754x23014 for uh questions.",
+      "template_id": 1,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 18,
+          "end": 33,
+          "text": "Nathaniel Smith"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 42,
+          "end": 60,
+          "text": "620.442.1754x23014"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 61,
+      "text": "The uh the patient Wendy Hancock was seen on um January 21.",
+      "template_id": 2,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 19,
+          "end": 32,
+          "text": "Wendy Hancock"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 48,
+          "end": 58,
+          "text": "January 21"
+        }
+      ],
+      "phi_types": [
+        "DATE_TIME",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 62,
+      "text": "Room room 490, I mean room isolette 35, for Brandy Short.",
+      "template_id": 3,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 10,
+          "end": 13,
+          "text": "490"
+        },
+        {
+          "entity_type": "ROOM",
+          "start": 27,
+          "end": 38,
+          "text": "isolette 35"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 44,
+          "end": 56,
+          "text": "Brandy Short"
+        }
+      ],
+      "phi_types": [
+        "ROOM",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 63,
+      "text": "Patient is John no wait William Watson, age 22mo.",
+      "template_id": 4,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 24,
+          "end": 38,
+          "text": "William Watson"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 44,
+          "end": 48,
+          "text": "22mo"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 64,
+      "text": "Call mom at 555 uh 679-711-2276 for updates.",
+      "template_id": 5,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 19,
+          "end": 31,
+          "text": "679-711-2276"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 65,
+      "text": "MRN is 12 no sorry MRN2026699 for this patient.",
+      "template_id": 6,
+      "phi_spans": [
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 19,
+          "end": 29,
+          "text": "MRN2026699"
+        }
+      ],
+      "phi_types": [
+        "MEDICAL_RECORD_NUMBER"
+      ]
+    },
+    {
+      "id": 66,
+      "text": "Admitted to bed 12 I mean 4-30 on January 07.",
+      "template_id": 7,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 26,
+          "end": 30,
+          "text": "4-30"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 34,
+          "end": 44,
+          "text": "January 07"
+        }
+      ],
+      "phi_types": [
+        "ROOM",
+        "DATE_TIME"
+      ]
+    },
+    {
+      "id": 67,
+      "text": "Contact parent, um, Lauren Hernandez, at 625.418.7065.",
+      "template_id": 8,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 20,
+          "end": 36,
+          "text": "Lauren Hernandez"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 41,
+          "end": 53,
+          "text": "625.418.7065"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 68,
+      "text": "The attending, uh, Dr. Allen, will follow up.",
+      "template_id": 9,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 23,
+          "end": 28,
+          "text": "Allen"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 69,
+      "text": "Patient Kevin Bennett admitted to isolette 15 with appendicitis.",
+      "template_id": 10,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 8,
+          "end": 21,
+          "text": "Kevin Bennett"
+        },
+        {
+          "entity_type": "ROOM",
+          "start": 34,
+          "end": 45,
+          "text": "isolette 15"
+        }
+      ],
+      "phi_types": [
+        "ROOM",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 70,
+      "text": "Mom John Miller can be reached at 217-751-6004x53406.",
+      "template_id": 11,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 15,
+          "text": "John Miller"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 34,
+          "end": 52,
+          "text": "217-751-6004x53406"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 71,
+      "text": "Dad Amy Wells present at bedside, email youngdavid@example.org.",
+      "template_id": 12,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 13,
+          "text": "Amy Wells"
+        },
+        {
+          "entity_type": "EMAIL_ADDRESS",
+          "start": 40,
+          "end": 62,
+          "text": "youngdavid@example.org"
+        }
+      ],
+      "phi_types": [
+        "EMAIL_ADDRESS",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 72,
+      "text": "Attending is Dr. Ho on service.",
+      "template_id": 13,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 17,
+          "end": 19,
+          "text": "Ho"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 73,
+      "text": "Contact Laura Lamb at 783-914-0713 for family updates.",
+      "template_id": 14,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 8,
+          "end": 18,
+          "text": "Laura Lamb"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 22,
+          "end": 34,
+          "text": "783-914-0713"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 74,
+      "text": "Patient Sara Craig Jr., age 15yo, has sickle cell crisis.",
+      "template_id": 15,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 8,
+          "end": 18,
+          "text": "Sara Craig"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 28,
+          "end": 32,
+          "text": "15yo"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 75,
+      "text": "Grandmother Anna Rasmussen is primary caregiver.",
+      "template_id": 16,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 12,
+          "end": 26,
+          "text": "Anna Rasmussen"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 76,
+      "text": "Terry Salazar is a 19 month old old admitted for hyperbilirubinemia.",
+      "template_id": 17,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 13,
+          "text": "Terry Salazar"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 19,
+          "end": 31,
+          "text": "19 month old"
+        }
+      ],
+      "phi_types": [
+        "PEDIATRIC_AGE",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 77,
+      "text": "+1-303-716-4367x298 is the callback number for the family.",
+      "template_id": 18,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 0,
+          "end": 19,
+          "text": "+1-303-716-4367x298"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 78,
+      "text": "bed 1 is where patient will be transferred.",
+      "template_id": 19,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 0,
+          "end": 5,
+          "text": "bed 1"
+        }
+      ],
+      "phi_types": [
+        "ROOM"
+      ]
+    },
+    {
+      "id": 79,
+      "text": "Patient admitted is Alan Nguyen.",
+      "template_id": 20,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 20,
+          "end": 31,
+          "text": "Alan Nguyen"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 80,
+      "text": "Family contact: John Thompson.",
+      "template_id": 21,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 16,
+          "end": 29,
+          "text": "John Thompson"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 81,
+      "text": "Best number to call: +1-901-670-6048.",
+      "template_id": 22,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 21,
+          "end": 36,
+          "text": "+1-901-670-6048"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 82,
+      "text": "Call ((853)346-8995) for updates.",
+      "template_id": 23,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 6,
+          "end": 19,
+          "text": "(853)346-8995"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 83,
+      "text": "Patient: Stephen Case, MRN: MRN3190376.",
+      "template_id": 24,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 9,
+          "end": 21,
+          "text": "Stephen Case"
+        },
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 28,
+          "end": 38,
+          "text": "MRN3190376"
+        }
+      ],
+      "phi_types": [
+        "MEDICAL_RECORD_NUMBER",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 84,
+      "text": "Room: bed 35; Bed: A.",
+      "template_id": 25,
+      "phi_spans": [
+        {
+          "entity_type": "ROOM",
+          "start": 6,
+          "end": 12,
+          "text": "bed 35"
+        }
+      ],
+      "phi_types": [
+        "ROOM"
+      ]
+    },
+    {
+      "id": 85,
+      "text": "Email: <ahunter@example.net>",
+      "template_id": 26,
+      "phi_spans": [
+        {
+          "entity_type": "EMAIL_ADDRESS",
+          "start": 8,
+          "end": 27,
+          "text": "ahunter@example.net"
+        }
+      ],
+      "phi_types": [
+        "EMAIL_ADDRESS"
+      ]
+    },
+    {
+      "id": 86,
+      "text": "Present: Alexis Graham, Eric Rodriguez, and nurse.",
+      "template_id": 27,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 9,
+          "end": 22,
+          "text": "Alexis Graham"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 24,
+          "end": 38,
+          "text": "Eric Rodriguez"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 87,
+      "text": "Contacts: (480)963-6782, 231.923.8411x24474.",
+      "template_id": 28,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 10,
+          "end": 23,
+          "text": "(480)963-6782"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 25,
+          "end": 43,
+          "text": "231.923.8411x24474"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 88,
+      "text": "Seen on January 09, January 08, and January 19.",
+      "template_id": 29,
+      "phi_spans": [
+        {
+          "entity_type": "DATE_TIME",
+          "start": 8,
+          "end": 18,
+          "text": "January 09"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 20,
+          "end": 30,
+          "text": "January 08"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 36,
+          "end": 46,
+          "text": "January 19"
+        }
+      ],
+      "phi_types": [
+        "DATE_TIME"
+      ]
+    },
+    {
+      "id": 89,
+      "text": "Edward Miller is mom and primary decision maker.",
+      "template_id": 30,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 13,
+          "text": "Edward Miller"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 90,
+      "text": "Ms. Deborah Smith is dad, cell 663-701-3599x738.",
+      "template_id": 31,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 17,
+          "text": "Ms. Deborah Smith"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 31,
+          "end": 47,
+          "text": "663-701-3599x738"
+        }
+      ],
+      "phi_types": [
+        "PERSON",
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 91,
+      "text": "Bobby Park is the grandmother, contact at lindsaybolton@example.org.",
+      "template_id": 32,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 10,
+          "text": "Bobby Park"
+        },
+        {
+          "entity_type": "EMAIL_ADDRESS",
+          "start": 42,
+          "end": 67,
+          "text": "lindsaybolton@example.org"
+        }
+      ],
+      "phi_types": [
+        "EMAIL_ADDRESS",
+        "PERSON"
+      ]
+    },
+    {
+      "id": 92,
+      "text": "mom Robert Barber at bedside.",
+      "template_id": 33,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 17,
+          "text": "Robert Barber"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 93,
+      "text": "dad Amanda Collins called for update.",
+      "template_id": 34,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 4,
+          "end": 18,
+          "text": "Amanda Collins"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 94,
+      "text": "patient Jeffrey Lucas stable overnight.",
+      "template_id": 35,
+      "phi_spans": [
+        {
+          "entity_type": "PERSON",
+          "start": 8,
+          "end": 21,
+          "text": "Jeffrey Lucas"
+        }
+      ],
+      "phi_types": [
+        "PERSON"
+      ]
+    },
+    {
+      "id": 95,
+      "text": "MRN 18335787, or is it MRN 65604924? Please verify.",
+      "template_id": 36,
+      "phi_spans": [
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 4,
+          "end": 12,
+          "text": "18335787"
+        },
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 23,
+          "end": 35,
+          "text": "MRN 65604924"
+        }
+      ],
+      "phi_types": [
+        "MEDICAL_RECORD_NUMBER"
+      ]
+    },
+    {
+      "id": 96,
+      "text": "Call 233-566-1929x95632 or 516-609-0752 for mom.",
+      "template_id": 37,
+      "phi_spans": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 5,
+          "end": 23,
+          "text": "233-566-1929x95632"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 27,
+          "end": 39,
+          "text": "516-609-0752"
+        }
+      ],
+      "phi_types": [
+        "PHONE_NUMBER"
+      ]
+    },
+    {
+      "id": 97,
+      "text": "Weight is 3591g kg, repeat 863g kilograms.",
+      "template_id": 38,
+      "phi_spans": [],
+      "phi_types": []
+    },
+    {
+      "id": 98,
+      "text": "Patient stable on NC, not in NC (the state).",
+      "template_id": 39,
+      "phi_spans": [],
+      "phi_types": []
+    },
+    {
+      "id": 99,
+      "text": "Give IV fluids, patient from OR (operating room).",
+      "template_id": 40,
+      "phi_spans": [],
+      "phi_types": []
+    }
+  ]
+}
