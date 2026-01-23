@@ -42,15 +42,16 @@ Plans:
 **Depends on**: Phase 1 (needs evaluation framework)
 **Requirements**: THRS-01, THRS-02, THRS-03, THRS-04
 **Success Criteria** (what must be TRUE):
-  1. Precision-recall curves generated for all entity types across threshold range (0.3-0.7)
+  1. Precision-recall curves generated for all entity types across threshold range (0.3-0.6)
   2. Detection threshold calibrated with documented rationale (currently 0.35 arbitrary)
   3. Validation threshold aligned with detection threshold (fixes current 0.35/0.7 mismatch)
   4. Overall recall improved to >90% through threshold optimization alone
   5. Threshold calibration methodology documented in config.py with supporting metrics
-**Plans**: TBD
+**Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] 02-01: TBD during phase planning
+- [ ] 02-01-PLAN.md — Create threshold calibration script and generate PR curves
+- [ ] 02-02-PLAN.md — Apply calibrated thresholds to codebase and document results
 
 ### Phase 3: Deny List Refinement
 **Goal**: Reduce false positives through expanded medical vocabulary deny lists with consistent case handling
@@ -107,7 +108,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Baseline Measurement | 4/4 | ✓ Complete | 2026-01-23 |
-| 2. Threshold Calibration | 0/TBD | Ready to plan | - |
+| 2. Threshold Calibration | 0/2 | Ready to execute | - |
 | 3. Deny List Refinement | 0/TBD | Blocked (Phase 2) | - |
 | 4. Pattern Improvements | 0/TBD | Blocked (Phase 2) | - |
 | 5. Validation & Compliance | 0/TBD | Blocked (Phases 3-4) | - |
@@ -127,4 +128,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 1 complete)*
+*Last updated: 2026-01-23 (Phase 2 planned)*
