@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 1: Baseline Measurement
+**Current focus:** Phase 2: Threshold Calibration
 
 ## Current Position
 
-Phase: 1 of 5 (Baseline Measurement)
-Plan: Completed all plans (6/6)
-Status: Phase complete
-Last activity: 2026-01-23 — Completed 01-02 (Baseline Metrics Documentation)
+Phase: 2 of 5 (Threshold Calibration)
+Plan: Ready to plan
+Status: Ready to start
+Last activity: 2026-01-23 — Phase 1 verified and complete
 
-Progress: [██████████] 100%
+Progress: [██░░░░░░░░] 20% (1 of 5 phases complete)
 
 ## Performance Metrics
 

@@ -12,7 +12,7 @@ This quality improvement project transforms the PHI detection system from 77.9% 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Baseline Measurement** - Establish evaluation framework and gold standard dataset
+- [x] **Phase 1: Baseline Measurement** - Establish evaluation framework and gold standard dataset ✓
 - [ ] **Phase 2: Threshold Calibration** - Data-driven threshold optimization with F2 score
 - [ ] **Phase 3: Deny List Refinement** - Medical vocabulary filtering and case normalization
 - [ ] **Phase 4: Pattern Improvements** - Regex edge case fixes and bidirectional patterns
@@ -32,10 +32,10 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 4 plans in 2 waves
 
 Plans:
-- [ ] 01-01-PLAN.md — Enhance evaluation infrastructure (F2 score, confusion matrix)
-- [ ] 01-02-PLAN.md — Document baseline state (BASELINE_METRICS.md)
-- [ ] 01-03-PLAN.md — Create adversarial synthetic dataset (edge case testing)
-- [ ] 01-04-PLAN.md — Document CI/CD integration strategy
+- [x] 01-01-PLAN.md — Enhance evaluation infrastructure (F2 score, confusion matrix) ✓
+- [x] 01-02-PLAN.md — Document baseline state (BASELINE_METRICS.md) ✓
+- [x] 01-03-PLAN.md — Create adversarial synthetic dataset (edge case testing) ✓
+- [x] 01-04-PLAN.md — Document CI/CD integration strategy ✓
 
 ### Phase 2: Threshold Calibration
 **Goal**: Optimize detection and validation thresholds using precision-recall curve analysis
@@ -106,11 +106,11 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Baseline Measurement | 0/4 | Ready to execute | - |
-| 2. Threshold Calibration | 0/TBD | Not started | - |
-| 3. Deny List Refinement | 0/TBD | Not started | - |
-| 4. Pattern Improvements | 0/TBD | Not started | - |
-| 5. Validation & Compliance | 0/TBD | Not started | - |
+| 1. Baseline Measurement | 4/4 | ✓ Complete | 2026-01-23 |
+| 2. Threshold Calibration | 0/TBD | Ready to plan | - |
+| 3. Deny List Refinement | 0/TBD | Blocked (Phase 2) | - |
+| 4. Pattern Improvements | 0/TBD | Blocked (Phase 2) | - |
+| 5. Validation & Compliance | 0/TBD | Blocked (Phases 3-4) | - |
 
 ---
 
@@ -127,4 +127,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 1 planned)*
+*Last updated: 2026-01-23 (Phase 1 complete)*
