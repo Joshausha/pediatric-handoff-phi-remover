@@ -143,6 +143,30 @@ class Settings(BaseSettings):
         description="SpaCy model for NER. Options: en_core_web_sm, en_core_web_md, en_core_web_lg"
     )
 
+    # =========================================================================
+    # Security Configuration
+    # =========================================================================
+    cors_origins: List[str] = Field(
+        default=["http://localhost:8000", "http://127.0.0.1:8000"],
+        description="Allowed CORS origins. Set CORS_ORIGINS env var to comma-separated list for production."
+    )
+    rate_limit_requests: int = Field(
+        default=10,
+        description="Maximum requests per rate limit window"
+    )
+    rate_limit_window_seconds: int = Field(
+        default=60,
+        description="Rate limit window in seconds"
+    )
+    enable_audit_logging: bool = Field(
+        default=True,
+        description="Enable HIPAA-compliant audit logging (no PHI in logs)"
+    )
+    audit_log_file: str = Field(
+        default="logs/audit.log",
+        description="Path to audit log file"
+    )
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"

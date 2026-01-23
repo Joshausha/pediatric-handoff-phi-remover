@@ -3,6 +3,9 @@ fastapi==0.109.2
 uvicorn[standard]==0.27.1
 python-multipart==0.0.9
 
+# Security
+slowapi==0.1.9
+
 # Transcription (local only)
 faster-whisper>=1.0.0
 

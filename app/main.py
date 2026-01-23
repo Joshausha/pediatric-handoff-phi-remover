@@ -10,13 +10,19 @@ from pathlib import Path
 from typing import Optional
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, File, UploadFile, HTTPException, Query
+from fastapi import FastAPI, File, UploadFile, HTTPException, Query, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import Response
 
 from .config import settings
+from .audit import audit_logger, generate_request_id, hash_client_ip
 from .transcription import (
     transcribe_audio,
     is_model_loaded,
@@ -36,6 +42,40 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
+
+# Rate limiter setup
+limiter = Limiter(key_func=get_remote_address)
+
+
+# =============================================================================
+# Security Headers Middleware
+# =============================================================================
+
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    """Add security headers to all responses."""
+
+    async def dispatch(self, request: Request, call_next) -> Response:
+        response = await call_next(request)
+
+        # Security headers
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["X-XSS-Protection"] = "1; mode=block"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        response.headers["Cache-Control"] = "no-store"  # Don't cache PHI-related responses
+
+        # Content Security Policy - restrictive for healthcare
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline'; "
+            "style-src 'self' 'unsafe-inline'; "
+            "img-src 'self' data:; "
+            "font-src 'self'; "
+            "connect-src 'self'; "
+            "frame-ancestors 'none'"
+        )
+
+        return response
 
 
 # =============================================================================
@@ -102,12 +142,19 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS for development
+# Rate limiter
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# Security headers middleware (applied first, runs last)
+app.add_middleware(SecurityHeadersMiddleware)
+
+# CORS - configurable origins (default: localhost only)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, restrict this
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -145,11 +192,13 @@ async def health_check():
 
 
 @app.post("/api/transcribe")
-async def transcribe_only(file: UploadFile = File(...)):
+@limiter.limit(f"{settings.rate_limit_requests}/{settings.rate_limit_window_seconds}seconds")
+async def transcribe_only(request: Request, file: UploadFile = File(...)):
     """
     Transcribe audio without de-identification.
 
-    For testing transcription independently.
+    For testing transcription independently. Rate limited.
+    WARNING: Returns raw transcript - may contain PHI.
     """
     # Validate file size
     content = await file.read()
@@ -206,22 +255,30 @@ async def deidentify_only(
 
 
 @app.post("/api/process", response_model=ProcessResponse)
-async def process_audio(file: UploadFile = File(...)):
+@limiter.limit(f"{settings.rate_limit_requests}/{settings.rate_limit_window_seconds}seconds")
+async def process_audio(request: Request, file: UploadFile = File(...)):
     """
     Main endpoint: Transcribe audio and remove PHI.
 
     Accepts audio file, returns de-identified transcript with statistics.
+    Rate limited to prevent abuse.
     """
     start_time = time.time()
+    request_id = generate_request_id()
+    client_ip_hash = hash_client_ip(get_remote_address(request) or "unknown")
 
     # Validate file
     if not file.filename:
         raise HTTPException(status_code=400, detail="No file provided")
 
     content = await file.read()
-    size_mb = len(content) / (1024 * 1024)
+    file_size = len(content)
+    size_mb = file_size / (1024 * 1024)
 
-    logger.info(f"Processing audio: {file.filename} ({size_mb:.2f}MB)")
+    logger.info(f"[{request_id}] Processing audio: {file.filename} ({size_mb:.2f}MB)")
+
+    # Log request start
+    audit_logger.log_request_start(request_id, file_size, client_ip_hash)
 
     if size_mb > settings.max_audio_size_mb:
         raise HTTPException(
@@ -234,10 +291,20 @@ async def process_audio(file: UploadFile = File(...)):
 
     try:
         # Step 1: Transcribe
-        logger.info("Step 1: Transcribing audio...")
+        logger.info(f"[{request_id}] Step 1: Transcribing audio...")
         transcript, metadata = transcribe_audio(content, extension)
 
         if not transcript.strip():
+            processing_time = time.time() - start_time
+            audit_logger.log_request_complete(
+                request_id=request_id,
+                file_size_bytes=file_size,
+                audio_duration_seconds=metadata.get("duration"),
+                phi_entities_removed=0,
+                phi_by_type={},
+                processing_time_seconds=processing_time,
+                client_ip_hash=client_ip_hash
+            )
             return ProcessResponse(
                 original_transcript="",
                 clean_transcript="",
@@ -248,18 +315,29 @@ async def process_audio(file: UploadFile = File(...)):
             )
 
         # Step 2: De-identify
-        logger.info("Step 2: De-identifying PHI...")
+        logger.info(f"[{request_id}] Step 2: De-identifying PHI...")
         result = deidentify_text(transcript, "type_marker")
 
         # Step 3: Validate
-        logger.info("Step 3: Validating de-identification...")
+        logger.info(f"[{request_id}] Step 3: Validating de-identification...")
         is_valid, warnings = validate_deidentification(transcript, result.clean_text)
 
         if not is_valid:
-            logger.warning(f"Validation warnings: {warnings}")
+            logger.warning(f"[{request_id}] Validation warnings: {warnings}")
 
         processing_time = time.time() - start_time
-        logger.info(f"Processing complete in {processing_time:.2f}s")
+        logger.info(f"[{request_id}] Processing complete in {processing_time:.2f}s")
+
+        # Log successful completion
+        audit_logger.log_request_complete(
+            request_id=request_id,
+            file_size_bytes=file_size,
+            audio_duration_seconds=metadata.get("duration"),
+            phi_entities_removed=result.entity_count,
+            phi_by_type=result.entity_counts_by_type,
+            processing_time_seconds=processing_time,
+            client_ip_hash=client_ip_hash
+        )
 
         return ProcessResponse(
             original_transcript=transcript,
@@ -281,14 +359,30 @@ async def process_audio(file: UploadFile = File(...)):
         )
 
     except TranscriptionError as e:
-        logger.error(f"Transcription failed: {e}")
+        processing_time = time.time() - start_time
+        logger.error(f"[{request_id}] Transcription failed: {e}")
+        audit_logger.log_request_failed(
+            request_id=request_id,
+            file_size_bytes=file_size,
+            error_type="TranscriptionError",
+            processing_time_seconds=processing_time,
+            client_ip_hash=client_ip_hash
+        )
         raise HTTPException(
             status_code=500,
             detail=f"Transcription failed: {str(e)}. Please ensure the audio format is supported (webm, wav, mp3, m4a)."
         )
 
     except Exception as e:
-        logger.exception("Unexpected error during processing")
+        processing_time = time.time() - start_time
+        logger.exception(f"[{request_id}] Unexpected error during processing")
+        audit_logger.log_request_failed(
+            request_id=request_id,
+            file_size_bytes=file_size,
+            error_type=type(e).__name__,
+            processing_time_seconds=processing_time,
+            client_ip_hash=client_ip_hash
+        )
         raise HTTPException(
             status_code=500,
             detail=f"Processing failed: {str(e)}"
