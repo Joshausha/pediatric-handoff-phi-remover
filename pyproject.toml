@@ -1,0 +1,28 @@
+[project]
+name = "pediatric-handoff-phi-remover"
+version = "1.0.0"
+description = "HIPAA-compliant local transcription with PHI de-identification for pediatric handoffs"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Josh Pankin"}
+]
+keywords = ["healthcare", "hipaa", "transcription", "phi", "pediatrics", "de-identification"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+ignore = ["E501"]  # Line too long - let formatter handle it
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.bandit]
+exclude_dirs = ["tests", "venv", ".venv"]
+skips = ["B101"]  # Allow assert in tests
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+asyncio_mode = "auto"
