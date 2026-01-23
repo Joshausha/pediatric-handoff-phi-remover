@@ -123,8 +123,8 @@ class Settings(BaseSettings):
     # Application Settings
     # =========================================================================
     debug: bool = Field(
-        default=True,
-        description="Enable debug mode"
+        default=False,
+        description="Enable debug mode (set DEBUG=true in environment to enable)"
     )
     max_audio_size_mb: int = Field(
         default=50,
