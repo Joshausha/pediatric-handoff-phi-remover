@@ -29,10 +29,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Gold standard test dataset exists with human-annotated PHI (50+ transcripts, inter-rater kappa >0.8)
   3. Baseline metrics are documented showing current performance: 77.9% recall, 87.4% precision, F1 0.82
   4. F2 score (recall-weighted) is calculated and established as primary optimization target
-**Plans**: TBD
+**Plans**: 4 plans in 2 waves
 
 Plans:
-- [ ] 01-01: TBD during phase planning
+- [ ] 01-01-PLAN.md — Enhance evaluation infrastructure (F2 score, confusion matrix)
+- [ ] 01-02-PLAN.md — Document baseline state (BASELINE_METRICS.md)
+- [ ] 01-03-PLAN.md — Create adversarial synthetic dataset (edge case testing)
+- [ ] 01-04-PLAN.md — Document CI/CD integration strategy
 
 ### Phase 2: Threshold Calibration
 **Goal**: Optimize detection and validation thresholds using precision-recall curve analysis
@@ -103,7 +106,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Baseline Measurement | 0/TBD | Not started | - |
+| 1. Baseline Measurement | 0/4 | Ready to execute | - |
 | 2. Threshold Calibration | 0/TBD | Not started | - |
 | 3. Deny List Refinement | 0/TBD | Not started | - |
 | 4. Pattern Improvements | 0/TBD | Not started | - |
@@ -124,4 +127,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23*
+*Last updated: 2026-01-23 (Phase 1 planned)*
