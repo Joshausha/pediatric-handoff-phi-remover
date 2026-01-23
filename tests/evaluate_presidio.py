@@ -308,6 +308,7 @@ class PresidioEvaluator:
             f"  Precision: {metrics.precision:.1%}",
             f"  Recall:    {metrics.recall:.1%}",
             f"  F1 Score:  {metrics.f1:.1%}",
+            f"  F2 Score:  {metrics.f2:.1%}  ← PRIMARY METRIC (recall-weighted)",
             "",
         ]
 
@@ -325,19 +326,26 @@ class PresidioEvaluator:
         for result in results:
             for span in result.true_positives:
                 key = span.entity_type
-                type_stats.setdefault(key, {"tp": 0, "fn": 0})
+                type_stats.setdefault(key, {"tp": 0, "fn": 0, "fp": 0})
                 type_stats[key]["tp"] += 1
             for span in result.false_negatives:
                 key = span.entity_type
-                type_stats.setdefault(key, {"tp": 0, "fn": 0})
+                type_stats.setdefault(key, {"tp": 0, "fn": 0, "fp": 0})
                 type_stats[key]["fn"] += 1
+            for det in result.false_positives:
+                key = det["entity_type"]
+                type_stats.setdefault(key, {"tp": 0, "fn": 0, "fp": 0})
+                type_stats[key]["fp"] += 1
 
         lines.append("PER-TYPE PERFORMANCE:")
         for phi_type, stats in sorted(type_stats.items()):
-            total = stats["tp"] + stats["fn"]
-            recall = stats["tp"] / total if total > 0 else 0
-            status = "✅" if stats["fn"] == 0 else "❌"
-            lines.append(f"  {status} {phi_type}: {stats['tp']}/{total} ({recall:.1%} recall)")
+            tp, fn, fp = stats["tp"], stats["fn"], stats["fp"]
+            precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+            recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+            f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0.0
+            f2 = 5 * precision * recall / (4 * precision + recall) if (4 * precision + recall) > 0 else 0.0
+            status = "✅" if fn == 0 else "❌"
+            lines.append(f"  {status} {phi_type}: P={precision:.0%} R={recall:.0%} F1={f1:.0%} F2={f2:.0%}")
 
         lines.append("")
 
