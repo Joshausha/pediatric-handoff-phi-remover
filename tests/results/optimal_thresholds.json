@@ -1,0 +1,90 @@
+{
+  "calibration_date": "2026-01-23",
+  "datasets": [
+    "synthetic_handoffs.json",
+    "adversarial_handoffs.json"
+  ],
+  "methodology": "PR curve analysis, F2 optimization, recall>=90% floor",
+  "thresholds": {
+    "PERSON": {
+      "optimal_threshold": 0.3,
+      "metrics": {
+        "precision": 0.7329,
+        "recall": 0.989,
+        "f1": 0.8419,
+        "f2": 0.9244
+      },
+      "rationale": "Threshold 0.30 maximizes F2=92.4% while maintaining recall>=90%. Achieves P=73.3%, R=98.9%. (tie-break: higher recall preferred)"
+    },
+    "PHONE_NUMBER": {
+      "optimal_threshold": 0.3,
+      "metrics": {
+        "precision": 0.9941,
+        "recall": 0.7568,
+        "f1": 0.8593,
+        "f2": 0.7947
+      },
+      "rationale": "No threshold achieves 90% recall floor. Using threshold 0.30 for maximum recall=75.7%. Pattern improvements required (Phase 4)."
+    },
+    "EMAIL_ADDRESS": {
+      "optimal_threshold": 0.3,
+      "metrics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "f2": 1.0
+      },
+      "rationale": "Threshold 0.30 maximizes F2=100.0% while maintaining recall>=90%. Achieves P=100.0%, R=100.0%. (tie-break: higher recall preferred)"
+    },
+    "DATE_TIME": {
+      "optimal_threshold": 0.3,
+      "metrics": {
+        "precision": 0.3528,
+        "recall": 0.9507,
+        "f1": 0.5147,
+        "f2": 0.7101
+      },
+      "rationale": "Threshold 0.30 maximizes F2=71.0% while maintaining recall>=90%. Achieves P=35.3%, R=95.1%. (tie-break: higher recall preferred)"
+    },
+    "LOCATION": {
+      "optimal_threshold": 0.3,
+      "metrics": {
+        "precision": 0.7027,
+        "recall": 0.2,
+        "f1": 0.3114,
+        "f2": 0.2334
+      },
+      "rationale": "No threshold achieves 90% recall floor. Using threshold 0.30 for maximum recall=20.0%. Pattern improvements required (Phase 4)."
+    },
+    "MEDICAL_RECORD_NUMBER": {
+      "optimal_threshold": 0.3,
+      "metrics": {
+        "precision": 0.8919,
+        "recall": 0.7226,
+        "f1": 0.7984,
+        "f2": 0.7511
+      },
+      "rationale": "No threshold achieves 90% recall floor. Using threshold 0.30 for maximum recall=72.3%. Pattern improvements required (Phase 4)."
+    },
+    "ROOM": {
+      "optimal_threshold": 0.3,
+      "metrics": {
+        "precision": 0.5312,
+        "recall": 0.3208,
+        "f1": 0.4,
+        "f2": 0.3484
+      },
+      "rationale": "No threshold achieves 90% recall floor. Using threshold 0.30 for maximum recall=32.1%. Pattern improvements required (Phase 4)."
+    },
+    "PEDIATRIC_AGE": {
+      "optimal_threshold": 0.3,
+      "metrics": {
+        "precision": 0.8514,
+        "recall": 0.358,
+        "f1": 0.504,
+        "f2": 0.4049
+      },
+      "rationale": "No threshold achieves 90% recall floor. Using threshold 0.30 for maximum recall=35.8%. Pattern improvements required (Phase 4)."
+    }
+  }
+}

@@ -1,0 +1,547 @@
+{
+  "calibration_date": "2026-01-23",
+  "calibration_time": "16:39:32",
+  "datasets": [
+    "synthetic_handoffs.json",
+    "adversarial_handoffs.json"
+  ],
+  "recall_floor": 0.9,
+  "thresholds_tested": [
+    0.3,
+    0.4,
+    0.5,
+    0.6
+  ],
+  "results_by_entity": {
+    "PERSON": {
+      "sweep_results": [
+        {
+          "threshold": 0.3,
+          "precision": 0.7329,
+          "recall": 0.989,
+          "f1": 0.8419,
+          "f2": 0.9244,
+          "tp": 812,
+          "fn": 9,
+          "fp": 296,
+          "meets_recall_floor": true
+        },
+        {
+          "threshold": 0.4,
+          "precision": 0.7329,
+          "recall": 0.989,
+          "f1": 0.8419,
+          "f2": 0.9244,
+          "tp": 812,
+          "fn": 9,
+          "fp": 296,
+          "meets_recall_floor": true
+        },
+        {
+          "threshold": 0.5,
+          "precision": 0.7329,
+          "recall": 0.989,
+          "f1": 0.8419,
+          "f2": 0.9244,
+          "tp": 812,
+          "fn": 9,
+          "fp": 296,
+          "meets_recall_floor": true
+        },
+        {
+          "threshold": 0.6,
+          "precision": 0.7329,
+          "recall": 0.989,
+          "f1": 0.8419,
+          "f2": 0.9244,
+          "tp": 812,
+          "fn": 9,
+          "fp": 296,
+          "meets_recall_floor": true
+        }
+      ],
+      "pr_curve_data": {
+        "precision": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          0.9890377588306942,
+          0.047503045066991476,
+          0.0
+        ],
+        "thresholds": [
+          0.0,
+          0.85,
+          1.0
+        ]
+      }
+    },
+    "PHONE_NUMBER": {
+      "sweep_results": [
+        {
+          "threshold": 0.3,
+          "precision": 0.9941,
+          "recall": 0.7568,
+          "f1": 0.8593,
+          "f2": 0.7947,
+          "tp": 168,
+          "fn": 54,
+          "fp": 1,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.4,
+          "precision": 0.9941,
+          "recall": 0.7568,
+          "f1": 0.8593,
+          "f2": 0.7947,
+          "tp": 168,
+          "fn": 54,
+          "fp": 1,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.5,
+          "precision": 0.75,
+          "recall": 0.0135,
+          "f1": 0.0265,
+          "f2": 0.0168,
+          "tp": 3,
+          "fn": 219,
+          "fp": 1,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.6,
+          "precision": 0.75,
+          "recall": 0.0135,
+          "f1": 0.0265,
+          "f2": 0.0168,
+          "tp": 3,
+          "fn": 219,
+          "fp": 1,
+          "meets_recall_floor": false
+        }
+      ],
+      "pr_curve_data": {
+        "precision": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          0.7567567567567568,
+          0.013513513513513514,
+          0.0
+        ],
+        "thresholds": [
+          0.0,
+          0.4,
+          0.75
+        ]
+      }
+    },
+    "EMAIL_ADDRESS": {
+      "sweep_results": [
+        {
+          "threshold": 0.3,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "f2": 1.0,
+          "tp": 33,
+          "fn": 0,
+          "fp": 0,
+          "meets_recall_floor": true
+        },
+        {
+          "threshold": 0.4,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "f2": 1.0,
+          "tp": 33,
+          "fn": 0,
+          "fp": 0,
+          "meets_recall_floor": true
+        },
+        {
+          "threshold": 0.5,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "f2": 1.0,
+          "tp": 33,
+          "fn": 0,
+          "fp": 0,
+          "meets_recall_floor": true
+        },
+        {
+          "threshold": 0.6,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "f2": 1.0,
+          "tp": 33,
+          "fn": 0,
+          "fp": 0,
+          "meets_recall_floor": true
+        }
+      ],
+      "pr_curve_data": {
+        "precision": [
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          0.0
+        ],
+        "thresholds": [
+          1.0
+        ]
+      }
+    },
+    "DATE_TIME": {
+      "sweep_results": [
+        {
+          "threshold": 0.3,
+          "precision": 0.3528,
+          "recall": 0.9507,
+          "f1": 0.5147,
+          "f2": 0.7101,
+          "tp": 193,
+          "fn": 10,
+          "fp": 354,
+          "meets_recall_floor": true
+        },
+        {
+          "threshold": 0.4,
+          "precision": 0.3528,
+          "recall": 0.9507,
+          "f1": 0.5147,
+          "f2": 0.7101,
+          "tp": 193,
+          "fn": 10,
+          "fp": 354,
+          "meets_recall_floor": true
+        },
+        {
+          "threshold": 0.5,
+          "precision": 0.3528,
+          "recall": 0.9507,
+          "f1": 0.5147,
+          "f2": 0.7101,
+          "tp": 193,
+          "fn": 10,
+          "fp": 354,
+          "meets_recall_floor": true
+        },
+        {
+          "threshold": 0.6,
+          "precision": 0.3528,
+          "recall": 0.9507,
+          "f1": 0.5147,
+          "f2": 0.7101,
+          "tp": 193,
+          "fn": 10,
+          "fp": 354,
+          "meets_recall_floor": true
+        }
+      ],
+      "pr_curve_data": {
+        "precision": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          0.9507389162561576,
+          0.0
+        ],
+        "thresholds": [
+          0.0,
+          0.85
+        ]
+      }
+    },
+    "LOCATION": {
+      "sweep_results": [
+        {
+          "threshold": 0.3,
+          "precision": 0.7027,
+          "recall": 0.2,
+          "f1": 0.3114,
+          "f2": 0.2334,
+          "tp": 26,
+          "fn": 104,
+          "fp": 11,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.4,
+          "precision": 0.7027,
+          "recall": 0.2,
+          "f1": 0.3114,
+          "f2": 0.2334,
+          "tp": 26,
+          "fn": 104,
+          "fp": 11,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.5,
+          "precision": 0.7027,
+          "recall": 0.2,
+          "f1": 0.3114,
+          "f2": 0.2334,
+          "tp": 26,
+          "fn": 104,
+          "fp": 11,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.6,
+          "precision": 0.7027,
+          "recall": 0.2,
+          "f1": 0.3114,
+          "f2": 0.2334,
+          "tp": 26,
+          "fn": 104,
+          "fp": 11,
+          "meets_recall_floor": false
+        }
+      ],
+      "pr_curve_data": {
+        "precision": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          0.2,
+          0.16923076923076924,
+          0.0
+        ],
+        "thresholds": [
+          0.0,
+          0.6,
+          0.85
+        ]
+      }
+    },
+    "MEDICAL_RECORD_NUMBER": {
+      "sweep_results": [
+        {
+          "threshold": 0.3,
+          "precision": 0.8919,
+          "recall": 0.7226,
+          "f1": 0.7984,
+          "f2": 0.7511,
+          "tp": 99,
+          "fn": 38,
+          "fp": 12,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.4,
+          "precision": 0.8919,
+          "recall": 0.7226,
+          "f1": 0.7984,
+          "f2": 0.7511,
+          "tp": 99,
+          "fn": 38,
+          "fp": 12,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.5,
+          "precision": 0.8919,
+          "recall": 0.7226,
+          "f1": 0.7984,
+          "f2": 0.7511,
+          "tp": 99,
+          "fn": 38,
+          "fp": 12,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.6,
+          "precision": 0.8919,
+          "recall": 0.7226,
+          "f1": 0.7984,
+          "f2": 0.7511,
+          "tp": 99,
+          "fn": 38,
+          "fp": 12,
+          "meets_recall_floor": false
+        }
+      ],
+      "pr_curve_data": {
+        "precision": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          0.7226277372262774,
+          0.0
+        ],
+        "thresholds": [
+          0.0,
+          1.0
+        ]
+      }
+    },
+    "ROOM": {
+      "sweep_results": [
+        {
+          "threshold": 0.3,
+          "precision": 0.5312,
+          "recall": 0.3208,
+          "f1": 0.4,
+          "f2": 0.3484,
+          "tp": 34,
+          "fn": 72,
+          "fp": 30,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.4,
+          "precision": 0.5312,
+          "recall": 0.3208,
+          "f1": 0.4,
+          "f2": 0.3484,
+          "tp": 34,
+          "fn": 72,
+          "fp": 30,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.5,
+          "precision": 0.5312,
+          "recall": 0.3208,
+          "f1": 0.4,
+          "f2": 0.3484,
+          "tp": 34,
+          "fn": 72,
+          "fp": 30,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.6,
+          "precision": 0.5312,
+          "recall": 0.3208,
+          "f1": 0.4,
+          "f2": 0.3484,
+          "tp": 34,
+          "fn": 72,
+          "fp": 30,
+          "meets_recall_floor": false
+        }
+      ],
+      "pr_curve_data": {
+        "precision": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          0.32075471698113206,
+          0.2830188679245283,
+          0.05660377358490566,
+          0.0
+        ],
+        "thresholds": [
+          0.0,
+          0.9,
+          0.95,
+          1.0
+        ]
+      }
+    },
+    "PEDIATRIC_AGE": {
+      "sweep_results": [
+        {
+          "threshold": 0.3,
+          "precision": 0.8514,
+          "recall": 0.358,
+          "f1": 0.504,
+          "f2": 0.4049,
+          "tp": 63,
+          "fn": 113,
+          "fp": 11,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.4,
+          "precision": 0.8514,
+          "recall": 0.358,
+          "f1": 0.504,
+          "f2": 0.4049,
+          "tp": 63,
+          "fn": 113,
+          "fp": 11,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.5,
+          "precision": 0.8514,
+          "recall": 0.358,
+          "f1": 0.504,
+          "f2": 0.4049,
+          "tp": 63,
+          "fn": 113,
+          "fp": 11,
+          "meets_recall_floor": false
+        },
+        {
+          "threshold": 0.6,
+          "precision": 0.9444,
+          "recall": 0.1932,
+          "f1": 0.3208,
+          "f2": 0.2297,
+          "tp": 34,
+          "fn": 142,
+          "fp": 2,
+          "meets_recall_floor": false
+        }
+      ],
+      "pr_curve_data": {
+        "precision": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "recall": [
+          1.0,
+          0.35795454545454547,
+          0.19318181818181818,
+          0.005681818181818182,
+          0.0
+        ],
+        "thresholds": [
+          0.0,
+          0.5,
+          0.6,
+          0.85
+        ]
+      }
+    }
+  }
+}
