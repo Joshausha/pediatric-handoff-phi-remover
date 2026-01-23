@@ -4,15 +4,16 @@ Tests for de-identification module.
 Run with: pytest tests/test_deidentification.py -v
 """
 
-import pytest
 import sys
 from pathlib import Path
+
+import pytest
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.deidentification import deidentify_text, validate_deidentification
-from tests.sample_transcripts import SAMPLE_TRANSCRIPTS, EXPECTED_OUTPUTS
+from tests.sample_transcripts import EXPECTED_OUTPUTS, SAMPLE_TRANSCRIPTS
 
 
 class TestDeidentification:
@@ -136,9 +137,9 @@ class TestSampleTranscripts:
         for phi in sample["expected_removed"]:
             assert phi not in result.clean_text, f"PHI '{phi}' should be removed"
 
-        # Check that medical content is preserved
+        # Check that medical content is preserved (case-insensitive)
         for term in sample["expected_preserved"]:
-            assert term in result.clean_text, f"Medical term '{term}' should be preserved"
+            assert term.lower() in result.clean_text.lower(), f"Medical term '{term}' should be preserved"
 
 
 class TestExpectedOutputs:

@@ -29,10 +29,10 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
             regex=r"\b(?:MRN|mrn)[:\s#]?\s*(\d{6,10})\b",
             score=0.85
         ),
-        # Medical record / chart number
+        # Medical record / chart number (case-insensitive)
         Pattern(
             name="medical_record",
-            regex=r"\b(?:medical\s+record|chart)\s*(?:number|#|:)?\s*(\d{6,10})\b",
+            regex=r"(?i)\b(?:medical\s+record|chart)\s*(?:number|#|:)?\s*:?\s*(\d{6,10})\b",
             score=0.75
         ),
         # Letter prefix format (e.g., "AB12345678")
@@ -112,5 +112,52 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
         context=["room", "bed", "floor", "unit", "located", "admitted to"]
     )
     recognizers.append(room_recognizer)
+
+    # =========================================================================
+    # Short Phone Number Recognizer (7-digit local numbers)
+    # =========================================================================
+    # Presidio's PHONE_NUMBER expects 10-digit formats; this catches shorter ones
+    phone_patterns = [
+        # 7-digit with dash: "555-1234"
+        Pattern(
+            name="phone_7digit_dash",
+            regex=r"\b\d{3}-\d{4}\b",
+            score=0.4
+        ),
+        # 7-digit with dot: "555.1234"
+        Pattern(
+            name="phone_7digit_dot",
+            regex=r"\b\d{3}\.\d{4}\b",
+            score=0.4
+        ),
+    ]
+
+    phone_recognizer = PatternRecognizer(
+        supported_entity="PHONE_NUMBER",
+        name="Short Phone Recognizer",
+        patterns=phone_patterns,
+        context=["call", "reach", "phone", "contact", "number", "tel", "cell", "mobile"]
+    )
+    recognizers.append(phone_recognizer)
+
+    # =========================================================================
+    # Street Address Recognizer
+    # =========================================================================
+    address_patterns = [
+        # Standard street address: "123 Main Street", "425 Oak St"
+        Pattern(
+            name="street_address",
+            regex=r"\b\d{1,5}\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?\s+(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Drive|Dr|Lane|Ln|Way|Court|Ct|Place|Pl)\b",
+            score=0.6
+        ),
+    ]
+
+    address_recognizer = PatternRecognizer(
+        supported_entity="LOCATION",
+        name="Street Address Recognizer",
+        patterns=address_patterns,
+        context=["lives", "address", "located", "home", "residence"]
+    )
+    recognizers.append(address_recognizer)
 
     return recognizers

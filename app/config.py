@@ -112,8 +112,10 @@ class Settings(BaseSettings):
             r"\d+\s*(?:month|months|mo)\s*old",      # "2 month old", "2 months old"
             r"\d+\s*(?:week|weeks|wk)\s*old",        # "3 week old", "3 weeks old"
             r"\d+\s*(?:day|days)\s*old",             # "5 day old", "5 days old"
+            r"\d+\s*(?:year|years|yr|yrs)\s*old",    # "4 year old", "6 years old"
             r"\d+\s*weeker",                          # "35 weeker" (premature infant)
             r"\d+\s*(?:week|weeks)\s*gestation",     # "36 weeks gestation"
+            r"\d+\s*hours?",                          # "48 hours" (clinical duration)
         ],
         description="Regex patterns for clinical age terms that should not be flagged as DATE_TIME"
     )
