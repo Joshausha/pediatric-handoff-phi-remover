@@ -398,6 +398,11 @@ def main():
         default=0.5,
         help="Overlap threshold for span matching (default: 0.5)"
     )
+    parser.add_argument(
+        "--export-confusion-matrix",
+        type=Path,
+        help="Export per-entity confusion matrix to JSON file"
+    )
 
     args = parser.parse_args()
 
@@ -416,6 +421,35 @@ def main():
     evaluator = PresidioEvaluator(overlap_threshold=args.overlap)
     metrics, results = evaluator.evaluate_dataset(dataset, verbose=args.verbose)
 
+    # Export confusion matrix if requested
+    if args.export_confusion_matrix:
+        # Build per-entity confusion matrix
+        confusion = {}
+        for result in results:
+            for span in result.true_positives:
+                confusion.setdefault(span.entity_type, {"tp": 0, "fn": 0, "fp": 0})
+                confusion[span.entity_type]["tp"] += 1
+            for span in result.false_negatives:
+                confusion.setdefault(span.entity_type, {"tp": 0, "fn": 0, "fp": 0})
+                confusion[span.entity_type]["fn"] += 1
+            for det in result.false_positives:
+                confusion.setdefault(det["entity_type"], {"tp": 0, "fn": 0, "fp": 0})
+                confusion[det["entity_type"]]["fp"] += 1
+
+        # Calculate metrics per entity
+        for entity_type, counts in confusion.items():
+            tp, fn, fp = counts["tp"], counts["fn"], counts["fp"]
+            counts["precision"] = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+            counts["recall"] = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+            p, r = counts["precision"], counts["recall"]
+            counts["f1"] = 2 * p * r / (p + r) if (p + r) > 0 else 0.0
+            counts["f2"] = 5 * p * r / (4 * p + r) if (4 * p + r) > 0 else 0.0
+
+        args.export_confusion_matrix.parent.mkdir(parents=True, exist_ok=True)
+        with open(args.export_confusion_matrix, "w") as f:
+            json.dump(confusion, f, indent=2)
+        print(f"Confusion matrix exported to {args.export_confusion_matrix}")
+
     if args.json:
         # JSON output
         output = {
@@ -428,6 +462,7 @@ def main():
                 "precision": metrics.precision,
                 "recall": metrics.recall,
                 "f1": metrics.f1,
+                "f2": metrics.f2,
                 "is_safe": metrics.is_safe,
             },
             "failures": [
