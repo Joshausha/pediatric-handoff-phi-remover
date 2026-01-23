@@ -1,0 +1,454 @@
+#!/usr/bin/env python
+"""
+Evaluate Presidio PHI detection against synthetic test dataset.
+
+This script compares Presidio's detection output against ground truth
+PHI spans to calculate precision, recall, and F1 scores.
+
+CRITICAL: Recall must be 100% for PHI safety - any missed PHI is a leak.
+
+Usage:
+    python tests/evaluate_presidio.py
+    python tests/evaluate_presidio.py --input tests/synthetic_handoffs.json --verbose
+"""
+
+import argparse
+import json
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Optional
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+# Handle imports when run as script vs module
+try:
+    from tests.generate_test_data import SyntheticHandoff, PHISpan, load_dataset
+except ImportError:
+    from generate_test_data import SyntheticHandoff, PHISpan, load_dataset
+
+
+@dataclass
+class DetectionResult:
+    """Result of a single PHI detection comparison."""
+    handoff_id: int
+    expected_spans: list[PHISpan]
+    detected_spans: list[dict]  # Presidio results
+    true_positives: list[PHISpan] = field(default_factory=list)
+    false_negatives: list[PHISpan] = field(default_factory=list)  # CRITICAL - PHI leaks
+    false_positives: list[dict] = field(default_factory=list)  # Over-redaction
+
+
+@dataclass
+class EvaluationMetrics:
+    """Overall evaluation metrics."""
+    total_expected: int = 0
+    total_detected: int = 0
+    true_positives: int = 0
+    false_negatives: int = 0  # PHI leaks - must be 0
+    false_positives: int = 0  # Over-redaction
+
+    @property
+    def precision(self) -> float:
+        """Precision = TP / (TP + FP)"""
+        if self.true_positives + self.false_positives == 0:
+            return 0.0
+        return self.true_positives / (self.true_positives + self.false_positives)
+
+    @property
+    def recall(self) -> float:
+        """Recall = TP / (TP + FN) - MUST BE 100% for safety"""
+        if self.total_expected == 0:
+            return 1.0
+        return self.true_positives / self.total_expected
+
+    @property
+    def f1(self) -> float:
+        """F1 = 2 * (precision * recall) / (precision + recall)"""
+        if self.precision + self.recall == 0:
+            return 0.0
+        return 2 * (self.precision * self.recall) / (self.precision + self.recall)
+
+    @property
+    def f2(self) -> float:
+        """F2 score (recall-weighted): beta=2 emphasizes recall 2x precision.
+
+        F2 = (1 + beta^2) * (precision * recall) / (beta^2 * precision + recall)
+        where beta = 2
+        """
+        beta = 2.0
+        if self.precision + self.recall == 0:
+            return 0.0
+        return (1 + beta**2) * (self.precision * self.recall) / (beta**2 * self.precision + self.recall)
+
+    @property
+    def is_safe(self) -> bool:
+        """Safety check: no PHI leaks (100% recall)."""
+        return self.false_negatives == 0
+
+
+class PresidioEvaluator:
+    """
+    Evaluator for Presidio PHI detection accuracy.
+
+    Compares Presidio output against ground truth spans using
+    overlap-based matching.
+    """
+
+    # Mapping from ground truth types to Presidio types
+    TYPE_MAPPING = {
+        "PERSON": ["PERSON", "GUARDIAN_NAME"],
+        "PHONE_NUMBER": ["PHONE_NUMBER"],
+        "EMAIL_ADDRESS": ["EMAIL_ADDRESS"],
+        "DATE_TIME": ["DATE_TIME"],
+        "LOCATION": ["LOCATION"],
+        "MEDICAL_RECORD_NUMBER": ["MEDICAL_RECORD_NUMBER"],
+        "ROOM": ["ROOM"],
+        "PEDIATRIC_AGE": ["PEDIATRIC_AGE"],
+    }
+
+    def __init__(self, overlap_threshold: float = 0.5):
+        """
+        Initialize evaluator.
+
+        Args:
+            overlap_threshold: Minimum overlap ratio to consider a match (0-1)
+        """
+        self.overlap_threshold = overlap_threshold
+        self._analyzer = None
+        self._anonymizer = None
+
+    def _load_presidio(self):
+        """Lazy load Presidio to avoid import overhead."""
+        if self._analyzer is None:
+            # Import here to avoid circular imports
+            from app.deidentification import _get_engines
+            self._analyzer, self._anonymizer = _get_engines()
+
+    def _calculate_overlap(self, span1_start: int, span1_end: int,
+                           span2_start: int, span2_end: int) -> float:
+        """Calculate overlap ratio between two spans."""
+        overlap_start = max(span1_start, span2_start)
+        overlap_end = min(span1_end, span2_end)
+
+        if overlap_start >= overlap_end:
+            return 0.0
+
+        overlap_length = overlap_end - overlap_start
+        span1_length = span1_end - span1_start
+        span2_length = span2_end - span2_start
+
+        # Use Jaccard-like overlap: overlap / union
+        union_length = span1_length + span2_length - overlap_length
+        return overlap_length / union_length if union_length > 0 else 0.0
+
+    def _types_match(self, expected_type: str, detected_type: str) -> bool:
+        """Check if PHI types are compatible."""
+        expected_variants = self.TYPE_MAPPING.get(expected_type, [expected_type])
+        return detected_type in expected_variants
+
+    def analyze_text(self, text: str) -> list[dict]:
+        """
+        Run Presidio analysis on text.
+
+        Returns list of detected entities as dicts with start, end, entity_type.
+        """
+        self._load_presidio()
+
+        from app.config import settings
+
+        results = self._analyzer.analyze(
+            text=text,
+            language="en",
+            entities=settings.phi_entities,
+            score_threshold=settings.phi_score_threshold
+        )
+
+        # Filter out deny-listed terms
+        filtered = []
+        for result in results:
+            detected_text = text[result.start:result.end].strip()
+
+            if result.entity_type == "LOCATION" and detected_text in settings.deny_list_location:
+                continue
+            if result.entity_type == "PERSON" and detected_text.lower() in [w.lower() for w in settings.deny_list_person]:
+                continue
+
+            filtered.append({
+                "entity_type": result.entity_type,
+                "start": result.start,
+                "end": result.end,
+                "score": result.score,
+                "text": text[result.start:result.end],
+            })
+
+        return filtered
+
+    def evaluate_handoff(self, handoff: SyntheticHandoff) -> DetectionResult:
+        """
+        Evaluate Presidio detection on a single handoff.
+
+        Args:
+            handoff: Synthetic handoff with ground truth spans
+
+        Returns:
+            DetectionResult with TP, FN, FP classifications
+        """
+        detected = self.analyze_text(handoff.text)
+
+        result = DetectionResult(
+            handoff_id=handoff.id,
+            expected_spans=handoff.phi_spans,
+            detected_spans=detected,
+        )
+
+        # Track which spans have been matched
+        matched_expected = set()
+        matched_detected = set()
+
+        # Find matches using overlap
+        for i, expected in enumerate(handoff.phi_spans):
+            for j, det in enumerate(detected):
+                if j in matched_detected:
+                    continue
+
+                # Check overlap
+                overlap = self._calculate_overlap(
+                    expected.start, expected.end,
+                    det["start"], det["end"]
+                )
+
+                if overlap >= self.overlap_threshold:
+                    # Check type compatibility
+                    if self._types_match(expected.entity_type, det["entity_type"]):
+                        result.true_positives.append(expected)
+                        matched_expected.add(i)
+                        matched_detected.add(j)
+                        break
+
+        # False negatives: expected but not detected (PHI LEAKS!)
+        for i, expected in enumerate(handoff.phi_spans):
+            if i not in matched_expected:
+                result.false_negatives.append(expected)
+
+        # False positives: detected but not expected (over-redaction)
+        for j, det in enumerate(detected):
+            if j not in matched_detected:
+                result.false_positives.append(det)
+
+        return result
+
+    def evaluate_dataset(
+        self,
+        dataset: list[SyntheticHandoff],
+        verbose: bool = False,
+    ) -> tuple[EvaluationMetrics, list[DetectionResult]]:
+        """
+        Evaluate Presidio on entire dataset.
+
+        Args:
+            dataset: List of synthetic handoffs
+            verbose: Print progress and details
+
+        Returns:
+            Tuple of (overall metrics, list of per-handoff results)
+        """
+        metrics = EvaluationMetrics()
+        results = []
+
+        if verbose:
+            print(f"Evaluating {len(dataset)} handoffs...")
+
+        for i, handoff in enumerate(dataset):
+            if verbose and (i + 1) % 50 == 0:
+                print(f"  Progress: {i + 1}/{len(dataset)}")
+
+            result = self.evaluate_handoff(handoff)
+            results.append(result)
+
+            # Update metrics
+            metrics.total_expected += len(handoff.phi_spans)
+            metrics.total_detected += len(result.detected_spans)
+            metrics.true_positives += len(result.true_positives)
+            metrics.false_negatives += len(result.false_negatives)
+            metrics.false_positives += len(result.false_positives)
+
+        return metrics, results
+
+    def generate_report(
+        self,
+        metrics: EvaluationMetrics,
+        results: list[DetectionResult],
+        show_failures: bool = True,
+    ) -> str:
+        """
+        Generate evaluation report.
+
+        Args:
+            metrics: Overall metrics
+            results: Per-handoff results
+            show_failures: Include details of missed PHI
+
+        Returns:
+            Formatted report string
+        """
+        lines = [
+            "=" * 60,
+            "PRESIDIO PHI DETECTION EVALUATION REPORT",
+            "=" * 60,
+            "",
+            "OVERALL METRICS:",
+            f"  Total expected PHI spans: {metrics.total_expected}",
+            f"  Total detected spans:     {metrics.total_detected}",
+            f"  True positives:           {metrics.true_positives}",
+            f"  False negatives (LEAKS):  {metrics.false_negatives}",
+            f"  False positives:          {metrics.false_positives}",
+            "",
+            f"  Precision: {metrics.precision:.1%}",
+            f"  Recall:    {metrics.recall:.1%}",
+            f"  F1 Score:  {metrics.f1:.1%}",
+            "",
+        ]
+
+        # Safety check
+        if metrics.is_safe:
+            lines.append("✅ SAFETY CHECK: PASSED (100% recall, no PHI leaks)")
+        else:
+            lines.append("❌ SAFETY CHECK: FAILED - PHI LEAKS DETECTED!")
+            lines.append(f"   {metrics.false_negatives} PHI spans were NOT detected!")
+
+        lines.append("")
+
+        # Type breakdown
+        type_stats = {}
+        for result in results:
+            for span in result.true_positives:
+                key = span.entity_type
+                type_stats.setdefault(key, {"tp": 0, "fn": 0})
+                type_stats[key]["tp"] += 1
+            for span in result.false_negatives:
+                key = span.entity_type
+                type_stats.setdefault(key, {"tp": 0, "fn": 0})
+                type_stats[key]["fn"] += 1
+
+        lines.append("PER-TYPE PERFORMANCE:")
+        for phi_type, stats in sorted(type_stats.items()):
+            total = stats["tp"] + stats["fn"]
+            recall = stats["tp"] / total if total > 0 else 0
+            status = "✅" if stats["fn"] == 0 else "❌"
+            lines.append(f"  {status} {phi_type}: {stats['tp']}/{total} ({recall:.1%} recall)")
+
+        lines.append("")
+
+        # Show failure details
+        if show_failures and metrics.false_negatives > 0:
+            lines.append("MISSED PHI DETAILS (CRITICAL):")
+            lines.append("-" * 40)
+
+            for result in results:
+                if result.false_negatives:
+                    lines.append(f"Handoff #{result.handoff_id}:")
+                    for span in result.false_negatives:
+                        lines.append(f"  MISSED: {span.entity_type} '{span.text}' at [{span.start}:{span.end}]")
+
+            lines.append("")
+
+        lines.append("=" * 60)
+
+        return "\n".join(lines)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Evaluate Presidio PHI detection against synthetic dataset"
+    )
+    parser.add_argument(
+        "--input", "-i",
+        type=Path,
+        default=Path("tests/synthetic_handoffs.json"),
+        help="Input dataset file (default: tests/synthetic_handoffs.json)"
+    )
+    parser.add_argument(
+        "--output", "-o",
+        type=Path,
+        help="Output report file (optional, defaults to stdout)"
+    )
+    parser.add_argument(
+        "--verbose", "-v",
+        action="store_true",
+        help="Show progress during evaluation"
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output results as JSON"
+    )
+    parser.add_argument(
+        "--overlap",
+        type=float,
+        default=0.5,
+        help="Overlap threshold for span matching (default: 0.5)"
+    )
+
+    args = parser.parse_args()
+
+    # Check input exists
+    if not args.input.exists():
+        print(f"Error: Input file not found: {args.input}")
+        print("Run generate_test_data.py first to create the dataset.")
+        sys.exit(1)
+
+    # Load dataset
+    print(f"Loading dataset from {args.input}...")
+    dataset = load_dataset(args.input)
+    print(f"Loaded {len(dataset)} handoffs")
+
+    # Evaluate
+    evaluator = PresidioEvaluator(overlap_threshold=args.overlap)
+    metrics, results = evaluator.evaluate_dataset(dataset, verbose=args.verbose)
+
+    if args.json:
+        # JSON output
+        output = {
+            "metrics": {
+                "total_expected": metrics.total_expected,
+                "total_detected": metrics.total_detected,
+                "true_positives": metrics.true_positives,
+                "false_negatives": metrics.false_negatives,
+                "false_positives": metrics.false_positives,
+                "precision": metrics.precision,
+                "recall": metrics.recall,
+                "f1": metrics.f1,
+                "is_safe": metrics.is_safe,
+            },
+            "failures": [
+                {
+                    "handoff_id": r.handoff_id,
+                    "missed": [
+                        {"type": s.entity_type, "text": s.text, "start": s.start, "end": s.end}
+                        for s in r.false_negatives
+                    ]
+                }
+                for r in results if r.false_negatives
+            ]
+        }
+        print(json.dumps(output, indent=2))
+    else:
+        # Text report
+        report = evaluator.generate_report(metrics, results)
+
+        if args.output:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(report)
+            print(f"Report saved to {args.output}")
+        else:
+            print(report)
+
+    # Exit with error if PHI leaks detected
+    if not metrics.is_safe:
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
