@@ -5,34 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 2: Threshold Calibration
+**Current focus:** Phase 2: Threshold Calibration (COMPLETE)
 
 ## Current Position
 
 Phase: 2 of 5 (Threshold Calibration)
-Plan: 1 of ? (Threshold Sweep Complete)
-Status: In progress
-Last activity: 2026-01-23 — Completed 02-01-PLAN.md (threshold calibration)
+Plan: 2 of 2 (Phase Complete)
+Status: Phase complete
+Last activity: 2026-01-23 — Completed 02-02-PLAN.md (apply thresholds)
 
-Progress: [██░░░░░░░░] 20% (1 of 5 phases complete, Phase 2 plan 1 done)
+Progress: [████░░░░░░] 40% (Phase 1 complete, Phase 2 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 6.2 min
-- Total execution time: 0.72 hours
+- Total plans completed: 8
+- Average duration: 5.6 min
+- Total execution time: 0.75 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-baseline-measurement | 6/6 | 38 min | 6.3 min |
-| 02-threshold-calibration | 1/? | 6 min | 6 min |
+| 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (12min), 01-04 (3min), 01-03-exec (12min), 01-02-exec (4min), 02-01 (6min)
-- Trend: Consistent ~6min average, threshold calibration on track
+- Last 5 plans: 01-04 (3min), 01-03-exec (12min), 01-02-exec (4min), 02-01 (6min), 02-02 (3min)
+- Trend: Fast execution, threshold calibration completed in 9 min total
 
 *Updated after each plan completion*
 
@@ -59,6 +59,8 @@ Recent decisions affecting current work:
 - **Universal 0.30 threshold** (Lowest threshold maximizes recall; Presidio scores cluster at extremes) — From 02-01
 - **5/8 entities require Phase 4 pattern improvements** (PHONE_NUMBER, LOCATION, MRN, ROOM, PEDIATRIC_AGE cannot achieve 90% recall via thresholds) — From 02-01
 - **Combined dataset calibration** (600 handoffs: 500 standard + 100 adversarial for robust threshold selection) — From 02-01
+- **Per-entity threshold dict** (Enables future per-entity tuning; replaces global threshold) — From 02-02
+- **THRS-02 fix: aligned thresholds** (Detection and validation now use same per-entity thresholds) — From 02-02
 
 ### Pending Todos
 
@@ -70,7 +72,7 @@ None yet.
 - Synthetic data may not represent real transcripts — external validation in Phase 5 is critical
 - Weakest entities (PEDIATRIC_AGE 25% adversarial recall, ROOM 19% adversarial recall) require significant pattern work in Phase 4
 
-**From Threshold Calibration (02-01):**
+**From Threshold Calibration:**
 - Threshold tuning has LIMITED impact on recall — Presidio scores cluster at extremes (0.0 or 0.85+)
 - 5/8 entities cannot achieve 90% recall through thresholds alone:
   - PHONE_NUMBER: 75.7% recall (pattern improvements needed)
@@ -81,7 +83,8 @@ None yet.
 - DATE_TIME: High recall (95.1%) but LOW precision (35.3%) — over-redacting clinical content
 
 **Technical Debt:**
-- ~~Current thresholds arbitrary (detection 0.35, validation 0.7) — Phase 2 will address~~ (Calibration complete: 0.30 optimal)
+- ~~Current thresholds arbitrary (detection 0.35, validation 0.7)~~ **RESOLVED** (02-02: per-entity 0.30, aligned)
+- ~~Detection/validation threshold mismatch (THRS-02)~~ **RESOLVED** (02-02: both use phi_score_thresholds)
 - LOCATION deny list case-sensitive (inconsistent) — Phase 3 will fix
 - Room number patterns too narrow (only "Room X" format) — Phase 4 priority #1
 - Pediatric age abbreviation patterns missing — Phase 4 priority #2
@@ -95,10 +98,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed Phase 2 Plan 1 (Threshold Calibration)
+Stopped at: Completed Phase 2 (Threshold Calibration)
 Resume file: None
-Next: Phase 2 Plan 2 (Apply thresholds to config) or Phase 3 (Deny List Tuning)
+Next: Phase 3 (Deny List Tuning) or Phase 4 (Pattern Improvements)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-23 21:40:10 UTC (after 02-01 completion)*
+*Last updated: 2026-01-23 21:46:30 UTC (after 02-02 completion)*
