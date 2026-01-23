@@ -4,10 +4,10 @@ Configuration module using Pydantic Settings.
 All settings can be overridden via environment variables or .env file.
 """
 
-from functools import lru_cache
-
-from pydantic import Field
 from pydantic_settings import BaseSettings
+from pydantic import Field
+from typing import Dict, List
+from functools import lru_cache
 
 
 class Settings(BaseSettings):
@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     # =========================================================================
     # Presidio Configuration
     # =========================================================================
-    phi_entities: list[str] = Field(
+    phi_entities: List[str] = Field(
         default=[
             "PERSON",
             "PHONE_NUMBER",
@@ -52,7 +52,40 @@ class Settings(BaseSettings):
     )
     phi_score_threshold: float = Field(
         default=0.35,
-        description="Minimum confidence score for PHI detection (lower = more aggressive)"
+        description="DEPRECATED: Use phi_score_thresholds instead. Global fallback threshold."
+    )
+    phi_score_thresholds: Dict[str, float] = Field(
+        default={
+            # Phase 2 calibrated thresholds (2026-01-23)
+            # Methodology: PR curve analysis, F2 optimization, recall>=90% floor
+            "PERSON": 0.30,              # R=98.9%, P=73.3%, F2=92.4% - meets 90% recall
+            "PHONE_NUMBER": 0.30,        # R=75.7%, P=99.4%, F2=79.5% - needs Phase 4 patterns
+            "EMAIL_ADDRESS": 0.30,       # R=100%, P=100%, F2=100% - meets 90% recall
+            "DATE_TIME": 0.30,           # R=95.1%, P=35.3%, F2=71.0% - meets 90% recall
+            "LOCATION": 0.30,            # R=20.0%, P=70.3%, F2=23.3% - needs Phase 4 patterns
+            "MEDICAL_RECORD_NUMBER": 0.30,  # R=72.3%, P=89.2%, F2=75.1% - needs Phase 4 patterns
+            "ROOM": 0.30,                # R=32.1%, P=53.1%, F2=34.8% - needs Phase 4 patterns
+            "PEDIATRIC_AGE": 0.30,       # R=35.8%, P=85.1%, F2=40.5% - needs Phase 4 patterns
+            # Guardian names mapped to PERSON threshold
+            "GUARDIAN_NAME": 0.30,
+        },
+        description="Per-entity confidence thresholds (Phase 2 calibrated 2026-01-23)"
+    )
+
+    # =========================================================================
+    # Threshold Calibration Metadata
+    # =========================================================================
+    threshold_calibration_date: str = Field(
+        default="2026-01-23",
+        description="ISO date of threshold calibration"
+    )
+    threshold_calibration_method: str = Field(
+        default="PR curve analysis, F2 optimization, recall>=90% floor",
+        description="Methodology used for threshold calibration"
+    )
+    threshold_calibration_dataset: str = Field(
+        default="synthetic_handoffs.json (500) + adversarial_handoffs.json (100)",
+        description="Datasets used for threshold calibration"
     )
     enable_custom_recognizers: bool = Field(
         default=True,
@@ -63,7 +96,7 @@ class Settings(BaseSettings):
     # Deny List - Medical terms that should NOT be flagged as PHI
     # =========================================================================
     # These are medical abbreviations/terms that NER models often misclassify
-    deny_list_location: list[str] = Field(
+    deny_list_location: List[str] = Field(
         default=[
             "NC",    # Nasal cannula
             "RA",    # Room air
@@ -82,7 +115,7 @@ class Settings(BaseSettings):
         ],
         description="Medical abbreviations that should not be flagged as LOCATION"
     )
-    deny_list_person: list[str] = Field(
+    deny_list_person: List[str] = Field(
         default=[
             "mom",   # Generic relationship, not a name
             "dad",   # Generic relationship, not a name
@@ -110,7 +143,7 @@ class Settings(BaseSettings):
     # =========================================================================
     # Custom MRN Patterns (hospital-specific, may need adjustment)
     # =========================================================================
-    mrn_patterns: list[str] = Field(
+    mrn_patterns: List[str] = Field(
         default=[
             r"\b\d{7,10}\b",           # Generic 7-10 digit number
             r"\bMRN[:\s]?\d{6,10}\b",  # "MRN: 1234567" format
@@ -146,7 +179,7 @@ class Settings(BaseSettings):
     # =========================================================================
     # Security Configuration
     # =========================================================================
-    cors_origins: list[str] = Field(
+    cors_origins: List[str] = Field(
         default=["http://localhost:8000", "http://127.0.0.1:8000"],
         description="Allowed CORS origins. Set CORS_ORIGINS env var to comma-separated list for production."
     )
@@ -173,7 +206,7 @@ class Settings(BaseSettings):
         case_sensitive = False
 
 
-@lru_cache
+@lru_cache()
 def get_settings() -> Settings:
     """Get cached settings instance."""
     return Settings()
