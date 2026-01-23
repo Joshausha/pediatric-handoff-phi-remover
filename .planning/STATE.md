@@ -10,28 +10,29 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 2 of 5 (Threshold Calibration)
-Plan: Ready to plan
-Status: Ready to start
-Last activity: 2026-01-23 — Phase 1 verified and complete
+Plan: 1 of ? (Threshold Sweep Complete)
+Status: In progress
+Last activity: 2026-01-23 — Completed 02-01-PLAN.md (threshold calibration)
 
-Progress: [██░░░░░░░░] 20% (1 of 5 phases complete)
+Progress: [██░░░░░░░░] 20% (1 of 5 phases complete, Phase 2 plan 1 done)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 6.3 min
-- Total execution time: 0.63 hours
+- Total plans completed: 7
+- Average duration: 6.2 min
+- Total execution time: 0.72 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-baseline-measurement | 6/6 | 38 min | 6.3 min |
+| 02-threshold-calibration | 1/? | 6 min | 6 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (1min), 01-03 (12min), 01-04 (3min), 01-03-exec (12min), 01-02-exec (4min)
-- Trend: Execution plans moderate duration (4-12min), planning very fast (1-3min)
+- Last 5 plans: 01-03 (12min), 01-04 (3min), 01-03-exec (12min), 01-02-exec (4min), 02-01 (6min)
+- Trend: Consistent ~6min average, threshold calibration on track
 
 *Updated after each plan completion*
 
@@ -55,6 +56,9 @@ Recent decisions affecting current work:
 - 6-category adversarial organization (Groups edge cases by weakness type for clear Phase 4 targeting) — From 01-03
 - MEAS-02 deferral to Phase 5 (Human-annotated gold standard requires IRB coordination; synthetic datasets sufficient for Phase 1 baseline) — From 01-02
 - Baseline documentation captures 77.9% recall (Defensible research evidence for "before" snapshot; all improvements measured against this timestamp) — From 01-02
+- **Universal 0.30 threshold** (Lowest threshold maximizes recall; Presidio scores cluster at extremes) — From 02-01
+- **5/8 entities require Phase 4 pattern improvements** (PHONE_NUMBER, LOCATION, MRN, ROOM, PEDIATRIC_AGE cannot achieve 90% recall via thresholds) — From 02-01
+- **Combined dataset calibration** (600 handoffs: 500 standard + 100 adversarial for robust threshold selection) — From 02-01
 
 ### Pending Todos
 
@@ -63,18 +67,21 @@ None yet.
 ### Blockers/Concerns
 
 **From Research:**
-- Phase 1 blocks all other work — measurement framework must be complete before improvements
 - Synthetic data may not represent real transcripts — external validation in Phase 5 is critical
 - Weakest entities (PEDIATRIC_AGE 25% adversarial recall, ROOM 19% adversarial recall) require significant pattern work in Phase 4
 
-**From Adversarial Testing (01-03):**
-- ROOM patterns critical weakness (19% recall) - misses "Bay 3", "bed 9", single digits, multi-part identifiers
-- PEDIATRIC_AGE abbreviations failing (25% recall) - "17yo", "4 yo", "22mo" not covered
-- Phone number international formats and extensions need expansion
-- MRN bare numbers (no prefix) causing leaks
+**From Threshold Calibration (02-01):**
+- Threshold tuning has LIMITED impact on recall — Presidio scores cluster at extremes (0.0 or 0.85+)
+- 5/8 entities cannot achieve 90% recall through thresholds alone:
+  - PHONE_NUMBER: 75.7% recall (pattern improvements needed)
+  - LOCATION: 20.0% recall (pattern improvements + deny list tuning needed)
+  - MEDICAL_RECORD_NUMBER: 72.3% recall (pattern improvements needed)
+  - ROOM: 32.1% recall (pattern improvements needed)
+  - PEDIATRIC_AGE: 35.8% recall (pattern improvements needed)
+- DATE_TIME: High recall (95.1%) but LOW precision (35.3%) — over-redacting clinical content
 
 **Technical Debt:**
-- Current thresholds arbitrary (detection 0.35, validation 0.7) — Phase 2 will address
+- ~~Current thresholds arbitrary (detection 0.35, validation 0.7) — Phase 2 will address~~ (Calibration complete: 0.30 optimal)
 - LOCATION deny list case-sensitive (inconsistent) — Phase 3 will fix
 - Room number patterns too narrow (only "Room X" format) — Phase 4 priority #1
 - Pediatric age abbreviation patterns missing — Phase 4 priority #2
@@ -88,10 +95,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed Phase 1 (Baseline Measurement)
+Stopped at: Completed Phase 2 Plan 1 (Threshold Calibration)
 Resume file: None
-Next: Phase 2 (Threshold Calibration)
+Next: Phase 2 Plan 2 (Apply thresholds to config) or Phase 3 (Deny List Tuning)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-23 18:29:47 UTC (after Phase 1 completion)*
+*Last updated: 2026-01-23 21:40:10 UTC (after 02-01 completion)*
