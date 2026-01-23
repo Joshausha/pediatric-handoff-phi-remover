@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 1 of 5 (Baseline Measurement)
-Plan: 4 of 4 in phase
-Status: In progress
-Last activity: 2026-01-23 — Completed 01-04-PLAN.md
+Plan: Completed Wave 2 (01-03)
+Status: In progress - Wave 1 and Wave 2 complete
+Last activity: 2026-01-23 — Completed 01-03 (Adversarial Dataset Creation)
 
-Progress: [████░░░░░░] 40%
+Progress: [██████░░░░] 60%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 2.5 min
-- Total execution time: 0.17 hours
+- Total plans completed: 5
+- Average duration: 6.8 min
+- Total execution time: 0.57 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-baseline-measurement | 4/4 | 10 min | 2.5 min |
+| 01-baseline-measurement | 5/6 | 34 min | 6.8 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3min), 01-02 (1min), 01-03 (3min), 01-04 (3min)
-- Trend: Consistent velocity, 2-3 min per plan
+- Last 5 plans: 01-01 (3min), 01-02 (1min), 01-03 (12min), 01-04 (3min), 01-03-exec (12min)
+- Trend: Execution plans longer (12min) than planning (1-3min)
 
 *Updated after each plan completion*
 
@@ -50,6 +50,9 @@ Recent decisions affecting current work:
 - Threshold defaults (recall 95%, precision 70%, F2 90%) (Balance HIPAA compliance with clinical utility) — From 01-04
 - CI/CD as v2 implementation (Manual validation sufficient for Phase 1 research focus) — From 01-04
 - Separate CI jobs for PHI vs unit tests (Enables parallel execution and independent failure analysis) — From 01-04
+- Seed=43 for adversarial dataset (Maintains separation from standard dataset seed=42, enables reproducibility) — From 01-03
+- 100 adversarial samples sufficient (Provides full template coverage while keeping evaluation fast) — From 01-03
+- 6-category adversarial organization (Groups edge cases by weakness type for clear Phase 4 targeting) — From 01-03
 
 ### Pending Todos
 
@@ -60,12 +63,19 @@ None yet.
 **From Research:**
 - Phase 1 blocks all other work — measurement framework must be complete before improvements
 - Synthetic data may not represent real transcripts — external validation in Phase 5 is critical
-- Weakest entities (PEDIATRIC_AGE 36.6%, ROOM 34.4%) may require significant pattern work in Phase 4
+- Weakest entities (PEDIATRIC_AGE 25% adversarial recall, ROOM 19% adversarial recall) require significant pattern work in Phase 4
+
+**From Adversarial Testing (01-03):**
+- ROOM patterns critical weakness (19% recall) - misses "Bay 3", "bed 9", single digits, multi-part identifiers
+- PEDIATRIC_AGE abbreviations failing (25% recall) - "17yo", "4 yo", "22mo" not covered
+- Phone number international formats and extensions need expansion
+- MRN bare numbers (no prefix) causing leaks
 
 **Technical Debt:**
 - Current thresholds arbitrary (detection 0.35, validation 0.7) — Phase 2 will address
 - LOCATION deny list case-sensitive (inconsistent) — Phase 3 will fix
-- Lookbehind patterns miss edge cases — Phase 4 will resolve
+- Room number patterns too narrow (only "Room X" format) — Phase 4 priority #1
+- Pediatric age abbreviation patterns missing — Phase 4 priority #2
 
 ### Quick Tasks Completed
 
@@ -76,9 +86,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-23
-Stopped at: Completed 01-04-PLAN.md (Threshold validation and CI/CD strategy)
+Stopped at: Completed 01-03 execution (Adversarial Dataset Creation)
 Resume file: None
+Next: Wave 1 plans (01-01, 01-04) ready for execution
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-23*
+*Last updated: 2026-01-23 18:18:43 UTC (after 01-03 execution)*
