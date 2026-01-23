@@ -1,0 +1,57 @@
+# Pediatric Handoff PHI Remover
+# Docker Compose configuration for local deployment
+#
+# Usage:
+#   docker compose up -d          # Start in background
+#   docker compose logs -f        # View logs
+#   docker compose down           # Stop
+#   docker compose build --no-cache  # Rebuild
+
+services:
+  phi-remover:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: phi-remover
+    ports:
+      - "8000:8000"
+    environment:
+      # Whisper configuration
+      - WHISPER_MODEL=medium.en
+      - WHISPER_DEVICE=cpu
+      - WHISPER_COMPUTE_TYPE=int8
+
+      # Security (customize for your network)
+      - CORS_ORIGINS=http://localhost:8000,http://127.0.0.1:8000
+      - RATE_LIMIT_REQUESTS=10
+      - RATE_LIMIT_WINDOW_SECONDS=60
+
+      # Logging
+      - DEBUG=false
+      - ENABLE_AUDIT_LOGGING=true
+
+      # Processing limits
+      - MAX_AUDIO_SIZE_MB=50
+    volumes:
+      # Persist audit logs (mount to host for compliance)
+      - ./logs:/app/logs
+      # Optional: persist whisper model cache
+      - whisper-cache:/home/appuser/.cache
+    restart: unless-stopped
+    # Resource limits (adjust based on your hardware)
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+        reservations:
+          memory: 2G
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  whisper-cache:
+    driver: local
