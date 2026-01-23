@@ -106,6 +106,17 @@ class Settings(BaseSettings):
         ],
         description="Words that should not be flagged as PERSON"
     )
+    # Patterns for pediatric clinical terms misclassified as DATE_TIME
+    deny_list_date_patterns: list[str] = Field(
+        default=[
+            r"\d+\s*(?:month|months|mo)\s*old",      # "2 month old", "2 months old"
+            r"\d+\s*(?:week|weeks|wk)\s*old",        # "3 week old", "3 weeks old"
+            r"\d+\s*(?:day|days)\s*old",             # "5 day old", "5 days old"
+            r"\d+\s*weeker",                          # "35 weeker" (premature infant)
+            r"\d+\s*(?:week|weeks)\s*gestation",     # "36 weeks gestation"
+        ],
+        description="Regex patterns for clinical age terms that should not be flagged as DATE_TIME"
+    )
 
     # =========================================================================
     # Custom MRN Patterns (hospital-specific, may need adjustment)

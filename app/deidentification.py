@@ -8,6 +8,7 @@ Removes PHI from transcripts using:
 """
 
 import logging
+import re
 import threading
 from dataclasses import dataclass, field
 from typing import Optional
@@ -161,6 +162,17 @@ def deidentify_text(
         if result.entity_type == "PERSON" and detected_text.lower() in [w.lower() for w in settings.deny_list_person]:
             logger.debug(f"Filtered out deny-listed PERSON: {detected_text}")
             continue
+
+        # Check DATE_TIME deny list patterns (pediatric clinical terms)
+        if result.entity_type == "DATE_TIME":
+            is_clinical_term = False
+            for pattern in settings.deny_list_date_patterns:
+                if re.search(pattern, detected_text, re.IGNORECASE):
+                    logger.debug(f"Filtered out clinical term from DATE_TIME: {detected_text}")
+                    is_clinical_term = True
+                    break
+            if is_clinical_term:
+                continue
 
         results.append(result)
 
