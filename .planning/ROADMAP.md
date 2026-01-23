@@ -13,7 +13,7 @@ This quality improvement project transforms the PHI detection system from 77.9% 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Baseline Measurement** - Establish evaluation framework and gold standard dataset ✓
-- [ ] **Phase 2: Threshold Calibration** - Data-driven threshold optimization with F2 score
+- [x] **Phase 2: Threshold Calibration** - Data-driven threshold optimization with F2 score ✓
 - [ ] **Phase 3: Deny List Refinement** - Medical vocabulary filtering and case normalization
 - [ ] **Phase 4: Pattern Improvements** - Regex edge case fixes and bidirectional patterns
 - [ ] **Phase 5: Validation & Compliance** - External validation and clinical deployment readiness
@@ -50,8 +50,8 @@ Plans:
 **Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] 02-01-PLAN.md — Create threshold calibration script and generate PR curves
-- [ ] 02-02-PLAN.md — Apply calibrated thresholds to codebase and document results
+- [x] 02-01-PLAN.md — Create threshold calibration script and generate PR curves ✓
+- [x] 02-02-PLAN.md — Apply calibrated thresholds to codebase and document results ✓
 
 ### Phase 3: Deny List Refinement
 **Goal**: Reduce false positives through expanded medical vocabulary deny lists with consistent case handling
@@ -108,9 +108,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Baseline Measurement | 4/4 | ✓ Complete | 2026-01-23 |
-| 2. Threshold Calibration | 0/2 | Ready to execute | - |
-| 3. Deny List Refinement | 0/TBD | Blocked (Phase 2) | - |
-| 4. Pattern Improvements | 0/TBD | Blocked (Phase 2) | - |
+| 2. Threshold Calibration | 2/2 | ✓ Complete | 2026-01-23 |
+| 3. Deny List Refinement | 0/TBD | Ready to plan | - |
+| 4. Pattern Improvements | 0/TBD | Ready to plan | - |
 | 5. Validation & Compliance | 0/TBD | Blocked (Phases 3-4) | - |
 
 ---
@@ -128,4 +128,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 2 planned)*
+*Last updated: 2026-01-23 (Phase 2 complete)*

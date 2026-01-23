@@ -9,17 +9,17 @@ Requirements for this quality improvement milestone. Each maps to roadmap phases
 
 ### Measurement (MEAS)
 
-- [ ] **MEAS-01**: System reports precision/recall/F1 metrics for each entity type (EMAIL, PERSON, DATE_TIME, PHONE, MRN, PEDIATRIC_AGE, ROOM, GUARDIAN_NAME)
-- [ ] **MEAS-02**: Gold standard test dataset created with annotated PHI (minimum 50 transcripts)
-- [ ] **MEAS-03**: F2 score (recall-weighted) calculated and used as primary optimization target
-- [ ] **MEAS-04**: Baseline metrics documented before any changes (current: 77.9% recall, 87.4% precision)
+- [x] **MEAS-01**: System reports precision/recall/F1 metrics for each entity type (EMAIL, PERSON, DATE_TIME, PHONE, MRN, PEDIATRIC_AGE, ROOM, GUARDIAN_NAME) ✓
+- [~] **MEAS-02**: Gold standard test dataset created with annotated PHI (minimum 50 transcripts) — Deferred to Phase 5 (IRB coordination); synthetic datasets used for Phase 1
+- [x] **MEAS-03**: F2 score (recall-weighted) calculated and used as primary optimization target ✓
+- [x] **MEAS-04**: Baseline metrics documented before any changes (current: 77.9% recall, 87.4% precision) ✓
 
 ### Threshold Calibration (THRS)
 
-- [ ] **THRS-01**: Detection threshold calibrated using precision-recall curve analysis (currently 0.35)
-- [ ] **THRS-02**: Validation threshold aligned with detection threshold (fix current 0.35/0.7 mismatch)
-- [ ] **THRS-03**: Threshold selection rationale documented with supporting metrics
-- [ ] **THRS-04**: Overall recall improved to >90% through threshold optimization
+- [x] **THRS-01**: Detection threshold calibrated using precision-recall curve analysis (currently 0.35) ✓ — Calibrated to 0.30 per-entity
+- [x] **THRS-02**: Validation threshold aligned with detection threshold (fix current 0.35/0.7 mismatch) ✓ — Both now use phi_score_thresholds
+- [x] **THRS-03**: Threshold selection rationale documented with supporting metrics ✓ — CALIBRATION_RESULTS.md
+- [~] **THRS-04**: Overall recall improved to >90% through threshold optimization — Partially met: 3/8 entities meet floor; 5/8 require Phase 4 pattern work
 
 ### Deny List Refinement (DENY)
 
@@ -83,14 +83,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MEAS-01 | Phase 1 | Pending |
-| MEAS-02 | Phase 1 | Pending |
-| MEAS-03 | Phase 1 | Pending |
-| MEAS-04 | Phase 1 | Pending |
-| THRS-01 | Phase 2 | Pending |
-| THRS-02 | Phase 2 | Pending |
-| THRS-03 | Phase 2 | Pending |
-| THRS-04 | Phase 2 | Pending |
+| MEAS-01 | Phase 1 | Complete |
+| MEAS-02 | Phase 1 | Deferred (Phase 5) |
+| MEAS-03 | Phase 1 | Complete |
+| MEAS-04 | Phase 1 | Complete |
+| THRS-01 | Phase 2 | Complete |
+| THRS-02 | Phase 2 | Complete |
+| THRS-03 | Phase 2 | Complete |
+| THRS-04 | Phase 2 | Partial (3/8 entities) |
 | DENY-01 | Phase 3 | Pending |
 | DENY-02 | Phase 3 | Pending |
 | DENY-03 | Phase 3 | Pending |
@@ -113,4 +113,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-23*
-*Last updated: 2026-01-23 after initial definition*
+*Last updated: 2026-01-23 after Phase 2 completion*
