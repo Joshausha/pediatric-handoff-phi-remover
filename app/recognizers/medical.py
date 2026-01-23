@@ -160,4 +160,32 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
     )
     recognizers.append(address_recognizer)
 
+    # =========================================================================
+    # Hospital Family Housing Recognizer
+    # =========================================================================
+    # Charities/organizations that provide housing for families of hospitalized
+    # patients - identifying where family is staying is PHI
+    housing_patterns = [
+        # Ronald McDonald House (most common)
+        Pattern(
+            name="rmh",
+            regex=r"\bRonald\s+McDonald\s+House\b",
+            score=0.9
+        ),
+        # Other common family housing
+        Pattern(
+            name="family_house",
+            regex=r"\b(?:Family|Fisher)\s+House\b",
+            score=0.7
+        ),
+    ]
+
+    housing_recognizer = PatternRecognizer(
+        supported_entity="LOCATION",
+        name="Family Housing Recognizer",
+        patterns=housing_patterns,
+        context=["staying", "at the", "family", "parents", "reached at", "contact"]
+    )
+    recognizers.append(housing_recognizer)
+
     return recognizers

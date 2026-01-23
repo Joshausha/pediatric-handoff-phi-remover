@@ -187,10 +187,11 @@ def get_pediatric_recognizers() -> list[PatternRecognizer]:
             regex=r"\b(\d{1,2})\s*(?:months?|mo)\s*(?:and\s*)?(\d{1,2})\s*(?:days?|d)(?:\s*old)?\b",
             score=0.55
         ),
-        # Gestational age: "28 week gestation", "32 weeker"
+        # Gestational age with explicit context: "28 weeks gestation", "32 week GA"
+        # NOTE: "35 weeker" is clinical shorthand and should be PRESERVED (not PHI)
         Pattern(
             name="gestational_age",
-            regex=r"\b(\d{2})[\s-]?(?:week|wk)(?:er|s)?(?:\s+(?:gestation|gestational|GA))?\b",
+            regex=r"\b(\d{2})[\s-]?(?:weeks?|wks?)[\s-]+(?:gestation|gestational|GA)\b",
             score=0.5
         ),
         # Corrected gestational age
