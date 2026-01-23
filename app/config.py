@@ -4,10 +4,10 @@ Configuration module using Pydantic Settings.
 All settings can be overridden via environment variables or .env file.
 """
 
-from pydantic_settings import BaseSettings
-from pydantic import Field
-from typing import List
 from functools import lru_cache
+
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     # =========================================================================
     # Presidio Configuration
     # =========================================================================
-    phi_entities: List[str] = Field(
+    phi_entities: list[str] = Field(
         default=[
             "PERSON",
             "PHONE_NUMBER",
@@ -63,7 +63,7 @@ class Settings(BaseSettings):
     # Deny List - Medical terms that should NOT be flagged as PHI
     # =========================================================================
     # These are medical abbreviations/terms that NER models often misclassify
-    deny_list_location: List[str] = Field(
+    deny_list_location: list[str] = Field(
         default=[
             "NC",    # Nasal cannula
             "RA",    # Room air
@@ -82,7 +82,7 @@ class Settings(BaseSettings):
         ],
         description="Medical abbreviations that should not be flagged as LOCATION"
     )
-    deny_list_person: List[str] = Field(
+    deny_list_person: list[str] = Field(
         default=[
             "mom",   # Generic relationship, not a name
             "dad",   # Generic relationship, not a name
@@ -110,7 +110,7 @@ class Settings(BaseSettings):
     # =========================================================================
     # Custom MRN Patterns (hospital-specific, may need adjustment)
     # =========================================================================
-    mrn_patterns: List[str] = Field(
+    mrn_patterns: list[str] = Field(
         default=[
             r"\b\d{7,10}\b",           # Generic 7-10 digit number
             r"\bMRN[:\s]?\d{6,10}\b",  # "MRN: 1234567" format
@@ -146,7 +146,7 @@ class Settings(BaseSettings):
     # =========================================================================
     # Security Configuration
     # =========================================================================
-    cors_origins: List[str] = Field(
+    cors_origins: list[str] = Field(
         default=["http://localhost:8000", "http://127.0.0.1:8000"],
         description="Allowed CORS origins. Set CORS_ORIGINS env var to comma-separated list for production."
     )
@@ -173,7 +173,7 @@ class Settings(BaseSettings):
         case_sensitive = False
 
 
-@lru_cache()
+@lru_cache
 def get_settings() -> Settings:
     """Get cached settings instance."""
     return Settings()

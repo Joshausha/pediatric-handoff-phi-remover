@@ -8,9 +8,9 @@ Removes PHI from transcripts using:
 """
 
 import logging
-from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Tuple
 import threading
+from dataclasses import dataclass, field
+from typing import Optional
 
 from presidio_analyzer import AnalyzerEngine, RecognizerRegistry
 from presidio_analyzer.nlp_engine import NlpEngineProvider
@@ -18,7 +18,7 @@ from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
 from .config import settings
-from .recognizers import get_pediatric_recognizers, get_medical_recognizers
+from .recognizers import get_medical_recognizers, get_pediatric_recognizers
 
 logger = logging.getLogger(__name__)
 
@@ -43,10 +43,10 @@ class DeidentificationResult:
     """Result of de-identification operation."""
     clean_text: str
     original_text: str
-    entities_found: List[EntityInfo] = field(default_factory=list)
+    entities_found: list[EntityInfo] = field(default_factory=list)
     entity_count: int = 0
-    entity_counts_by_type: Dict[str, int] = field(default_factory=dict)
-    warnings: List[str] = field(default_factory=list)
+    entity_counts_by_type: dict[str, int] = field(default_factory=dict)
+    warnings: list[str] = field(default_factory=list)
 
 
 def _mask_text_preview(text: str, max_reveal: int = 3) -> str:
@@ -70,7 +70,7 @@ def _mask_text_preview(text: str, max_reveal: int = 3) -> str:
     return f"{start}{middle}{end}"
 
 
-def _get_engines() -> Tuple[AnalyzerEngine, AnonymizerEngine]:
+def _get_engines() -> tuple[AnalyzerEngine, AnonymizerEngine]:
     """
     Lazy-load and cache Presidio engines. Thread-safe.
 
@@ -166,7 +166,7 @@ def deidentify_text(
 
     # Build entity info list and count by type
     entities_found = []
-    entity_counts: Dict[str, int] = {}
+    entity_counts: dict[str, int] = {}
 
     for result in results:
         # Get the detected text
@@ -250,7 +250,7 @@ def deidentify_text(
 def validate_deidentification(
     original: str,
     cleaned: str
-) -> Tuple[bool, List[str]]:
+) -> tuple[bool, list[str]]:
     """
     Re-scan cleaned text to catch any PHI that might have been missed.
 

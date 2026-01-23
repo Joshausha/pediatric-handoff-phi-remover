@@ -4,13 +4,13 @@ Transcription module using faster-whisper.
 All transcription happens locally - no cloud APIs.
 """
 
+import logging
 import os
 import re
 import tempfile
-import logging
-from typing import Tuple, Dict, Any, Optional
-from pathlib import Path
 import threading
+from pathlib import Path
+from typing import Any, Optional
 
 from faster_whisper import WhisperModel
 
@@ -96,7 +96,7 @@ def _clean_transcript(text: str) -> str:
 def transcribe_audio(
     audio_bytes: bytes,
     file_extension: str = ".webm"
-) -> Tuple[str, Dict[str, Any]]:
+) -> tuple[str, dict[str, Any]]:
     """
     Transcribe audio bytes to text using local Whisper.
 
@@ -189,7 +189,7 @@ def transcribe_audio(
                 logger.warning(f"Failed to delete temp file: {e}")
 
 
-def estimate_transcription_time(file_size_bytes: int) -> Dict[str, float]:
+def estimate_transcription_time(file_size_bytes: int) -> dict[str, float]:
     """
     Estimate transcription time based on file size.
 

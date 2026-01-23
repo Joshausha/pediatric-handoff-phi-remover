@@ -6,34 +6,33 @@ All processing happens locally - no patient data leaves the server.
 
 import logging
 import time
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Optional
-from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, File, UploadFile, HTTPException, Query, Request
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi import FastAPI, File, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.responses import Response
 
-from .config import settings
 from .audit import audit_logger, generate_request_id, hash_client_ip
-from .transcription import (
-    transcribe_audio,
-    is_model_loaded,
-    estimate_transcription_time,
-    TranscriptionError
-)
+from .config import settings
 from .deidentification import (
     deidentify_text,
-    validate_deidentification,
     is_engines_loaded,
-    DeidentificationResult
+    validate_deidentification,
+)
+from .transcription import (
+    TranscriptionError,
+    estimate_transcription_time,
+    is_model_loaded,
+    transcribe_audio,
 )
 
 # Configure logging
@@ -291,7 +290,7 @@ async def transcribe_only(request: Request, file: UploadFile = File(...)):
         }
 
     except TranscriptionError as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail=str(e)) from e
 
 
 @app.post("/api/deidentify", response_model=DeidentifyResponse, tags=["utilities"])
@@ -341,7 +340,7 @@ async def process_audio(request: Request, file: UploadFile = File(...)):
 
     **Processing time**: ~1 minute per minute of audio on CPU
 
-    **Rate limited**: {rate_limit} requests per {window} seconds
+    **Rate limited**: Configurable via RATE_LIMIT_REQUESTS and RATE_LIMIT_WINDOW_SECONDS
 
     **Returns**:
     - `clean_transcript`: De-identified text safe for sharing
@@ -350,10 +349,7 @@ async def process_audio(request: Request, file: UploadFile = File(...)):
     - `entities`: Details of each detected entity
     - `audio_duration_seconds`: Length of the audio file
     - `warnings`: Any validation warnings
-    """.format(
-        rate_limit=settings.rate_limit_requests,
-        window=settings.rate_limit_window_seconds
-    )
+    """
     start_time = time.time()
     request_id = generate_request_id()
     client_ip_hash = hash_client_ip(get_remote_address(request) or "unknown")
@@ -461,8 +457,8 @@ async def process_audio(request: Request, file: UploadFile = File(...)):
         )
         raise HTTPException(
             status_code=500,
-            detail=f"Transcription failed: {str(e)}. Please ensure the audio format is supported (webm, wav, mp3, m4a)."
-        )
+            detail=f"Transcription failed: {e!s}. Please ensure the audio format is supported (webm, wav, mp3, m4a)."
+        ) from e
 
     except Exception as e:
         processing_time = time.time() - start_time
@@ -476,8 +472,8 @@ async def process_audio(request: Request, file: UploadFile = File(...)):
         )
         raise HTTPException(
             status_code=500,
-            detail=f"Processing failed: {str(e)}"
-        )
+            detail=f"Processing failed: {e!s}"
+        ) from e
 
 
 @app.get("/api/estimate-time", response_model=EstimateResponse, tags=["utilities"])

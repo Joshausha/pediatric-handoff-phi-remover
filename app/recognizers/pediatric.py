@@ -7,11 +7,11 @@ Critical for pediatric handoffs where standard NER misses context-specific PHI:
 - School/daycare names
 """
 
-from typing import List
-from presidio_analyzer import PatternRecognizer, Pattern
+
+from presidio_analyzer import Pattern, PatternRecognizer
 
 
-def get_pediatric_recognizers() -> List[PatternRecognizer]:
+def get_pediatric_recognizers() -> list[PatternRecognizer]:
     """
     Create pediatric-specific PHI recognizers.
 

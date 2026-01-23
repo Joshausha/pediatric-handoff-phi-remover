@@ -6,11 +6,11 @@ Handles general medical PHI patterns:
 - Room numbers
 """
 
-from typing import List
-from presidio_analyzer import PatternRecognizer, Pattern
+
+from presidio_analyzer import Pattern, PatternRecognizer
 
 
-def get_medical_recognizers() -> List[PatternRecognizer]:
+def get_medical_recognizers() -> list[PatternRecognizer]:
     """
     Create medical-context PHI recognizers.
 
