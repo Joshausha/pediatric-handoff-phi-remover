@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 1 of 5 (Baseline Measurement)
-Plan: Ready to plan
-Status: Ready to plan
-Last activity: 2026-01-23 — Completed quick task 001: Investigate deidentification code
+Plan: 1 of 4 in phase
+Status: In progress
+Last activity: 2026-01-23 — Completed 01-01-PLAN.md
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 10%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: N/A
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: 3 min
+- Total execution time: 0.05 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 01-baseline-measurement | 1/4 | 3 min | 3 min |
 
 **Recent Trend:**
-- Last 5 plans: None yet
-- Trend: N/A (project just started)
+- Last 5 plans: 01-01 (3min)
+- Trend: First plan complete
 
 *Updated after each plan completion*
 
@@ -45,6 +45,8 @@ Recent decisions affecting current work:
 - Metrics-based success criteria (Research setting needs defensible evidence; 500 synthetic transcripts enable measurement)
 - Balanced precision/recall trade-off (Clinical utility requires readable transcripts; pure aggressive approach over-redacts)
 - Case-insensitive deny lists (Consistency prevents edge case bugs; clinical terms appear in various cases)
+- F2 as primary metric for PHI detection (False negatives more dangerous than false positives; beta=2 weights recall 2x precision) — From 01-01
+- Confusion matrix export as separate CLI flag (Enables threshold calibration without cluttering default output) — From 01-01
 
 ### Pending Todos
 
@@ -70,10 +72,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-23 (quick task 001)
-Stopped at: Investigation complete, ready to plan Phase 1
+Last session: 2026-01-23 18:12:23 UTC
+Stopped at: Completed 01-01-PLAN.md (Enhanced Presidio evaluation with F2 score)
 Resume file: None
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-23*
+*Last updated: 2026-01-23 18:12:23 UTC*
