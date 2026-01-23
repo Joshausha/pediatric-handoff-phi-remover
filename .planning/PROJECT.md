@@ -51,19 +51,36 @@ Reliable PHI detection with balanced precision/recall — catch all PHI without 
 
 ## Context
 
+**Baseline metrics (from docs/research_poster.md, n=500 synthetic I-PASS transcripts):**
+
+| Entity | Precision | Recall | F1 | Status |
+|--------|-----------|--------|-----|--------|
+| EMAIL | 100% | 100% | 1.00 | ✓ Excellent |
+| PERSON | 95.2% | 98.8% | 0.97 | ✓ Good |
+| DATE_TIME | 89.1% | 96.8% | 0.93 | ✓ Good |
+| PHONE | 82.3% | 74.0% | 0.78 | ⚠ Needs tuning |
+| MRN | 78.5% | 70.9% | 0.74 | ⚠ Needs tuning |
+| PEDIATRIC_AGE | — | 36.6% | — | ⚠ Custom recognizer weak |
+| ROOM | — | 34.4% | — | ⚠ Custom recognizer weak |
+| **Overall** | **87.4%** | **77.9%** | **0.82** | — |
+
+**Target**: >95% recall for clinical deployment (per research poster)
+
 **Data available:**
 - 500 synthetic transcripts generated via Presidio research script (tests/evaluate_presidio.py)
 - Real PHI-free recordings used during development (no actual PHI present)
+- Baseline metrics already computed (see table above)
 
 **Setting:**
 - Research/QI project — metrics provide defensible evidence of improvement
 - Preemptive cleanup before hospital pilot deployment
-- Potential for publication as QI poster/paper
+- Research poster already created (docs/research_poster.md) — will need updating with improved metrics
 
 **Known issues from codebase analysis:**
 - Lookbehind patterns only catch "Mom Jessica", miss "Jessica is Mom" and "mom jessica"
 - PERSON deny list: case-insensitive; LOCATION deny list: exact match — inconsistent
 - Detection threshold (0.35) and validation threshold (0.7) set arbitrarily, no calibration
+- PEDIATRIC_AGE and ROOM recognizers have very low recall (36.6% and 34.4%)
 
 ## Constraints
 
