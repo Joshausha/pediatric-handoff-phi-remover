@@ -120,6 +120,25 @@ def is_engines_loaded() -> bool:
     return _analyzer is not None and _anonymizer is not None
 
 
+def _get_entity_threshold(entity_type: str) -> float:
+    """
+    Get confidence threshold for entity type.
+
+    Uses per-entity calibrated thresholds from Phase 2, falling back
+    to global threshold for unknown entity types.
+
+    Args:
+        entity_type: The PHI entity type (e.g., "PERSON", "PHONE_NUMBER")
+
+    Returns:
+        Confidence threshold (0.0-1.0)
+    """
+    return settings.phi_score_thresholds.get(
+        entity_type,
+        settings.phi_score_threshold  # Fallback to global for unknown types
+    )
+
+
 def deidentify_text(
     text: str,
     strategy: str = "type_marker"
@@ -139,17 +158,27 @@ def deidentify_text(
     """
     analyzer, anonymizer = _get_engines()
 
-    # Analyze text for PHI entities
+    # Analyze text for PHI entities with minimum threshold (get all candidates)
+    # We filter by per-entity thresholds below
     raw_results = analyzer.analyze(
         text=text,
         language="en",
         entities=settings.phi_entities,
-        score_threshold=settings.phi_score_threshold
+        score_threshold=0.0  # Get all, filter by per-entity threshold below
     )
 
-    # Filter out deny-listed terms (medical abbreviations misclassified as PHI)
+    # Filter by per-entity thresholds, then deny lists
     results = []
     for result in raw_results:
+        # Apply per-entity threshold (Phase 2 calibration)
+        entity_threshold = _get_entity_threshold(result.entity_type)
+        if result.score < entity_threshold:
+            logger.debug(
+                f"Filtered by threshold: {result.entity_type} "
+                f"(score: {result.score:.2f} < threshold: {entity_threshold:.2f})"
+            )
+            continue
+
         detected_text = text[result.start:result.end].strip()
 
         # Check LOCATION deny list
@@ -254,22 +283,25 @@ def validate_deidentification(
     """
     Re-scan cleaned text to catch any PHI that might have been missed.
 
+    Uses the same per-entity thresholds as detection for consistency
+    (fixes THRS-02: detection/validation threshold mismatch).
+
     Args:
         original: Original text before de-identification
         cleaned: Text after de-identification
 
     Returns:
         Tuple of (is_valid, list_of_warnings)
-        is_valid is True if no high-confidence PHI remains
+        is_valid is True if no PHI above per-entity threshold remains
     """
     analyzer, _ = _get_engines()
 
-    # Scan the cleaned text
+    # Scan the cleaned text with minimum threshold (filter per-entity below)
     results = analyzer.analyze(
         text=cleaned,
         language="en",
         entities=settings.phi_entities,
-        score_threshold=0.7  # Higher threshold for validation
+        score_threshold=0.0  # Get all, filter by per-entity threshold below
     )
 
     warnings = []
@@ -280,11 +312,13 @@ def validate_deidentification(
         if detected.startswith("[") and detected.endswith("]"):
             continue
 
-        # Check if this looks like a real PHI leak
-        if result.score >= 0.8:
+        # Apply same per-entity threshold as detection (fixes THRS-02)
+        entity_threshold = _get_entity_threshold(result.entity_type)
+        if result.score >= entity_threshold:
             warnings.append(
                 f"Potential PHI leak: {result.entity_type} "
-                f"(score: {result.score:.2f}) at position {result.start}-{result.end}"
+                f"(score: {result.score:.2f}, threshold: {entity_threshold:.2f}) "
+                f"at position {result.start}-{result.end}"
             )
 
     is_valid = len(warnings) == 0
