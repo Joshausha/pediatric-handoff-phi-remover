@@ -6,8 +6,8 @@ project_name: Pediatric_Handoff_PHI_Remover
 status: active
 health: on-track
 created: 2026-01-18
-modified: 2026-01-22
-next_review: 2026-01-29
+modified: 2026-01-23
+next_review: 2026-01-30
 tags: [project-status, development, hipaa, phi, transcription, pediatrics]
 category: Projects
 project_type: development
@@ -18,13 +18,14 @@ complexity: medium
 
 Web application for transcribing pediatric handoff recordings with automatic PHI de-identification. All processing local—no cloud APIs with patient data.
 
-**Current Phase**: Security Hardening & Deployment Prep
+**Current Phase**: Ready for Hospital Deployment
 **Health**: On Track
-**Next Milestone**: Hospital network deployment readiness
+**Next Milestone**: Pilot deployment on hospital network
 **Blockers**: None
 
 ## Completed ✅
 
+### Core Features
 - [x] Core transcription pipeline (faster-whisper)
 - [x] PHI de-identification (Presidio + custom recognizers)
 - [x] Pediatric-specific recognizers (guardian names, baby names, ages, MRNs, room numbers)
@@ -33,12 +34,27 @@ Web application for transcribing pediatric handoff recordings with automatic PHI
 - [x] Successfully tested on 27-minute recording
 - [x] Medical abbreviation deny lists (NC, RA, etc.)
 
-## In Progress
+### Security Hardening (Phase 1)
+- [x] Configurable CORS origins (no more wildcard)
+- [x] Rate limiting with slowapi (10 req/60s default)
+- [x] Security headers middleware (CSP, X-Frame-Options, etc.)
+- [x] HIPAA-compliant audit logging (no PHI in logs)
 
-- [ ] Security hardening (CORS, rate limiting, audit logging)
-- [ ] Docker containerization
-- [ ] CI/CD pipeline
-- [ ] Deployment documentation
+### Docker & Deployment (Phase 2)
+- [x] Dockerfile with Python 3.11-slim base
+- [x] docker-compose.yml with volume mounts and health checks
+- [x] Model preload script for faster startup
+- [x] Comprehensive deployment documentation
+
+### CI/CD Pipeline (Phase 3)
+- [x] GitHub Actions test workflow (Python 3.9/3.10/3.11)
+- [x] GitHub Actions Docker build with GHCR push
+- [x] Pre-commit hooks (ruff, bandit, detect-secrets)
+
+### Documentation (Phase 4)
+- [x] FastAPI /docs and /redoc enabled
+- [x] Rich OpenAPI descriptions with tagged endpoints
+- [x] HIPAA compliance documentation
 
 ## Next Actions
 
@@ -47,10 +63,13 @@ Web application for transcribing pediatric handoff recordings with automatic PHI
 3. ~~Build FastAPI endpoints~~ ✓
 4. ~~Create frontend interface~~ ✓
 5. ~~Test with sample transcripts~~ ✓
-6. **Security hardening** (CORS, rate limiting, audit logging)
-7. **Docker deployment** (Dockerfile, docker-compose)
-8. **CI/CD** (GitHub Actions)
-9. **Hospital IT documentation**
+6. ~~Security hardening~~ ✓
+7. ~~Docker deployment~~ ✓
+8. ~~CI/CD~~ ✓
+9. ~~Hospital IT documentation~~ ✓
+10. **Pilot deployment** on hospital network
+11. **User feedback** collection
+12. **Optional**: Speaker diarization, batch processing, GPU support
 
 ## Architecture
 
@@ -73,14 +92,29 @@ Audio → faster-whisper (local) → Raw transcript → Presidio → Clean trans
 
 | File | Purpose |
 |------|---------|
-| `app/config.py` | Pydantic settings, deny lists, PHI thresholds |
+| `app/config.py` | Pydantic settings, deny lists, security config |
+| `app/main.py` | FastAPI application with rate limiting |
+| `app/audit.py` | HIPAA-compliant audit logging |
 | `app/transcription.py` | Whisper audio-to-text |
-| `app/deidentification.py` | Presidio PHI removal with deny list filtering |
-| `app/recognizers/pediatric.py` | Guardian names, baby names, pediatric ages |
-| `app/recognizers/medical.py` | MRN patterns, room numbers |
-| `app/main.py` | FastAPI application |
+| `app/deidentification.py` | Presidio PHI removal |
+| `app/recognizers/` | Custom pediatric recognizers |
 | `static/` | Frontend HTML/CSS/JS |
-| `test_presidio.py` | Isolated Presidio test harness (21 test cases) |
+| `Dockerfile` | Container configuration |
+| `docker-compose.yml` | Production deployment |
+| `docs/DEPLOYMENT.md` | Deployment guide |
+| `docs/HIPAA.md` | Compliance documentation |
+
+## Quick Start
+
+```bash
+# Docker (recommended)
+docker compose up -d
+# Access at http://localhost:8000
+
+# Development
+source venv/bin/activate
+uvicorn app.main:app --reload
+```
 
 ## Notes
 
