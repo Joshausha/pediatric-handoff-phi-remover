@@ -209,10 +209,17 @@ class HandoffTranscriber {
             const formData = new FormData();
             formData.append('file', this.audioBlob, 'recording.webm');
 
+            // Use AbortController with 30-minute timeout for long recordings
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 30 * 60 * 1000);
+
             const response = await fetch('/api/process', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId);
 
             if (!response.ok) {
                 const error = await response.json();

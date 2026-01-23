@@ -140,12 +140,29 @@ def deidentify_text(
     analyzer, anonymizer = _get_engines()
 
     # Analyze text for PHI entities
-    results = analyzer.analyze(
+    raw_results = analyzer.analyze(
         text=text,
         language="en",
         entities=settings.phi_entities,
         score_threshold=settings.phi_score_threshold
     )
+
+    # Filter out deny-listed terms (medical abbreviations misclassified as PHI)
+    results = []
+    for result in raw_results:
+        detected_text = text[result.start:result.end].strip()
+
+        # Check LOCATION deny list
+        if result.entity_type == "LOCATION" and detected_text in settings.deny_list_location:
+            logger.debug(f"Filtered out deny-listed LOCATION: {detected_text}")
+            continue
+
+        # Check PERSON deny list
+        if result.entity_type == "PERSON" and detected_text.lower() in [w.lower() for w in settings.deny_list_person]:
+            logger.debug(f"Filtered out deny-listed PERSON: {detected_text}")
+            continue
+
+        results.append(result)
 
     # Build entity info list and count by type
     entities_found = []

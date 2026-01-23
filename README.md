@@ -79,9 +79,33 @@ Copy `.env.example` to `.env` and adjust settings:
 - No external API calls with patient data
 - Audio files are processed in memory, not stored
 
+## PHI Detection
+
+Detects and redacts:
+
+| PHI Type | Example | Result |
+|----------|---------|--------|
+| Patient names | "Baby Smith" | "Baby [NAME]" |
+| Guardian names | "Mom Jessica", "Dad Mike" | "Mom [NAME]", "Dad [NAME]" |
+| Phone numbers | "617-555-1234" | "[PHONE]" |
+| Dates | "January 15th" | "[DATE]" |
+| Locations | "Boston" | "[LOCATION]" |
+| MRN | "MRN 12345678", "#87654321" | "[MRN]" |
+| Room numbers | "room 4B", "PICU bed 12" | "room [ROOM]", "PICU bed [ROOM]" |
+| Pediatric ages | "3 weeks 2 days old" | "[AGE]" |
+
+**Preserves clinical terminology**: bronchiolitis, FiO2, nasal cannula, vital signs, medications
+
 ## Testing
 
 ```bash
+# Presidio test harness (fast, no audio processing)
+python test_presidio.py
+
+# Interactive Presidio testing
+python test_presidio.py -i
+
+# Full test suite
 pytest tests/ -v
 ```
 

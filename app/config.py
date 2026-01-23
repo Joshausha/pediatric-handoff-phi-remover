@@ -60,6 +60,54 @@ class Settings(BaseSettings):
     )
 
     # =========================================================================
+    # Deny List - Medical terms that should NOT be flagged as PHI
+    # =========================================================================
+    # These are medical abbreviations/terms that NER models often misclassify
+    deny_list_location: List[str] = Field(
+        default=[
+            "NC",    # Nasal cannula
+            "RA",    # Room air
+            "OR",    # Operating room (generic)
+            "ER",    # Emergency room (generic)
+            "ED",    # Emergency department
+            "IV",    # Intravenous
+            "PO",    # By mouth (per os)
+            "IM",    # Intramuscular
+            "SQ",    # Subcutaneous
+            "PR",    # Per rectum
+            "GT",    # Gastrostomy tube
+            "NG",    # Nasogastric
+            "OG",    # Orogastric
+            "NJ",    # Nasojejunal
+        ],
+        description="Medical abbreviations that should not be flagged as LOCATION"
+    )
+    deny_list_person: List[str] = Field(
+        default=[
+            "mom",   # Generic relationship, not a name
+            "dad",   # Generic relationship, not a name
+            "Mom",   # Generic relationship
+            "Dad",   # Generic relationship
+            "parent",
+            "parents",
+            "guardian",
+            "caregiver",
+            "nurse",
+            "doctor",
+            "attending",
+            "resident",
+            "fellow",
+            "intern",
+            "NP",    # Nurse practitioner
+            "PA",    # Physician assistant
+            "RN",    # Registered nurse
+            "LPN",   # Licensed practical nurse
+            "CNA",   # Certified nursing assistant
+        ],
+        description="Words that should not be flagged as PERSON"
+    )
+
+    # =========================================================================
     # Custom MRN Patterns (hospital-specific, may need adjustment)
     # =========================================================================
     mrn_patterns: List[str] = Field(

@@ -41,6 +41,18 @@ def get_medical_recognizers() -> List[PatternRecognizer]:
             regex=r"\b[A-Z]{2}\d{6,8}\b",
             score=0.6
         ),
+        # Hash prefix: "#12345678" (patient ID shorthand)
+        Pattern(
+            name="mrn_hash",
+            regex=r"#(\d{6,10})\b",
+            score=0.7
+        ),
+        # "Patient #" followed by number
+        Pattern(
+            name="patient_number",
+            regex=r"\b[Pp]atient\s*#?\s*(\d{6,10})\b",
+            score=0.75
+        ),
     ]
 
     mrn_recognizer = PatternRecognizer(
@@ -56,21 +68,33 @@ def get_medical_recognizers() -> List[PatternRecognizer]:
     # =========================================================================
     room_patterns = [
         # Standard room format: "Room 302", "Rm 404", "room 5A"
+        # Using lookbehind to only capture the room number
         Pattern(
             name="room_standard",
-            regex=r"\b(?:Room|Rm|room|rm)\s*#?\s*(\d{1,4}[A-Za-z]?)\b",
+            regex=r"(?<=Room |room |Rm |rm )\d{1,4}[A-Za-z]?\b",
             score=0.6
         ),
         # Bed number: "Bed 5", "bed 12A"
         Pattern(
             name="bed_number",
-            regex=r"\b(?:Bed|bed)\s*#?\s*(\d{1,2}[A-Za-z]?)\b",
+            regex=r"(?<=bed |Bed )\d{1,2}[A-Za-z]?\b",
             score=0.55
         ),
-        # PICU/NICU room: "PICU 7", "NICU bed 3"
+        # ICU bed numbers: preserve unit name, redact only number
+        # "PICU bed 3" -> "PICU bed [ROOM]"
         Pattern(
-            name="icu_room",
-            regex=r"\b(?:PICU|NICU|ICU|CCU|CVICU)\s*(?:bed|room)?\s*#?\s*(\d{1,3}[A-Za-z]?)\b",
+            name="picu_bed",
+            regex=r"(?<=PICU bed |PICU Bed )\d{1,3}[A-Za-z]?\b",
+            score=0.7
+        ),
+        Pattern(
+            name="nicu_bed",
+            regex=r"(?<=NICU bed |NICU Bed )\d{1,3}[A-Za-z]?\b",
+            score=0.7
+        ),
+        Pattern(
+            name="icu_bed",
+            regex=r"(?<=ICU bed |ICU Bed )\d{1,3}[A-Za-z]?\b",
             score=0.7
         ),
         # Floor + direction: "4 West", "3 South"

@@ -27,47 +27,84 @@ def get_pediatric_recognizers() -> List[PatternRecognizer]:
     # =========================================================================
     # In pediatrics, we say "Mom Jessica is at bedside" - standard NER misses
     # that "Jessica" is PHI because of the relationship context.
+    #
+    # IMPORTANT: Using lookbehind assertions so only the NAME gets replaced,
+    # preserving the relationship word (Mom, Dad, etc.)
     guardian_patterns = [
-        # Mom/Mother + Name
+        # Mom/Mother + Name (using lookbehind to preserve "Mom")
         Pattern(
             name="mom_name",
-            regex=r"\b(?:Mom|Mother|Mommy|Mama)\s+([A-Z][a-z]+)\b",
+            regex=r"(?<=Mom )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="mother_name",
+            regex=r"(?<=Mother )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="mommy_name",
+            regex=r"(?<=Mommy )[A-Z][a-z]+\b",
             score=0.85
         ),
         # Dad/Father + Name
         Pattern(
             name="dad_name",
-            regex=r"\b(?:Dad|Father|Daddy|Papa)\s+([A-Z][a-z]+)\b",
+            regex=r"(?<=Dad )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="father_name",
+            regex=r"(?<=Father )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="daddy_name",
+            regex=r"(?<=Daddy )[A-Z][a-z]+\b",
             score=0.85
         ),
         # Grandparents
         Pattern(
-            name="grandparent_name",
-            regex=r"\b(?:Grandma|Grandmother|Grammy|Nana|Grandpa|Grandfather|Papa|Gramps)\s+([A-Z][a-z]+)\b",
+            name="grandma_name",
+            regex=r"(?<=Grandma )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="grandpa_name",
+            regex=r"(?<=Grandpa )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="nana_name",
+            regex=r"(?<=Nana )[A-Z][a-z]+\b",
             score=0.85
         ),
         # Aunt/Uncle
         Pattern(
-            name="aunt_uncle_name",
-            regex=r"\b(?:Aunt|Auntie|Uncle)\s+([A-Z][a-z]+)\b",
+            name="aunt_name",
+            regex=r"(?<=Aunt )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="uncle_name",
+            regex=r"(?<=Uncle )[A-Z][a-z]+\b",
             score=0.85
         ),
         # Step-parents
         Pattern(
-            name="step_parent_name",
-            regex=r"\b(?:Stepmom|Stepmother|Stepdad|Stepfather)\s+([A-Z][a-z]+)\b",
+            name="stepmom_name",
+            regex=r"(?<=Stepmom )[A-Z][a-z]+\b",
             score=0.85
         ),
-        # Foster parents
         Pattern(
-            name="foster_parent_name",
-            regex=r"\b(?:Foster\s+(?:mom|mother|dad|father|parent))\s+([A-Z][a-z]+)\b",
+            name="stepdad_name",
+            regex=r"(?<=Stepdad )[A-Z][a-z]+\b",
             score=0.85
         ),
         # Generic guardian
         Pattern(
             name="guardian_name",
-            regex=r"\b(?:Guardian|Caregiver|Caretaker)\s+([A-Z][a-z]+)\b",
+            regex=r"(?<=Guardian )[A-Z][a-z]+\b",
             score=0.80
         ),
     ]
@@ -79,6 +116,46 @@ def get_pediatric_recognizers() -> List[PatternRecognizer]:
         context=["parent", "guardian", "family", "caregiver", "at bedside", "reached at", "contact"]
     )
     recognizers.append(guardian_recognizer)
+
+    # =========================================================================
+    # Baby/Infant Name Recognizer
+    # =========================================================================
+    # Common pediatric pattern: "Baby Smith", "Infant Jones"
+    baby_name_patterns = [
+        Pattern(
+            name="baby_lastname",
+            regex=r"(?<=Baby )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="infant_lastname",
+            regex=r"(?<=Infant )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="newborn_lastname",
+            regex=r"(?<=Newborn )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="baby_boy_lastname",
+            regex=r"(?<=Baby Boy )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="baby_girl_lastname",
+            regex=r"(?<=Baby Girl )[A-Z][a-z]+\b",
+            score=0.85
+        ),
+    ]
+
+    baby_name_recognizer = PatternRecognizer(
+        supported_entity="PERSON",
+        name="Baby Name Recognizer",
+        patterns=baby_name_patterns,
+        context=["baby", "infant", "newborn", "neonate", "NICU", "nursery"]
+    )
+    recognizers.append(baby_name_recognizer)
 
     # =========================================================================
     # Pediatric Age Detail Recognizer
