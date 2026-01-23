@@ -10,28 +10,28 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 1 of 5 (Baseline Measurement)
-Plan: 1 of 4 in phase
+Plan: 4 of 4 in phase
 Status: In progress
-Last activity: 2026-01-23 — Completed 01-01-PLAN.md
+Last activity: 2026-01-23 — Completed 01-04-PLAN.md
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 3 min
-- Total execution time: 0.05 hours
+- Total plans completed: 4
+- Average duration: 2.5 min
+- Total execution time: 0.17 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-baseline-measurement | 1/4 | 3 min | 3 min |
+| 01-baseline-measurement | 4/4 | 10 min | 2.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (3min)
-- Trend: First plan complete
+- Last 5 plans: 01-01 (3min), 01-02 (1min), 01-03 (3min), 01-04 (3min)
+- Trend: Consistent velocity, 2-3 min per plan
 
 *Updated after each plan completion*
 
@@ -47,6 +47,9 @@ Recent decisions affecting current work:
 - Case-insensitive deny lists (Consistency prevents edge case bugs; clinical terms appear in various cases)
 - F2 as primary metric for PHI detection (False negatives more dangerous than false positives; beta=2 weights recall 2x precision) — From 01-01
 - Confusion matrix export as separate CLI flag (Enables threshold calibration without cluttering default output) — From 01-01
+- Threshold defaults (recall 95%, precision 70%, F2 90%) (Balance HIPAA compliance with clinical utility) — From 01-04
+- CI/CD as v2 implementation (Manual validation sufficient for Phase 1 research focus) — From 01-04
+- Separate CI jobs for PHI vs unit tests (Enables parallel execution and independent failure analysis) — From 01-04
 
 ### Pending Todos
 
@@ -72,10 +75,10 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-23 18:12:23 UTC
-Stopped at: Completed 01-01-PLAN.md (Enhanced Presidio evaluation with F2 score)
+Last session: 2026-01-23
+Stopped at: Completed 01-04-PLAN.md (Threshold validation and CI/CD strategy)
 Resume file: None
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-23 18:12:23 UTC*
+*Last updated: 2026-01-23*
