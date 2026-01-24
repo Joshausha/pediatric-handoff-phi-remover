@@ -2,6 +2,8 @@
 Tests for de-identification module.
 
 Run with: pytest tests/test_deidentification.py -v
+Run bulk tests: pytest tests/test_deidentification.py -v -k "bulk"
+Run fast tests only: pytest tests/test_deidentification.py -v -k "not bulk"
 """
 
 import pytest
@@ -13,6 +15,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from app.deidentification import deidentify_text, validate_deidentification
 from tests.sample_transcripts import SAMPLE_TRANSCRIPTS, EXPECTED_OUTPUTS
+
+# Import synthetic test data generators
+try:
+    from tests.generate_test_data import PediatricHandoffGenerator, load_dataset
+    from tests.evaluate_presidio import PresidioEvaluator
+    SYNTHETIC_AVAILABLE = True
+except ImportError:
+    SYNTHETIC_AVAILABLE = False
 
 
 class TestDeidentification:
@@ -220,6 +230,245 @@ class TestReplacementStrategies:
 
         # Should have asterisks
         assert "*" in result.clean_text
+
+
+# =============================================================================
+# BULK SYNTHETIC DATASET TESTS
+# =============================================================================
+
+@pytest.mark.skipif(not SYNTHETIC_AVAILABLE, reason="Synthetic test data generators not available")
+class TestSyntheticDataset:
+    """
+    Bulk testing against synthetic dataset with labeled PHI spans.
+
+    These tests generate synthetic handoffs and validate that Presidio
+    detects all PHI (100% recall requirement for safety).
+    """
+
+    @pytest.fixture(scope="class")
+    def generator(self):
+        """Create a generator with fixed seed for reproducibility."""
+        return PediatricHandoffGenerator(seed=42)
+
+    @pytest.fixture(scope="class")
+    def evaluator(self):
+        """Create a Presidio evaluator."""
+        return PresidioEvaluator(overlap_threshold=0.5)
+
+    @pytest.mark.bulk
+    def test_bulk_person_detection(self, generator, evaluator):
+        """Test that all PERSON entities are detected in bulk samples."""
+        from tests.handoff_templates import HANDOFF_TEMPLATES
+
+        # Generate samples with PERSON entities
+        person_templates = [t for t in HANDOFF_TEMPLATES if "{{person}}" in t or "{{last_name}}" in t]
+        dataset = generator.generate_dataset(n_samples=50, templates=person_templates[:10])
+
+        missed_persons = []
+        for handoff in dataset:
+            result = evaluator.evaluate_handoff(handoff)
+            for fn in result.false_negatives:
+                if fn.entity_type == "PERSON":
+                    missed_persons.append((handoff.id, fn.text))
+
+        assert len(missed_persons) == 0, f"Missed PERSON entities: {missed_persons[:10]}"
+
+    @pytest.mark.bulk
+    def test_bulk_phone_detection(self, generator, evaluator):
+        """Test that all PHONE_NUMBER entities are detected in bulk samples."""
+        from tests.handoff_templates import HANDOFF_TEMPLATES
+
+        phone_templates = [t for t in HANDOFF_TEMPLATES if "{{phone_number}}" in t]
+        dataset = generator.generate_dataset(n_samples=30, templates=phone_templates[:5])
+
+        missed_phones = []
+        for handoff in dataset:
+            result = evaluator.evaluate_handoff(handoff)
+            for fn in result.false_negatives:
+                if fn.entity_type == "PHONE_NUMBER":
+                    missed_phones.append((handoff.id, fn.text))
+
+        assert len(missed_phones) == 0, f"Missed PHONE_NUMBER entities: {missed_phones[:10]}"
+
+    @pytest.mark.bulk
+    def test_bulk_mrn_detection(self, generator, evaluator):
+        """Test that all MEDICAL_RECORD_NUMBER entities are detected."""
+        from tests.handoff_templates import HANDOFF_TEMPLATES
+
+        mrn_templates = [t for t in HANDOFF_TEMPLATES if "{{mrn}}" in t or "{{mrn_numeric}}" in t]
+        dataset = generator.generate_dataset(n_samples=30, templates=mrn_templates[:5])
+
+        missed_mrns = []
+        for handoff in dataset:
+            result = evaluator.evaluate_handoff(handoff)
+            for fn in result.false_negatives:
+                if fn.entity_type == "MEDICAL_RECORD_NUMBER":
+                    missed_mrns.append((handoff.id, fn.text))
+
+        assert len(missed_mrns) == 0, f"Missed MRN entities: {missed_mrns[:10]}"
+
+    @pytest.mark.bulk
+    def test_bulk_email_detection(self, generator, evaluator):
+        """Test that all EMAIL_ADDRESS entities are detected."""
+        from tests.handoff_templates import HANDOFF_TEMPLATES
+
+        email_templates = [t for t in HANDOFF_TEMPLATES if "{{email}}" in t]
+        dataset = generator.generate_dataset(n_samples=20, templates=email_templates[:3])
+
+        missed_emails = []
+        for handoff in dataset:
+            result = evaluator.evaluate_handoff(handoff)
+            for fn in result.false_negatives:
+                if fn.entity_type == "EMAIL_ADDRESS":
+                    missed_emails.append((handoff.id, fn.text))
+
+        assert len(missed_emails) == 0, f"Missed EMAIL entities: {missed_emails[:10]}"
+
+    @pytest.mark.bulk
+    def test_bulk_location_detection(self, generator, evaluator):
+        """Test that all LOCATION entities are detected."""
+        from tests.handoff_templates import HANDOFF_TEMPLATES
+
+        location_templates = [t for t in HANDOFF_TEMPLATES if "{{address}}" in t]
+        dataset = generator.generate_dataset(n_samples=30, templates=location_templates[:5])
+
+        missed_locations = []
+        for handoff in dataset:
+            result = evaluator.evaluate_handoff(handoff)
+            for fn in result.false_negatives:
+                if fn.entity_type == "LOCATION":
+                    missed_locations.append((handoff.id, fn.text))
+
+        # Location detection can be less reliable, but should catch most
+        miss_rate = len(missed_locations) / (len(dataset) * 2)  # Estimate 2 locations per template
+        assert miss_rate < 0.2, f"Location miss rate too high: {miss_rate:.1%}"
+
+    @pytest.mark.bulk
+    def test_full_dataset_recall(self, generator, evaluator):
+        """
+        Test overall recall across full synthetic dataset.
+
+        CRITICAL: Recall must be >= 95% for production safety.
+        Target: 100% recall (no PHI leaks).
+        """
+        dataset = generator.generate_dataset(n_samples=100)
+        metrics, results = evaluator.evaluate_dataset(dataset, verbose=False)
+
+        # Print summary for debugging
+        print(f"\nBulk Test Results:")
+        print(f"  Total expected: {metrics.total_expected}")
+        print(f"  True positives: {metrics.true_positives}")
+        print(f"  False negatives: {metrics.false_negatives}")
+        print(f"  Recall: {metrics.recall:.1%}")
+
+        # Safety requirement: very high recall
+        assert metrics.recall >= 0.95, (
+            f"Recall {metrics.recall:.1%} is below 95% safety threshold. "
+            f"{metrics.false_negatives} PHI entities were missed!"
+        )
+
+    @pytest.mark.bulk
+    def test_precision_not_too_low(self, generator, evaluator):
+        """
+        Test that precision is acceptable (not over-redacting too much).
+
+        Target: Precision >= 80% to avoid too much clinical content loss.
+        """
+        dataset = generator.generate_dataset(n_samples=100)
+        metrics, _ = evaluator.evaluate_dataset(dataset, verbose=False)
+
+        print(f"\nPrecision Test Results:")
+        print(f"  Total detected: {metrics.total_detected}")
+        print(f"  True positives: {metrics.true_positives}")
+        print(f"  False positives: {metrics.false_positives}")
+        print(f"  Precision: {metrics.precision:.1%}")
+
+        # Allow some over-redaction, but not excessive
+        assert metrics.precision >= 0.70, (
+            f"Precision {metrics.precision:.1%} is below 70% threshold. "
+            f"Too much clinical content is being over-redacted."
+        )
+
+
+@pytest.mark.skipif(not SYNTHETIC_AVAILABLE, reason="Synthetic test data generators not available")
+class TestPHITypeSpecific:
+    """Tests for specific PHI types using synthetic data."""
+
+    @pytest.fixture(scope="class")
+    def generator(self):
+        return PediatricHandoffGenerator(seed=123)
+
+    @pytest.mark.parametrize("template,phi_type", [
+        ("This is {{person}}, a patient here for evaluation.", "PERSON"),
+        ("Contact mom at {{phone_number}} for updates.", "PHONE_NUMBER"),
+        ("Patient MRN {{mrn}} admitted today.", "MEDICAL_RECORD_NUMBER"),
+        ("Send results to {{email}}.", "EMAIL_ADDRESS"),
+        ("Patient lives at {{address}}.", "LOCATION"),
+    ])
+    def test_specific_phi_type_detection(self, generator, template, phi_type):
+        """Test that specific PHI types are detected in isolation."""
+        handoff = generator.generate_handoff(template, handoff_id=1, template_id=0)
+
+        result = deidentify_text(handoff.text)
+
+        # The PHI should be redacted
+        for span in handoff.phi_spans:
+            if span.entity_type == phi_type:
+                assert span.text not in result.clean_text, (
+                    f"{phi_type} '{span.text}' was not removed from text"
+                )
+
+
+class TestDenyListFiltering:
+    """Test deny list filtering for false positive prevention."""
+
+    @pytest.mark.parametrize("abbreviation", [
+        "NC", "nc", "Nc",  # Case variants - nasal cannula
+        "RA", "ra",        # Room air
+        "OR", "or",        # Operating room
+        "ER", "er",        # Emergency room
+        "IV", "iv",        # Intravenous
+        "PO", "po",        # By mouth
+    ])
+    def test_medical_abbreviation_not_flagged_as_location(self, abbreviation):
+        """Test that medical abbreviations are not flagged as LOCATION."""
+        text = f"Patient on {abbreviation} oxygen at bedside."
+        result = deidentify_text(text)
+
+        # Abbreviation should be preserved (not redacted)
+        assert abbreviation in result.clean_text or abbreviation.lower() in result.clean_text.lower(), \
+            f"'{abbreviation}' was incorrectly redacted as LOCATION"
+
+    @pytest.mark.parametrize("role_word", [
+        "mom", "Mom", "MOM",  # Case variants
+        "dad", "Dad",
+        "nurse", "doctor", "guardian",
+    ])
+    def test_role_words_not_flagged_as_person(self, role_word):
+        """Test that standalone role words are not flagged as PERSON."""
+        text = f"Contact {role_word} for updates."
+        result = deidentify_text(text)
+
+        # Role word should be preserved
+        assert role_word in result.clean_text or role_word.lower() in result.clean_text.lower(), \
+            f"'{role_word}' was incorrectly redacted as PERSON"
+
+    @pytest.mark.parametrize("dosing_schedule", [
+        "BID", "bid",
+        "TID", "tid",
+        "QID", "qid",
+        "PRN", "prn",
+        "q4h", "Q4H",
+        "daily", "nightly",
+    ])
+    def test_dosing_schedules_not_flagged_as_datetime(self, dosing_schedule):
+        """Test that dosing schedules are not flagged as DATE_TIME."""
+        text = f"Give medication {dosing_schedule} as ordered."
+        result = deidentify_text(text)
+
+        # Dosing schedule should be preserved
+        assert dosing_schedule in result.clean_text or dosing_schedule.lower() in result.clean_text.lower(), \
+            f"'{dosing_schedule}' was incorrectly redacted as DATE_TIME"
 
 
 if __name__ == "__main__":
