@@ -1,0 +1,46 @@
+{
+  "version": "1.0",
+  "created": "2026-01-24",
+  "config": {
+    "target_sample_size": 200,
+    "minimum_viable_sample": 50,
+    "stratification": {
+      "by": "dominant_phi_type",
+      "seed": 42
+    },
+    "train_val_test_split": {
+      "train": 0.0,
+      "val": 0.7,
+      "test": 0.3,
+      "note": "No training (using existing model); val for tuning, test for final metrics"
+    },
+    "annotation": {
+      "min_annotators": 1,
+      "target_iaa_kappa": 0.8,
+      "double_code_percent": 0.2
+    }
+  },
+  "data_sources": {
+    "existing_deid": {
+      "description": "Pre-existing de-identified transcripts",
+      "path": "datasets/real_handoffs/",
+      "status": "awaiting_data"
+    },
+    "irb_prospective": {
+      "description": "IRB-approved prospective collection",
+      "path": "datasets/irb_handoffs/",
+      "status": "pending_irb",
+      "irb_protocol": null
+    }
+  },
+  "entity_type_targets": {
+    "PERSON": 100,
+    "PHONE_NUMBER": 30,
+    "DATE_TIME": 200,
+    "LOCATION": 50,
+    "MEDICAL_RECORD_NUMBER": 80,
+    "ROOM": 100,
+    "PEDIATRIC_AGE": 80,
+    "GUARDIAN_NAME": 60
+  }
+}
