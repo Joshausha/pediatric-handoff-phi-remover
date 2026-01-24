@@ -10,17 +10,17 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 5 of 5 (Validation & Compliance) - IN PROGRESS
-Plan: 1 of 3 complete
+Plan: 2 of 3 complete
 Status: Phase 5 in progress
-Last activity: 2026-01-24 — Completed 05-01 (Validation data pipeline infrastructure)
+Last activity: 2026-01-24 — Completed 05-02 (Bootstrap CI & error taxonomy)
 
-Progress: [█████████░] 84% (Phases 1-4 complete, Phase 5 plan 1/3 complete)
+Progress: [█████████░] 88% (Phases 1-4 complete, Phase 5 plan 2/3 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
-- Average duration: 5.4 min
+- Total plans completed: 15
+- Average duration: 5.2 min
 - Total execution time: 1.3 hours
 
 **By Phase:**
@@ -31,10 +31,10 @@ Progress: [█████████░] 84% (Phases 1-4 complete, Phase 5 pla
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
 | 04-pattern-improvements | 3/3 | 21 min | 7.0 min |
-| 05-validation-compliance | 1/3 | 3 min | 3.0 min |
+| 05-validation-compliance | 2/3 | 6 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (3min), 04-01 (9min), 04-02 (4min), 04-03 (8min), 05-01 (3min)
+- Last 5 plans: 04-01 (9min), 04-02 (4min), 04-03 (8min), 05-01 (3min), 05-02 (3min)
 - Trend: Infrastructure setup faster than pattern work
 
 *Updated after each plan completion*
@@ -79,6 +79,9 @@ Recent decisions affecting current work:
 - **Target validation sample: 200 transcripts** (Minimum viable: 50; narrow confidence intervals for >95% recall verification) — From 05-01
 - **Stratification by dominant PHI type** (Preserves entity distribution from synthetic to validation data) — From 05-01
 - **70/30 val/test split** (No training needed - tuning on val, final metrics on test) — From 05-01
+- **Bootstrap percentile method with 10k iterations** (Standard bootstrap approach, computationally tractable, provides stable 95% CI) — From 05-02
+- **6 failure modes for error taxonomy** (Covers all major detection failure mechanisms, enables targeted improvements) — From 05-02
+- **--with-ci flag optional** (Bootstrap is slow, only calculate when needed for formal validation) — From 05-02
 
 ### Pending Todos
 
@@ -125,6 +128,11 @@ None yet.
 - LOCATION recall (19.4%) remains very low - fundamental Presidio NER limitation with address formats
 - DATE_TIME precision (37.5%) causes over-redaction - may need deny list expansion in Phase 5
 
+**From Bootstrap CI & Error Taxonomy (05-02):**
+- ⚠️ Pre-existing numpy compatibility error in environment (numpy.dtype size changed)
+- This is a thinc/spacy/numpy version mismatch in system Python, unrelated to plan changes
+- Bootstrap CI functionality verified via unit tests, full integration testing blocked by environment issue
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
@@ -134,10 +142,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-24
-Stopped at: Completed 05-01 (validation data pipeline infrastructure)
+Stopped at: Completed 05-02 (bootstrap CI and error taxonomy)
 Resume file: None
-Next: Phase 5 plan 02 (real transcript annotation) or plan 03 (statistical validation)
+Next: Phase 5 plan 03 (validation report generation)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-24 (Phase 5 plan 1/3 complete)*
+*Last updated: 2026-01-24 (Phase 5 plan 2/3 complete)*
