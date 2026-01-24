@@ -119,8 +119,6 @@ class Settings(BaseSettings):
         default=[
             "mom",   # Generic relationship, not a name
             "dad",   # Generic relationship, not a name
-            "Mom",   # Generic relationship
-            "Dad",   # Generic relationship
             "parent",
             "parents",
             "guardian",
@@ -138,6 +136,23 @@ class Settings(BaseSettings):
             "CNA",   # Certified nursing assistant
         ],
         description="Words that should not be flagged as PERSON"
+    )
+    deny_list_guardian_name: List[str] = Field(
+        default=["parent", "guardian", "caregiver", "family"],
+        description="Generic relationship terms not flagged as GUARDIAN_NAME"
+    )
+    deny_list_pediatric_age: List[str] = Field(
+        default=["infant", "toddler", "child", "adolescent", "teen", "newborn", "neonate"],
+        description="Generic age categories not flagged as PEDIATRIC_AGE"
+    )
+    deny_list_date_time: List[str] = Field(
+        default=[
+            "today", "tonight", "yesterday", "tomorrow",
+            "q4h", "q6h", "q8h", "q12h",
+            "BID", "TID", "QID", "PRN", "prn",
+            "daily", "nightly", "qd", "qhs",
+        ],
+        description="Generic time references and dosing schedules not flagged as DATE_TIME"
     )
 
     # =========================================================================
