@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Baseline Measurement** - Establish evaluation framework and gold standard dataset ✓
 - [x] **Phase 2: Threshold Calibration** - Data-driven threshold optimization with F2 score ✓
-- [ ] **Phase 3: Deny List Refinement** - Medical vocabulary filtering and case normalization
+- [x] **Phase 3: Deny List Refinement** - Medical vocabulary filtering and case normalization ✓ (DENY-04 deferred to Phase 4)
 - [ ] **Phase 4: Pattern Improvements** - Regex edge case fixes and bidirectional patterns
 - [ ] **Phase 5: Validation & Compliance** - External validation and clinical deployment readiness
 
@@ -65,8 +65,8 @@ Plans:
 **Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] 03-01-PLAN.md — Fix case-insensitive bug and add new deny lists to config.py and deidentification.py
-- [ ] 03-02-PLAN.md — Mirror deny list changes in test files and add regression tests
+- [x] 03-01-PLAN.md — Fix case-insensitive bug and add new deny lists to config.py and deidentification.py ✓
+- [x] 03-02-PLAN.md — Mirror deny list changes in test files and add regression tests ✓
 
 ### Phase 4: Pattern Improvements
 **Goal**: Fix regex edge cases and enhance custom recognizers to catch all PHI variants
@@ -112,9 +112,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Baseline Measurement | 4/4 | ✓ Complete | 2026-01-23 |
 | 2. Threshold Calibration | 2/2 | ✓ Complete | 2026-01-23 |
-| 3. Deny List Refinement | 0/2 | Planned | - |
-| 4. Pattern Improvements | 0/3 | Planned | - |
-| 5. Validation & Compliance | 0/TBD | Blocked (Phases 3-4) | - |
+| 3. Deny List Refinement | 2/2 | ✓ Complete (DENY-04 deferred) | 2026-01-24 |
+| 4. Pattern Improvements | 0/3 | Ready | - |
+| 5. Validation & Compliance | 0/TBD | Blocked (Phase 4) | - |
 
 ---
 
@@ -131,4 +131,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 4 planned)*
+*Last updated: 2026-01-24 (Phase 3 complete)*
