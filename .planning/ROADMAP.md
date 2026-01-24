@@ -82,8 +82,8 @@ Plans:
 **Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 04-01-PLAN.md — Guardian and baby name pattern improvements (case-insensitive, bidirectional, speech artifacts)
-- [ ] 04-02-PLAN.md — Room and MRN pattern improvements (case-insensitive, expanded formats)
+- [x] 04-01-PLAN.md — Guardian and baby name pattern improvements (case-insensitive, bidirectional, speech artifacts) ✓
+- [x] 04-02-PLAN.md — Room and MRN pattern improvements (case-insensitive, expanded formats) ✓
 - [ ] 04-03-PLAN.md — PEDIATRIC_AGE decision checkpoint and regression test suite
 
 ### Phase 5: Validation & Compliance
@@ -96,10 +96,12 @@ Plans:
   3. Expert review completed on random sample validates detection quality (human-in-the-loop verification)
   4. Overall recall achieves >95% target on validation set (clinical deployment threshold met)
   5. Residual risk calculated with 95% confidence interval for HIPAA compliance documentation
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 05-01: TBD during phase planning
+- [ ] 05-01-PLAN.md — Create validation data pipeline (annotation schema, dataset loader)
+- [ ] 05-02-PLAN.md — Add bootstrap CI and error taxonomy to evaluation infrastructure
+- [ ] 05-03-PLAN.md — Run validation and generate compliance documentation
 
 ## Progress
 
@@ -113,8 +115,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Baseline Measurement | 4/4 | ✓ Complete | 2026-01-23 |
 | 2. Threshold Calibration | 2/2 | ✓ Complete | 2026-01-23 |
 | 3. Deny List Refinement | 2/2 | ✓ Complete (DENY-04 deferred) | 2026-01-24 |
-| 4. Pattern Improvements | 0/3 | Ready | - |
-| 5. Validation & Compliance | 0/TBD | Blocked (Phase 4) | - |
+| 4. Pattern Improvements | 2/3 | In Progress | - |
+| 5. Validation & Compliance | 0/3 | Blocked (Phase 4) | - |
 
 ---
 
@@ -131,4 +133,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-24 (Phase 3 complete)*
+*Last updated: 2026-01-24 (Phase 5 planned)*
