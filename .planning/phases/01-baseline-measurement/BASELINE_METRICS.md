@@ -311,6 +311,44 @@ Based on baseline analysis:
 - Measure performance on actual clinical language patterns
 - Expected outcome: Defensible evidence for research publication and clinical deployment
 
+## Phase 03: Deny List Refinement (2026-01-24)
+
+### Precision Improvement
+| Metric | Baseline (Phase 01) | Post-Phase 03 | Change |
+|--------|---------------------|---------------|--------|
+| Overall Precision | 66.3% | 67.2% | +0.9% |
+| False Positives | 662 | 635 | -27 (-4.1%) |
+| LOCATION Precision | 80.6% | 81% | +0.4% |
+| DATE_TIME Precision | 35.5% | 37% | +1.5% |
+
+### Changes Made
+- Fixed LOCATION deny list case-insensitive matching (NC/nc/Nc all filtered)
+- Added deny lists for GUARDIAN_NAME, PEDIATRIC_AGE, DATE_TIME
+- Added dosing schedule filtering (BID, TID, PRN, q4h, etc.)
+- Added 33 regression tests for deny list filtering (all passing)
+
+### DENY-04 Requirement Status
+- [ ] False positive reduction >20%: **NOT MET** (actual: 4.1% reduction)
+- [ ] Precision improvement toward 90%: **NOT MET** (actual: 67.2%, +0.9% improvement)
+
+### Gap Analysis
+**Why targets not met:**
+1. **Deny list impact limited**: Most false positives are not medical abbreviations
+   - Only 27 of 662 false positives (4.1%) were filterable via deny lists
+   - Remaining 635 false positives are over-detections requiring pattern refinement (Phase 4)
+
+2. **DATE_TIME precision remains low (37%)**:
+   - Dosing schedule deny list helped (+1.5% precision)
+   - But core issue is over-detection of clinical timestamps and temporal phrases
+   - Requires pattern improvements in Phase 4 to distinguish PHI dates from clinical timestamps
+
+3. **Deny lists are preventative, not corrective**:
+   - Deny lists prevent false positives on known safe terms
+   - They don't fix existing pattern weaknesses (PEDIATRIC_AGE 36.6% recall, ROOM 34.4% recall)
+   - Phase 4 pattern improvements will be primary driver for recall gains
+
+**Conclusion**: Deny list refinement achieved modest precision gains (+0.9%). Phase 4 pattern improvements required for significant precision/recall improvements toward 90% target.
+
 ## Raw Data References
 
 **Evaluation commands:**
@@ -340,4 +378,6 @@ python tests/evaluate_presidio.py --input tests/adversarial_handoffs.json --verb
 
 ---
 *Baseline captured before any PHI detection improvements.*
-*Next step: Phase 2 (Threshold Calibration)*
+*Phase 2 (Threshold Calibration): Complete (2026-01-23)*
+*Phase 3 (Deny List Refinement): Complete (2026-01-24)*
+*Next step: Phase 4 (Pattern Improvements)*
