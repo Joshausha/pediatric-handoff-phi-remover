@@ -17,7 +17,9 @@ import json
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
+
+import numpy as np
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -86,6 +88,76 @@ class EvaluationMetrics:
     def is_safe(self) -> bool:
         """Safety check: no PHI leaks (100% recall)."""
         return self.false_negatives == 0
+
+    def bootstrap_recall_ci(
+        self,
+        y_true: np.ndarray,
+        y_pred: np.ndarray,
+        n_bootstrap: int = 10000,
+        confidence: float = 0.95,
+        seed: int = 42
+    ) -> Tuple[float, Tuple[float, float]]:
+        """
+        Calculate bootstrap CI for recall using percentile method.
+
+        Args:
+            y_true: Binary array (1 = PHI present, 0 = no PHI)
+            y_pred: Binary array (1 = detected, 0 = not detected)
+            n_bootstrap: Number of bootstrap iterations
+            confidence: Confidence level (default 0.95)
+            seed: Random seed for reproducibility
+
+        Returns:
+            Tuple of (point_estimate, (ci_lower, ci_upper))
+        """
+        np.random.seed(seed)
+        n = len(y_true)
+        recalls = []
+
+        for _ in range(n_bootstrap):
+            indices = np.random.choice(n, size=n, replace=True)
+            y_true_boot = y_true[indices]
+            y_pred_boot = y_pred[indices]
+
+            tp = np.sum((y_true_boot == 1) & (y_pred_boot == 1))
+            fn = np.sum((y_true_boot == 1) & (y_pred_boot == 0))
+            recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+            recalls.append(recall)
+
+        alpha = 1 - confidence
+        lower = np.percentile(recalls, 100 * alpha / 2)
+        upper = np.percentile(recalls, 100 * (1 - alpha / 2))
+
+        return np.mean(recalls), (lower, upper)
+
+    def bootstrap_precision_ci(
+        self,
+        y_true: np.ndarray,
+        y_pred: np.ndarray,
+        n_bootstrap: int = 10000,
+        confidence: float = 0.95,
+        seed: int = 42
+    ) -> Tuple[float, Tuple[float, float]]:
+        """Calculate bootstrap CI for precision."""
+        np.random.seed(seed)
+        n = len(y_true)
+        precisions = []
+
+        for _ in range(n_bootstrap):
+            indices = np.random.choice(n, size=n, replace=True)
+            y_true_boot = y_true[indices]
+            y_pred_boot = y_pred[indices]
+
+            tp = np.sum((y_true_boot == 1) & (y_pred_boot == 1))
+            fp = np.sum((y_true_boot == 0) & (y_pred_boot == 1))
+            precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+            precisions.append(precision)
+
+        alpha = 1 - confidence
+        lower = np.percentile(precisions, 100 * alpha / 2)
+        upper = np.percentile(precisions, 100 * (1 - alpha / 2))
+
+        return np.mean(precisions), (lower, upper)
 
 
 class PresidioEvaluator:
@@ -280,6 +352,23 @@ class PresidioEvaluator:
             metrics.false_negatives += len(result.false_negatives)
             metrics.false_positives += len(result.false_positives)
 
+        # Build binary arrays for CI calculation
+        y_true = []
+        y_pred = []
+        for result in results:
+            for _ in result.true_positives:
+                y_true.append(1)
+                y_pred.append(1)
+            for _ in result.false_negatives:
+                y_true.append(1)
+                y_pred.append(0)
+            for _ in result.false_positives:
+                y_true.append(0)
+                y_pred.append(1)
+
+        metrics._y_true = np.array(y_true)
+        metrics._y_pred = np.array(y_pred)
+
         return metrics, results
 
     def generate_report(
@@ -317,6 +406,19 @@ class PresidioEvaluator:
             f"  F2 Score:  {metrics.f2:.1%}  ← PRIMARY METRIC (recall-weighted)",
             "",
         ]
+
+        # Add confidence intervals if available
+        if hasattr(metrics, '_y_true') and len(metrics._y_true) > 0:
+            recall_mean, (recall_lower, recall_upper) = metrics.bootstrap_recall_ci(
+                metrics._y_true, metrics._y_pred
+            )
+            prec_mean, (prec_lower, prec_upper) = metrics.bootstrap_precision_ci(
+                metrics._y_true, metrics._y_pred
+            )
+            lines.append("CONFIDENCE INTERVALS (95%, bootstrap n=10,000):")
+            lines.append(f"  Recall:    [{recall_lower:.1%}, {recall_upper:.1%}]")
+            lines.append(f"  Precision: [{prec_lower:.1%}, {prec_upper:.1%}]")
+            lines.append("")
 
         # Safety check
         if metrics.is_safe:
@@ -409,6 +511,11 @@ def main():
         type=Path,
         help="Export per-entity confusion matrix to JSON file"
     )
+    parser.add_argument(
+        "--with-ci",
+        action="store_true",
+        help="Calculate bootstrap 95%% confidence intervals (slower)"
+    )
 
     args = parser.parse_args()
 
@@ -426,6 +533,12 @@ def main():
     # Evaluate
     evaluator = PresidioEvaluator(overlap_threshold=args.overlap)
     metrics, results = evaluator.evaluate_dataset(dataset, verbose=args.verbose)
+
+    # Calculate confidence intervals if requested
+    if not args.with_ci and hasattr(metrics, '_y_true'):
+        # Remove CI data if not requested to save memory
+        delattr(metrics, '_y_true')
+        delattr(metrics, '_y_pred')
 
     # Export confusion matrix if requested
     if args.export_confusion_matrix:
