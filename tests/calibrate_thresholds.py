@@ -132,9 +132,15 @@ class ThresholdCalibrator:
         for result in results:
             detected_text = text[result.start:result.end].strip()
 
-            if result.entity_type == "LOCATION" and detected_text in settings.deny_list_location:
+            if result.entity_type == "LOCATION" and detected_text.lower() in [w.lower() for w in settings.deny_list_location]:
                 continue
             if result.entity_type == "PERSON" and detected_text.lower() in [w.lower() for w in settings.deny_list_person]:
+                continue
+            if result.entity_type == "GUARDIAN_NAME" and detected_text.lower() in [w.lower() for w in settings.deny_list_guardian_name]:
+                continue
+            if result.entity_type == "PEDIATRIC_AGE" and detected_text.lower() in [w.lower() for w in settings.deny_list_pediatric_age]:
+                continue
+            if result.entity_type == "DATE_TIME" and detected_text.lower() in [w.lower() for w in settings.deny_list_date_time]:
                 continue
 
             filtered.append({
