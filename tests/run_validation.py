@@ -28,6 +28,12 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from tests.evaluate_presidio import PresidioEvaluator, EvaluationMetrics, load_dataset
 from tests.error_taxonomy import build_error_taxonomy, generate_error_report, FailureMode
+from tests.generate_test_data import SyntheticHandoff, PHISpan
+
+# Entity types to exclude from validation (not considered PHI)
+# PEDIATRIC_AGE disabled in Phase 4 (04-03): Ages under 90 are not PHI under HIPAA
+# See: .planning/STATE.md decision "PEDIATRIC_AGE recognizer DISABLED"
+EXCLUDED_ENTITY_TYPES = {"PEDIATRIC_AGE"}
 
 
 def run_validation(
@@ -65,6 +71,26 @@ def run_validation(
 
     if verbose:
         print(f"✓ Loaded {len(dataset)} handoffs")
+
+    # Filter out excluded entity types from expected PHI spans
+    # This reflects deliberate decisions (e.g., PEDIATRIC_AGE not PHI under HIPAA)
+    if EXCLUDED_ENTITY_TYPES:
+        if verbose:
+            print(f"  Excluding entity types: {', '.join(sorted(EXCLUDED_ENTITY_TYPES))}")
+
+        original_span_count = sum(len(h.phi_spans) for h in dataset)
+        for handoff in dataset:
+            handoff.phi_spans = [
+                span for span in handoff.phi_spans
+                if span.entity_type not in EXCLUDED_ENTITY_TYPES
+            ]
+        filtered_span_count = sum(len(h.phi_spans) for h in dataset)
+
+        if verbose:
+            excluded = original_span_count - filtered_span_count
+            print(f"  Filtered {excluded} spans ({original_span_count} → {filtered_span_count})")
+
+    if verbose:
         print()
 
     # Run Presidio evaluation
@@ -308,7 +334,12 @@ def generate_compliance_report(validation_results: dict, output_path: Path) -> N
         "",
         f"- **Source:** Synthetic handoff dataset (clinical patterns based on pediatric residency experience)",
         f"- **Size:** {metadata['n_handoffs']} handoffs",
-        f"- **PHI entities:** PERSON, GUARDIAN_NAME, MEDICAL_RECORD_NUMBER, ROOM, DATE_TIME, LOCATION, PHONE_NUMBER, EMAIL_ADDRESS, PEDIATRIC_AGE",
+        f"- **PHI entities evaluated:** PERSON, GUARDIAN_NAME, MEDICAL_RECORD_NUMBER, ROOM, DATE_TIME, LOCATION, PHONE_NUMBER, EMAIL_ADDRESS",
+        f"- **Excluded entity types:** {', '.join(sorted(EXCLUDED_ENTITY_TYPES)) if EXCLUDED_ENTITY_TYPES else 'None'}",
+        "",
+        "**Note on PEDIATRIC_AGE exclusion:** Ages under 90 are not considered PHI under HIPAA (45 CFR 164.514(b)(2)(i)(C)).",
+        "The PEDIATRIC_AGE recognizer was intentionally disabled in Phase 4 (decision 04-03). Validation metrics",
+        "exclude these spans to reflect the actual PHI detection scope.",
         "",
         "**Note on External Validation:** This validation uses synthetic data designed to represent realistic",
         "clinical patterns. External validation on real de-identified transcripts requires IRB approval for",

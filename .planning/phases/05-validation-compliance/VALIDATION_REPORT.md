@@ -1,6 +1,6 @@
 # Validation Report: Pediatric Handoff PHI Remover
 
-**Validation Date:** 2026-01-24T16:26:28.651886  
+**Validation Date:** 2026-01-24T18:43:57.825778  
 **Dataset Size:** 500 handoffs  
 **Bootstrap Iterations:** 10000  
 
@@ -8,16 +8,16 @@
 
 | Metric | Value | 95% Confidence Interval |
 |--------|-------|------------------------|
-| **Recall** | 74.8% | [72.7%, 76.9%] |
+| **Recall** | 83.0% | [81.0%, 84.8%] |
 | **Precision** | 65.4% | [63.3%, 67.5%] |
-| **F1 Score** | 69.8% | - |
-| **F2 Score** | 72.7% | - |
+| **F1 Score** | 73.1% | - |
+| **F2 Score** | 78.7% | - |
 
 ### Deployment Decision
 
 **Decision:** `RETURN_TO_PHASE_4`
 
-**Rationale:** Recall 95% CI lower bound (72.7%) does not meet the 95% threshold required for clinical deployment.
+**Rationale:** Recall 95% CI lower bound (81.0%) does not meet the 95% threshold required for clinical deployment.
 
 **Safety Threshold:** Recall 95% CI lower bound must be ≥ 95%
 
@@ -25,44 +25,44 @@
 
 ### Detection Performance
 
-- **Total PHI spans (ground truth):** 1672
+- **Total PHI spans (ground truth):** 1508
 - **Total spans detected:** 1913
 - **True positives:** 1251
-- **False negatives (PHI leaks):** 421
+- **False negatives (PHI leaks):** 257
 - **False positives (over-redaction):** 662
 
 ### Statistical Validation
 
 Bootstrap confidence intervals (95%) calculated using percentile method with 10,000 iterations:
 
-- **Recall CI:** [72.7%, 76.9%]
+- **Recall CI:** [81.0%, 84.8%]
 - **Precision CI:** [63.3%, 67.5%]
 
 ## Error Taxonomy
 
-**Total false negatives:** 421
+**Total false negatives:** 257
 
 ### Breakdown by Failure Mode
 
-#### PATTERN MISS (388 cases, 92.2%)
+#### PATTERN MISS (246 cases, 95.7%)
 
-1. **PEDIATRIC_AGE**: `5 days old`
-2. **PEDIATRIC_AGE**: `6 weeks 4 days old`
-3. **ROOM**: `847`
-4. **PEDIATRIC_AGE**: `DOL 6`
-5. **MEDICAL_RECORD_NUMBER**: `2694522`
-   _(and 383 more)_
+1. **ROOM**: `847`
+2. **MEDICAL_RECORD_NUMBER**: `2694522`
+3. **LOCATION**: `3419 Amanda Gardens Apt. 764`
+4. **LOCATION**: `Daviston`
+5. **LOCATION**: `6270 Stanton Track`
+   _(and 241 more)_
 
 **Recommendation:** → Add regex patterns to custom recognizers
 
-#### SPAN BOUNDARY (33 cases, 7.8%)
+#### SPAN BOUNDARY (11 cases, 4.3%)
 
 1. **ROOM**: `3-22`
-2. **PEDIATRIC_AGE**: `5 weeks 6 days old`
-3. **ROOM**: `2-25`
-4. **PERSON**: `Virginia Daniels`
-5. **PEDIATRIC_AGE**: `8 weeks 4 days old`
-   _(and 28 more)_
+2. **ROOM**: `2-25`
+3. **PERSON**: `Virginia Daniels`
+4. **ROOM**: `9-27`
+5. **ROOM**: `3-22`
+   _(and 6 more)_
 
 **Recommendation:** → Review entity boundary detection logic
 
@@ -72,7 +72,12 @@ Bootstrap confidence intervals (95%) calculated using percentile method with 10,
 
 - **Source:** Synthetic handoff dataset (clinical patterns based on pediatric residency experience)
 - **Size:** 500 handoffs
-- **PHI entities:** PERSON, GUARDIAN_NAME, MEDICAL_RECORD_NUMBER, ROOM, DATE_TIME, LOCATION, PHONE_NUMBER, EMAIL_ADDRESS, PEDIATRIC_AGE
+- **PHI entities evaluated:** PERSON, GUARDIAN_NAME, MEDICAL_RECORD_NUMBER, ROOM, DATE_TIME, LOCATION, PHONE_NUMBER, EMAIL_ADDRESS
+- **Excluded entity types:** PEDIATRIC_AGE
+
+**Note on PEDIATRIC_AGE exclusion:** Ages under 90 are not considered PHI under HIPAA (45 CFR 164.514(b)(2)(i)(C)).
+The PEDIATRIC_AGE recognizer was intentionally disabled in Phase 4 (decision 04-03). Validation metrics
+exclude these spans to reflect the actual PHI detection scope.
 
 **Note on External Validation:** This validation uses synthetic data designed to represent realistic
 clinical patterns. External validation on real de-identified transcripts requires IRB approval for
@@ -103,7 +108,7 @@ This threshold accounts for statistical uncertainty in recall estimation.
 
 This validation provides statistical evidence for HIPAA Expert Determination:
 
-- **Recall performance:** 74.8% with 95% CI [72.7%, 76.9%]
+- **Recall performance:** 83.0% with 95% CI [81.0%, 84.8%]
 - **Residual risk assessment:** Based on false negative rate and failure mode analysis
 - **Statistical rigor:** Bootstrap confidence intervals quantify estimation uncertainty
 
@@ -117,4 +122,4 @@ This tool is intended for personal quality improvement use only:
 
 ---
 
-*Generated: 2026-01-24 16:26:28*
+*Generated: 2026-01-24 18:43:57*
