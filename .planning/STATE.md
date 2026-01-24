@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 3 of 5 (Deny List Refinement)
-Plan: 1 of 3 (In progress)
+Plan: 2 of 3 (In progress)
 Status: In progress
-Last activity: 2026-01-24 — Completed 03-01-PLAN.md (case-insensitive deny lists)
+Last activity: 2026-01-24 — Completed 03-02-PLAN.md (test file deny lists + precision measurement)
 
-Progress: [████░░░░░░] 45% (Phase 1 complete, Phase 2 complete, Phase 3: 1/3 plans)
+Progress: [████░░░░░░] 47% (Phase 1 complete, Phase 2 complete, Phase 3: 2/3 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: 5.2 min
-- Total execution time: 0.78 hours
+- Total plans completed: 10
+- Average duration: 5.0 min
+- Total execution time: 0.83 hours
 
 **By Phase:**
 
@@ -29,11 +29,11 @@ Progress: [████░░░░░░] 45% (Phase 1 complete, Phase 2 comple
 |-------|-------|-------|----------|
 | 01-baseline-measurement | 6/6 | 38 min | 6.3 min |
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
-| 03-deny-list-refinement | 1/3 | 2 min | 2.0 min |
+| 03-deny-list-refinement | 2/3 | 5 min | 2.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03-exec (12min), 01-02-exec (4min), 02-01 (6min), 02-02 (3min), 03-01 (2min)
-- Trend: Accelerating execution, deny list refinement starting fast
+- Last 5 plans: 01-02-exec (4min), 02-01 (6min), 02-02 (3min), 03-01 (2min), 03-02 (3min)
+- Trend: Consistent fast execution, Phase 3 averaging 2.5 min/plan
 
 *Updated after each plan completion*
 
@@ -65,6 +65,8 @@ Recent decisions affecting current work:
 - **Case-insensitive deny lists** (Consistency prevents edge case bugs; clinical terms appear in various cases) — From 03-01
 - **Dosing schedules in DATE_TIME deny list** (Reduces precision drop from 35.3% by filtering clinical abbreviations) — From 03-01
 - **Generic age categories in PEDIATRIC_AGE deny list** (Prevents over-redaction of clinical descriptors) — From 03-01
+- **Test files intentionally duplicate deny list filtering logic** (Maintains test isolation and keeps evaluation/calibration scripts self-contained) — From 03-02
+- **DENY-04 targets not met via deny lists alone** (4.1% FP reduction vs 20% target; deny lists preventative not corrective) — From 03-02
 
 ### Pending Todos
 
@@ -86,6 +88,12 @@ None yet.
   - PEDIATRIC_AGE: 35.8% recall (pattern improvements needed)
 - DATE_TIME: High recall (95.1%) but LOW precision (35.3%) — over-redacting clinical content
 
+**From Deny List Refinement:**
+- Deny list impact on precision is LIMITED — only 4.1% false positive reduction (27 of 662 FPs filterable)
+- Most false positives (635) are over-detections requiring Phase 4 pattern refinement
+- Precision improvement: 66.3% → 67.2% (+0.9%) — modest gains via deny lists
+- Deny lists are preventative (filter known safe terms), not corrective (don't fix pattern weaknesses)
+
 **Technical Debt:**
 - ~~Current thresholds arbitrary (detection 0.35, validation 0.7)~~ **RESOLVED** (02-02: per-entity 0.30, aligned)
 - ~~Detection/validation threshold mismatch (THRS-02)~~ **RESOLVED** (02-02: both use phi_score_thresholds)
@@ -102,10 +110,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-24
-Stopped at: Completed 03-01-PLAN.md (case-insensitive deny lists)
+Stopped at: Completed 03-02-PLAN.md (test file deny lists + precision measurement)
 Resume file: None
-Next: 03-02 (Expand Deny Lists) or 03-03 (Measurement)
+Next: 03-03 (Final Phase 3 Measurement) or Phase 4 (Pattern Improvements)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-24 01:19:14 UTC (after 03-01 completion)*
+*Last updated: 2026-01-24 01:26:02 UTC (after 03-02 completion)*
