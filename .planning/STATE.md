@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 4: Pattern Improvements (IN PROGRESS)
+**Current focus:** Phase 5: External Validation (NEXT)
 
 ## Current Position
 
-Phase: 4 of 5 (Pattern Improvements)
-Plan: 1 of 2 complete (Guardian/Baby name patterns)
-Status: In progress
-Last activity: 2026-01-24 — Completed 04-01 (Guardian/Baby name pattern improvements)
+Phase: 4 of 5 (Pattern Improvements) - COMPLETE
+Plan: 3 of 3 complete
+Status: Phase 4 complete
+Last activity: 2026-01-24 — Completed 04-03 (PEDIATRIC_AGE decision and regression tests)
 
-Progress: [███████░░░] 65% (Phases 1-3 complete, Phase 4 in progress)
+Progress: [████████░░] 80% (Phases 1-4 complete, Phase 5 pending)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 5.4 min
-- Total execution time: 1.0 hours
+- Total plans completed: 13
+- Average duration: 5.6 min
+- Total execution time: 1.2 hours
 
 **By Phase:**
 
@@ -30,10 +30,10 @@ Progress: [███████░░░] 65% (Phases 1-3 complete, Phase 4 in 
 | 01-baseline-measurement | 6/6 | 38 min | 6.3 min |
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
-| 04-pattern-improvements | 1/2 | 9 min | 9.0 min |
+| 04-pattern-improvements | 3/3 | 21 min | 7.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (3min), 03-01 (2min), 03-02 (3min), 04-02 (4min), 04-01 (9min)
+- Last 5 plans: 03-01 (2min), 03-02 (3min), 04-01 (9min), 04-02 (4min), 04-03 (8min)
 - Trend: Pattern work takes longer due to regex complexity
 
 *Updated after each plan completion*
@@ -73,6 +73,8 @@ Recent decisions affecting current work:
 - **Lookbehind with (?i) flag works for guardian patterns** (Matches only the name, preserves relationship word) — From 04-01
 - **Lookahead for bidirectional patterns** (`Jessica is Mom` -> match only "Jessica") — From 04-01
 - **Pediatric descriptors added to PERSON deny list** (baby, infant, newborn, neonate) — From 04-01
+- **PEDIATRIC_AGE recognizer DISABLED** (Ages not PHI under HIPAA unless 90+; preserved for clinical utility) — From 04-03
+- **Regression test thresholds** (Guardian >80%, Room >40%, standard entities >90%) — From 04-03
 
 ### Pending Todos
 
@@ -111,8 +113,13 @@ None yet.
 - ~~LOCATION deny list case-sensitive (inconsistent)~~ **RESOLVED** (03-01: case-insensitive filtering)
 - ~~Room number patterns too narrow (only "Room X" format)~~ **RESOLVED** (04-02: case-insensitive, bay, isolette, multipart)
 - ~~Guardian name patterns need case-insensitivity~~ **RESOLVED** (04-01: all patterns now case-insensitive)
-- Pediatric age abbreviation patterns still need work — Phase 4 priority
+- ~~Pediatric age abbreviation patterns still need work~~ **RESOLVED** (04-03: PEDIATRIC_AGE disabled, ages not PHI)
 - 8 pre-existing test failures from Phase 3 deny list changes need test expectation updates
+
+**From Pattern Improvements (04-03):**
+- ROOM recall improved from 32.1% to 43.3% (+35% relative improvement) but still below 90% target
+- LOCATION recall (19.4%) remains very low - fundamental Presidio NER limitation with address formats
+- DATE_TIME precision (37.5%) causes over-redaction - may need deny list expansion in Phase 5
 
 ### Quick Tasks Completed
 
@@ -123,10 +130,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-24
-Stopped at: Completed 04-01 (Guardian/Baby name patterns)
+Stopped at: Completed Phase 4 (all pattern improvements)
 Resume file: None
-Next: 04-02 (Room/MRN patterns)
+Next: Phase 5 (External Validation)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-24 (04-01 complete)*
+*Last updated: 2026-01-24 (Phase 4 complete)*
