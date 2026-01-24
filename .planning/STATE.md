@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 4 of 5 (Pattern Improvements)
-Plan: 2 of ? (Room/MRN patterns complete)
+Plan: 1 of 2 complete (Guardian/Baby name patterns)
 Status: In progress
-Last activity: 2026-01-24 — Completed 04-02 (Room/MRN pattern improvements)
+Last activity: 2026-01-24 — Completed 04-01 (Guardian/Baby name pattern improvements)
 
 Progress: [███████░░░] 65% (Phases 1-3 complete, Phase 4 in progress)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 5.0 min
-- Total execution time: 0.83 hours
+- Total plans completed: 11
+- Average duration: 5.4 min
+- Total execution time: 1.0 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [███████░░░] 65% (Phases 1-3 complete, Phase 4 in 
 | 01-baseline-measurement | 6/6 | 38 min | 6.3 min |
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
-| 04-pattern-improvements | 1/? | 4 min | 4.0 min |
+| 04-pattern-improvements | 1/2 | 9 min | 9.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (6min), 02-02 (3min), 03-01 (2min), 03-02 (3min), 04-02 (4min)
-- Trend: Consistent fast execution
+- Last 5 plans: 02-02 (3min), 03-01 (2min), 03-02 (3min), 04-02 (4min), 04-01 (9min)
+- Trend: Pattern work takes longer due to regex complexity
 
 *Updated after each plan completion*
 
@@ -70,6 +70,9 @@ Recent decisions affecting current work:
 - **DENY-04 targets not met via deny lists alone** (4.1% FP reduction vs 20% target; deny lists preventative not corrective) — From 03-02
 - **Word boundary with (?i) flag instead of lookbehind** (Lookbehind fails at start-of-line position 0) — From 04-02
 - **Presidio replaces entire matched span, not capture groups** (Tests verify unit names in surrounding context) — From 04-02
+- **Lookbehind with (?i) flag works for guardian patterns** (Matches only the name, preserves relationship word) — From 04-01
+- **Lookahead for bidirectional patterns** (`Jessica is Mom` -> match only "Jessica") — From 04-01
+- **Pediatric descriptors added to PERSON deny list** (baby, infant, newborn, neonate) — From 04-01
 
 ### Pending Todos
 
@@ -97,13 +100,19 @@ None yet.
 - Precision improvement: 66.3% → 67.2% (+0.9%) — modest gains via deny lists
 - Deny lists are preventative (filter known safe terms), not corrective (don't fix pattern weaknesses)
 
+**From Pattern Improvements (04-01):**
+- NER overlap with custom patterns causes over-redaction in some cases ("Grandma Rosa" detected as full PERSON)
+- Lowercase variants work correctly; capitalized variants may over-redact when NER takes precedence
+- This is safe (over-redaction) but not ideal for readability
+
 **Technical Debt:**
 - ~~Current thresholds arbitrary (detection 0.35, validation 0.7)~~ **RESOLVED** (02-02: per-entity 0.30, aligned)
 - ~~Detection/validation threshold mismatch (THRS-02)~~ **RESOLVED** (02-02: both use phi_score_thresholds)
 - ~~LOCATION deny list case-sensitive (inconsistent)~~ **RESOLVED** (03-01: case-insensitive filtering)
 - ~~Room number patterns too narrow (only "Room X" format)~~ **RESOLVED** (04-02: case-insensitive, bay, isolette, multipart)
-- Pediatric age abbreviation patterns missing — Phase 4 priority
-- Guardian name patterns need case-insensitivity (uncommitted changes found in pediatric.py) — Phase 4 priority
+- ~~Guardian name patterns need case-insensitivity~~ **RESOLVED** (04-01: all patterns now case-insensitive)
+- Pediatric age abbreviation patterns still need work — Phase 4 priority
+- 8 pre-existing test failures from Phase 3 deny list changes need test expectation updates
 
 ### Quick Tasks Completed
 
@@ -114,10 +123,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-24
-Stopped at: Completed 04-02 (Room/MRN patterns)
+Stopped at: Completed 04-01 (Guardian/Baby name patterns)
 Resume file: None
-Next: 04-03 (Guardian name patterns) or next Phase 4 plan
+Next: 04-02 (Room/MRN patterns)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-24 (04-02 complete)*
+*Last updated: 2026-01-24 (04-01 complete)*
