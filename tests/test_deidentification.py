@@ -471,5 +471,85 @@ class TestDenyListFiltering:
             f"'{dosing_schedule}' was incorrectly redacted as DATE_TIME"
 
 
+# =============================================================================
+# ROOM AND MRN EDGE CASE TESTS (Phase 04-02)
+# =============================================================================
+
+# Test data for room number edge cases
+ROOM_EDGE_CASES = [
+    # (input_text, phi_that_must_be_removed, description)
+    ("Patient in Room 302", "302", "room_standard"),
+    ("Patient in room 302", "302", "room_lowercase"),
+    ("ROOM 302 is occupied", "302", "room_uppercase"),
+    ("Rm 404 available", "404", "rm_abbreviation"),
+    ("Bed 12 in PICU", "12", "bed_standard"),
+    ("bed 12 in picu", "12", "bed_lowercase"),
+    ("PICU bed 7", "7", "picu_bed"),
+    ("picu bed 7", "7", "picu_lowercase"),
+    ("NICU bed 3A", "3A", "nicu_alphanumeric"),
+    ("nicu bed 3a", "3a", "nicu_lowercase_alpha"),
+    ("Bay 5 in NICU", "5", "bay_number"),
+    ("Isolette 21", "21", "isolette_number"),
+    ("Room 3-22", "3-22", "multipart_dash"),
+    ("Room 4/11", "4/11", "multipart_slash"),
+    ("4 West room 412", "412", "floor_unit_room"),
+]
+
+# Test data for MRN edge cases
+MRN_EDGE_CASES = [
+    # (input_text, phi_that_must_be_removed, description)
+    ("MRN 12345678", "12345678", "mrn_standard"),
+    ("mrn 12345678", "12345678", "mrn_lowercase"),
+    ("MRN: 12345678", "12345678", "mrn_colon"),
+    ("MRN#12345678", "12345678", "mrn_hash"),
+    ("#12345678", "12345678", "hash_only"),
+    ("Medical record number: 87654321", "87654321", "full_label"),
+    ("Patient #12345678", "12345678", "patient_hash"),
+    ("AB12345678", "AB12345678", "letter_prefix"),
+]
+
+
+class TestRoomMRNEdgeCases:
+    """
+    Test room and MRN pattern edge cases.
+
+    These tests verify that Phase 04-02 pattern improvements catch:
+    - Case variations (room, Room, ROOM)
+    - Start-of-line patterns
+    - ICU bed formats with unit names
+    - NICU-specific formats (bay, isolette)
+    - Multi-part room numbers (3-22, 4/11)
+    - MRN case variations
+    """
+
+    @pytest.mark.parametrize("text,phi,desc", ROOM_EDGE_CASES,
+                             ids=[case[2] for case in ROOM_EDGE_CASES])
+    def test_room_edge_case(self, text, phi, desc):
+        """Test that room numbers are properly redacted in various formats."""
+        result = deidentify_text(text)
+        assert phi not in result.clean_text, f"Room '{phi}' should be removed ({desc})"
+
+    @pytest.mark.parametrize("text,phi,desc", MRN_EDGE_CASES,
+                             ids=[case[2] for case in MRN_EDGE_CASES])
+    def test_mrn_edge_case(self, text, phi, desc):
+        """Test that MRN numbers are properly redacted in various formats."""
+        result = deidentify_text(text)
+        assert phi not in result.clean_text, f"MRN '{phi}' should be removed ({desc})"
+
+    @pytest.mark.parametrize("text,word_to_preserve", [
+        # Note: Presidio replaces the entire matched pattern, not just the number
+        # These tests verify that unit names in SURROUNDING context are preserved
+        ("Patient admitted to PICU, currently in bed 7", "PICU"),
+        ("Transferred to NICU bay 5 for monitoring", "NICU"),
+        ("Patient in PICU room 302 is stable", "PICU"),
+        ("On 4 West unit, bed 12 by window", "unit"),
+    ])
+    def test_unit_name_preserved(self, text, word_to_preserve):
+        """Test that ICU unit names in surrounding context are preserved while room/bed numbers are redacted."""
+        result = deidentify_text(text)
+        assert word_to_preserve.lower() in result.clean_text.lower(), \
+            f"Unit name '{word_to_preserve}' should be preserved"
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])

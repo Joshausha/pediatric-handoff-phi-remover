@@ -32,9 +32,10 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
             score=0.85
         ),
         # Medical record / chart number (case-insensitive)
+        # Pattern: "Medical record number: 87654321" or "chart #12345678"
         Pattern(
             name="medical_record",
-            regex=r"(?i)\b(?:medical\s+record|chart)\s*(?:number|#|:)?\s*(\d{6,10})\b",
+            regex=r"(?i)\b(?:medical\s+record|chart)\s*(?:number)?[:#]?\s*\d{6,10}\b",
             score=0.75
         ),
         # Letter prefix format (e.g., "AB12345678") - keep case-sensitive for letter prefix
