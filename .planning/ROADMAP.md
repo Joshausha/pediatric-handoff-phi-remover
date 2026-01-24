@@ -79,10 +79,12 @@ Plans:
   4. PEDIATRIC_AGE recall improved from 36.6% to >90% (currently weakest entity type)
   5. ROOM recall improved from 34.4% to >90% (currently weakest entity type)
   6. Regression test suite covers all edge cases with pytest parameterized tests
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 04-01: TBD during phase planning
+- [ ] 04-01-PLAN.md — Guardian and baby name pattern improvements (case-insensitive, bidirectional, speech artifacts)
+- [ ] 04-02-PLAN.md — Room and MRN pattern improvements (case-insensitive, expanded formats)
+- [ ] 04-03-PLAN.md — PEDIATRIC_AGE decision checkpoint and regression test suite
 
 ### Phase 5: Validation & Compliance
 **Goal**: Validate performance on real transcripts and achieve >95% recall for clinical deployment readiness
@@ -111,7 +113,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Baseline Measurement | 4/4 | ✓ Complete | 2026-01-23 |
 | 2. Threshold Calibration | 2/2 | ✓ Complete | 2026-01-23 |
 | 3. Deny List Refinement | 0/2 | Planned | - |
-| 4. Pattern Improvements | 0/TBD | Ready to plan | - |
+| 4. Pattern Improvements | 0/3 | Planned | - |
 | 5. Validation & Compliance | 0/TBD | Blocked (Phases 3-4) | - |
 
 ---
@@ -129,4 +131,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-23 (Phase 2 complete)*
+*Last updated: 2026-01-23 (Phase 4 planned)*
