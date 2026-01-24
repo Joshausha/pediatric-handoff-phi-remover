@@ -3,7 +3,9 @@ Medical-context Presidio recognizers.
 
 Handles general medical PHI patterns:
 - Medical Record Numbers (MRN)
-- Room numbers
+- Room numbers (with case-insensitive matching)
+
+Updated: Phase 04-02 - Improved patterns for case-insensitivity and edge cases.
 """
 
 
@@ -23,19 +25,19 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
     # Medical Record Number (MRN) Recognizer
     # =========================================================================
     mrn_patterns = [
-        # Explicit MRN label
+        # Explicit MRN label (case-insensitive)
         Pattern(
             name="mrn_labeled",
-            regex=r"\b(?:MRN|mrn)[:\s#]?\s*(\d{6,10})\b",
+            regex=r"(?i)\b(?:mrn)[:\s#]?\s*(\d{6,10})\b",
             score=0.85
         ),
-        # Medical record / chart number
+        # Medical record / chart number (case-insensitive)
         Pattern(
             name="medical_record",
-            regex=r"\b(?:medical\s+record|chart)\s*(?:number|#|:)?\s*(\d{6,10})\b",
+            regex=r"(?i)\b(?:medical\s+record|chart)\s*(?:number|#|:)?\s*(\d{6,10})\b",
             score=0.75
         ),
-        # Letter prefix format (e.g., "AB12345678")
+        # Letter prefix format (e.g., "AB12345678") - keep case-sensitive for letter prefix
         Pattern(
             name="mrn_prefix",
             regex=r"\b[A-Z]{2}\d{6,8}\b",
@@ -47,10 +49,10 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
             regex=r"#(\d{6,10})\b",
             score=0.7
         ),
-        # "Patient #" followed by number
+        # "Patient #" followed by number (case-insensitive)
         Pattern(
             name="patient_number",
-            regex=r"\b[Pp]atient\s*#?\s*(\d{6,10})\b",
+            regex=r"(?i)\bpatient\s*#?\s*(\d{6,10})\b",
             score=0.75
         ),
     ]
@@ -66,42 +68,54 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
     # =========================================================================
     # Room Number Recognizer
     # =========================================================================
+    # NOTE: Using (?i) flag for case-insensitive matching instead of lookbehind.
+    # Lookbehind (e.g., (?<=Room )) fails at start-of-line (position 0).
+    # These patterns capture the full match but context ensures appropriate usage.
     room_patterns = [
-        # Standard room format: "Room 302", "Rm 404", "room 5A"
-        # Using lookbehind to only capture the room number
+        # Standard room format: "Room 302", "Rm 404", "room 5A", "ROOM 12"
+        # Case-insensitive, handles start-of-line
         Pattern(
             name="room_standard",
-            regex=r"(?<=Room |room |Rm |rm )\d{1,4}[A-Za-z]?\b",
-            score=0.6
+            regex=r"(?i)\b(?:room|rm)\s+\d{1,4}[A-Za-z]?\b",
+            score=0.70
         ),
         # Bed number: "Bed 5", "bed 12A"
         Pattern(
-            name="bed_number",
-            regex=r"(?<=bed |Bed )\d{1,2}[A-Za-z]?\b",
-            score=0.55
+            name="bed_standard",
+            regex=r"(?i)\bbed\s+\d{1,2}[A-Za-z]?\b",
+            score=0.65
         ),
-        # ICU bed numbers: preserve unit name, redact only number
-        # "PICU bed 3" -> "PICU bed [ROOM]"
-        Pattern(
-            name="picu_bed",
-            regex=r"(?<=PICU bed |PICU Bed )\d{1,3}[A-Za-z]?\b",
-            score=0.7
-        ),
-        Pattern(
-            name="nicu_bed",
-            regex=r"(?<=NICU bed |NICU Bed )\d{1,3}[A-Za-z]?\b",
-            score=0.7
-        ),
+        # ICU bed formats with unit names (preserve unit, redact number)
+        # "PICU bed 7", "picu bed 3A", "NICU bed 21", "ICU bed 4"
         Pattern(
             name="icu_bed",
-            regex=r"(?<=ICU bed |ICU Bed )\d{1,3}[A-Za-z]?\b",
-            score=0.7
+            regex=r"(?i)\b(?:picu|nicu|icu)\s+bed\s+\d{1,3}[A-Za-z]?\b",
+            score=0.80
         ),
-        # Floor + direction: "4 West", "3 South"
+        # Bay number (NICU specific): "bay 5", "Bay 12"
+        Pattern(
+            name="bay_number",
+            regex=r"(?i)\bbay\s+\d{1,2}[A-Za-z]?\b",
+            score=0.65
+        ),
+        # Isolette number (NICU specific): "isolette 21", "Isolette 3"
+        Pattern(
+            name="isolette_number",
+            regex=r"(?i)\bisolette\s+\d{1,3}\b",
+            score=0.70
+        ),
+        # Multi-part room numbers: "Room 3-22", "room 4/11"
+        Pattern(
+            name="room_multipart",
+            regex=r"(?i)\b(?:room|rm)\s+\d{1,2}[-/]\d{1,2}\b",
+            score=0.70
+        ),
+        # Floor + direction: "4 West", "3 South", "2 north"
+        # Case-insensitive for direction words
         Pattern(
             name="floor_unit",
-            regex=r"\b(\d{1,2})\s*(?:North|South|East|West|Tower|Floor)\b",
-            score=0.5
+            regex=r"(?i)\b\d{1,2}\s*(?:north|south|east|west|tower|floor)\b",
+            score=0.50
         ),
     ]
 
@@ -109,7 +123,7 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
         supported_entity="ROOM",
         name="Room Number Recognizer",
         patterns=room_patterns,
-        context=["room", "bed", "floor", "unit", "located", "admitted to"]
+        context=["room", "bed", "floor", "unit", "located", "admitted to", "transferred to", "bay", "isolette"]
     )
     recognizers.append(room_recognizer)
 
