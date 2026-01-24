@@ -285,56 +285,24 @@ def get_pediatric_recognizers() -> list[PatternRecognizer]:
     recognizers.append(baby_name_recognizer)
 
     # =========================================================================
-    # Pediatric Age Detail Recognizer
+    # PEDIATRIC_AGE Recognizer - DISABLED (2026-01-24)
     # =========================================================================
-    # Very specific ages like "3 weeks 2 days old" can be identifying for
-    # rare conditions, especially when combined with other information.
-    age_patterns = [
-        # Days old: "5 day old", "3-day-old"
-        Pattern(
-            name="age_days",
-            regex=r"\b(\d{1,3})[\s-]?(?:day|d)[\s-]?(?:s)?[\s-]?old\b",
-            score=0.5
-        ),
-        # Weeks old: "3 week old"
-        Pattern(
-            name="age_weeks",
-            regex=r"\b(\d{1,2})[\s-]?(?:week|wk)[\s-]?(?:s)?[\s-]?old\b",
-            score=0.5
-        ),
-        # Weeks + days: "3 weeks 2 days old"
-        Pattern(
-            name="age_weeks_days",
-            regex=r"\b(\d{1,2})\s*(?:weeks?|wks?)\s*(?:and\s*)?(\d{1,2})\s*(?:days?|d)\s*old\b",
-            score=0.6
-        ),
-        # Months + days: "2 months 5 days"
-        Pattern(
-            name="age_months_days",
-            regex=r"\b(\d{1,2})\s*(?:months?|mo)\s*(?:and\s*)?(\d{1,2})\s*(?:days?|d)(?:\s*old)?\b",
-            score=0.55
-        ),
-        # Gestational age: "28 week gestation", "32 weeker"
-        Pattern(
-            name="gestational_age",
-            regex=r"\b(\d{2})[\s-]?(?:week|wk)(?:er|s)?(?:\s+(?:gestation|gestational|GA))?\b",
-            score=0.5
-        ),
-        # Corrected gestational age
-        Pattern(
-            name="corrected_age",
-            regex=r"\b(?:corrected|adjusted)[\s-]?(?:gestational)?[\s-]?age[\s:]+(\d{1,2})\s*(?:weeks?|months?)\b",
-            score=0.6
-        ),
-    ]
-
-    age_recognizer = PatternRecognizer(
-        supported_entity="PEDIATRIC_AGE",
-        name="Pediatric Age Recognizer",
-        patterns=age_patterns,
-        context=["born", "premature", "preterm", "neonate", "infant", "baby", "delivery"]
-    )
-    recognizers.append(age_recognizer)
+    # Rationale: Ages are NOT PHI under HIPAA (unless 90+).
+    # Ages preserved for clinical utility per project decision.
+    # See: .planning/phases/04-pattern-improvements/04-03-SUMMARY.md
+    #
+    # Original recognizer would have redacted patterns like:
+    # - "3 weeks 2 days old"
+    # - "32 weeker" (gestational age)
+    # - "5 day old"
+    #
+    # These are clinically important information that:
+    # 1. Are NOT identifying under HIPAA (only ages 90+ are PHI)
+    # 2. Are critical for pediatric clinical handoffs
+    # 3. Had only 35.8% recall anyway (lowest of all entities)
+    #
+    # Decision made in Phase 4 Plan 03 after user review of options.
+    # =========================================================================
 
     # =========================================================================
     # School/Daycare Recognizer
