@@ -5,23 +5,23 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 2: Threshold Calibration (COMPLETE)
+**Current focus:** Phase 3: Deny List Refinement (In Progress)
 
 ## Current Position
 
-Phase: 2 of 5 (Threshold Calibration)
-Plan: 2 of 2 (Phase Complete)
-Status: Phase complete
-Last activity: 2026-01-23 — Completed 02-02-PLAN.md (apply thresholds)
+Phase: 3 of 5 (Deny List Refinement)
+Plan: 1 of 3 (In progress)
+Status: In progress
+Last activity: 2026-01-24 — Completed 03-01-PLAN.md (case-insensitive deny lists)
 
-Progress: [████░░░░░░] 40% (Phase 1 complete, Phase 2 complete)
+Progress: [████░░░░░░] 45% (Phase 1 complete, Phase 2 complete, Phase 3: 1/3 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 5.6 min
-- Total execution time: 0.75 hours
+- Total plans completed: 9
+- Average duration: 5.2 min
+- Total execution time: 0.78 hours
 
 **By Phase:**
 
@@ -29,10 +29,11 @@ Progress: [████░░░░░░] 40% (Phase 1 complete, Phase 2 comple
 |-------|-------|-------|----------|
 | 01-baseline-measurement | 6/6 | 38 min | 6.3 min |
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
+| 03-deny-list-refinement | 1/3 | 2 min | 2.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-04 (3min), 01-03-exec (12min), 01-02-exec (4min), 02-01 (6min), 02-02 (3min)
-- Trend: Fast execution, threshold calibration completed in 9 min total
+- Last 5 plans: 01-03-exec (12min), 01-02-exec (4min), 02-01 (6min), 02-02 (3min), 03-01 (2min)
+- Trend: Accelerating execution, deny list refinement starting fast
 
 *Updated after each plan completion*
 
@@ -61,6 +62,9 @@ Recent decisions affecting current work:
 - **Combined dataset calibration** (600 handoffs: 500 standard + 100 adversarial for robust threshold selection) — From 02-01
 - **Per-entity threshold dict** (Enables future per-entity tuning; replaces global threshold) — From 02-02
 - **THRS-02 fix: aligned thresholds** (Detection and validation now use same per-entity thresholds) — From 02-02
+- **Case-insensitive deny lists** (Consistency prevents edge case bugs; clinical terms appear in various cases) — From 03-01
+- **Dosing schedules in DATE_TIME deny list** (Reduces precision drop from 35.3% by filtering clinical abbreviations) — From 03-01
+- **Generic age categories in PEDIATRIC_AGE deny list** (Prevents over-redaction of clinical descriptors) — From 03-01
 
 ### Pending Todos
 
@@ -85,7 +89,7 @@ None yet.
 **Technical Debt:**
 - ~~Current thresholds arbitrary (detection 0.35, validation 0.7)~~ **RESOLVED** (02-02: per-entity 0.30, aligned)
 - ~~Detection/validation threshold mismatch (THRS-02)~~ **RESOLVED** (02-02: both use phi_score_thresholds)
-- LOCATION deny list case-sensitive (inconsistent) — Phase 3 will fix
+- ~~LOCATION deny list case-sensitive (inconsistent)~~ **RESOLVED** (03-01: case-insensitive filtering)
 - Room number patterns too narrow (only "Room X" format) — Phase 4 priority #1
 - Pediatric age abbreviation patterns missing — Phase 4 priority #2
 
@@ -97,11 +101,11 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-23
-Stopped at: Completed Phase 2 (Threshold Calibration)
+Last session: 2026-01-24
+Stopped at: Completed 03-01-PLAN.md (case-insensitive deny lists)
 Resume file: None
-Next: Phase 3 (Deny List Tuning) or Phase 4 (Pattern Improvements)
+Next: 03-02 (Expand Deny Lists) or 03-03 (Measurement)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-23 21:46:30 UTC (after 02-02 completion)*
+*Last updated: 2026-01-24 01:19:14 UTC (after 03-01 completion)*
