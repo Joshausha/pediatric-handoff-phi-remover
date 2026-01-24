@@ -124,11 +124,11 @@ def run_validation(
 
     deployment_readiness = {
         "decision": "DEPLOY" if meets_threshold else "RETURN_TO_PHASE_4",
-        "recall_point_estimate": metrics.recall,
-        "recall_ci_lower": recall_lower,
-        "recall_ci_upper": recall_upper,
-        "threshold": deploy_threshold,
-        "meets_threshold": meets_threshold,
+        "recall_point_estimate": float(metrics.recall),
+        "recall_ci_lower": float(recall_lower),
+        "recall_ci_upper": float(recall_upper),
+        "threshold": float(deploy_threshold),
+        "meets_threshold": bool(meets_threshold),
         "reasoning": (
             f"Recall 95% CI lower bound ({recall_lower:.1%}) {'meets' if meets_threshold else 'does not meet'} "
             f"the {deploy_threshold:.0%} threshold required for clinical deployment."
@@ -142,21 +142,21 @@ def run_validation(
 
     return {
         "metrics": {
-            "total_expected": metrics.total_expected,
-            "total_detected": metrics.total_detected,
-            "true_positives": metrics.true_positives,
-            "false_negatives": metrics.false_negatives,
-            "false_positives": metrics.false_positives,
-            "precision": metrics.precision,
-            "recall": metrics.recall,
-            "f1": metrics.f1,
-            "f2": metrics.f2,
-            "precision_mean": prec_mean,
-            "precision_ci_lower": prec_lower,
-            "precision_ci_upper": prec_upper,
-            "recall_mean": recall_mean,
-            "recall_ci_lower": recall_lower,
-            "recall_ci_upper": recall_upper,
+            "total_expected": int(metrics.total_expected),
+            "total_detected": int(metrics.total_detected),
+            "true_positives": int(metrics.true_positives),
+            "false_negatives": int(metrics.false_negatives),
+            "false_positives": int(metrics.false_positives),
+            "precision": float(metrics.precision),
+            "recall": float(metrics.recall),
+            "f1": float(metrics.f1),
+            "f2": float(metrics.f2),
+            "precision_mean": float(prec_mean),
+            "precision_ci_lower": float(prec_lower),
+            "precision_ci_upper": float(prec_upper),
+            "recall_mean": float(recall_mean),
+            "recall_ci_lower": float(recall_lower),
+            "recall_ci_upper": float(recall_upper),
         },
         "error_taxonomy": {
             mode.value: [

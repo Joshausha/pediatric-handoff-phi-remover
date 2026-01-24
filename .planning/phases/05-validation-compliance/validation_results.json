@@ -1,0 +1,3412 @@
+{
+  "metrics": {
+    "total_expected": 1672,
+    "total_detected": 1913,
+    "true_positives": 1251,
+    "false_negatives": 421,
+    "false_positives": 662,
+    "precision": 0.6539466806063774,
+    "recall": 0.7482057416267942,
+    "f1": 0.697907949790795,
+    "f2": 0.7272410184862226,
+    "precision_mean": 0.6539802463719622,
+    "precision_ci_lower": 0.6328775157076219,
+    "precision_ci_upper": 0.6748434237995825,
+    "recall_mean": 0.7481134519223219,
+    "recall_ci_lower": 0.7271051103368177,
+    "recall_ci_upper": 0.7687244420311564
+  },
+  "error_taxonomy": {
+    "pattern_miss": [
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 days old",
+        "context": "5 days old",
+        "start": 24,
+        "end": 34,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6 weeks 4 days old",
+        "context": "6 weeks 4 days old",
+        "start": 70,
+        "end": 88,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "847",
+        "context": "847",
+        "start": 23,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "DOL 6",
+        "context": "DOL 6",
+        "start": 55,
+        "end": 60,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "2694522",
+        "context": "2694522",
+        "start": 14,
+        "end": 21,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "9 mo old",
+        "context": "9 mo old",
+        "start": 28,
+        "end": 36,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "3419 Amanda Gardens Apt. 764",
+        "context": "3419 Amanda Gardens Apt. 764",
+        "start": 67,
+        "end": 95,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 day old",
+        "context": "8 day old",
+        "start": 63,
+        "end": 72,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Daviston",
+        "context": "Daviston",
+        "start": 132,
+        "end": 140,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "6270 Stanton Track",
+        "context": "6270 Stanton Track",
+        "start": 79,
+        "end": 97,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "16",
+        "context": "16",
+        "start": 39,
+        "end": 41,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-411-671-8227",
+        "context": "001-411-671-8227",
+        "start": 90,
+        "end": 106,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "8",
+        "context": "8",
+        "start": 39,
+        "end": 40,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Crystal Robinson",
+        "context": "Crystal Robinson",
+        "start": 95,
+        "end": 111,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "512",
+        "context": "512",
+        "start": 39,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "538.372.6247",
+        "context": "538.372.6247",
+        "start": 93,
+        "end": 105,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "13 days old",
+        "context": "13 days old",
+        "start": 0,
+        "end": 11,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4yo",
+        "context": "4yo",
+        "start": 18,
+        "end": 21,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "6247 Hickman Cliffs",
+        "context": "6247 Hickman Cliffs",
+        "start": 66,
+        "end": 85,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "9 day old",
+        "context": "9 day old",
+        "start": 14,
+        "end": 23,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "28059 Russell Canyon",
+        "context": "28059 Russell Canyon",
+        "start": 161,
+        "end": 181,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 47,
+        "end": 64,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "(392)832-2602x56342",
+        "context": "(392)832-2602x56342",
+        "start": 122,
+        "end": 141,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "03654 Tammy Harbors",
+        "context": "03654 Tammy Harbors",
+        "start": 33,
+        "end": 52,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "08:08 PM",
+        "context": "08:08 PM",
+        "start": 95,
+        "end": 103,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "13 years old",
+        "context": "13 years old",
+        "start": 45,
+        "end": 57,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 104,
+        "end": 121,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "day of life 7",
+        "context": "day of life 7",
+        "start": 15,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "46855845",
+        "context": "46855845",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "20814950",
+        "context": "20814950",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 year old",
+        "context": "8 year old",
+        "start": 50,
+        "end": 60,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "9 day old",
+        "context": "9 day old",
+        "start": 0,
+        "end": 9,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 day old",
+        "context": "2 day old",
+        "start": 27,
+        "end": 36,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "264-517-0805x310",
+        "context": "264-517-0805x310",
+        "start": 164,
+        "end": 180,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 yo",
+        "context": "2 yo",
+        "start": 67,
+        "end": 71,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6 year old",
+        "context": "6 year old",
+        "start": 63,
+        "end": 73,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "2709620",
+        "context": "2709620",
+        "start": 14,
+        "end": 21,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "9yo",
+        "context": "9yo",
+        "start": 28,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "8651 Smith Manor",
+        "context": "8651 Smith Manor",
+        "start": 81,
+        "end": 97,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4 yo",
+        "context": "4 yo",
+        "start": 64,
+        "end": 68,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Angelahaven",
+        "context": "Angelahaven",
+        "start": 131,
+        "end": 142,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "8557 Parker Fort Apt. 351",
+        "context": "8557 Parker Fort Apt. 351",
+        "start": 74,
+        "end": 99,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-723-437-4989x41343",
+        "context": "001-723-437-4989x41343",
+        "start": 144,
+        "end": 166,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "155",
+        "context": "155",
+        "start": 42,
+        "end": 45,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "5-34",
+        "context": "5-34",
+        "start": 39,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Scott Branch",
+        "context": "Scott Branch",
+        "start": 98,
+        "end": 110,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-899-904-9027x87429",
+        "context": "+1-899-904-9027x87429",
+        "start": 127,
+        "end": 148,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "17 year old",
+        "context": "17 year old",
+        "start": 0,
+        "end": 11,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 yo",
+        "context": "2 yo",
+        "start": 14,
+        "end": 18,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "703 Dunn Heights Suite 710",
+        "context": "703 Dunn Heights Suite 710",
+        "start": 56,
+        "end": 82,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "16 years old",
+        "context": "16 years old",
+        "start": 17,
+        "end": 29,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Lakewood Academy",
+        "context": "Lakewood Academy",
+        "start": 35,
+        "end": 51,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "0576 Mcneil Turnpike",
+        "context": "0576 Mcneil Turnpike",
+        "start": 160,
+        "end": 180,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 53,
+        "end": 69,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-921-274-5961x5865",
+        "context": "+1-921-274-5961x5865",
+        "start": 127,
+        "end": 147,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "2400 Flynn Hill",
+        "context": "2400 Flynn Hill",
+        "start": 38,
+        "end": 53,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-922-421-9693",
+        "context": "001-922-421-9693",
+        "start": 150,
+        "end": 166,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "907",
+        "context": "907",
+        "start": 156,
+        "end": 159,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Crystal Pham",
+        "context": "Crystal Pham",
+        "start": 116,
+        "end": 128,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "15 year old",
+        "context": "15 year old",
+        "start": 44,
+        "end": 55,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 91,
+        "end": 108,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "21 days old",
+        "context": "21 days old",
+        "start": 17,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "75679047",
+        "context": "75679047",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "69686067",
+        "context": "69686067",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10yo",
+        "context": "10yo",
+        "start": 53,
+        "end": 57,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Colton Martinez",
+        "context": "Colton Martinez",
+        "start": 23,
+        "end": 38,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 year old",
+        "context": "2 year old",
+        "start": 0,
+        "end": 10,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "14 years old",
+        "context": "14 years old",
+        "start": 0,
+        "end": 12,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 day old",
+        "context": "2 day old",
+        "start": 27,
+        "end": 36,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-258-991-7839x08470",
+        "context": "001-258-991-7839x08470",
+        "start": 165,
+        "end": 187,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10 weeks 1 days old",
+        "context": "10 weeks 1 days old",
+        "start": 75,
+        "end": 94,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10 years old",
+        "context": "10 years old",
+        "start": 63,
+        "end": 75,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "8215376",
+        "context": "8215376",
+        "start": 13,
+        "end": 20,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 mo old",
+        "context": "8 mo old",
+        "start": 27,
+        "end": 35,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "1565 Brooks Drives Suite 111",
+        "context": "1565 Brooks Drives Suite 111",
+        "start": 73,
+        "end": 101,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4 years old",
+        "context": "4 years old",
+        "start": 58,
+        "end": 69,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Audreychester",
+        "context": "Audreychester",
+        "start": 125,
+        "end": 138,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "20183 Barnes Junctions Apt. 545",
+        "context": "20183 Barnes Junctions Apt. 545",
+        "start": 79,
+        "end": 110,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-691-902-2901",
+        "context": "001-691-902-2901",
+        "start": 154,
+        "end": 170,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "228",
+        "context": "228",
+        "start": 39,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-875-616-1369x681",
+        "context": "+1-875-616-1369x681",
+        "start": 85,
+        "end": 104,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "17",
+        "context": "17",
+        "start": 40,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-923-912-4329x2127",
+        "context": "+1-923-912-4329x2127",
+        "start": 87,
+        "end": 107,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "200.954.1199x867",
+        "context": "200.954.1199x867",
+        "start": 123,
+        "end": 139,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 days old",
+        "context": "2 days old",
+        "start": 0,
+        "end": 10,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "14mo",
+        "context": "14mo",
+        "start": 14,
+        "end": 18,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "51864 Cummings Shoals Apt. 519",
+        "context": "51864 Cummings Shoals Apt. 519",
+        "start": 57,
+        "end": 87,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-752-981-6850x5423",
+        "context": "+1-752-981-6850x5423",
+        "start": 194,
+        "end": 214,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4 year old",
+        "context": "4 year old",
+        "start": 16,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-592-670-6537x94738",
+        "context": "001-592-670-6537x94738",
+        "start": 109,
+        "end": 131,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "59774 Shaw Manor Apt. 392",
+        "context": "59774 Shaw Manor Apt. 392",
+        "start": 158,
+        "end": 183,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Children's Hospital",
+        "context": "Children's Hospital",
+        "start": 47,
+        "end": 66,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "20472 West Avenue Apt. 043",
+        "context": "20472 West Avenue Apt. 043",
+        "start": 37,
+        "end": 63,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Community Hospital",
+        "context": "Community Hospital",
+        "start": 101,
+        "end": 119,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3yo",
+        "context": "3yo",
+        "start": 15,
+        "end": 18,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "86134287",
+        "context": "86134287",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Christian Cole",
+        "context": "Christian Cole",
+        "start": 30,
+        "end": 44,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "20319387",
+        "context": "20319387",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "9 year old",
+        "context": "9 year old",
+        "start": 52,
+        "end": 62,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "13478029",
+        "context": "13478029",
+        "start": 8,
+        "end": 16,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "15yo",
+        "context": "15yo",
+        "start": 0,
+        "end": 4,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 day old",
+        "context": "8 day old",
+        "start": 26,
+        "end": 35,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "17yo",
+        "context": "17yo",
+        "start": 68,
+        "end": 72,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "1 days old",
+        "context": "1 days old",
+        "start": 61,
+        "end": 71,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "9yo",
+        "context": "9yo",
+        "start": 33,
+        "end": 36,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "922 Kirby Port",
+        "context": "922 Kirby Port",
+        "start": 73,
+        "end": 87,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-594-839-6907x8447",
+        "context": "+1-594-839-6907x8447",
+        "start": 142,
+        "end": 162,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "15 months old",
+        "context": "15 months old",
+        "start": 60,
+        "end": 73,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "9532 Ferrell Mountain",
+        "context": "9532 Ferrell Mountain",
+        "start": 68,
+        "end": 89,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "35",
+        "context": "35",
+        "start": 40,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "711",
+        "context": "711",
+        "start": 41,
+        "end": 44,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-399-530-9728x96230",
+        "context": "001-399-530-9728x96230",
+        "start": 91,
+        "end": 113,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 weeks 4 days old",
+        "context": "2 weeks 4 days old",
+        "start": 0,
+        "end": 18,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "733 Fitzpatrick Square Suite 219",
+        "context": "733 Fitzpatrick Square Suite 219",
+        "start": 77,
+        "end": 109,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "16 months old",
+        "context": "16 months old",
+        "start": 15,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Kennedy Elementary",
+        "context": "Kennedy Elementary",
+        "start": 34,
+        "end": 52,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "54932 Wilcox Passage",
+        "context": "54932 Wilcox Passage",
+        "start": 156,
+        "end": 176,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "University Medical Center",
+        "context": "University Medical Center",
+        "start": 50,
+        "end": 75,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "27279 Perry Plaza",
+        "context": "27279 Perry Plaza",
+        "start": 41,
+        "end": 58,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "937",
+        "context": "937",
+        "start": 130,
+        "end": 133,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "505",
+        "context": "505",
+        "start": 187,
+        "end": 190,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "13 year old",
+        "context": "13 year old",
+        "start": 40,
+        "end": 51,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 93,
+        "end": 110,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 years old",
+        "context": "3 years old",
+        "start": 13,
+        "end": 24,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "65878146",
+        "context": "65878146",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "16",
+        "context": "16",
+        "start": 53,
+        "end": 55,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "40245233",
+        "context": "40245233",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6 days old",
+        "context": "6 days old",
+        "start": 53,
+        "end": 63,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "22 month old",
+        "context": "22 month old",
+        "start": 0,
+        "end": 12,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "1 weeks 1 days old",
+        "context": "1 weeks 1 days old",
+        "start": 0,
+        "end": 18,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10 years old",
+        "context": "10 years old",
+        "start": 63,
+        "end": 75,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "930",
+        "context": "930",
+        "start": 23,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 weeks 1 days old",
+        "context": "3 weeks 1 days old",
+        "start": 55,
+        "end": 73,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "10856822",
+        "context": "10856822",
+        "start": 13,
+        "end": 21,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 months old",
+        "context": "5 months old",
+        "start": 28,
+        "end": 40,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "87509 Hopkins Brook",
+        "context": "87509 Hopkins Brook",
+        "start": 76,
+        "end": 95,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "19 months old",
+        "context": "19 months old",
+        "start": 62,
+        "end": 75,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "576-959-1803",
+        "context": "576-959-1803",
+        "start": 27,
+        "end": 39,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "14890 Sarah Island Apt. 392",
+        "context": "14890 Sarah Island Apt. 392",
+        "start": 67,
+        "end": 94,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-461-342-9396x856",
+        "context": "001-461-342-9396x856",
+        "start": 140,
+        "end": 160,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "5-05",
+        "context": "5-05",
+        "start": 39,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-896-450-4773x586",
+        "context": "+1-896-450-4773x586",
+        "start": 93,
+        "end": 112,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "7",
+        "context": "7",
+        "start": 38,
+        "end": 39,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-837-652-6547x935",
+        "context": "001-837-652-6547x935",
+        "start": 130,
+        "end": 150,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 years old",
+        "context": "8 years old",
+        "start": 0,
+        "end": 11,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5mo",
+        "context": "5mo",
+        "start": 15,
+        "end": 18,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "79796 Stephens Turnpike Suite 891",
+        "context": "79796 Stephens Turnpike Suite 891",
+        "start": 64,
+        "end": 97,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "7 weeks old",
+        "context": "7 weeks old",
+        "start": 14,
+        "end": 25,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 51,
+        "end": 68,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "South Daniel",
+        "context": "South Daniel",
+        "start": 159,
+        "end": 171,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "07:23 AM",
+        "context": "07:23 AM",
+        "start": 177,
+        "end": 185,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "155 Williamson Via Suite 991",
+        "context": "155 Williamson Via Suite 991",
+        "start": 42,
+        "end": 70,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "678",
+        "context": "678",
+        "start": 193,
+        "end": 196,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-696-429-2330x958",
+        "context": "001-696-429-2330x958",
+        "start": 158,
+        "end": 178,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "17yo",
+        "context": "17yo",
+        "start": 43,
+        "end": 47,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Children's Hospital",
+        "context": "Children's Hospital",
+        "start": 89,
+        "end": 108,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 day old",
+        "context": "5 day old",
+        "start": 21,
+        "end": 30,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "71532017",
+        "context": "71532017",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "13",
+        "context": "13",
+        "start": 53,
+        "end": 55,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "67665720",
+        "context": "67665720",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "9142618",
+        "context": "9142618",
+        "start": 8,
+        "end": 15,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "15 month old",
+        "context": "15 month old",
+        "start": 0,
+        "end": 12,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 weeks 2 days old",
+        "context": "2 weeks 2 days old",
+        "start": 0,
+        "end": 18,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "07:08 AM",
+        "context": "07:08 AM",
+        "start": 59,
+        "end": 67,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4 yo",
+        "context": "4 yo",
+        "start": 25,
+        "end": 29,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "DOL 2",
+        "context": "DOL 2",
+        "start": 68,
+        "end": 73,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "14 year old",
+        "context": "14 year old",
+        "start": 58,
+        "end": 69,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "5780177",
+        "context": "5780177",
+        "start": 17,
+        "end": 24,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "13yo",
+        "context": "13yo",
+        "start": 31,
+        "end": 35,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "11 years old",
+        "context": "11 years old",
+        "start": 61,
+        "end": 73,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Port Eric",
+        "context": "Port Eric",
+        "start": 135,
+        "end": 144,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "02027 Mills Tunnel",
+        "context": "02027 Mills Tunnel",
+        "start": 75,
+        "end": 93,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "12",
+        "context": "12",
+        "start": 41,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "291-938-0003",
+        "context": "291-938-0003",
+        "start": 92,
+        "end": 104,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "685",
+        "context": "685",
+        "start": 38,
+        "end": 41,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 years old",
+        "context": "3 years old",
+        "start": 0,
+        "end": 11,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "35680 Green Extensions",
+        "context": "35680 Green Extensions",
+        "start": 73,
+        "end": 95,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-932-436-5199x41013",
+        "context": "001-932-436-5199x41013",
+        "start": 201,
+        "end": 223,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 yo",
+        "context": "3 yo",
+        "start": 14,
+        "end": 18,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "8701 Reyes Manor Apt. 838",
+        "context": "8701 Reyes Manor Apt. 838",
+        "start": 148,
+        "end": 173,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Community Hospital",
+        "context": "Community Hospital",
+        "start": 50,
+        "end": 68,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "3405785932",
+        "context": "3405785932",
+        "start": 126,
+        "end": 136,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "09:41 AM",
+        "context": "09:41 AM",
+        "start": 176,
+        "end": 184,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "2239 Drake Square Suite 905",
+        "context": "2239 Drake Square Suite 905",
+        "start": 36,
+        "end": 63,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "921",
+        "context": "921",
+        "start": 185,
+        "end": 188,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4 years old",
+        "context": "4 years old",
+        "start": 39,
+        "end": 50,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Community Hospital",
+        "context": "Community Hospital",
+        "start": 86,
+        "end": 104,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "98663948",
+        "context": "98663948",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "30614492",
+        "context": "30614492",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "17 years old",
+        "context": "17 years old",
+        "start": 50,
+        "end": 62,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "2627170",
+        "context": "2627170",
+        "start": 8,
+        "end": 15,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "9 year old",
+        "context": "9 year old",
+        "start": 0,
+        "end": 10,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "01:21 AM",
+        "context": "01:21 AM",
+        "start": 79,
+        "end": 87,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "16yo",
+        "context": "16yo",
+        "start": 24,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 day old",
+        "context": "2 day old",
+        "start": 63,
+        "end": 72,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6 year old",
+        "context": "6 year old",
+        "start": 57,
+        "end": 67,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 months old",
+        "context": "5 months old",
+        "start": 31,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "8564 Pena Ports",
+        "context": "8564 Pena Ports",
+        "start": 74,
+        "end": 89,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-796-606-5307x450",
+        "context": "+1-796-606-5307x450",
+        "start": 151,
+        "end": 170,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "12 years old",
+        "context": "12 years old",
+        "start": 66,
+        "end": 78,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "345 Wagner Roads Apt. 035",
+        "context": "345 Wagner Roads Apt. 035",
+        "start": 73,
+        "end": 98,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "21",
+        "context": "21",
+        "start": 39,
+        "end": 41,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "44",
+        "context": "44",
+        "start": 33,
+        "end": 35,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 year old",
+        "context": "5 year old",
+        "start": 0,
+        "end": 10,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "13 year old",
+        "context": "13 year old",
+        "start": 15,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Jefferson Montessori",
+        "context": "Jefferson Montessori",
+        "start": 39,
+        "end": 59,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "04618 Dean Squares",
+        "context": "04618 Dean Squares",
+        "start": 163,
+        "end": 181,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 49,
+        "end": 66,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "143 Hinton Hill",
+        "context": "143 Hinton Hill",
+        "start": 38,
+        "end": 53,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "235",
+        "context": "235",
+        "start": 135,
+        "end": 138,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "13 months old",
+        "context": "13 months old",
+        "start": 41,
+        "end": 54,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Regional Medical Center",
+        "context": "Regional Medical Center",
+        "start": 108,
+        "end": 131,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "24 month old",
+        "context": "24 month old",
+        "start": 18,
+        "end": 30,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "25303956",
+        "context": "25303956",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "49189370",
+        "context": "49189370",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "16 days old",
+        "context": "16 days old",
+        "start": 58,
+        "end": 69,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6 day old",
+        "context": "6 day old",
+        "start": 0,
+        "end": 9,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 yo",
+        "context": "3 yo",
+        "start": 0,
+        "end": 4,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "16 year old",
+        "context": "16 year old",
+        "start": 68,
+        "end": 79,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "490",
+        "context": "490",
+        "start": 23,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 year old",
+        "context": "5 year old",
+        "start": 55,
+        "end": 65,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "day of life 3",
+        "context": "day of life 3",
+        "start": 35,
+        "end": 48,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "066 Frye Spur Suite 800",
+        "context": "066 Frye Spur Suite 800",
+        "start": 85,
+        "end": 108,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 years old",
+        "context": "3 years old",
+        "start": 59,
+        "end": 70,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "5439 Barajas View Apt. 157",
+        "context": "5439 Barajas View Apt. 157",
+        "start": 80,
+        "end": 106,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-799-930-5616x4840",
+        "context": "+1-799-930-5616x4840",
+        "start": 150,
+        "end": 170,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "198",
+        "context": "198",
+        "start": 44,
+        "end": 47,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-288-901-3361x38612",
+        "context": "001-288-901-3361x38612",
+        "start": 98,
+        "end": 120,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "498",
+        "context": "498",
+        "start": 36,
+        "end": 39,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-596-888-1435",
+        "context": "001-596-888-1435",
+        "start": 98,
+        "end": 114,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "7 weeks 1 days old",
+        "context": "7 weeks 1 days old",
+        "start": 0,
+        "end": 18,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "7812 Meagan Walks Apt. 834",
+        "context": "7812 Meagan Walks Apt. 834",
+        "start": 74,
+        "end": 100,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "9 weeks old",
+        "context": "9 weeks old",
+        "start": 16,
+        "end": 27,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-627-750-3731",
+        "context": "001-627-750-3731",
+        "start": 119,
+        "end": 135,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "38567 Keith Canyon",
+        "context": "38567 Keith Canyon",
+        "start": 162,
+        "end": 180,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 44,
+        "end": 60,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "22259 Donna Mall Suite 177",
+        "context": "22259 Donna Mall Suite 177",
+        "start": 41,
+        "end": 67,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-962-491-2799x08811",
+        "context": "+1-962-491-2799x08811",
+        "start": 137,
+        "end": 158,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "12 hours old",
+        "context": "12 hours old",
+        "start": 42,
+        "end": 54,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Regional Medical Center",
+        "context": "Regional Medical Center",
+        "start": 109,
+        "end": 132,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "31715773",
+        "context": "31715773",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "16986408",
+        "context": "16986408",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "day of life 2",
+        "context": "day of life 2",
+        "start": 51,
+        "end": 64,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "18600733",
+        "context": "18600733",
+        "start": 8,
+        "end": 16,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "day of life 2",
+        "context": "day of life 2",
+        "start": 0,
+        "end": 13,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 year old",
+        "context": "2 year old",
+        "start": 0,
+        "end": 10,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "DOL 4",
+        "context": "DOL 4",
+        "start": 23,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "(390)642-6818x1845",
+        "context": "(390)642-6818x1845",
+        "start": 153,
+        "end": 171,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "14 years old",
+        "context": "14 years old",
+        "start": 71,
+        "end": 83,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "938",
+        "context": "938",
+        "start": 21,
+        "end": 24,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 weeks 3 days old",
+        "context": "2 weeks 3 days old",
+        "start": 53,
+        "end": 71,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "5819919",
+        "context": "5819919",
+        "start": 19,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "DOL 6",
+        "context": "DOL 6",
+        "start": 33,
+        "end": 38,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "5539 White Summit",
+        "context": "5539 White Summit",
+        "start": 81,
+        "end": 98,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6mo",
+        "context": "6mo",
+        "start": 64,
+        "end": 67,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "552 Coleman Manor Suite 564",
+        "context": "552 Coleman Manor Suite 564",
+        "start": 74,
+        "end": 101,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "280",
+        "context": "280",
+        "start": 41,
+        "end": 44,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "(288)857-4489",
+        "context": "(288)857-4489",
+        "start": 94,
+        "end": 107,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "521",
+        "context": "521",
+        "start": 34,
+        "end": 37,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-871-369-4722x5699",
+        "context": "001-871-369-4722x5699",
+        "start": 79,
+        "end": 100,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "(598)476-2202x341",
+        "context": "(598)476-2202x341",
+        "start": 88,
+        "end": 105,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3yo",
+        "context": "3yo",
+        "start": 0,
+        "end": 3,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "day of life 7",
+        "context": "day of life 7",
+        "start": 14,
+        "end": 27,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Kennedy Montessori",
+        "context": "Kennedy Montessori",
+        "start": 33,
+        "end": 51,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "3564 Bolton Mountain",
+        "context": "3564 Bolton Mountain",
+        "start": 153,
+        "end": 173,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "University Medical Center",
+        "context": "University Medical Center",
+        "start": 51,
+        "end": 76,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "560-913-6730x371",
+        "context": "560-913-6730x371",
+        "start": 133,
+        "end": 149,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Maldonadoport",
+        "context": "Maldonadoport",
+        "start": 172,
+        "end": 185,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "7435 Michelle Forge",
+        "context": "7435 Michelle Forge",
+        "start": 39,
+        "end": 58,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Beth Hall",
+        "context": "Beth Hall",
+        "start": 89,
+        "end": 98,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "805",
+        "context": "805",
+        "start": 136,
+        "end": 139,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "596",
+        "context": "596",
+        "start": 195,
+        "end": 198,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-282-818-2744x857",
+        "context": "+1-282-818-2744x857",
+        "start": 132,
+        "end": 151,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "(394)256-5118",
+        "context": "(394)256-5118",
+        "start": 160,
+        "end": 173,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "7 month old",
+        "context": "7 month old",
+        "start": 41,
+        "end": 52,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 98,
+        "end": 115,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "20 days old",
+        "context": "20 days old",
+        "start": 17,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "41006711",
+        "context": "41006711",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "34011268",
+        "context": "34011268",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "17 years old",
+        "context": "17 years old",
+        "start": 51,
+        "end": 63,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "12mo",
+        "context": "12mo",
+        "start": 0,
+        "end": 4,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4 years old",
+        "context": "4 years old",
+        "start": 0,
+        "end": 11,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-788-499-2107",
+        "context": "+1-788-499-2107",
+        "start": 170,
+        "end": 185,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6 days old",
+        "context": "6 days old",
+        "start": 66,
+        "end": 76,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "17 year old",
+        "context": "17 year old",
+        "start": 60,
+        "end": 71,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "14yo",
+        "context": "14yo",
+        "start": 35,
+        "end": 39,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "48058 Mark Square Apt. 206",
+        "context": "48058 Mark Square Apt. 206",
+        "start": 83,
+        "end": 109,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "13 months old",
+        "context": "13 months old",
+        "start": 55,
+        "end": 68,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "03924 Matthew Unions",
+        "context": "03924 Matthew Unions",
+        "start": 77,
+        "end": 97,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "5",
+        "context": "5",
+        "start": 38,
+        "end": 39,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 months old",
+        "context": "5 months old",
+        "start": 0,
+        "end": 12,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 months old",
+        "context": "8 months old",
+        "start": 15,
+        "end": 27,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "757 Ronald Trail Apt. 965",
+        "context": "757 Ronald Trail Apt. 965",
+        "start": 66,
+        "end": 91,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "2385860868",
+        "context": "2385860868",
+        "start": 200,
+        "end": 210,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 years old",
+        "context": "2 years old",
+        "start": 17,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Hillside Montessori",
+        "context": "Hillside Montessori",
+        "start": 34,
+        "end": 53,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-982-366-5702x793",
+        "context": "001-982-366-5702x793",
+        "start": 120,
+        "end": 140,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "2111 Walters Corner Suite 892",
+        "context": "2111 Walters Corner Suite 892",
+        "start": 167,
+        "end": 196,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "University Medical Center",
+        "context": "University Medical Center",
+        "start": 44,
+        "end": 69,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "97767 Carolyn Avenue",
+        "context": "97767 Carolyn Avenue",
+        "start": 39,
+        "end": 59,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "001-946-995-4899x529",
+        "context": "001-946-995-4899x529",
+        "start": 143,
+        "end": 163,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "University Medical Center",
+        "context": "University Medical Center",
+        "start": 114,
+        "end": 139,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 months old",
+        "context": "2 months old",
+        "start": 17,
+        "end": 29,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "18886963",
+        "context": "18886963",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "35149571",
+        "context": "35149571",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10yo",
+        "context": "10yo",
+        "start": 51,
+        "end": 55,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "46439766",
+        "context": "46439766",
+        "start": 8,
+        "end": 16,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "11 day old",
+        "context": "11 day old",
+        "start": 0,
+        "end": 10,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "day of life 1",
+        "context": "day of life 1",
+        "start": 23,
+        "end": 36,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3yo",
+        "context": "3yo",
+        "start": 66,
+        "end": 69,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "37",
+        "context": "37",
+        "start": 24,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10 weeks 2 days old",
+        "context": "10 weeks 2 days old",
+        "start": 55,
+        "end": 74,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "9217 Stanley Spur",
+        "context": "9217 Stanley Spur",
+        "start": 78,
+        "end": 95,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-345-762-5577x017",
+        "context": "+1-345-762-5577x017",
+        "start": 150,
+        "end": 169,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "17 days old",
+        "context": "17 days old",
+        "start": 59,
+        "end": 70,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Moraleschester",
+        "context": "Moraleschester",
+        "start": 132,
+        "end": 146,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "975 Lynn Fall",
+        "context": "975 Lynn Fall",
+        "start": 72,
+        "end": 85,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-654-294-6519x09862",
+        "context": "+1-654-294-6519x09862",
+        "start": 95,
+        "end": 116,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-822-401-0276x21267",
+        "context": "+1-822-401-0276x21267",
+        "start": 79,
+        "end": 100,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4 days old",
+        "context": "4 days old",
+        "start": 0,
+        "end": 10,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4 years old",
+        "context": "4 years old",
+        "start": 16,
+        "end": 27,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "2805 Tammy Ranch",
+        "context": "2805 Tammy Ranch",
+        "start": 76,
+        "end": 92,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "16 years old",
+        "context": "16 years old",
+        "start": 17,
+        "end": 29,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Oak Park Elementary",
+        "context": "Oak Park Elementary",
+        "start": 35,
+        "end": 54,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "001 Robert Pine Apt. 753",
+        "context": "001 Robert Pine Apt. 753",
+        "start": 155,
+        "end": 179,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 50,
+        "end": 66,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "14066 Ferrell Green Suite 271",
+        "context": "14066 Ferrell Green Suite 271",
+        "start": 37,
+        "end": 66,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-371-328-6391x7410",
+        "context": "+1-371-328-6391x7410",
+        "start": 157,
+        "end": 177,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "07:41 AM",
+        "context": "07:41 AM",
+        "start": 55,
+        "end": 63,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "335",
+        "context": "335",
+        "start": 149,
+        "end": 152,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "3-37",
+        "context": "3-37",
+        "start": 205,
+        "end": 209,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-932-580-6346x1571",
+        "context": "+1-932-580-6346x1571",
+        "start": 130,
+        "end": 150,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Crystal Jones",
+        "context": "Crystal Jones",
+        "start": 0,
+        "end": 13,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "21 month old",
+        "context": "21 month old",
+        "start": 41,
+        "end": 53,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 102,
+        "end": 118,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "38619492",
+        "context": "38619492",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "380",
+        "context": "380",
+        "start": 54,
+        "end": 57,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "28956482",
+        "context": "28956482",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "15 days old",
+        "context": "15 days old",
+        "start": 48,
+        "end": 59,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "27900736",
+        "context": "27900736",
+        "start": 8,
+        "end": 16,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 day old",
+        "context": "3 day old",
+        "start": 0,
+        "end": 9,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 months old",
+        "context": "8 months old",
+        "start": 0,
+        "end": 12,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 years old",
+        "context": "3 years old",
+        "start": 26,
+        "end": 37,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 day old",
+        "context": "2 day old",
+        "start": 65,
+        "end": 74,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "172",
+        "context": "172",
+        "start": 28,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "12yo",
+        "context": "12yo",
+        "start": 60,
+        "end": 64,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "7300387",
+        "context": "7300387",
+        "start": 17,
+        "end": 24,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 day old",
+        "context": "3 day old",
+        "start": 31,
+        "end": 40,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "39726 Taylor Stravenue Apt. 543",
+        "context": "39726 Taylor Stravenue Apt. 543",
+        "start": 77,
+        "end": 108,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "7 mo old",
+        "context": "7 mo old",
+        "start": 56,
+        "end": 64,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "New Sophia",
+        "context": "New Sophia",
+        "start": 123,
+        "end": 133,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "18063 Michael Garden Apt. 074",
+        "context": "18063 Michael Garden Apt. 074",
+        "start": 70,
+        "end": 99,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "399.807.7262x570",
+        "context": "399.807.7262x570",
+        "start": 144,
+        "end": 160,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "640",
+        "context": "640",
+        "start": 39,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "French",
+        "context": "French",
+        "start": 82,
+        "end": 88,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 year old",
+        "context": "3 year old",
+        "start": 0,
+        "end": 10,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10yo",
+        "context": "10yo",
+        "start": 13,
+        "end": 17,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "751 Mccullough Dam",
+        "context": "751 Mccullough Dam",
+        "start": 59,
+        "end": 77,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "610 Fowler Groves",
+        "context": "610 Fowler Groves",
+        "start": 159,
+        "end": 176,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Children's Hospital",
+        "context": "Children's Hospital",
+        "start": 52,
+        "end": 71,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "394-678-7300x2447",
+        "context": "394-678-7300x2447",
+        "start": 129,
+        "end": 146,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Whitebury",
+        "context": "Whitebury",
+        "start": 169,
+        "end": 178,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "796 Burton Mountains Apt. 589",
+        "context": "796 Burton Mountains Apt. 589",
+        "start": 42,
+        "end": 71,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "+1-589-507-1401x40119",
+        "context": "+1-589-507-1401x40119",
+        "start": 163,
+        "end": 184,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10 weeks 2 days old",
+        "context": "10 weeks 2 days old",
+        "start": 41,
+        "end": 60,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 113,
+        "end": 129,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "17 year old",
+        "context": "17 year old",
+        "start": 13,
+        "end": 24,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "52181984",
+        "context": "52181984",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "84777007",
+        "context": "84777007",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10 mo old",
+        "context": "10 mo old",
+        "start": 51,
+        "end": 60,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "12yo",
+        "context": "12yo",
+        "start": 0,
+        "end": 4,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6yo",
+        "context": "6yo",
+        "start": 0,
+        "end": 3,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 year old",
+        "context": "2 year old",
+        "start": 69,
+        "end": 79,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "10 day old",
+        "context": "10 day old",
+        "start": 61,
+        "end": 71,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "15 month old",
+        "context": "15 month old",
+        "start": 31,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Brianbury",
+        "context": "Brianbury",
+        "start": 142,
+        "end": 151,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "790 Gray Loaf",
+        "context": "790 Gray Loaf",
+        "start": 79,
+        "end": 92,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "960",
+        "context": "960",
+        "start": 40,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "8-17",
+        "context": "8-17",
+        "start": 34,
+        "end": 38,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "14mo",
+        "context": "14mo",
+        "start": 0,
+        "end": 4,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "16 months old",
+        "context": "16 months old",
+        "start": 16,
+        "end": 29,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "5409 Mckenzie Shore Apt. 348",
+        "context": "5409 Mckenzie Shore Apt. 348",
+        "start": 71,
+        "end": 99,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "14yo",
+        "context": "14yo",
+        "start": 16,
+        "end": 20,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Kennedy Elementary",
+        "context": "Kennedy Elementary",
+        "start": 26,
+        "end": 44,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Regional Medical Center",
+        "context": "Regional Medical Center",
+        "start": 47,
+        "end": 70,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "86771 Jennifer Field",
+        "context": "86771 Jennifer Field",
+        "start": 42,
+        "end": 62,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "5",
+        "context": "5",
+        "start": 142,
+        "end": 143,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "739",
+        "context": "739",
+        "start": 195,
+        "end": 198,
+        "failure_mode": "pattern_miss"
+      }
+    ],
+    "threshold_miss": [],
+    "deny_list_filtered": [],
+    "novel_variant": [],
+    "span_boundary": [
+      {
+        "entity_type": "ROOM",
+        "text": "3-22",
+        "context": "3-22",
+        "start": 132,
+        "end": 136,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 weeks 6 days old",
+        "context": "5 weeks 6 days old",
+        "start": 0,
+        "end": 18,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "2-25",
+        "context": "2-25",
+        "start": 136,
+        "end": 140,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Virginia Daniels",
+        "context": "Virginia Daniels",
+        "start": 0,
+        "end": 16,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 weeks 4 days old",
+        "context": "8 weeks 4 days old",
+        "start": 40,
+        "end": 58,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "12 weeks 3 days old",
+        "context": "12 weeks 3 days old",
+        "start": 0,
+        "end": 19,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "1 weeks 2 days old",
+        "context": "1 weeks 2 days old",
+        "start": 14,
+        "end": 32,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6 weeks 4 days old",
+        "context": "6 weeks 4 days old",
+        "start": 25,
+        "end": 43,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "9-27",
+        "context": "9-27",
+        "start": 137,
+        "end": 141,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6 weeks 4 days old",
+        "context": "6 weeks 4 days old",
+        "start": 53,
+        "end": 71,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "12 weeks 5 days old",
+        "context": "12 weeks 5 days old",
+        "start": 13,
+        "end": 32,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "3-22",
+        "context": "3-22",
+        "start": 124,
+        "end": 128,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 weeks 3 days old",
+        "context": "3 weeks 3 days old",
+        "start": 13,
+        "end": 31,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 weeks 3 days old",
+        "context": "8 weeks 3 days old",
+        "start": 0,
+        "end": 18,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "5-10",
+        "context": "5-10",
+        "start": 24,
+        "end": 28,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "0083 Dodson Islands Apt. 003",
+        "context": "0083 Dodson Islands Apt. 003",
+        "start": 71,
+        "end": 99,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "12 weeks 5 days old",
+        "context": "12 weeks 5 days old",
+        "start": 14,
+        "end": 33,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "7 weeks 2 days old",
+        "context": "7 weeks 2 days old",
+        "start": 25,
+        "end": 43,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 weeks 5 days old",
+        "context": "3 weeks 5 days old",
+        "start": 15,
+        "end": 33,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 weeks 6 days old",
+        "context": "5 weeks 6 days old",
+        "start": 21,
+        "end": 39,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "3 weeks 2 days old",
+        "context": "3 weeks 2 days old",
+        "start": 14,
+        "end": 32,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "4 weeks 1 days old",
+        "context": "4 weeks 1 days old",
+        "start": 24,
+        "end": 42,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "6 weeks 3 days old",
+        "context": "6 weeks 3 days old",
+        "start": 39,
+        "end": 57,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "4-37",
+        "context": "4-37",
+        "start": 54,
+        "end": 58,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "1 weeks 6 days old",
+        "context": "1 weeks 6 days old",
+        "start": 0,
+        "end": 18,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "5 weeks 2 days old",
+        "context": "5 weeks 2 days old",
+        "start": 31,
+        "end": 49,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "2-37",
+        "context": "2-37",
+        "start": 38,
+        "end": 42,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "2 weeks 3 days old",
+        "context": "2 weeks 3 days old",
+        "start": 22,
+        "end": 40,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 weeks 6 days old",
+        "context": "8 weeks 6 days old",
+        "start": 13,
+        "end": 31,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "8 weeks 5 days old",
+        "context": "8 weeks 5 days old",
+        "start": 27,
+        "end": 45,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "276 Larry Loaf Suite 197",
+        "context": "276 Larry Loaf Suite 197",
+        "start": 72,
+        "end": 96,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "PEDIATRIC_AGE",
+        "text": "12 weeks 4 days old",
+        "context": "12 weeks 4 days old",
+        "start": 61,
+        "end": 80,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "296 Hayes Well",
+        "context": "296 Hayes Well",
+        "start": 156,
+        "end": 170,
+        "failure_mode": "span_boundary"
+      }
+    ],
+    "ner_miss": []
+  },
+  "deployment_readiness": {
+    "decision": "RETURN_TO_PHASE_4",
+    "recall_point_estimate": 0.7482057416267942,
+    "recall_ci_lower": 0.7271051103368177,
+    "recall_ci_upper": 0.7687244420311564,
+    "threshold": 0.95,
+    "meets_threshold": false,
+    "reasoning": "Recall 95% CI lower bound (72.7%) does not meet the 95% threshold required for clinical deployment."
+  },
+  "metadata": {
+    "validation_date": "2026-01-24T16:26:28.651886",
+    "n_handoffs": 500,
+    "n_bootstrap_iterations": 10000,
+    "overlap_threshold": 0.5
+  }
+}
