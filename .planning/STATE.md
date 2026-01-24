@@ -9,19 +9,19 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 ## Current Position
 
-Phase: 4 of 5 (Pattern Improvements) - COMPLETE
-Plan: 3 of 3 complete
-Status: Phase 4 complete
-Last activity: 2026-01-24 — Completed 04-03 (PEDIATRIC_AGE decision and regression tests)
+Phase: 5 of 5 (Validation & Compliance) - IN PROGRESS
+Plan: 1 of 3 complete
+Status: Phase 5 in progress
+Last activity: 2026-01-24 — Completed 05-01 (Validation data pipeline infrastructure)
 
-Progress: [████████░░] 80% (Phases 1-4 complete, Phase 5 pending)
+Progress: [█████████░] 84% (Phases 1-4 complete, Phase 5 plan 1/3 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: 5.6 min
-- Total execution time: 1.2 hours
+- Total plans completed: 14
+- Average duration: 5.4 min
+- Total execution time: 1.3 hours
 
 **By Phase:**
 
@@ -31,10 +31,11 @@ Progress: [████████░░] 80% (Phases 1-4 complete, Phase 5 pen
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
 | 04-pattern-improvements | 3/3 | 21 min | 7.0 min |
+| 05-validation-compliance | 1/3 | 3 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (2min), 03-02 (3min), 04-01 (9min), 04-02 (4min), 04-03 (8min)
-- Trend: Pattern work takes longer due to regex complexity
+- Last 5 plans: 03-02 (3min), 04-01 (9min), 04-02 (4min), 04-03 (8min), 05-01 (3min)
+- Trend: Infrastructure setup faster than pattern work
 
 *Updated after each plan completion*
 
@@ -75,6 +76,9 @@ Recent decisions affecting current work:
 - **Pediatric descriptors added to PERSON deny list** (baby, infant, newborn, neonate) — From 04-01
 - **PEDIATRIC_AGE recognizer DISABLED** (Ages not PHI under HIPAA unless 90+; preserved for clinical utility) — From 04-03
 - **Regression test thresholds** (Guardian >80%, Room >40%, standard entities >90%) — From 04-03
+- **Target validation sample: 200 transcripts** (Minimum viable: 50; narrow confidence intervals for >95% recall verification) — From 05-01
+- **Stratification by dominant PHI type** (Preserves entity distribution from synthetic to validation data) — From 05-01
+- **70/30 val/test split** (No training needed - tuning on val, final metrics on test) — From 05-01
 
 ### Pending Todos
 
@@ -130,10 +134,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-24
-Stopped at: Completed Phase 4 (all pattern improvements)
+Stopped at: Completed 05-01 (validation data pipeline infrastructure)
 Resume file: None
-Next: Phase 5 (External Validation)
+Next: Phase 5 plan 02 (real transcript annotation) or plan 03 (statistical validation)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-24 (Phase 4 complete)*
+*Last updated: 2026-01-24 (Phase 5 plan 1/3 complete)*
