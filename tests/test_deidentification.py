@@ -648,5 +648,173 @@ class TestGuardianPatternEdgeCases:
             f"Relationship word '{word_to_preserve}' should be preserved. Got: '{result.clean_text}'"
 
 
+# =============================================================================
+# PATTERN REGRESSION TESTS (Phase 04-03)
+# =============================================================================
+
+@pytest.mark.skipif(not SYNTHETIC_AVAILABLE, reason="Synthetic test data generators not available")
+class TestPatternRegressions:
+    """
+    Regression tests for Phase 4 pattern improvements.
+
+    These tests ensure pattern changes don't break existing detection
+    while improving edge case coverage.
+    """
+
+    @pytest.fixture(scope="class")
+    def generator(self):
+        from tests.generate_test_data import PediatricHandoffGenerator
+        return PediatricHandoffGenerator(seed=43)  # Adversarial seed
+
+    @pytest.fixture(scope="class")
+    def evaluator(self):
+        from tests.evaluate_presidio import PresidioEvaluator
+        return PresidioEvaluator(overlap_threshold=0.5)
+
+    @pytest.mark.bulk
+    def test_guardian_name_recall_improved(self, generator, evaluator):
+        """GUARDIAN_NAME recall should be >80% on adversarial templates."""
+        from tests.handoff_templates import BOUNDARY_EDGE_TEMPLATES
+
+        # Generate samples with guardian patterns
+        guardian_templates = [t for t in BOUNDARY_EDGE_TEMPLATES
+                             if "mom" in t.lower() or "dad" in t.lower()]
+        if not guardian_templates:
+            pytest.skip("No guardian templates found")
+
+        dataset = generator.generate_dataset(n_samples=50, templates=guardian_templates)
+
+        # Count guardian-specific detection
+        tp = 0
+        fn = 0
+        for handoff in dataset:
+            result = evaluator.evaluate_handoff(handoff)
+            for span in result.true_positives:
+                if span.entity_type == "PERSON":  # Guardian names detected as PERSON
+                    tp += 1
+            for span in result.false_negatives:
+                if span.entity_type == "PERSON":
+                    fn += 1
+
+        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        print(f"GUARDIAN pattern adversarial recall: {recall:.1%} ({tp}/{tp+fn})")
+        assert recall >= 0.80, f"Guardian recall {recall:.1%} below 80%"
+
+    @pytest.mark.bulk
+    def test_room_recall_improved(self, generator, evaluator):
+        """ROOM recall should be >40% on standard templates (improved from 32.1%)."""
+        from tests.handoff_templates import HANDOFF_TEMPLATES
+
+        room_templates = [t for t in HANDOFF_TEMPLATES if "room" in t.lower() or "bed" in t.lower()]
+        if not room_templates:
+            pytest.skip("No room templates found")
+
+        dataset = generator.generate_dataset(n_samples=50, templates=room_templates[:10])
+
+        # Count room-specific detection
+        tp = 0
+        fn = 0
+        for handoff in dataset:
+            result = evaluator.evaluate_handoff(handoff)
+            for span in result.true_positives:
+                if span.entity_type == "ROOM":
+                    tp += 1
+            for span in result.false_negatives:
+                if span.entity_type == "ROOM":
+                    fn += 1
+
+        recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        print(f"ROOM adversarial recall: {recall:.1%} ({tp}/{tp+fn})")
+        # Target: >40% recall (improved from 32.1% baseline)
+        assert recall >= 0.40, f"Room recall {recall:.1%} below 40%"
+
+    @pytest.mark.bulk
+    def test_no_regression_on_standard_entities(self, generator, evaluator):
+        """PERSON, EMAIL should maintain high recall (>90%)."""
+        dataset = generator.generate_dataset(n_samples=100)
+        metrics, results = evaluator.evaluate_dataset(dataset, verbose=False)
+
+        print(f"Overall recall after pattern improvements: {metrics.recall:.1%}")
+
+        # Check per-entity for high-performing entities
+        for entity in ['PERSON', 'EMAIL_ADDRESS']:
+            tp = sum(len([s for s in r.true_positives if s.entity_type == entity])
+                    for r in results)
+            fn = sum(len([s for s in r.false_negatives if s.entity_type == entity])
+                    for r in results)
+            recall = tp / (tp + fn) if (tp + fn) > 0 else 1.0  # 1.0 if no instances
+            print(f"{entity} recall: {recall:.1%} ({tp}/{tp+fn})")
+            if (tp + fn) > 0:  # Only assert if we have instances
+                assert recall >= 0.90, f"{entity} recall {recall:.1%} regressed below 90%"
+
+
+class TestPatternSmokeTests:
+    """Quick smoke tests for pattern improvements (non-bulk)."""
+
+    def test_lowercase_guardian_detected(self):
+        """Regression test: lowercase guardian names must be caught."""
+        result = deidentify_text("mom jessica is at bedside")
+        assert "jessica" not in result.clean_text.lower()
+
+    def test_bidirectional_guardian_detected(self):
+        """Regression test: bidirectional patterns must be caught."""
+        result = deidentify_text("Jessica is mom")
+        assert "jessica" not in result.clean_text.lower()
+
+    def test_lowercase_room_detected(self):
+        """Regression test: lowercase room must be caught."""
+        result = deidentify_text("patient in room 302")
+        assert "302" not in result.clean_text
+
+    def test_picu_bed_lowercase_detected(self):
+        """Regression test: lowercase ICU bed must be caught."""
+        result = deidentify_text("patient in picu bed 7")
+        assert "7" not in result.clean_text or "[ROOM]" in result.clean_text
+
+    def test_clinical_content_preserved(self):
+        """Regression test: medical terms must not be over-redacted."""
+        result = deidentify_text("Patient with RSV bronchiolitis on nasal cannula")
+        assert "RSV" in result.clean_text
+        assert "bronchiolitis" in result.clean_text
+        assert "nasal cannula" in result.clean_text
+
+    def test_baby_lastname_detected(self):
+        """Regression test: Baby LastName pattern must be caught."""
+        result = deidentify_text("Baby Smith in the NICU")
+        assert "smith" not in result.clean_text.lower()
+
+    def test_mrn_lowercase_detected(self):
+        """Regression test: lowercase mrn must be caught."""
+        result = deidentify_text("patient mrn 12345678")
+        assert "12345678" not in result.clean_text
+
+    def test_mrn_hash_pattern_detected(self):
+        """Regression test: MRN with hash must be caught."""
+        result = deidentify_text("Patient #12345678 admitted")
+        assert "12345678" not in result.clean_text
+
+    def test_pediatric_age_recognizer_disabled(self):
+        """Verify PEDIATRIC_AGE recognizer is disabled (no PEDIATRIC_AGE entities)."""
+        result = deidentify_text("3 week old infant with RSV")
+        # PEDIATRIC_AGE entity type should not be present
+        assert "PEDIATRIC_AGE" not in [e.entity_type for e in result.entities_found]
+
+    def test_specific_age_patterns_not_phi(self):
+        """Verify detailed age patterns aren't flagged as PEDIATRIC_AGE."""
+        # Test various age formats that the PEDIATRIC_AGE recognizer would have caught
+        age_texts = [
+            "5 days old premature infant",
+            "3 weeks 2 days old baby",
+            "born at 32 weeks gestation",
+        ]
+        for text in age_texts:
+            result = deidentify_text(text)
+            # Should NOT have PEDIATRIC_AGE entities (recognizer disabled)
+            pediatric_age_entities = [e for e in result.entities_found
+                                      if e.entity_type == "PEDIATRIC_AGE"]
+            assert len(pediatric_age_entities) == 0, \
+                f"PEDIATRIC_AGE should be disabled but detected in: {text}"
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
