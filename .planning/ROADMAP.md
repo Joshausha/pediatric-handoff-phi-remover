@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Baseline Measurement** - Establish evaluation framework and gold standard dataset ✓
 - [x] **Phase 2: Threshold Calibration** - Data-driven threshold optimization with F2 score ✓
 - [x] **Phase 3: Deny List Refinement** - Medical vocabulary filtering and case normalization ✓ (DENY-04 deferred to Phase 4)
-- [ ] **Phase 4: Pattern Improvements** - Regex edge case fixes and bidirectional patterns
+- [x] **Phase 4: Pattern Improvements** - Regex edge case fixes and bidirectional patterns ✓
 - [ ] **Phase 5: Validation & Compliance** - External validation and clinical deployment readiness
 
 ## Phase Details
@@ -84,7 +84,7 @@ Plans:
 Plans:
 - [x] 04-01-PLAN.md — Guardian and baby name pattern improvements (case-insensitive, bidirectional, speech artifacts) ✓
 - [x] 04-02-PLAN.md — Room and MRN pattern improvements (case-insensitive, expanded formats) ✓
-- [ ] 04-03-PLAN.md — PEDIATRIC_AGE decision checkpoint and regression test suite
+- [x] 04-03-PLAN.md — PEDIATRIC_AGE decision checkpoint and regression test suite ✓
 
 ### Phase 5: Validation & Compliance
 **Goal**: Validate performance on real transcripts and achieve >95% recall for clinical deployment readiness
@@ -115,8 +115,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Baseline Measurement | 4/4 | ✓ Complete | 2026-01-23 |
 | 2. Threshold Calibration | 2/2 | ✓ Complete | 2026-01-23 |
 | 3. Deny List Refinement | 2/2 | ✓ Complete (DENY-04 deferred) | 2026-01-24 |
-| 4. Pattern Improvements | 2/3 | In Progress | - |
-| 5. Validation & Compliance | 0/3 | Blocked (Phase 4) | - |
+| 4. Pattern Improvements | 3/3 | ✓ Complete | 2026-01-24 |
+| 5. Validation & Compliance | 0/3 | Ready | - |
 
 ---
 
@@ -133,4 +133,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-24 (Phase 5 planned)*
+*Last updated: 2026-01-24 (Phase 4 complete)*

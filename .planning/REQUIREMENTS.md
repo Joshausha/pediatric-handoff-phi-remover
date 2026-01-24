@@ -23,19 +23,19 @@ Requirements for this quality improvement milestone. Each maps to roadmap phases
 
 ### Deny List Refinement (DENY)
 
-- [ ] **DENY-01**: All deny lists use case-insensitive matching (fix LOCATION exact match)
-- [ ] **DENY-02**: Medical abbreviation deny list expanded (NC, RA, OR, ER, IV, PO, IM, SQ, etc.)
-- [ ] **DENY-03**: Deny lists added for GUARDIAN_NAME and PEDIATRIC_AGE entity types
-- [ ] **DENY-04**: False positive rate reduced by >20% (precision 87.4% → >90%)
+- [x] **DENY-01**: All deny lists use case-insensitive matching (fix LOCATION exact match) ✓
+- [x] **DENY-02**: Medical abbreviation deny list expanded (NC, RA, OR, ER, IV, PO, IM, SQ, etc.) ✓
+- [x] **DENY-03**: Deny lists added for GUARDIAN_NAME and PEDIATRIC_AGE entity types ✓
+- [~] **DENY-04**: False positive rate reduced by >20% (precision 87.4% → >90%) — Partial: 4.1% reduction via deny lists; additional improvement requires pattern refinement
 
 ### Pattern Improvements (PATT)
 
-- [ ] **PATT-01**: Lookbehind edge cases fixed (start-of-line, punctuation, word boundaries)
-- [ ] **PATT-02**: Case normalization implemented ("mom jessica" caught, not just "Mom Jessica")
-- [ ] **PATT-03**: Bidirectional patterns added ("Jessica is Mom" caught, not just "Mom Jessica")
-- [ ] **PATT-04**: Speech-to-text artifacts handled (stutters, corrections, hesitations)
-- [ ] **PATT-05**: PEDIATRIC_AGE recall improved from 36.6% to >90%
-- [ ] **PATT-06**: ROOM recall improved from 34.4% to >90%
+- [x] **PATT-01**: Lookbehind edge cases fixed (start-of-line, punctuation, word boundaries) ✓
+- [x] **PATT-02**: Case normalization implemented ("mom jessica" caught, not just "Mom Jessica") ✓
+- [x] **PATT-03**: Bidirectional patterns added ("Jessica is Mom" caught, not just "Mom Jessica") ✓
+- [x] **PATT-04**: Speech-to-text artifacts handled (stutters, corrections, hesitations) ✓
+- [~] **PATT-05**: PEDIATRIC_AGE recall improved from 36.6% to >90% — USER DECISION: Recognizer disabled (ages are NOT PHI under HIPAA unless 90+)
+- [~] **PATT-06**: ROOM recall improved from 34.4% to >90% — Partial: 32.1% → 43.3% (+35% relative); 90% acknowledged as Presidio pattern limitation
 
 ### Validation & Compliance (VALD)
 
@@ -91,16 +91,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | THRS-02 | Phase 2 | Complete |
 | THRS-03 | Phase 2 | Complete |
 | THRS-04 | Phase 2 | Partial (3/8 entities) |
-| DENY-01 | Phase 3 | Pending |
-| DENY-02 | Phase 3 | Pending |
-| DENY-03 | Phase 3 | Pending |
-| DENY-04 | Phase 3 | Pending |
-| PATT-01 | Phase 4 | Pending |
-| PATT-02 | Phase 4 | Pending |
-| PATT-03 | Phase 4 | Pending |
-| PATT-04 | Phase 4 | Pending |
-| PATT-05 | Phase 4 | Pending |
-| PATT-06 | Phase 4 | Pending |
+| DENY-01 | Phase 3 | Complete |
+| DENY-02 | Phase 3 | Complete |
+| DENY-03 | Phase 3 | Complete |
+| DENY-04 | Phase 3 | Partial |
+| PATT-01 | Phase 4 | Complete |
+| PATT-02 | Phase 4 | Complete |
+| PATT-03 | Phase 4 | Complete |
+| PATT-04 | Phase 4 | Complete |
+| PATT-05 | Phase 4 | User Decision |
+| PATT-06 | Phase 4 | Partial |
 | VALD-01 | Phase 5 | Pending |
 | VALD-02 | Phase 5 | Pending |
 | VALD-03 | Phase 5 | Pending |
@@ -113,4 +113,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-23*
-*Last updated: 2026-01-23 after Phase 2 completion*
+*Last updated: 2026-01-24 after Phase 4 completion*
