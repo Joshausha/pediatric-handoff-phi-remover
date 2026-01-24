@@ -5,6 +5,12 @@ Critical for pediatric handoffs where standard NER misses context-specific PHI:
 - Guardian names ("Mom Jessica", "Dad Mike")
 - Detailed pediatric ages ("3 weeks 2 days old")
 - School/daycare names
+
+Pattern Design Notes (Phase 4 improvements):
+- All patterns use (?i) for case-insensitive matching (catches "mom jessica", "MOM JESSICA")
+- Lookbehind patterns match ONLY the name (not the relationship word) so "Mom" is preserved
+- Lookahead patterns for bidirectional catch "Jessica is Mom" (match only "Jessica")
+- Speech artifact patterns handle "um", "uh" filler words between relationship word and name
 """
 
 
@@ -28,84 +34,199 @@ def get_pediatric_recognizers() -> list[PatternRecognizer]:
     # In pediatrics, we say "Mom Jessica is at bedside" - standard NER misses
     # that "Jessica" is PHI because of the relationship context.
     #
-    # IMPORTANT: Using lookbehind assertions so only the NAME gets replaced,
-    # preserving the relationship word (Mom, Dad, etc.)
+    # Pattern strategy:
+    # 1. Case-insensitive (?i) catches "mom jessica", "Mom Jessica", "MOM JESSICA"
+    # 2. Lookbehind (?<=) matches ONLY the name - preserves "Mom", "Dad", etc.
+    # 3. Lookahead (?=) for bidirectional patterns - "Jessica is Mom"
+    # 4. Fixed-width lookbehind for speech artifacts - "mom uh Jessica"
+    #
+    # Note: Lookbehind requires fixed width, so we use separate patterns for
+    # different relationship word lengths and filler combinations.
     guardian_patterns = [
-        # Mom/Mother + Name (using lookbehind to preserve "Mom")
+        # =================================================================
+        # Forward patterns: "Mom Jessica", "dad mike", etc. (score 0.85)
+        # Using lookbehind to match ONLY the name
+        # =================================================================
+        # Mom (3 chars + space = 4 char lookbehind)
         Pattern(
             name="mom_name",
-            regex=r"(?<=Mom )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=mom )[a-z][a-z]+\b",
             score=0.85
         ),
+        # Mother (6 chars + space = 7 char lookbehind)
         Pattern(
             name="mother_name",
-            regex=r"(?<=Mother )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=mother )[a-z][a-z]+\b",
             score=0.85
         ),
+        # Mommy (5 chars + space = 6 char lookbehind)
         Pattern(
             name="mommy_name",
-            regex=r"(?<=Mommy )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=mommy )[a-z][a-z]+\b",
             score=0.85
         ),
-        # Dad/Father + Name
+        # Dad (3 chars + space = 4 char lookbehind)
         Pattern(
             name="dad_name",
-            regex=r"(?<=Dad )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=dad )[a-z][a-z]+\b",
             score=0.85
         ),
+        # Father (6 chars + space = 7 char lookbehind)
         Pattern(
             name="father_name",
-            regex=r"(?<=Father )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=father )[a-z][a-z]+\b",
             score=0.85
         ),
+        # Daddy (5 chars + space = 6 char lookbehind)
         Pattern(
             name="daddy_name",
-            regex=r"(?<=Daddy )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=daddy )[a-z][a-z]+\b",
             score=0.85
         ),
         # Grandparents
         Pattern(
             name="grandma_name",
-            regex=r"(?<=Grandma )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=grandma )[a-z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="grandmother_name",
+            regex=r"(?i)(?<=grandmother )[a-z][a-z]+\b",
             score=0.85
         ),
         Pattern(
             name="grandpa_name",
-            regex=r"(?<=Grandpa )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=grandpa )[a-z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="grandfather_name",
+            regex=r"(?i)(?<=grandfather )[a-z][a-z]+\b",
             score=0.85
         ),
         Pattern(
             name="nana_name",
-            regex=r"(?<=Nana )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=nana )[a-z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="papa_name",
+            regex=r"(?i)(?<=papa )[a-z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="granny_name",
+            regex=r"(?i)(?<=granny )[a-z][a-z]+\b",
             score=0.85
         ),
         # Aunt/Uncle
         Pattern(
             name="aunt_name",
-            regex=r"(?<=Aunt )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=aunt )[a-z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="auntie_name",
+            regex=r"(?i)(?<=auntie )[a-z][a-z]+\b",
             score=0.85
         ),
         Pattern(
             name="uncle_name",
-            regex=r"(?<=Uncle )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=uncle )[a-z][a-z]+\b",
             score=0.85
         ),
         # Step-parents
         Pattern(
             name="stepmom_name",
-            regex=r"(?<=Stepmom )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=stepmom )[a-z][a-z]+\b",
             score=0.85
         ),
         Pattern(
             name="stepdad_name",
-            regex=r"(?<=Stepdad )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=stepdad )[a-z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="stepmother_name",
+            regex=r"(?i)(?<=stepmother )[a-z][a-z]+\b",
+            score=0.85
+        ),
+        Pattern(
+            name="stepfather_name",
+            regex=r"(?i)(?<=stepfather )[a-z][a-z]+\b",
             score=0.85
         ),
         # Generic guardian
         Pattern(
             name="guardian_name",
-            regex=r"(?<=Guardian )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=guardian )[a-z][a-z]+\b",
             score=0.80
+        ),
+
+        # =================================================================
+        # Bidirectional patterns: "Jessica is Mom" (score 0.80)
+        # Using lookahead to match ONLY the name before "is [relationship]"
+        # =================================================================
+        Pattern(
+            name="is_mom_bidirectional",
+            regex=r"(?i)\b[a-z][a-z]+(?= is (?:mom|mother|mommy)\b)",
+            score=0.80
+        ),
+        Pattern(
+            name="is_dad_bidirectional",
+            regex=r"(?i)\b[a-z][a-z]+(?= is (?:dad|father|daddy)\b)",
+            score=0.80
+        ),
+        Pattern(
+            name="is_grandparent_bidirectional",
+            regex=r"(?i)\b[a-z][a-z]+(?= is (?:grandma|grandmother|grandpa|grandfather|nana|papa|granny)\b)",
+            score=0.80
+        ),
+        Pattern(
+            name="is_relative_bidirectional",
+            regex=r"(?i)\b[a-z][a-z]+(?= is (?:aunt|auntie|uncle|guardian)\b)",
+            score=0.80
+        ),
+
+        # =================================================================
+        # Speech artifact patterns: "mom uh Jessica", "mom um Jessica" (score 0.75)
+        # Using fixed-width lookbehind (relationship word + space + filler + space)
+        # =================================================================
+        # "mom uh " = 7 chars
+        Pattern(
+            name="mom_uh_name",
+            regex=r"(?i)(?<=mom uh )[a-z][a-z]+\b",
+            score=0.75
+        ),
+        # "mom um " = 7 chars
+        Pattern(
+            name="mom_um_name",
+            regex=r"(?i)(?<=mom um )[a-z][a-z]+\b",
+            score=0.75
+        ),
+        # "dad uh " = 7 chars
+        Pattern(
+            name="dad_uh_name",
+            regex=r"(?i)(?<=dad uh )[a-z][a-z]+\b",
+            score=0.75
+        ),
+        # "dad um " = 7 chars
+        Pattern(
+            name="dad_um_name",
+            regex=r"(?i)(?<=dad um )[a-z][a-z]+\b",
+            score=0.75
+        ),
+        # Repetition: "mom mom " = 8 chars
+        Pattern(
+            name="mom_mom_name",
+            regex=r"(?i)(?<=mom mom )[a-z][a-z]+\b",
+            score=0.75
+        ),
+        # "dad dad " = 8 chars
+        Pattern(
+            name="dad_dad_name",
+            regex=r"(?i)(?<=dad dad )[a-z][a-z]+\b",
+            score=0.75
         ),
     ]
 
@@ -121,30 +242,36 @@ def get_pediatric_recognizers() -> list[PatternRecognizer]:
     # Baby/Infant Name Recognizer
     # =========================================================================
     # Common pediatric pattern: "Baby Smith", "Infant Jones"
+    # Using case-insensitive lookbehind to match ONLY the last name
     baby_name_patterns = [
+        # "baby " = 5 chars
         Pattern(
             name="baby_lastname",
-            regex=r"(?<=Baby )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=baby )[a-z][a-z]+\b",
             score=0.85
         ),
+        # "infant " = 7 chars
         Pattern(
             name="infant_lastname",
-            regex=r"(?<=Infant )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=infant )[a-z][a-z]+\b",
             score=0.85
         ),
+        # "newborn " = 8 chars
         Pattern(
             name="newborn_lastname",
-            regex=r"(?<=Newborn )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=newborn )[a-z][a-z]+\b",
             score=0.85
         ),
+        # "baby boy " = 9 chars
         Pattern(
             name="baby_boy_lastname",
-            regex=r"(?<=Baby Boy )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=baby boy )[a-z][a-z]+\b",
             score=0.85
         ),
+        # "baby girl " = 10 chars
         Pattern(
             name="baby_girl_lastname",
-            regex=r"(?<=Baby Girl )[A-Z][a-z]+\b",
+            regex=r"(?i)(?<=baby girl )[a-z][a-z]+\b",
             score=0.85
         ),
     ]

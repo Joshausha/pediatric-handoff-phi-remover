@@ -134,11 +134,20 @@ class Settings(BaseSettings):
             "RN",    # Registered nurse
             "LPN",   # Licensed practical nurse
             "CNA",   # Certified nursing assistant
+            # Pediatric clinical descriptors (Phase 4 addition)
+            "baby",
+            "infant",
+            "newborn",
+            "neonate",
         ],
         description="Words that should not be flagged as PERSON"
     )
     deny_list_guardian_name: List[str] = Field(
-        default=["parent", "guardian", "caregiver", "family"],
+        default=[
+            "parent", "guardian", "caregiver", "family",
+            # Speech artifacts (Phase 4 addition)
+            "uh", "um",
+        ],
         description="Generic relationship terms not flagged as GUARDIAN_NAME"
     )
     deny_list_pediatric_age: List[str] = Field(
