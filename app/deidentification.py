@@ -182,13 +182,28 @@ def deidentify_text(
         detected_text = text[result.start:result.end].strip()
 
         # Check LOCATION deny list
-        if result.entity_type == "LOCATION" and detected_text in settings.deny_list_location:
+        if result.entity_type == "LOCATION" and detected_text.lower() in [w.lower() for w in settings.deny_list_location]:
             logger.debug(f"Filtered out deny-listed LOCATION: {detected_text}")
             continue
 
         # Check PERSON deny list
         if result.entity_type == "PERSON" and detected_text.lower() in [w.lower() for w in settings.deny_list_person]:
             logger.debug(f"Filtered out deny-listed PERSON: {detected_text}")
+            continue
+
+        # Check GUARDIAN_NAME deny list
+        if result.entity_type == "GUARDIAN_NAME" and detected_text.lower() in [w.lower() for w in settings.deny_list_guardian_name]:
+            logger.debug(f"Filtered out deny-listed GUARDIAN_NAME: {detected_text}")
+            continue
+
+        # Check PEDIATRIC_AGE deny list
+        if result.entity_type == "PEDIATRIC_AGE" and detected_text.lower() in [w.lower() for w in settings.deny_list_pediatric_age]:
+            logger.debug(f"Filtered out deny-listed PEDIATRIC_AGE: {detected_text}")
+            continue
+
+        # Check DATE_TIME deny list
+        if result.entity_type == "DATE_TIME" and detected_text.lower() in [w.lower() for w in settings.deny_list_date_time]:
+            logger.debug(f"Filtered out deny-listed DATE_TIME: {detected_text}")
             continue
 
         results.append(result)
