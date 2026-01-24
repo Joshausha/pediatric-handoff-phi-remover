@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 3: Deny List Refinement (COMPLETE)
+**Current focus:** Phase 4: Pattern Improvements (IN PROGRESS)
 
 ## Current Position
 
-Phase: 3 of 5 (Deny List Refinement)
-Plan: 2 of 2 (Phase Complete)
-Status: Phase complete (DENY-04 deferred to Phase 4)
-Last activity: 2026-01-24 — Phase 3 verified (3/4 requirements met)
+Phase: 4 of 5 (Pattern Improvements)
+Plan: 2 of ? (Room/MRN patterns complete)
+Status: In progress
+Last activity: 2026-01-24 — Completed 04-02 (Room/MRN pattern improvements)
 
-Progress: [██████░░░░] 60% (Phases 1-3 complete)
+Progress: [███████░░░] 65% (Phases 1-3 complete, Phase 4 in progress)
 
 ## Performance Metrics
 
@@ -30,10 +30,11 @@ Progress: [██████░░░░] 60% (Phases 1-3 complete)
 | 01-baseline-measurement | 6/6 | 38 min | 6.3 min |
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
+| 04-pattern-improvements | 1/? | 4 min | 4.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02-exec (4min), 02-01 (6min), 02-02 (3min), 03-01 (2min), 03-02 (3min)
-- Trend: Consistent fast execution, Phase 3 averaging 2.5 min/plan
+- Last 5 plans: 02-01 (6min), 02-02 (3min), 03-01 (2min), 03-02 (3min), 04-02 (4min)
+- Trend: Consistent fast execution
 
 *Updated after each plan completion*
 
@@ -67,6 +68,8 @@ Recent decisions affecting current work:
 - **Generic age categories in PEDIATRIC_AGE deny list** (Prevents over-redaction of clinical descriptors) — From 03-01
 - **Test files intentionally duplicate deny list filtering logic** (Maintains test isolation and keeps evaluation/calibration scripts self-contained) — From 03-02
 - **DENY-04 targets not met via deny lists alone** (4.1% FP reduction vs 20% target; deny lists preventative not corrective) — From 03-02
+- **Word boundary with (?i) flag instead of lookbehind** (Lookbehind fails at start-of-line position 0) — From 04-02
+- **Presidio replaces entire matched span, not capture groups** (Tests verify unit names in surrounding context) — From 04-02
 
 ### Pending Todos
 
@@ -98,8 +101,9 @@ None yet.
 - ~~Current thresholds arbitrary (detection 0.35, validation 0.7)~~ **RESOLVED** (02-02: per-entity 0.30, aligned)
 - ~~Detection/validation threshold mismatch (THRS-02)~~ **RESOLVED** (02-02: both use phi_score_thresholds)
 - ~~LOCATION deny list case-sensitive (inconsistent)~~ **RESOLVED** (03-01: case-insensitive filtering)
-- Room number patterns too narrow (only "Room X" format) — Phase 4 priority #1
-- Pediatric age abbreviation patterns missing — Phase 4 priority #2
+- ~~Room number patterns too narrow (only "Room X" format)~~ **RESOLVED** (04-02: case-insensitive, bay, isolette, multipart)
+- Pediatric age abbreviation patterns missing — Phase 4 priority
+- Guardian name patterns need case-insensitivity (uncommitted changes found in pediatric.py) — Phase 4 priority
 
 ### Quick Tasks Completed
 
@@ -110,10 +114,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-24
-Stopped at: Completed Phase 3 (Deny List Refinement)
+Stopped at: Completed 04-02 (Room/MRN patterns)
 Resume file: None
-Next: Phase 4 (Pattern Improvements)
+Next: 04-03 (Guardian name patterns) or next Phase 4 plan
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-24 (Phase 3 complete)*
+*Last updated: 2026-01-24 (04-02 complete)*
