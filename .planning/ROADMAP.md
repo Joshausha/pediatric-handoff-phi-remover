@@ -62,10 +62,11 @@ Plans:
   2. Medical abbreviation deny list expanded to cover common clinical terms (NC, RA, OR, ER, IV, PO, IM, SQ, PR, GT, NG, OG, NJ, ED)
   3. Deny lists exist for all custom entity types (GUARDIAN_NAME, PEDIATRIC_AGE)
   4. False positive rate reduced by >20% (precision improved from 87.4% to >90%)
-**Plans**: TBD
+**Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] 03-01: TBD during phase planning
+- [ ] 03-01-PLAN.md — Fix case-insensitive bug and add new deny lists to config.py and deidentification.py
+- [ ] 03-02-PLAN.md — Mirror deny list changes in test files and add regression tests
 
 ### Phase 4: Pattern Improvements
 **Goal**: Fix regex edge cases and enhance custom recognizers to catch all PHI variants
@@ -109,7 +110,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Baseline Measurement | 4/4 | ✓ Complete | 2026-01-23 |
 | 2. Threshold Calibration | 2/2 | ✓ Complete | 2026-01-23 |
-| 3. Deny List Refinement | 0/TBD | Ready to plan | - |
+| 3. Deny List Refinement | 0/2 | Planned | - |
 | 4. Pattern Improvements | 0/TBD | Ready to plan | - |
 | 5. Validation & Compliance | 0/TBD | Blocked (Phases 3-4) | - |
 
