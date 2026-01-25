@@ -15,10 +15,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Baseline Measurement** - Establish evaluation framework and gold standard dataset ✓
 - [x] **Phase 2: Threshold Calibration** - Data-driven threshold optimization with F2 score ✓
 - [x] **Phase 3: Deny List Refinement** - Medical vocabulary filtering and case normalization ✓ (DENY-04 deferred to Phase 4)
-- [ ] **Phase 4: Pattern Improvements** - Regex edge case fixes and bidirectional patterns (GAP CLOSURE IN PROGRESS)
+- [x] **Phase 4: Pattern Improvements** - Regex edge case fixes and bidirectional patterns ✓
 - [ ] **Phase 5: Validation & Compliance** - External validation and clinical deployment readiness
 - [ ] **Phase 6: Real Handoff Testing** - User reads actual text handoffs to validate PHI detection
 - [ ] **Phase 7: Alternative Engine Benchmark** - Compare Philter-UCSF and Stanford BERT against current Presidio
+- [ ] **Phase 8: Weighted Recall Evaluation** - Add spoken handoff relevance weighting to evaluate_presidio.py
 
 ## Phase Details
 
@@ -87,9 +88,9 @@ Plans:
 - [x] 04-01-PLAN.md — Guardian and baby name pattern improvements (case-insensitive, bidirectional, speech artifacts) ✓
 - [x] 04-02-PLAN.md — Room and MRN pattern improvements (case-insensitive, expanded formats) ✓
 - [x] 04-03-PLAN.md — PEDIATRIC_AGE decision checkpoint and regression test suite ✓
-- [ ] 04-04-PLAN.md — Phone number pattern expansion (international formats, extensions) [GAP CLOSURE]
-- [ ] 04-05-PLAN.md — Room hyphenated standalone format fix [GAP CLOSURE]
-- [ ] 04-06-PLAN.md — Gap analysis and standalone number decision [GAP CLOSURE]
+- [x] 04-04-PLAN.md — Phone number pattern expansion (international formats, extensions) ✓
+- [x] 04-05-PLAN.md — Room hyphenated standalone format fix ✓
+- [x] 04-06-PLAN.md — Gap analysis and standalone number decision (option-c: accept limitations) ✓
 
 ### Phase 5: Validation & Compliance
 **Goal**: Validate performance on synthetic corpus (with real data validation deferred to IRB availability) and achieve >95% recall for personal clinical deployment readiness
@@ -106,7 +107,7 @@ Plans:
 Plans:
 - [x] 05-01-PLAN.md — Create validation data pipeline (annotation schema, dataset loader) ✓
 - [x] 05-02-PLAN.md — Add bootstrap CI and error taxonomy to evaluation infrastructure ✓
-- [ ] 05-03-PLAN.md — Run validation and generate compliance documentation (BLOCKED - waiting for 04 gap closure)
+- [ ] 05-03-PLAN.md — Run validation and generate compliance documentation
 - [ ] 05-04-PLAN.md — Expert review of random sample (user as clinical expert)
 
 ### Phase 6: Real Handoff Testing
@@ -151,6 +152,29 @@ Plans:
 - [Stanford De-identifier on HuggingFace](https://huggingface.co/StanfordAIMI/stanford-deidentifier-base)
 - [docs/SPOKEN_HANDOFF_ANALYSIS.md](../docs/SPOKEN_HANDOFF_ANALYSIS.md) — Relevance weighting methodology
 
+### Phase 8: Weighted Recall Evaluation
+**Goal**: Implement spoken handoff relevance weighting in evaluation scripts for use-case-specific metrics
+**Depends on**: Phase 1 (needs evaluation framework)
+**Requirements**: WGHT-01, WGHT-02, WGHT-03
+**Success Criteria** (what must be TRUE):
+  1. evaluate_presidio.py supports `--weighted` flag that applies spoken handoff relevance weights
+  2. Weights configurable via config.py (PERSON: 5, ROOM: 4, PHONE_NUMBER: 2, DATE_TIME: 2, MRN: 1, others: 0)
+  3. Both weighted and unweighted metrics reported when flag enabled
+  4. Weighted recall/precision/F2 match manual calculations in SPOKEN_HANDOFF_ANALYSIS.md
+**Plans**: 1 plan in 1 wave
+
+Plans:
+- [ ] 08-01-PLAN.md — Add weighted scoring to evaluate_presidio.py with configurable entity weights
+
+**Context:**
+- Unweighted recall (77.9%) underestimates real-world performance for spoken handoffs
+- Weighted recall (91.5%) reflects actual clinical relevance
+- Addresses Priority 3 from SPOKEN_HANDOFF_ANALYSIS.md recommendations
+- Enables accurate comparison when benchmarking alternative engines (Phase 7)
+
+**References:**
+- [docs/SPOKEN_HANDOFF_ANALYSIS.md](../docs/SPOKEN_HANDOFF_ANALYSIS.md) — Methodology and weight definitions
+
 ## Progress
 
 **Execution Order:**
@@ -163,10 +187,11 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Baseline Measurement | 4/4 | ✓ Complete | 2026-01-23 |
 | 2. Threshold Calibration | 2/2 | ✓ Complete | 2026-01-23 |
 | 3. Deny List Refinement | 2/2 | ✓ Complete (DENY-04 deferred) | 2026-01-24 |
-| 4. Pattern Improvements | 3/6 | Gap Closure | 2026-01-24 |
-| 5. Validation & Compliance | 2/4 | Blocked by Phase 4 | - |
+| 4. Pattern Improvements | 6/6 | ✓ Complete | 2026-01-25 |
+| 5. Validation & Compliance | 2/4 | Ready | - |
 | 6. Real Handoff Testing | 0/? | Not planned | - |
 | 7. Alternative Engine Benchmark | 0/3 | Ready | - |
+| 8. Weighted Recall Evaluation | 0/1 | Ready | - |
 
 ---
 
@@ -188,6 +213,7 @@ Plans 04-04 and 04-05 address easy wins. Plan 04-06 analyzes remaining gaps and 
 - Phases 3-4 can run in parallel (deny lists and regex improvements are independent)
 - Phase 5 requires Phases 3-4 complete (validation needs all improvements in place)
 - **Phase 7 can run in parallel** with Phases 4-6 (independent evaluation of alternative engines)
+- **Phase 8 can run in parallel** with Phases 4-7 (evaluation framework enhancement)
 
 **Quick Wins Identified:**
 - Phase 2: Case normalization (1-2 hours, high impact)
