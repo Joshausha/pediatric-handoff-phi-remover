@@ -4,8 +4,9 @@ Medical-context Presidio recognizers.
 Handles general medical PHI patterns:
 - Medical Record Numbers (MRN)
 - Room numbers (with case-insensitive matching)
+- Phone numbers (international formats, extensions)
 
-Updated: Phase 04-02 - Improved patterns for case-insensitivity and edge cases.
+Updated: Phase 04-04 - Added phone number patterns for international/extension formats.
 """
 
 
@@ -111,6 +112,14 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
             regex=r"(?i)\b(?:room|rm)\s+\d{1,2}[-/]\d{1,2}\b",
             score=0.70
         ),
+        # Standalone hyphenated room (without prefix): "3-22", "5-10", "2-25"
+        # Common in PICU/NICU settings where room format is floor-bed
+        # Using word boundary and context to reduce false positives
+        Pattern(
+            name="room_hyphenated_standalone",
+            regex=r"\b\d{1,2}-\d{1,2}\b",
+            score=0.55  # Lower score - relies on context for confirmation
+        ),
         # Floor + direction: "4 West", "3 South", "2 north"
         # Case-insensitive for direction words
         Pattern(
@@ -127,5 +136,56 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
         context=["room", "bed", "floor", "unit", "located", "admitted to", "transferred to", "bay", "isolette"]
     )
     recognizers.append(room_recognizer)
+
+    # =========================================================================
+    # Phone Number Recognizer (Extended Formats)
+    # =========================================================================
+    # Catches formats that Presidio's default phone recognizer misses:
+    # - International with 001 prefix (001-411-671-8227)
+    # - International with +1 prefix (+1-899-904-9027x87429)
+    # - Dot-separated (538.372.6247)
+    # - Parentheses without space ((392)832-2602x56342)
+    # - 10-digit unformatted (3405785932) - context-dependent
+    phone_patterns = [
+        # International with 001 prefix: 001-411-671-8227, 001.723.437.4989x41343
+        Pattern(
+            name="phone_001_intl",
+            regex=r"(?i)001[-.]?\d{3}[-.]?\d{3}[-.]?\d{4}(?:x\d{1,5})?\b",
+            score=0.85
+        ),
+        # International with +1 prefix: +1-899-904-9027x87429, +1.788.499.2107
+        Pattern(
+            name="phone_plus1_intl",
+            regex=r"\+1[-.]?\d{3}[-.]?\d{3}[-.]?\d{4}(?:x\d{1,5})?\b",
+            score=0.90
+        ),
+        # Dot-separated format: 538.372.6247, 200.954.1199x867
+        Pattern(
+            name="phone_dot_separated",
+            regex=r"\b\d{3}\.\d{3}\.\d{4}(?:x\d{1,5})?\b",
+            score=0.80
+        ),
+        # Parentheses format without space: (392)832-2602x56342, (288)857-4489
+        Pattern(
+            name="phone_parens_no_space",
+            regex=r"\(\d{3}\)\d{3}[-.]?\d{4}(?:x\d{1,5})?\b",
+            score=0.85
+        ),
+        # 10-digit unformatted (context-dependent): 3405785932
+        # Lower score - requires context words to avoid false positives
+        Pattern(
+            name="phone_10digit_unformatted",
+            regex=r"\b\d{10}\b",
+            score=0.60
+        ),
+    ]
+
+    phone_recognizer = PatternRecognizer(
+        supported_entity="PHONE_NUMBER",
+        name="Phone Number Recognizer",
+        patterns=phone_patterns,
+        context=["call", "phone", "contact", "reach", "pager", "cell", "mobile", "number", "tel", "telephone"]
+    )
+    recognizers.append(phone_recognizer)
 
     return recognizers
