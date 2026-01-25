@@ -1,0 +1,600 @@
+{
+  "metadata": {
+    "created_at": "2026-01-25T14:31:43.021473",
+    "sample_size": 10,
+    "sampling_method": "stratified_by_dominant_phi_type",
+    "random_seed": 42,
+    "source_dataset": "tests/synthetic_handoffs.json",
+    "source_dataset_size": 500
+  },
+  "samples": [
+    {
+      "id": 15,
+      "original_text": "Bradley Sandoval, 4yo, brought in by grandma Christina Moran from 6247 Hickman Cliffs. Mom Marc Hart incarcerated, dad Joshua Wagner not involved. Legal guardian is aunt Gregory Jones at 254.627.8498. DCF case worker is Ashley Humphrey.",
+      "deidentified_text": "[NAME], 4yo, brought in by grandma [NAME] from 6247 Hickman Cliffs. Mom [NAME] incarcerated, dad [NAME] not involved. Legal guardian [NAME] aunt [NAME] at [PHONE]. DCF case worker is [NAME].",
+      "phi_spans_ground_truth": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 16,
+          "text": "Bradley Sandoval"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 18,
+          "end": 21,
+          "text": "4yo"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 45,
+          "end": 60,
+          "text": "Christina Moran"
+        },
+        {
+          "entity_type": "LOCATION",
+          "start": 66,
+          "end": 85,
+          "text": "6247 Hickman Cliffs"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 91,
+          "end": 100,
+          "text": "Marc Hart"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 119,
+          "end": 132,
+          "text": "Joshua Wagner"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 170,
+          "end": 183,
+          "text": "Gregory Jones"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 187,
+          "end": 199,
+          "text": "254.627.8498"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 220,
+          "end": 235,
+          "text": "Ashley Humphrey"
+        }
+      ],
+      "entities_detected": [
+        {
+          "entity_type": "GUARDIAN_NAME",
+          "score": 1.0,
+          "start": 162,
+          "end": 164,
+          "text_preview": "**"
+        },
+        {
+          "entity_type": "GUARDIAN_NAME",
+          "score": 1.0,
+          "start": 170,
+          "end": 177,
+          "text_preview": "Gre*ory"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 0,
+          "end": 16,
+          "text_preview": "Bra**********val"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 45,
+          "end": 60,
+          "text_preview": "Chr*********ran"
+        },
+        {
+          "entity_type": "GUARDIAN_NAME",
+          "score": 0.85,
+          "start": 45,
+          "end": 54,
+          "text_preview": "Chr***ina"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 91,
+          "end": 100,
+          "text_preview": "Mar***art"
+        },
+        {
+          "entity_type": "GUARDIAN_NAME",
+          "score": 0.85,
+          "start": 91,
+          "end": 95,
+          "text_preview": "****"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 119,
+          "end": 132,
+          "text_preview": "Jos*******ner"
+        },
+        {
+          "entity_type": "GUARDIAN_NAME",
+          "score": 0.85,
+          "start": 119,
+          "end": 125,
+          "text_preview": "******"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 170,
+          "end": 183,
+          "text_preview": "Gre*******nes"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 220,
+          "end": 235,
+          "text_preview": "Ash*********rey"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "score": 0.8,
+          "start": 187,
+          "end": 199,
+          "text_preview": "254******498"
+        }
+      ],
+      "entity_count_detected": 12,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    },
+    {
+      "id": 223,
+      "original_text": "Dean Garcia, 3 weeks 3 days old, presents with UTI. Patient requests Kimberly Villanueva (father) not be contacted. Emergency contact is William Barry at 001-806-629-6201x533.",
+      "deidentified_text": "[NAME], [DATE], presents with UTI. Patient requests [NAME] (father) not be contacted. Emergency contact is [NAME] at [PHONE].",
+      "phi_spans_ground_truth": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 11,
+          "text": "Dean Garcia"
+        },
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 13,
+          "end": 31,
+          "text": "3 weeks 3 days old"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 69,
+          "end": 88,
+          "text": "Kimberly Villanueva"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 137,
+          "end": 150,
+          "text": "William Barry"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 154,
+          "end": 174,
+          "text": "001-806-629-6201x533"
+        }
+      ],
+      "entities_detected": [
+        {
+          "entity_type": "PHONE_NUMBER",
+          "score": 1.0,
+          "start": 154,
+          "end": 174,
+          "text_preview": "001**************533"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 0,
+          "end": 11,
+          "text_preview": "Dea*****cia"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 13,
+          "end": 20,
+          "text_preview": "3 w*eks"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 21,
+          "end": 31,
+          "text_preview": "3 d****old"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 69,
+          "end": 88,
+          "text_preview": "Kim*************eva"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 137,
+          "end": 150,
+          "text_preview": "Wil*******rry"
+        }
+      ],
+      "entity_count_detected": 6,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    },
+    {
+      "id": 26,
+      "original_text": "See EMR MRN 64707061 for John Brown's full history. Previous admission January 19 for same diagnosis.",
+      "deidentified_text": "See EMR [MRN] for [NAME] full history. Previous admission [DATE] for same diagnosis.",
+      "phi_spans_ground_truth": [
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "start": 8,
+          "end": 20,
+          "text": "MRN 64707061"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 25,
+          "end": 35,
+          "text": "John Brown"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 71,
+          "end": 81,
+          "text": "January 19"
+        }
+      ],
+      "entities_detected": [
+        {
+          "entity_type": "MEDICAL_RECORD_NUMBER",
+          "score": 1.0,
+          "start": 8,
+          "end": 20,
+          "text_preview": "MRN******061"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 25,
+          "end": 37,
+          "text_preview": "Joh******n's"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 71,
+          "end": 81,
+          "text_preview": "Jan**** 19"
+        }
+      ],
+      "entity_count_detected": 3,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    },
+    {
+      "id": 98,
+      "original_text": "Timothy Combs ready for discharge to 20472 West Avenue Apt. 043. Follow up with Dr. Conley on January 13 at 09:17 PM. Prescriptions sent to Target Pharmacy at (214)534-1036x97117. grandmother Aaron Gomez verbalized understanding.",
+      "deidentified_text": "[NAME] ready for discharge to 20472 West Avenue Apt. 043. Follow up with Dr. [NAME] on [DATE] at [DATE]. Prescriptions sent to Target Pharmacy at [PHONE]. grandmother [NAME] verbalized understanding.",
+      "phi_spans_ground_truth": [
+        {
+          "entity_type": "PERSON",
+          "start": 0,
+          "end": 13,
+          "text": "Timothy Combs"
+        },
+        {
+          "entity_type": "LOCATION",
+          "start": 37,
+          "end": 63,
+          "text": "20472 West Avenue Apt. 043"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 84,
+          "end": 90,
+          "text": "Conley"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 94,
+          "end": 104,
+          "text": "January 13"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "start": 108,
+          "end": 116,
+          "text": "09:17 PM"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 159,
+          "end": 178,
+          "text": "(214)534-1036x97117"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 192,
+          "end": 203,
+          "text": "Aaron Gomez"
+        }
+      ],
+      "entities_detected": [
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 0,
+          "end": 13,
+          "text_preview": "Tim*******mbs"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 84,
+          "end": 90,
+          "text_preview": "******"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 94,
+          "end": 104,
+          "text_preview": "Jan**** 13"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 108,
+          "end": 116,
+          "text_preview": "09:** PM"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "score": 0.85,
+          "start": 159,
+          "end": 178,
+          "text_preview": "(21*************117"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 192,
+          "end": 203,
+          "text_preview": "Aar*****mez"
+        },
+        {
+          "entity_type": "GUARDIAN_NAME",
+          "score": 0.85,
+          "start": 192,
+          "end": 197,
+          "text_preview": "*****"
+        }
+      ],
+      "entity_count_detected": 7,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    },
+    {
+      "id": 209,
+      "original_text": "If concerns about Kimberly Flynn in bed bed 1, contact attending Joshua Fields at extension 001-205-406-4138x367. Backup is Dr. Dawson (fellow) pager #1719.",
+      "deidentified_text": "If concerns about [NAME] in bed [ROOM], contact attending [NAME] at extension [PHONE]. Backup is Dr. [NAME] (fellow) pager #1719.",
+      "phi_spans_ground_truth": [
+        {
+          "entity_type": "PERSON",
+          "start": 18,
+          "end": 32,
+          "text": "Kimberly Flynn"
+        },
+        {
+          "entity_type": "ROOM",
+          "start": 40,
+          "end": 45,
+          "text": "bed 1"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 65,
+          "end": 78,
+          "text": "Joshua Fields"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "start": 92,
+          "end": 112,
+          "text": "001-205-406-4138x367"
+        },
+        {
+          "entity_type": "PERSON",
+          "start": 128,
+          "end": 134,
+          "text": "Dawson"
+        }
+      ],
+      "entities_detected": [
+        {
+          "entity_type": "ROOM",
+          "score": 1.0,
+          "start": 40,
+          "end": 45,
+          "text_preview": "*****"
+        },
+        {
+          "entity_type": "PHONE_NUMBER",
+          "score": 1.0,
+          "start": 92,
+          "end": 112,
+          "text_preview": "001**************367"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 18,
+          "end": 32,
+          "text_preview": "Kim********ynn"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 65,
+          "end": 78,
+          "text_preview": "Jos*******lds"
+        },
+        {
+          "entity_type": "PERSON",
+          "score": 0.85,
+          "start": 128,
+          "end": 134,
+          "text_preview": "******"
+        }
+      ],
+      "entity_count_detected": 5,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    },
+    {
+      "id": 38,
+      "original_text": "Status asthmaticus, on continuous albuterol since 08:46 AM. Last ABG: pH 7.34, pCO2 33, pO2 129. Trending worsening.",
+      "deidentified_text": "Status asthmaticus, on continuous albuterol since [DATE]. Last ABG: pH 7.34, pCO2 33, pO2 129. Trending worsening.",
+      "phi_spans_ground_truth": [
+        {
+          "entity_type": "DATE_TIME",
+          "start": 50,
+          "end": 58,
+          "text": "08:46 AM"
+        }
+      ],
+      "entities_detected": [
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 50,
+          "end": 58,
+          "text_preview": "08:** AM"
+        }
+      ],
+      "entity_count_detected": 1,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    },
+    {
+      "id": 109,
+      "original_text": "Improving on current regimen. Tolerating PO.",
+      "deidentified_text": "Improving on current regimen. Tolerating PO.",
+      "phi_spans_ground_truth": [],
+      "entities_detected": [],
+      "entity_count_detected": 0,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    },
+    {
+      "id": 373,
+      "original_text": "5 months old with gastroenteritis, day 4 of antibiotics. Afebrile x48 hours, CRP trending down. Plan to transition to oral ceftriaxone tomorrow if continues to improve. Family aware.",
+      "deidentified_text": "[DATE] with gastroenteritis, [DATE] of antibiotics. Afebrile x48 hours, CRP trending down. Plan to transition to oral ceftriaxone tomorrow if continues to improve. Family aware.",
+      "phi_spans_ground_truth": [
+        {
+          "entity_type": "PEDIATRIC_AGE",
+          "start": 0,
+          "end": 12,
+          "text": "5 months old"
+        }
+      ],
+      "entities_detected": [
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 0,
+          "end": 12,
+          "text_preview": "5 m******old"
+        },
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 35,
+          "end": 40,
+          "text_preview": "*****"
+        }
+      ],
+      "entity_count_detected": 2,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    },
+    {
+      "id": 92,
+      "original_text": "Stable on current regimen. Continue vancomycin and monitor for seizure activity. Vitals stable, lungs clear, tolerating PO. No active concerns overnight.",
+      "deidentified_text": "Stable on current regimen. Continue vancomycin and monitor for seizure activity. Vitals stable, lungs clear, tolerating PO. No active concerns [DATE].",
+      "phi_spans_ground_truth": [],
+      "entities_detected": [
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 143,
+          "end": 152,
+          "text_preview": "ove***ght"
+        }
+      ],
+      "entity_count_detected": 1,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    },
+    {
+      "id": 147,
+      "original_text": "Stable overnight. Continue supportive care.",
+      "deidentified_text": "Stable [DATE]. Continue supportive care.",
+      "phi_spans_ground_truth": [],
+      "entities_detected": [
+        {
+          "entity_type": "DATE_TIME",
+          "score": 0.85,
+          "start": 7,
+          "end": 16,
+          "text_preview": "ove***ght"
+        }
+      ],
+      "entity_count_detected": 1,
+      "reviewed_at": null,
+      "expert_notes": "",
+      "missed_phi_found": false,
+      "approval_status": "pending"
+    }
+  ]
+}
