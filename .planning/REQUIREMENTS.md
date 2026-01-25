@@ -44,6 +44,12 @@ Requirements for this quality improvement milestone. Each maps to roadmap phases
 - [ ] **VALD-03**: Expert review of random sample validates detection quality
 - [ ] **VALD-04**: Overall recall achieves >95% target for clinical deployment readiness
 
+### Alternative Engine Benchmark (BENCH)
+
+- [x] **BENCH-01**: Philter-UCSF installed and configured with pediatric patterns translated ✓ (partial: 2/8 entity types)
+- [~] **BENCH-02**: Stanford BERT integrated as Presidio NER backend — Partial: TransformersNlpEngine blocked by environment issue
+- [x] **BENCH-03**: Engine decision documented with comparative metrics ✓ — Decision: Continue with Presidio (94.4% weighted recall)
+
 ## v2 Requirements
 
 Deferred to future milestone. Tracked but not in current roadmap.
@@ -105,12 +111,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VALD-02 | Phase 5 | Pending |
 | VALD-03 | Phase 5 | Pending |
 | VALD-04 | Phase 5 | Pending |
+| BENCH-01 | Phase 7 | Complete (partial) |
+| BENCH-02 | Phase 7 | Partial (blocked) |
+| BENCH-03 | Phase 7 | Complete |
 
 **Coverage:**
-- v1 requirements: 22 total
-- Mapped to phases: 22
+- v1 requirements: 25 total
+- Mapped to phases: 25
 - Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-01-23*
-*Last updated: 2026-01-24 after Phase 4 completion*
+*Last updated: 2026-01-25 after Phase 7 completion*

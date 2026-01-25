@@ -125,7 +125,7 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+- **Philter full implementation** — Complete remaining 6/8 entity types (PERSON, PHONE, EMAIL, DATE_TIME, LOCATION, MRN) for future benchmark comparison. Current: 2/8 entity types (GUARDIAN_NAME, ROOM) with 24 patterns translated. Deferred per user request 2026-01-25.
 
 ### Blockers/Concerns
 

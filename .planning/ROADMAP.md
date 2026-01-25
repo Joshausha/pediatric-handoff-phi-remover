@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Pattern Improvements** - Regex edge case fixes and bidirectional patterns ✓
 - [ ] **Phase 5: Validation & Compliance** - External validation and clinical deployment readiness
 - [ ] **Phase 6: Real Handoff Testing** - User reads actual text handoffs to validate PHI detection
-- [ ] **Phase 7: Alternative Engine Benchmark** - Compare Philter-UCSF and Stanford BERT against current Presidio
+- [x] **Phase 7: Alternative Engine Benchmark** - Compare Philter-UCSF and Stanford BERT against current Presidio ✓ (Decision: Continue with Presidio)
 - [x] **Phase 8: Weighted Recall Evaluation** - Add spoken handoff relevance weighting to evaluate_presidio.py ✓
 
 ## Phase Details
@@ -137,20 +137,23 @@ Plans:
 **Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 07-01-PLAN.md — Install Philter-UCSF and translate pediatric/medical patterns to Philter config format
-- [ ] 07-02-PLAN.md — Integrate Stanford BERT as Presidio NER backend (TransformersNlpEngine)
-- [ ] 07-03-PLAN.md — Run comparative benchmark and document decision
+- [x] 07-01-PLAN.md — Install Philter-UCSF and translate pediatric/medical patterns to Philter config format ✓
+- [x] 07-02-PLAN.md — Integrate Stanford BERT as Presidio NER backend (TransformersNlpEngine) ✓
+- [x] 07-03-PLAN.md — Run comparative benchmark and document decision ✓
 
-**Context:**
-- Current system (Presidio + spaCy + custom patterns): 91.5% weighted recall
-- Philter-UCSF: 99.5% recall on i2b2 benchmark (written clinical notes)
-- Stanford BERT: 97-99% F1 on de-identification tasks
-- Key question: Do these gains on written notes translate to spoken handoffs?
+**Results:**
+- Presidio: 94.4% weighted recall (baseline, excellent performance)
+- Philter: 3.1% weighted recall (only 2/8 entity types implemented)
+- Stanford BERT: Blocked by TransformersNlpEngine configuration issue
+- **Decision:** Continue with Presidio (no alternative provides >5% improvement)
+
+**Future Work:**
+- Full Philter implementation deferred for later exploration (24 patterns translated, 6 entity types remaining)
 
 **References:**
+- [docs/ENGINE_BENCHMARK.md](../docs/ENGINE_BENCHMARK.md) — Full benchmark analysis and decision
 - [Philter-UCSF GitHub](https://github.com/BCHSI/philter-ucsf)
 - [Stanford De-identifier on HuggingFace](https://huggingface.co/StanfordAIMI/stanford-deidentifier-base)
-- [docs/SPOKEN_HANDOFF_ANALYSIS.md](../docs/SPOKEN_HANDOFF_ANALYSIS.md) — Relevance weighting methodology
 
 ### Phase 8: Weighted Recall Evaluation
 **Goal**: Implement spoken handoff relevance weighting in evaluation scripts for use-case-specific metrics
@@ -190,7 +193,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 4. Pattern Improvements | 6/6 | ✓ Complete | 2026-01-25 |
 | 5. Validation & Compliance | 3/4 | ◆ Partial (05-04 deferred) | - |
 | 6. Real Handoff Testing | 0/? | Not planned | - |
-| 7. Alternative Engine Benchmark | 0/3 | ◆ Planned (NEXT) | - |
+| 7. Alternative Engine Benchmark | 3/3 | ✓ Complete (Presidio selected) | 2026-01-25 |
 | 8. Weighted Recall Evaluation | 1/1 | ✓ Complete | 2026-01-25 |
 
 ---
@@ -222,4 +225,4 @@ Plans 04-04 and 04-05 address easy wins. Plan 04-06 analyzes remaining gaps and 
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-25 (Phase 7 planned, ready for execution)*
+*Last updated: 2026-01-25 (Phase 7 complete — Decision: Continue with Presidio)*
