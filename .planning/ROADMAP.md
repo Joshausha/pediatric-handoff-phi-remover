@@ -108,21 +108,22 @@ Plans:
 - [x] 05-01-PLAN.md — Create validation data pipeline (annotation schema, dataset loader) ✓
 - [x] 05-02-PLAN.md — Add bootstrap CI and error taxonomy to evaluation infrastructure ✓
 - [x] 05-03-PLAN.md — Run validation and generate compliance documentation ✓ (decision deferred pending Phase 7)
-- [ ] 05-04-PLAN.md — Expert review of random sample (DEFERRED pending Phase 7 engine decision)
+- [x] 05-04-PLAN.md — Expert review of random sample ✓ (APPROVED FOR PERSONAL USE)
 
 ### Phase 6: Real Handoff Testing
-**Goal**: Validate PHI detection on real clinical handoff text read by user
-**Depends on**: Phase 5 (validation infrastructure ready)
+**Goal**: Validate PHI detection on real clinical handoff text read by user through full audio pipeline
+**Depends on**: Phase 5 (validation infrastructure ready, expert review complete)
 **Requirements**: REAL-01, REAL-02
 **Success Criteria** (what must be TRUE):
   1. User reads real text handoffs and system de-identifies them
   2. User validates that PHI is correctly detected and redacted
   3. False negatives and false positives documented from real-world usage
   4. System performance confirmed on actual clinical content
-**Plans**: 0 plans
+**Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 6 to break down)
+- [ ] 06-01-PLAN.md — Prepare validation templates and conduct first testing session (5+ handoffs)
+- [ ] 06-02-PLAN.md — Pattern analysis, fixes if needed, final session, and production verdict
 
 ### Phase 7: Alternative Engine Benchmark
 **Goal**: Compare Philter-UCSF and Stanford BERT de-identification engines against current Presidio setup to determine if switching engines provides meaningful improvement for spoken handoff use case
@@ -191,8 +192,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Threshold Calibration | 2/2 | ✓ Complete | 2026-01-23 |
 | 3. Deny List Refinement | 2/2 | ✓ Complete (DENY-04 deferred) | 2026-01-24 |
 | 4. Pattern Improvements | 6/6 | ✓ Complete | 2026-01-25 |
-| 5. Validation & Compliance | 3/4 | ◆ Partial (05-04 deferred) | - |
-| 6. Real Handoff Testing | 0/? | Not planned | - |
+| 5. Validation & Compliance | 4/4 | ✓ Complete (APPROVED) | 2026-01-25 |
+| 6. Real Handoff Testing | 0/2 | Planned | - |
 | 7. Alternative Engine Benchmark | 3/3 | ✓ Complete (Presidio selected) | 2026-01-25 |
 | 8. Weighted Recall Evaluation | 1/1 | ✓ Complete | 2026-01-25 |
 
@@ -225,4 +226,4 @@ Plans 04-04 and 04-05 address easy wins. Plan 04-06 analyzes remaining gaps and 
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-25 (Phase 7 complete — Decision: Continue with Presidio)*
+*Last updated: 2026-01-25 (Phase 6 planned — 2 plans in 2 waves)*
