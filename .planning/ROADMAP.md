@@ -17,6 +17,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Deny List Refinement** - Medical vocabulary filtering and case normalization ✓ (DENY-04 deferred to Phase 4)
 - [ ] **Phase 4: Pattern Improvements** - Regex edge case fixes and bidirectional patterns (GAP CLOSURE IN PROGRESS)
 - [ ] **Phase 5: Validation & Compliance** - External validation and clinical deployment readiness
+- [ ] **Phase 6: Real Handoff Testing** - User reads actual text handoffs to validate PHI detection
+- [ ] **Phase 7: Alternative Engine Benchmark** - Compare Philter-UCSF and Stanford BERT against current Presidio
 
 ## Phase Details
 
@@ -107,6 +109,48 @@ Plans:
 - [ ] 05-03-PLAN.md — Run validation and generate compliance documentation (BLOCKED - waiting for 04 gap closure)
 - [ ] 05-04-PLAN.md — Expert review of random sample (user as clinical expert)
 
+### Phase 6: Real Handoff Testing
+**Goal**: Validate PHI detection on real clinical handoff text read by user
+**Depends on**: Phase 5 (validation infrastructure ready)
+**Requirements**: REAL-01, REAL-02
+**Success Criteria** (what must be TRUE):
+  1. User reads real text handoffs and system de-identifies them
+  2. User validates that PHI is correctly detected and redacted
+  3. False negatives and false positives documented from real-world usage
+  4. System performance confirmed on actual clinical content
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 6 to break down)
+
+### Phase 7: Alternative Engine Benchmark
+**Goal**: Compare Philter-UCSF and Stanford BERT de-identification engines against current Presidio setup to determine if switching engines provides meaningful improvement for spoken handoff use case
+**Depends on**: Phase 1 (needs evaluation framework), can run in parallel with other phases
+**Requirements**: BENCH-01, BENCH-02, BENCH-03
+**Success Criteria** (what must be TRUE):
+  1. Philter-UCSF installed and configured with equivalent pediatric patterns translated from current codebase
+  2. Stanford BERT (StanfordAIMI/stanford-deidentifier-base) integrated as Presidio NER backend
+  3. All three engines benchmarked on same test dataset (synthetic_handoffs.json + adversarial_handoffs.json)
+  4. Weighted recall/precision/F2 calculated for spoken handoff relevance (using established weights)
+  5. Decision documented: stick with Presidio, switch to Philter, or hybrid approach
+**Plans**: 3 plans in 2 waves
+
+Plans:
+- [ ] 07-01-PLAN.md — Install Philter-UCSF and translate pediatric/medical patterns to Philter config format
+- [ ] 07-02-PLAN.md — Integrate Stanford BERT as Presidio NER backend (TransformersNlpEngine)
+- [ ] 07-03-PLAN.md — Run comparative benchmark and document decision
+
+**Context:**
+- Current system (Presidio + spaCy + custom patterns): 91.5% weighted recall
+- Philter-UCSF: 99.5% recall on i2b2 benchmark (written clinical notes)
+- Stanford BERT: 97-99% F1 on de-identification tasks
+- Key question: Do these gains on written notes translate to spoken handoffs?
+
+**References:**
+- [Philter-UCSF GitHub](https://github.com/BCHSI/philter-ucsf)
+- [Stanford De-identifier on HuggingFace](https://huggingface.co/StanfordAIMI/stanford-deidentifier-base)
+- [docs/SPOKEN_HANDOFF_ANALYSIS.md](../docs/SPOKEN_HANDOFF_ANALYSIS.md) — Relevance weighting methodology
+
 ## Progress
 
 **Execution Order:**
@@ -121,6 +165,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Deny List Refinement | 2/2 | ✓ Complete (DENY-04 deferred) | 2026-01-24 |
 | 4. Pattern Improvements | 3/6 | Gap Closure | 2026-01-24 |
 | 5. Validation & Compliance | 2/4 | Blocked by Phase 4 | - |
+| 6. Real Handoff Testing | 0/? | Not planned | - |
+| 7. Alternative Engine Benchmark | 0/3 | Ready | - |
 
 ---
 
@@ -141,6 +187,7 @@ Plans 04-04 and 04-05 address easy wins. Plan 04-06 analyzes remaining gaps and 
 - Phase 2 blocks Phases 3-4 (threshold calibration required before pattern tuning)
 - Phases 3-4 can run in parallel (deny lists and regex improvements are independent)
 - Phase 5 requires Phases 3-4 complete (validation needs all improvements in place)
+- **Phase 7 can run in parallel** with Phases 4-6 (independent evaluation of alternative engines)
 
 **Quick Wins Identified:**
 - Phase 2: Case normalization (1-2 hours, high impact)
@@ -149,4 +196,4 @@ Plans 04-04 and 04-05 address easy wins. Plan 04-06 analyzes remaining gaps and 
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-24 (Phase 4 gap closure plans created)*
+*Last updated: 2026-01-25 (Phase 7 alternative engine benchmark added)*
