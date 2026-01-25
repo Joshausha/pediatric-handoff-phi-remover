@@ -129,6 +129,64 @@ The system is closer to clinical deployment readiness than standard metrics indi
 
 ---
 
+## Industry Benchmarks
+
+### The 95% Recall Standard
+
+There is no official regulatory threshold for PHI de-identification, but **95% recall is the widely-cited benchmark** for safe clinical deployment. This comes from the [i2b2/UTHealth de-identification challenges](https://pmc.ncbi.nlm.nih.gov/articles/PMC4989908/), which established that perfect de-identification (100%) is likely unachievable.
+
+> "95% has been suggested as a rule-of-thumb for determining whether a system can reliably de-identify a data set for safe distribution."
+> — i2b2 Challenge Overview
+
+### How Tools Compare
+
+| Tool/Approach | Recall | Precision | Notes |
+|---------------|--------|-----------|-------|
+| **This system (weighted)** | **91.5%** | **79.7%** | Spoken handoffs only |
+| Philter (UCSF) | 99.5% | ~90% | State-of-the-art rule-based |
+| BERT-based models | 97-98% | ~95% | Transformer deep learning |
+| Presidio (our base) | ~90-93% | ~85-90% | Microsoft open-source |
+| NLM Scrubber | 87.8% | ~85% | Older rule-based system |
+| PhysioNet deid | 85.1% | ~80% | Basic rule-based |
+
+### Context: Written Notes vs Spoken Handoffs
+
+Industry benchmarks are for **written clinical notes** (discharge summaries, progress notes). Spoken handoffs differ significantly:
+
+| Written Notes | Spoken Handoffs |
+|---------------|-----------------|
+| Full addresses common | Addresses never spoken |
+| Structured formats | Conversational, informal |
+| Complete sentences | Stutters, corrections |
+| i2b2 benchmark applies | No direct benchmark exists |
+
+### Where This System Stands
+
+| Metric | Score | Target | Gap |
+|--------|-------|--------|-----|
+| Weighted Recall | 91.5% | 95% | **3.5%** |
+| Weighted Precision | 79.7% | 70%+ | ✓ Met |
+| Weighted F2 | 88.8% | 90%+ | 1.2% |
+
+The system is **3.5 percentage points from the industry standard** — and that gap is mostly ROOM detection (bed numbers).
+
+### Recent Advances (2024-2025)
+
+Recent research shows transformer models (BERT, BioClinicalBERT) now outperform rule-based systems, especially for names and locations. However, rule-based systems like this one have advantages for clinical deployment:
+
+- **No cloud API needed** — all processing local (HIPAA-friendly)
+- **Interpretable** — you know why something was flagged
+- **Fast and deterministic** — consistent results
+
+### References
+
+1. [i2b2/UTHealth 2014 De-identification Challenge](https://pmc.ncbi.nlm.nih.gov/articles/PMC4989908/)
+2. [Open Source PHI De-Identification: Technical Review (2025)](https://intuitionlabs.ai/articles/open-source-phi-de-identification-tools)
+3. [Deep Learning Framework for PHI De-Identification (2025)](https://www.mdpi.com/1999-5903/17/1/47)
+4. [2025 Benchmark: De-Identification Tools](https://www.censinet.com/perspectives/2025-benchmark-de-identification-tools)
+
+---
+
 ## Appendix: Raw Data
 
 ### Source
