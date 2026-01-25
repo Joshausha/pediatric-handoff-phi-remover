@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 ## Current Position
 
-Phase: 4 of 5 (Pattern Improvements) - GAPS FOUND
-Plan: 3 of 3 complete + gap closure needed
-Status: Validation revealed pattern gaps requiring Phase 4 improvements
-Last activity: 2026-01-24 — Phase 5 validation: 83% recall [81%, 85%], need 95%
+Phase: 4 of 5 (Pattern Improvements) - GAP CLOSURE IN PROGRESS
+Plan: 4 of 6 complete (04-04 phone patterns done)
+Status: Gap closure for validation failures in progress
+Last activity: 2026-01-25 — Completed 04-04: Phone number patterns for international/extension formats
 
-Progress: [███████░░░] 70% (Phases 1-4 executed, gaps found in validation)
+Progress: [███████░░░] 73% (Gap closure 04-04 complete, 04-05 and 04-06 remaining)
 
 ### Validation Gap Summary (from 05-03)
 
@@ -30,7 +30,7 @@ Progress: [███████░░░] 70% (Phases 1-4 executed, gaps found 
 1. ROOM - standalone numbers (847, 16, 8) without "Room" prefix
 2. MEDICAL_RECORD_NUMBER - 7-digit numbers without # prefix (2694522)
 3. LOCATION - full addresses missed by spaCy NER
-4. PHONE_NUMBER - international format (001-411-671-8227)
+4. ~~PHONE_NUMBER - international format (001-411-671-8227)~~ **RESOLVED** (04-04: 5 patterns added)
 
 ## Performance Metrics
 
@@ -46,12 +46,12 @@ Progress: [███████░░░] 70% (Phases 1-4 executed, gaps found 
 | 01-baseline-measurement | 6/6 | 38 min | 6.3 min |
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
-| 04-pattern-improvements | 3/3 | 21 min | 7.0 min |
+| 04-pattern-improvements | 4/6 | 26 min | 6.5 min |
 | 05-validation-compliance | 2/3 | 6 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (9min), 04-02 (4min), 04-03 (8min), 05-01 (3min), 05-02 (3min)
-- Trend: Infrastructure setup faster than pattern work
+- Last 5 plans: 04-02 (4min), 04-03 (8min), 05-01 (3min), 05-02 (3min), 04-04 (5min)
+- Trend: Gap closure plans executing efficiently
 
 *Updated after each plan completion*
 
@@ -92,6 +92,8 @@ Recent decisions affecting current work:
 - **Pediatric descriptors added to PERSON deny list** (baby, infant, newborn, neonate) — From 04-01
 - **PEDIATRIC_AGE recognizer DISABLED** (Ages not PHI under HIPAA unless 90+; preserved for clinical utility) — From 04-03
 - **Regression test thresholds** (Guardian >80%, Room >40%, standard entities >90%) — From 04-03
+- **Phone patterns supplement Presidio default** (5 patterns for international/extension formats with context-dependent scoring) — From 04-04
+- **10-digit unformatted phone: low score (0.60)** (Requires context words to avoid false positives on other 10-digit numbers) — From 04-04
 - **Target validation sample: 200 transcripts** (Minimum viable: 50; narrow confidence intervals for >95% recall verification) — From 05-01
 - **Stratification by dominant PHI type** (Preserves entity distribution from synthetic to validation data) — From 05-01
 - **70/30 val/test split** (No training needed - tuning on val, final metrics on test) — From 05-01
@@ -149,6 +151,10 @@ None yet.
 - This is a thinc/spacy/numpy version mismatch in system Python, unrelated to plan changes
 - Bootstrap CI functionality verified via unit tests, full integration testing blocked by environment issue
 
+### Roadmap Evolution
+
+- Phase 6 added: Real handoff testing - user reads actual text handoffs to validate PHI detection (2026-01-24)
+
 ### Quick Tasks Completed
 
 | # | Description | Date | Commit | Directory |
@@ -157,11 +163,11 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-24
-Stopped at: Phase 5 validation revealed gaps — returning to Phase 4
-Resume file: .planning/phases/05-validation-compliance/validation_results.json
-Next: `/gsd:plan-phase 4 --gaps` to create gap closure plans
+Last session: 2026-01-25
+Stopped at: Completed 04-04 phone number patterns
+Resume file: .planning/phases/04-pattern-improvements/04-04-SUMMARY.md
+Next: Execute 04-05-PLAN.md (hyphenated room numbers)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-24 (Validation gaps found, returning to Phase 4)*
+*Last updated: 2026-01-25 (04-04 phone patterns complete, 04-05 and 04-06 remaining)*
