@@ -28,9 +28,5 @@ httpx==0.26.0
 faker>=19.0.0
 presidio-evaluator>=0.2.4
 
-# Transformer-based NER (Phase 7 benchmark)
-transformers>=4.0.0
-torch>=2.0.0
-
-# Rule-based de-identification (Phase 7 benchmark)
+# Rule-based de-identification (Philter - kept for future exploration)
 philter-ucsf>=2.0.0
