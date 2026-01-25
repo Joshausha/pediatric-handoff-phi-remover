@@ -564,6 +564,11 @@ def main():
         action="store_true",
         help="Calculate bootstrap 95%% confidence intervals (slower)"
     )
+    parser.add_argument(
+        "--weighted",
+        action="store_true",
+        help="Report weighted metrics using spoken handoff relevance weights"
+    )
 
     args = parser.parse_args()
 
