@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 ## Current Position
 
-Phase: 4 of 5 (Pattern Improvements) - COMPLETE
-Plan: 6 of 6 complete (04-06 gap analysis done)
-Status: Phase 4 complete, ready for Phase 5 external validation
-Last activity: 2026-01-25 — Completed 04-06: Gap analysis with conservative decision
+Phase: 8 of 9 (Weighted Recall Evaluation)
+Plan: 1 of 1 complete (08-01 weighted metrics implemented)
+Status: Phase 8 complete, Phase 5 external validation ready with weighted metrics
+Last activity: 2026-01-25 — Completed 08-01: Weighted metrics for spoken handoff relevance
 
-Progress: [████████░░] 80% (Phase 4 complete, Phase 5 remaining)
+Progress: [████████░░] 89% (Phases 1-4, 8 complete; Phase 5 external validation remaining)
 
 ### Post-Gap-Closure Metrics (from 04-06)
 
@@ -38,8 +38,8 @@ Progress: [████████░░] 80% (Phase 4 complete, Phase 5 remain
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
-- Average duration: 5.2 min
+- Total plans completed: 16
+- Average duration: 5.0 min
 - Total execution time: 1.3 hours
 
 **By Phase:**
@@ -51,10 +51,11 @@ Progress: [████████░░] 80% (Phase 4 complete, Phase 5 remain
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
 | 04-pattern-improvements | 5/6 | 31 min | 6.2 min |
 | 05-validation-compliance | 2/3 | 6 min | 3.0 min |
+| 08-weighted-recall-evaluation | 1/1 | 3 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-03 (8min), 05-01 (3min), 05-02 (3min), 04-04 (5min), 04-05 (5min)
-- Trend: Gap closure plans executing efficiently
+- Last 5 plans: 05-01 (3min), 05-02 (3min), 04-04 (5min), 04-05 (5min), 08-01 (3min)
+- Trend: Consistent fast execution on infrastructure tasks
 
 *Updated after each plan completion*
 
@@ -105,6 +106,9 @@ Recent decisions affecting current work:
 - **Bootstrap percentile method with 10k iterations** (Standard bootstrap approach, computationally tractable, provides stable 95% CI) — From 05-02
 - **6 failure modes for error taxonomy** (Covers all major detection failure mechanisms, enables targeted improvements) — From 05-02
 - **--with-ci flag optional** (Bootstrap is slow, only calculate when needed for formal validation) — From 05-02
+- **Weighted metrics opt-in via --weighted flag** (Preserves existing workflows; weights from SPOKEN_HANDOFF_ANALYSIS.md evidence) — From 08-01
+- **Spoken handoff relevance weights (0-5 scale)** (PERSON/GUARDIAN=5, ROOM=4, PHONE/DATE=2, MRN=1, EMAIL/LOCATION/AGE=0; reflects I-PASS handoff frequency) — From 08-01
+- **Weighted recall 91.5% vs unweighted 77.9%** (Zero-weight entities (EMAIL, LOCATION, PEDIATRIC_AGE) don't penalize metrics; accurately reflects spoken handoff performance) — From 08-01
 
 ### Pending Todos
 
@@ -169,10 +173,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed Phase 4 Pattern Improvements
-Resume file: .planning/phases/04-pattern-improvements/04-06-SUMMARY.md
-Next: Phase 5 external validation with real handoff transcripts
+Stopped at: Completed Phase 8 Weighted Recall Evaluation (08-01)
+Resume file: .planning/phases/08-weighted-recall-evaluation/08-01-SUMMARY.md
+Next: Phase 5 external validation with real handoff transcripts using weighted metrics
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-25 (Phase 4 complete, 04-06 gap analysis done)*
+*Last updated: 2026-01-25 (Phase 8 complete, weighted metrics implemented)*
