@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 5: External Validation (NEXT)
+**Current focus:** Phase 7: Alternative Engine Benchmark (NEXT)
 
 ## Current Position
 
-Phase: 8 of 9 (Weighted Recall Evaluation)
-Plan: 1 of 1 complete (08-01 weighted metrics implemented)
-Status: Phase 8 complete, Phase 5 external validation ready with weighted metrics
-Last activity: 2026-01-25 — Completed 08-01: Weighted metrics for spoken handoff relevance
+Phase: 5 of 8 (Validation & Compliance - partial)
+Plan: 3 of 4 complete (05-04 expert review deferred pending Phase 7)
+Status: Validation complete (86.4% recall), decision deferred pending Phase 7 engine benchmark
+Last activity: 2026-01-25 — Completed 05-03: Validation report with decision deferred
 
-Progress: [████████░░] 89% (Phases 1-4, 8 complete; Phase 5 external validation remaining)
+Progress: [████████░░] 85% (Phases 1-4, 8 complete; Phase 5 partial, Phase 7 benchmark next)
 
 ### Post-Gap-Closure Metrics (from 04-06)
 
@@ -50,7 +50,7 @@ Progress: [████████░░] 89% (Phases 1-4, 8 complete; Phase 5 
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
 | 04-pattern-improvements | 5/6 | 31 min | 6.2 min |
-| 05-validation-compliance | 2/3 | 6 min | 3.0 min |
+| 05-validation-compliance | 3/4 | 8 min | 2.7 min |
 | 08-weighted-recall-evaluation | 1/1 | 3 min | 3.0 min |
 
 **Recent Trend:**
@@ -109,6 +109,8 @@ Recent decisions affecting current work:
 - **Weighted metrics opt-in via --weighted flag** (Preserves existing workflows; weights from SPOKEN_HANDOFF_ANALYSIS.md evidence) — From 08-01
 - **Spoken handoff relevance weights (0-5 scale)** (PERSON/GUARDIAN=5, ROOM=4, PHONE/DATE=2, MRN=1, EMAIL/LOCATION/AGE=0; reflects I-PASS handoff frequency) — From 08-01
 - **Weighted recall 91.5% vs unweighted 77.9%** (Zero-weight entities (EMAIL, LOCATION, PEDIATRIC_AGE) don't penalize metrics; accurately reflects spoken handoff performance) — From 08-01
+- **Deployment decision deferred to Phase 7** (Presidio recall 86.4% below 95% threshold; benchmark Philter-UCSF and Stanford BERT before deciding whether to improve Presidio or switch engines) — From 05-03
+- **05-04 expert review deferred** (More valuable after engine decision; expert review on final system rather than potentially abandoned Presidio) — From 05-03
 
 ### Pending Todos
 
@@ -173,10 +175,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed Phase 8 Weighted Recall Evaluation (08-01)
-Resume file: .planning/phases/08-weighted-recall-evaluation/08-01-SUMMARY.md
-Next: Phase 5 external validation with real handoff transcripts using weighted metrics
+Stopped at: Completed 05-03 validation report (decision deferred)
+Resume file: .planning/phases/05-validation-compliance/05-03-SUMMARY.md
+Next: Phase 7 alternative engine benchmark (Philter-UCSF, Stanford BERT)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-25 (Phase 8 complete, weighted metrics implemented)*
+*Last updated: 2026-01-25 (05-03 complete, Phase 7 benchmark next)*

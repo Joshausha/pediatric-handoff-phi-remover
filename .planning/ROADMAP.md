@@ -107,8 +107,8 @@ Plans:
 Plans:
 - [x] 05-01-PLAN.md — Create validation data pipeline (annotation schema, dataset loader) ✓
 - [x] 05-02-PLAN.md — Add bootstrap CI and error taxonomy to evaluation infrastructure ✓
-- [ ] 05-03-PLAN.md — Run validation and generate compliance documentation
-- [ ] 05-04-PLAN.md — Expert review of random sample (user as clinical expert)
+- [x] 05-03-PLAN.md — Run validation and generate compliance documentation ✓ (decision deferred pending Phase 7)
+- [ ] 05-04-PLAN.md — Expert review of random sample (DEFERRED pending Phase 7 engine decision)
 
 ### Phase 6: Real Handoff Testing
 **Goal**: Validate PHI detection on real clinical handoff text read by user
@@ -188,10 +188,10 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Threshold Calibration | 2/2 | ✓ Complete | 2026-01-23 |
 | 3. Deny List Refinement | 2/2 | ✓ Complete (DENY-04 deferred) | 2026-01-24 |
 | 4. Pattern Improvements | 6/6 | ✓ Complete | 2026-01-25 |
-| 5. Validation & Compliance | 2/4 | Ready | - |
+| 5. Validation & Compliance | 3/4 | ◆ Partial (05-04 deferred) | - |
 | 6. Real Handoff Testing | 0/? | Not planned | - |
-| 7. Alternative Engine Benchmark | 0/3 | Ready | - |
-| 8. Weighted Recall Evaluation | 0/1 | Ready | - |
+| 7. Alternative Engine Benchmark | 0/3 | ◆ NEXT | - |
+| 8. Weighted Recall Evaluation | 1/1 | ✓ Complete | 2026-01-25 |
 
 ---
 
@@ -222,4 +222,4 @@ Plans 04-04 and 04-05 address easy wins. Plan 04-06 analyzes remaining gaps and 
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-25 (Phase 7 alternative engine benchmark added)*
+*Last updated: 2026-01-25 (05-03 complete, Phase 7 benchmark next)*
