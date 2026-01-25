@@ -424,6 +424,7 @@ class PresidioEvaluator:
         metrics: EvaluationMetrics,
         results: list[DetectionResult],
         show_failures: bool = True,
+        weighted: bool = False,
     ) -> str:
         """
         Generate evaluation report.
@@ -466,6 +467,21 @@ class PresidioEvaluator:
             lines.append("CONFIDENCE INTERVALS (95%, bootstrap n=10,000):")
             lines.append(f"  Recall:    [{recall_lower:.1%}, {recall_upper:.1%}]")
             lines.append(f"  Precision: [{prec_lower:.1%}, {prec_upper:.1%}]")
+            lines.append("")
+
+        # Add weighted metrics if requested
+        if weighted:
+            from app.config import settings
+            weights = settings.spoken_handoff_weights
+
+            lines.append("WEIGHTED METRICS (spoken handoff relevance):")
+            lines.append(f"  Weighted Recall:    {metrics.weighted_recall(weights):.1%}")
+            lines.append(f"  Weighted Precision: {metrics.weighted_precision(weights):.1%}")
+            lines.append(f"  Weighted F2 Score:  {metrics.weighted_f2(weights):.1%}  ← PRIMARY METRIC")
+            lines.append("")
+            lines.append("  Weights applied:")
+            for entity, weight in sorted(weights.items(), key=lambda x: -x[1]):
+                lines.append(f"    {entity}: {weight}")
             lines.append("")
 
         # Safety check
@@ -651,7 +667,7 @@ def main():
         print(json.dumps(output, indent=2))
     else:
         # Text report
-        report = evaluator.generate_report(metrics, results)
+        report = evaluator.generate_report(metrics, results, weighted=args.weighted)
 
         if args.output:
             args.output.parent.mkdir(parents=True, exist_ok=True)
