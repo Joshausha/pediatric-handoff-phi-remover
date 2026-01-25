@@ -1,0 +1,284 @@
+============================================================
+PHILTER-UCSF PHI DETECTION BENCHMARK REPORT
+============================================================
+
+OVERALL METRICS:
+  Total expected PHI spans: 156
+  Total detected spans:     35
+  True positives:           9
+  False negatives (LEAKS):  147
+  False positives:          26
+
+  Precision: 25.7%
+  Recall:    5.8%
+  F1 Score:  9.4%
+  F2 Score:  6.8%  ← PRIMARY METRIC (recall-weighted)
+
+WEIGHTED METRICS (spoken handoff relevance):
+  Weighted Recall:    7.4%
+  Weighted Precision: 22.5%
+  Weighted F2 Score:  8.6%  ← PRIMARY METRIC
+
+  Weights applied:
+    PERSON: 5
+    GUARDIAN_NAME: 5
+    ROOM: 4
+    PHONE_NUMBER: 2
+    DATE_TIME: 2
+    MEDICAL_RECORD_NUMBER: 1
+    EMAIL_ADDRESS: 0
+    LOCATION: 0
+    PEDIATRIC_AGE: 0
+
+❌ SAFETY CHECK: FAILED - PHI LEAKS DETECTED!
+   147 PHI spans were NOT detected!
+
+PER-TYPE PERFORMANCE:
+  ❌ DATE_TIME: P=0% R=0% F1=0% F2=0%
+  ❌ EMAIL_ADDRESS: P=0% R=0% F1=0% F2=0%
+  ✅ GUARDIAN_NAME: P=0% R=0% F1=0% F2=0%
+  ❌ LOCATION: P=0% R=0% F1=0% F2=0%
+  ❌ MEDICAL_RECORD_NUMBER: P=0% R=0% F1=0% F2=0%
+  ❌ PEDIATRIC_AGE: P=0% R=0% F1=0% F2=0%
+  ❌ PERSON: P=0% R=0% F1=0% F2=0%
+  ❌ PHONE_NUMBER: P=0% R=0% F1=0% F2=0%
+  ❌ ROOM: P=60% R=56% F1=58% F2=57%
+
+MISSED PHI DETAILS (CRITICAL):
+----------------------------------------
+Handoff #0:
+  MISSED: PERSON 'Michael Thomas' at [15:29]
+  MISSED: PEDIATRIC_AGE '12 month old' at [33:45]
+Handoff #1:
+  MISSED: PERSON 'Lisa Palmer' at [18:29]
+  MISSED: PHONE_NUMBER '001-359-886-6201' at [38:54]
+Handoff #2:
+  MISSED: PERSON 'Christopher Davenport' at [19:40]
+  MISSED: DATE_TIME 'January 03' at [56:66]
+Handoff #3:
+  MISSED: ROOM '637' at [10:13]
+  MISSED: ROOM '304' at [27:30]
+  MISSED: PERSON 'Antonio Martin' at [36:50]
+Handoff #4:
+  MISSED: PERSON 'Billy Hanson' at [24:36]
+  MISSED: PEDIATRIC_AGE '17yo' at [42:46]
+Handoff #5:
+  MISSED: PHONE_NUMBER '+1-201-697-5587x2215' at [19:39]
+Handoff #6:
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN4120696' at [19:29]
+Handoff #7:
+  MISSED: DATE_TIME 'January 15' at [35:45]
+Handoff #8:
+  MISSED: PERSON 'Steven Chandler' at [20:35]
+  MISSED: PHONE_NUMBER '(660)376-9152x129' at [40:57]
+Handoff #9:
+  MISSED: PERSON 'Vaughn' at [23:29]
+Handoff #10:
+  MISSED: PERSON 'Kevin Thomas' at [8:20]
+  MISSED: ROOM '910' at [33:36]
+Handoff #11:
+  MISSED: PERSON 'Alan Mejia' at [4:14]
+  MISSED: PHONE_NUMBER '001-551-887-4756x10136' at [33:55]
+Handoff #12:
+  MISSED: PERSON 'Kevin Gaines' at [4:16]
+  MISSED: EMAIL_ADDRESS 'raymond02@example.net' at [43:64]
+Handoff #13:
+  MISSED: PERSON 'Thompson' at [17:25]
+Handoff #14:
+  MISSED: PERSON 'Michelle Hanna' at [8:22]
+  MISSED: PHONE_NUMBER '+1-334-235-3366x30780' at [26:47]
+Handoff #15:
+  MISSED: PERSON 'Scott Bradford' at [8:22]
+  MISSED: PEDIATRIC_AGE '4 year old' at [32:42]
+Handoff #16:
+  MISSED: PERSON 'Daniel Cole' at [12:23]
+Handoff #17:
+  MISSED: PERSON 'David Rodriguez' at [0:15]
+  MISSED: PEDIATRIC_AGE '4 day old' at [21:30]
+Handoff #18:
+  MISSED: PHONE_NUMBER '(461)502-6155x4828' at [0:18]
+Handoff #19:
+  MISSED: ROOM '8' at [0:1]
+Handoff #20:
+  MISSED: PERSON 'John Boyle' at [20:30]
+Handoff #21:
+  MISSED: PERSON 'Rebecca Olson' at [16:29]
+Handoff #22:
+  MISSED: PHONE_NUMBER '625-930-3724x97477' at [21:39]
+Handoff #23:
+  MISSED: PHONE_NUMBER '+1-496-268-9139' at [6:21]
+Handoff #24:
+  MISSED: PERSON 'Rebecca Little' at [9:23]
+  MISSED: MEDICAL_RECORD_NUMBER '97586311' at [30:38]
+Handoff #25:
+  MISSED: ROOM '7' at [6:7]
+Handoff #26:
+  MISSED: EMAIL_ADDRESS 'scotttodd@example.com' at [8:29]
+Handoff #27:
+  MISSED: PERSON 'Austin Ellis' at [9:21]
+  MISSED: PERSON 'Kathleen Wilson' at [23:38]
+Handoff #28:
+  MISSED: PHONE_NUMBER '655-851-6754x33725' at [10:28]
+  MISSED: PHONE_NUMBER '594.480.2422' at [30:42]
+Handoff #29:
+  MISSED: DATE_TIME 'January 04' at [8:18]
+  MISSED: DATE_TIME 'January 21' at [20:30]
+  MISSED: DATE_TIME 'January 13' at [36:46]
+Handoff #30:
+  MISSED: PERSON 'Susan Green' at [0:11]
+Handoff #31:
+  MISSED: PERSON 'Dr. Cody Scott PhD' at [0:18]
+  MISSED: PHONE_NUMBER '001-885-221-6484x1298' at [32:53]
+Handoff #32:
+  MISSED: PERSON 'Jeffrey Stevens' at [0:15]
+  MISSED: EMAIL_ADDRESS 'gdaniels@example.org' at [47:67]
+Handoff #33:
+  MISSED: PERSON 'Katelyn Cardenas' at [4:20]
+Handoff #34:
+  MISSED: PERSON 'Michael Harris' at [4:18]
+Handoff #35:
+  MISSED: PERSON 'Melanie Stephens' at [8:24]
+Handoff #36:
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 29776461' at [4:16]
+  MISSED: MEDICAL_RECORD_NUMBER '7018128' at [27:34]
+Handoff #37:
+  MISSED: PHONE_NUMBER '2147501852' at [5:15]
+  MISSED: PHONE_NUMBER '351.567.0013' at [19:31]
+Handoff #42:
+  MISSED: PERSON 'Brian Torres' at [0:12]
+  MISSED: PERSON 'Shane Barnett' at [16:29]
+Handoff #44:
+  MISSED: EMAIL_ADDRESS 'amarsh@example.net' at [13:31]
+  MISSED: EMAIL_ADDRESS 'dalvarado@example.com' at [33:54]
+Handoff #45:
+  MISSED: PERSON 'Christina Kim' at [0:13]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 12256515' at [19:31]
+  MISSED: ROOM '27' at [45:47]
+  MISSED: DATE_TIME 'January 10' at [51:61]
+Handoff #46:
+  MISSED: PERSON 'Cassandra Dillon' at [4:20]
+  MISSED: PHONE_NUMBER '871-571-1048' at [22:34]
+  MISSED: PERSON 'William Allen MD' at [44:60]
+  MISSED: PHONE_NUMBER '(812)208-9116x0131' at [62:80]
+Handoff #47:
+  MISSED: PERSON 'Stephen Flores' at [8:22]
+  MISSED: PEDIATRIC_AGE '11 weeks 3 days old' at [24:43]
+  MISSED: LOCATION 'South Jenniferland' at [50:68]
+  MISSED: MEDICAL_RECORD_NUMBER '92220775' at [74:82]
+Handoff #48:
+  MISSED: PERSON 'Alejandro Nelson' at [3:19]
+  MISSED: PHONE_NUMBER '+1-640-657-4016' at [46:61]
+Handoff #49:
+  MISSED: PERSON 'Angela Williams' at [0:15]
+  MISSED: EMAIL_ADDRESS 'amybutler@example.com' at [19:40]
+Handoff #50:
+  MISSED: PERSON 'Nielsen' at [27:34]
+Handoff #51:
+  MISSED: PERSON 'Jonathan Lopez Jr.' at [18:36]
+  MISSED: PERSON 'John Walker' at [48:59]
+Handoff #52:
+  MISSED: PERSON 'Griffith' at [4:12]
+  MISSED: PERSON 'Mario Garcia' at [24:36]
+  MISSED: PHONE_NUMBER '254-219-8878x74660' at [40:58]
+  MISSED: DATE_TIME 'January 04' at [62:72]
+Handoff #53:
+  MISSED: PEDIATRIC_AGE '24 day old' at [8:18]
+Handoff #54:
+  MISSED: DATE_TIME 'January 19' at [15:25]
+  MISSED: PEDIATRIC_AGE '10 year old' at [31:42]
+Handoff #55:
+  MISSED: PEDIATRIC_AGE '4 yo' at [25:29]
+Handoff #59:
+  MISSED: PERSON 'Lauren Nelson' at [15:28]
+  MISSED: PEDIATRIC_AGE '8yo' at [32:35]
+Handoff #60:
+  MISSED: PERSON 'Nathaniel Smith' at [18:33]
+  MISSED: PHONE_NUMBER '620.442.1754x23014' at [42:60]
+Handoff #61:
+  MISSED: PERSON 'Wendy Hancock' at [19:32]
+  MISSED: DATE_TIME 'January 21' at [48:58]
+Handoff #62:
+  MISSED: ROOM '490' at [10:13]
+  MISSED: PERSON 'Brandy Short' at [44:56]
+Handoff #63:
+  MISSED: PERSON 'William Watson' at [24:38]
+  MISSED: PEDIATRIC_AGE '22mo' at [44:48]
+Handoff #64:
+  MISSED: PHONE_NUMBER '679-711-2276' at [19:31]
+Handoff #65:
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN2026699' at [19:29]
+Handoff #66:
+  MISSED: DATE_TIME 'January 07' at [34:44]
+Handoff #67:
+  MISSED: PERSON 'Lauren Hernandez' at [20:36]
+  MISSED: PHONE_NUMBER '625.418.7065' at [41:53]
+Handoff #68:
+  MISSED: PERSON 'Allen' at [23:28]
+Handoff #69:
+  MISSED: PERSON 'Kevin Bennett' at [8:21]
+Handoff #70:
+  MISSED: PERSON 'John Miller' at [4:15]
+  MISSED: PHONE_NUMBER '217-751-6004x53406' at [34:52]
+Handoff #71:
+  MISSED: PERSON 'Amy Wells' at [4:13]
+  MISSED: EMAIL_ADDRESS 'youngdavid@example.org' at [40:62]
+Handoff #72:
+  MISSED: PERSON 'Ho' at [17:19]
+Handoff #73:
+  MISSED: PERSON 'Laura Lamb' at [8:18]
+  MISSED: PHONE_NUMBER '783-914-0713' at [22:34]
+Handoff #74:
+  MISSED: PERSON 'Sara Craig' at [8:18]
+  MISSED: PEDIATRIC_AGE '15yo' at [28:32]
+Handoff #75:
+  MISSED: PERSON 'Anna Rasmussen' at [12:26]
+Handoff #76:
+  MISSED: PERSON 'Terry Salazar' at [0:13]
+  MISSED: PEDIATRIC_AGE '19 month old' at [19:31]
+Handoff #77:
+  MISSED: PHONE_NUMBER '+1-303-716-4367x298' at [0:19]
+Handoff #79:
+  MISSED: PERSON 'Alan Nguyen' at [20:31]
+Handoff #80:
+  MISSED: PERSON 'John Thompson' at [16:29]
+Handoff #81:
+  MISSED: PHONE_NUMBER '+1-901-670-6048' at [21:36]
+Handoff #82:
+  MISSED: PHONE_NUMBER '(853)346-8995' at [6:19]
+Handoff #83:
+  MISSED: PERSON 'Stephen Case' at [9:21]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN3190376' at [28:38]
+Handoff #85:
+  MISSED: EMAIL_ADDRESS 'ahunter@example.net' at [8:27]
+Handoff #86:
+  MISSED: PERSON 'Alexis Graham' at [9:22]
+  MISSED: PERSON 'Eric Rodriguez' at [24:38]
+Handoff #87:
+  MISSED: PHONE_NUMBER '(480)963-6782' at [10:23]
+  MISSED: PHONE_NUMBER '231.923.8411x24474' at [25:43]
+Handoff #88:
+  MISSED: DATE_TIME 'January 09' at [8:18]
+  MISSED: DATE_TIME 'January 08' at [20:30]
+  MISSED: DATE_TIME 'January 19' at [36:46]
+Handoff #89:
+  MISSED: PERSON 'Edward Miller' at [0:13]
+Handoff #90:
+  MISSED: PERSON 'Ms. Deborah Smith' at [0:17]
+  MISSED: PHONE_NUMBER '663-701-3599x738' at [31:47]
+Handoff #91:
+  MISSED: PERSON 'Bobby Park' at [0:10]
+  MISSED: EMAIL_ADDRESS 'lindsaybolton@example.org' at [42:67]
+Handoff #92:
+  MISSED: PERSON 'Robert Barber' at [4:17]
+Handoff #93:
+  MISSED: PERSON 'Amanda Collins' at [4:18]
+Handoff #94:
+  MISSED: PERSON 'Jeffrey Lucas' at [8:21]
+Handoff #95:
+  MISSED: MEDICAL_RECORD_NUMBER '18335787' at [4:12]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 65604924' at [23:35]
+Handoff #96:
+  MISSED: PHONE_NUMBER '233-566-1929x95632' at [5:23]
+  MISSED: PHONE_NUMBER '516-609-0752' at [27:39]
+
+============================================================

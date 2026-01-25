@@ -1,0 +1,675 @@
+============================================================
+PRESIDIO PHI DETECTION EVALUATION REPORT
+============================================================
+
+OVERALL METRICS:
+  Total expected PHI spans: 1672
+  Total detected spans:     1965
+  True positives:           1303
+  False negatives (LEAKS):  369
+  False positives:          662
+
+  Precision: 66.3%
+  Recall:    77.9%
+  F1 Score:  71.7%
+  F2 Score:  75.3%  ← PRIMARY METRIC (recall-weighted)
+
+WEIGHTED METRICS (spoken handoff relevance):
+  Weighted Recall:    94.4%
+  Weighted Precision: 68.3%
+  Weighted F2 Score:  87.7%  ← PRIMARY METRIC
+
+  Weights applied:
+    PERSON: 5
+    GUARDIAN_NAME: 5
+    ROOM: 4
+    PHONE_NUMBER: 2
+    DATE_TIME: 2
+    MEDICAL_RECORD_NUMBER: 1
+    EMAIL_ADDRESS: 0
+    LOCATION: 0
+    PEDIATRIC_AGE: 0
+
+❌ SAFETY CHECK: FAILED - PHI LEAKS DETECTED!
+   369 PHI spans were NOT detected!
+
+PER-TYPE PERFORMANCE:
+  ❌ DATE_TIME: P=37% R=97% F1=54% F2=74%
+  ✅ EMAIL_ADDRESS: P=100% R=100% F1=100% F2=100%
+  ✅ GUARDIAN_NAME: P=0% R=0% F1=0% F2=0%
+  ❌ LOCATION: P=81% R=19% F1=31% F2=23%
+  ✅ MEDICAL_LICENSE: P=0% R=0% F1=0% F2=0%
+  ❌ MEDICAL_RECORD_NUMBER: P=79% R=71% F1=75% F2=72%
+  ❌ PEDIATRIC_AGE: P=0% R=0% F1=0% F2=0%
+  ❌ PERSON: P=90% R=99% F1=94% F2=97%
+  ❌ PHONE_NUMBER: P=99% R=97% F1=98% F2=98%
+  ❌ ROOM: P=49% R=51% F1=50% F2=51%
+
+MISSED PHI DETAILS (CRITICAL):
+----------------------------------------
+Handoff #0:
+  MISSED: PEDIATRIC_AGE '5 days old' at [24:34]
+Handoff #1:
+  MISSED: PEDIATRIC_AGE '6 weeks 4 days old' at [70:88]
+Handoff #2:
+  MISSED: ROOM '847' at [23:26]
+  MISSED: PEDIATRIC_AGE 'DOL 6' at [55:60]
+Handoff #3:
+  MISSED: MEDICAL_RECORD_NUMBER '2694522' at [14:21]
+  MISSED: PEDIATRIC_AGE '9 mo old' at [28:36]
+  MISSED: LOCATION '3419 Amanda Gardens Apt. 764' at [67:95]
+Handoff #4:
+  MISSED: PEDIATRIC_AGE '8 day old' at [63:72]
+  MISSED: LOCATION 'Daviston' at [132:140]
+Handoff #5:
+  MISSED: LOCATION '6270 Stanton Track' at [79:97]
+Handoff #6:
+  MISSED: ROOM '16' at [39:41]
+Handoff #7:
+  MISSED: ROOM '8' at [39:40]
+  MISSED: PERSON 'Crystal Robinson' at [95:111]
+Handoff #9:
+  MISSED: ROOM '512' at [39:42]
+Handoff #13:
+  MISSED: PEDIATRIC_AGE '13 days old' at [0:11]
+Handoff #15:
+  MISSED: PEDIATRIC_AGE '4yo' at [18:21]
+  MISSED: LOCATION '6247 Hickman Cliffs' at [66:85]
+Handoff #16:
+  MISSED: PEDIATRIC_AGE '9 day old' at [14:23]
+  MISSED: LOCATION '28059 Russell Canyon' at [161:181]
+Handoff #17:
+  MISSED: LOCATION 'Memorial Hospital' at [47:64]
+Handoff #18:
+  MISSED: LOCATION '03654 Tammy Harbors' at [33:52]
+  MISSED: DATE_TIME '08:08 PM' at [95:103]
+Handoff #22:
+  MISSED: PEDIATRIC_AGE '13 years old' at [45:57]
+  MISSED: LOCATION 'Memorial Hospital' at [104:121]
+Handoff #23:
+  MISSED: PEDIATRIC_AGE 'day of life 7' at [15:28]
+Handoff #24:
+  MISSED: MEDICAL_RECORD_NUMBER '46855845' at [20:28]
+Handoff #25:
+  MISSED: MEDICAL_RECORD_NUMBER '20814950' at [23:31]
+  MISSED: PEDIATRIC_AGE '8 year old' at [50:60]
+Handoff #35:
+  MISSED: PEDIATRIC_AGE '5 weeks 6 days old' at [0:18]
+Handoff #37:
+  MISSED: PEDIATRIC_AGE '9 day old' at [0:9]
+Handoff #40:
+  MISSED: PEDIATRIC_AGE '2 day old' at [27:36]
+  MISSED: PHONE_NUMBER '264-517-0805x310' at [164:180]
+Handoff #41:
+  MISSED: PEDIATRIC_AGE '2 yo' at [67:71]
+Handoff #42:
+  MISSED: PEDIATRIC_AGE '6 year old' at [63:73]
+Handoff #43:
+  MISSED: MEDICAL_RECORD_NUMBER '2709620' at [14:21]
+  MISSED: PEDIATRIC_AGE '9yo' at [28:31]
+  MISSED: LOCATION '8651 Smith Manor' at [81:97]
+Handoff #44:
+  MISSED: PEDIATRIC_AGE '4 yo' at [64:68]
+  MISSED: LOCATION 'Angelahaven' at [131:142]
+Handoff #45:
+  MISSED: LOCATION '8557 Parker Fort Apt. 351' at [74:99]
+Handoff #46:
+  MISSED: ROOM '155' at [42:45]
+Handoff #47:
+  MISSED: ROOM '5-34' at [39:43]
+  MISSED: PERSON 'Scott Branch' at [98:110]
+Handoff #53:
+  MISSED: PEDIATRIC_AGE '17 year old' at [0:11]
+Handoff #55:
+  MISSED: PEDIATRIC_AGE '2 yo' at [14:18]
+  MISSED: LOCATION '703 Dunn Heights Suite 710' at [56:82]
+Handoff #56:
+  MISSED: PEDIATRIC_AGE '16 years old' at [17:29]
+  MISSED: LOCATION 'Lakewood Academy' at [35:51]
+  MISSED: LOCATION '0576 Mcneil Turnpike' at [160:180]
+Handoff #57:
+  MISSED: LOCATION 'General Hospital' at [53:69]
+Handoff #58:
+  MISSED: LOCATION '2400 Flynn Hill' at [38:53]
+Handoff #59:
+  MISSED: ROOM '907' at [156:159]
+Handoff #60:
+  MISSED: PERSON 'Crystal Pham' at [116:128]
+Handoff #62:
+  MISSED: PEDIATRIC_AGE '15 year old' at [44:55]
+  MISSED: LOCATION 'Memorial Hospital' at [91:108]
+Handoff #63:
+  MISSED: PEDIATRIC_AGE '21 days old' at [17:28]
+Handoff #64:
+  MISSED: MEDICAL_RECORD_NUMBER '75679047' at [20:28]
+Handoff #65:
+  MISSED: MEDICAL_RECORD_NUMBER '69686067' at [23:31]
+  MISSED: PEDIATRIC_AGE '10yo' at [53:57]
+Handoff #66:
+  MISSED: PERSON 'Colton Martinez' at [23:38]
+Handoff #75:
+  MISSED: PEDIATRIC_AGE '2 year old' at [0:10]
+Handoff #77:
+  MISSED: PEDIATRIC_AGE '14 years old' at [0:12]
+Handoff #80:
+  MISSED: PEDIATRIC_AGE '2 day old' at [27:36]
+Handoff #81:
+  MISSED: PEDIATRIC_AGE '10 weeks 1 days old' at [75:94]
+Handoff #82:
+  MISSED: PEDIATRIC_AGE '10 years old' at [63:75]
+Handoff #83:
+  MISSED: MEDICAL_RECORD_NUMBER '8215376' at [13:20]
+  MISSED: PEDIATRIC_AGE '8 mo old' at [27:35]
+  MISSED: LOCATION '1565 Brooks Drives Suite 111' at [73:101]
+Handoff #84:
+  MISSED: PEDIATRIC_AGE '4 years old' at [58:69]
+  MISSED: LOCATION 'Audreychester' at [125:138]
+Handoff #85:
+  MISSED: LOCATION '20183 Barnes Junctions Apt. 545' at [79:110]
+Handoff #87:
+  MISSED: ROOM '228' at [39:42]
+Handoff #89:
+  MISSED: ROOM '17' at [40:42]
+Handoff #93:
+  MISSED: PEDIATRIC_AGE '2 days old' at [0:10]
+Handoff #95:
+  MISSED: PEDIATRIC_AGE '14mo' at [14:18]
+  MISSED: LOCATION '51864 Cummings Shoals Apt. 519' at [57:87]
+Handoff #96:
+  MISSED: PEDIATRIC_AGE '4 year old' at [16:26]
+  MISSED: LOCATION '59774 Shaw Manor Apt. 392' at [158:183]
+Handoff #97:
+  MISSED: LOCATION 'Children's Hospital' at [47:66]
+Handoff #98:
+  MISSED: LOCATION '20472 West Avenue Apt. 043' at [37:63]
+Handoff #101:
+  MISSED: PERSON 'Virginia Daniels' at [0:16]
+Handoff #102:
+  MISSED: PEDIATRIC_AGE '8 weeks 4 days old' at [40:58]
+  MISSED: LOCATION 'Community Hospital' at [101:119]
+Handoff #103:
+  MISSED: PEDIATRIC_AGE '3yo' at [15:18]
+Handoff #104:
+  MISSED: MEDICAL_RECORD_NUMBER '86134287' at [20:28]
+  MISSED: PERSON 'Christian Cole' at [30:44]
+Handoff #105:
+  MISSED: MEDICAL_RECORD_NUMBER '20319387' at [23:31]
+  MISSED: PEDIATRIC_AGE '9 year old' at [52:62]
+Handoff #106:
+  MISSED: MEDICAL_RECORD_NUMBER '13478029' at [8:16]
+Handoff #115:
+  MISSED: PEDIATRIC_AGE '12 weeks 3 days old' at [0:19]
+Handoff #117:
+  MISSED: PEDIATRIC_AGE '15yo' at [0:4]
+Handoff #120:
+  MISSED: PEDIATRIC_AGE '8 day old' at [26:35]
+Handoff #121:
+  MISSED: PEDIATRIC_AGE '17yo' at [68:72]
+Handoff #122:
+  MISSED: PEDIATRIC_AGE '1 days old' at [61:71]
+Handoff #123:
+  MISSED: PEDIATRIC_AGE '9yo' at [33:36]
+  MISSED: LOCATION '922 Kirby Port' at [73:87]
+Handoff #124:
+  MISSED: PEDIATRIC_AGE '15 months old' at [60:73]
+Handoff #125:
+  MISSED: LOCATION '9532 Ferrell Mountain' at [68:89]
+Handoff #126:
+  MISSED: ROOM '35' at [40:42]
+Handoff #129:
+  MISSED: ROOM '711' at [41:44]
+Handoff #133:
+  MISSED: PEDIATRIC_AGE '2 weeks 4 days old' at [0:18]
+Handoff #135:
+  MISSED: PEDIATRIC_AGE '1 weeks 2 days old' at [14:32]
+  MISSED: LOCATION '733 Fitzpatrick Square Suite 219' at [77:109]
+Handoff #136:
+  MISSED: PEDIATRIC_AGE '16 months old' at [15:28]
+  MISSED: LOCATION 'Kennedy Elementary' at [34:52]
+  MISSED: LOCATION '54932 Wilcox Passage' at [156:176]
+Handoff #137:
+  MISSED: LOCATION 'University Medical Center' at [50:75]
+Handoff #138:
+  MISSED: LOCATION '27279 Perry Plaza' at [41:58]
+Handoff #139:
+  MISSED: ROOM '937' at [130:133]
+  MISSED: ROOM '505' at [187:190]
+Handoff #142:
+  MISSED: PEDIATRIC_AGE '13 year old' at [40:51]
+  MISSED: LOCATION 'Memorial Hospital' at [93:110]
+Handoff #143:
+  MISSED: PEDIATRIC_AGE '3 years old' at [13:24]
+Handoff #144:
+  MISSED: MEDICAL_RECORD_NUMBER '65878146' at [20:28]
+  MISSED: ROOM '16' at [53:55]
+Handoff #145:
+  MISSED: MEDICAL_RECORD_NUMBER '40245233' at [23:31]
+  MISSED: PEDIATRIC_AGE '6 days old' at [53:63]
+Handoff #155:
+  MISSED: PEDIATRIC_AGE '22 month old' at [0:12]
+Handoff #157:
+  MISSED: PEDIATRIC_AGE '1 weeks 1 days old' at [0:18]
+Handoff #160:
+  MISSED: PEDIATRIC_AGE '6 weeks 4 days old' at [25:43]
+Handoff #161:
+  MISSED: PEDIATRIC_AGE '10 years old' at [63:75]
+Handoff #162:
+  MISSED: ROOM '930' at [23:26]
+  MISSED: PEDIATRIC_AGE '3 weeks 1 days old' at [55:73]
+Handoff #163:
+  MISSED: MEDICAL_RECORD_NUMBER '10856822' at [13:21]
+  MISSED: PEDIATRIC_AGE '5 months old' at [28:40]
+  MISSED: LOCATION '87509 Hopkins Brook' at [76:95]
+Handoff #164:
+  MISSED: PEDIATRIC_AGE '19 months old' at [62:75]
+Handoff #165:
+  MISSED: PHONE_NUMBER '576-959-1803' at [27:39]
+  MISSED: LOCATION '14890 Sarah Island Apt. 392' at [67:94]
+Handoff #166:
+  MISSED: ROOM '5-05' at [39:43]
+Handoff #167:
+  MISSED: ROOM '7' at [38:39]
+Handoff #173:
+  MISSED: PEDIATRIC_AGE '8 years old' at [0:11]
+Handoff #175:
+  MISSED: PEDIATRIC_AGE '5mo' at [15:18]
+  MISSED: LOCATION '79796 Stephens Turnpike Suite 891' at [64:97]
+Handoff #176:
+  MISSED: PEDIATRIC_AGE '7 weeks old' at [14:25]
+Handoff #177:
+  MISSED: LOCATION 'Memorial Hospital' at [51:68]
+  MISSED: LOCATION 'South Daniel' at [159:171]
+  MISSED: DATE_TIME '07:23 AM' at [177:185]
+Handoff #178:
+  MISSED: LOCATION '155 Williamson Via Suite 991' at [42:70]
+Handoff #179:
+  MISSED: ROOM '678' at [193:196]
+Handoff #182:
+  MISSED: PEDIATRIC_AGE '17yo' at [43:47]
+  MISSED: LOCATION 'Children's Hospital' at [89:108]
+Handoff #183:
+  MISSED: PEDIATRIC_AGE '5 day old' at [21:30]
+Handoff #184:
+  MISSED: MEDICAL_RECORD_NUMBER '71532017' at [20:28]
+  MISSED: ROOM '13' at [53:55]
+Handoff #185:
+  MISSED: MEDICAL_RECORD_NUMBER '67665720' at [23:31]
+  MISSED: PEDIATRIC_AGE '6 weeks 4 days old' at [53:71]
+Handoff #186:
+  MISSED: MEDICAL_RECORD_NUMBER '9142618' at [8:15]
+Handoff #195:
+  MISSED: PEDIATRIC_AGE '15 month old' at [0:12]
+Handoff #197:
+  MISSED: PEDIATRIC_AGE '2 weeks 2 days old' at [0:18]
+  MISSED: DATE_TIME '07:08 AM' at [59:67]
+Handoff #200:
+  MISSED: PEDIATRIC_AGE '4 yo' at [25:29]
+Handoff #201:
+  MISSED: PEDIATRIC_AGE 'DOL 2' at [68:73]
+Handoff #202:
+  MISSED: PEDIATRIC_AGE '14 year old' at [58:69]
+Handoff #203:
+  MISSED: MEDICAL_RECORD_NUMBER '5780177' at [17:24]
+  MISSED: PEDIATRIC_AGE '13yo' at [31:35]
+Handoff #204:
+  MISSED: PEDIATRIC_AGE '11 years old' at [61:73]
+  MISSED: LOCATION 'Port Eric' at [135:144]
+Handoff #205:
+  MISSED: LOCATION '02027 Mills Tunnel' at [75:93]
+Handoff #206:
+  MISSED: ROOM '12' at [41:43]
+  MISSED: PHONE_NUMBER '291-938-0003' at [92:104]
+Handoff #207:
+  MISSED: ROOM '685' at [38:41]
+Handoff #213:
+  MISSED: PEDIATRIC_AGE '3 years old' at [0:11]
+Handoff #215:
+  MISSED: PEDIATRIC_AGE '12 weeks 5 days old' at [13:32]
+  MISSED: LOCATION '35680 Green Extensions' at [73:95]
+Handoff #216:
+  MISSED: PEDIATRIC_AGE '3 yo' at [14:18]
+  MISSED: LOCATION '8701 Reyes Manor Apt. 838' at [148:173]
+Handoff #217:
+  MISSED: LOCATION 'Community Hospital' at [50:68]
+  MISSED: DATE_TIME '09:41 AM' at [176:184]
+Handoff #218:
+  MISSED: LOCATION '2239 Drake Square Suite 905' at [36:63]
+Handoff #219:
+  MISSED: ROOM '921' at [185:188]
+Handoff #222:
+  MISSED: PEDIATRIC_AGE '4 years old' at [39:50]
+  MISSED: LOCATION 'Community Hospital' at [86:104]
+Handoff #223:
+  MISSED: PEDIATRIC_AGE '3 weeks 3 days old' at [13:31]
+Handoff #224:
+  MISSED: MEDICAL_RECORD_NUMBER '98663948' at [20:28]
+Handoff #225:
+  MISSED: MEDICAL_RECORD_NUMBER '30614492' at [23:31]
+  MISSED: PEDIATRIC_AGE '17 years old' at [50:62]
+Handoff #226:
+  MISSED: MEDICAL_RECORD_NUMBER '2627170' at [8:15]
+Handoff #235:
+  MISSED: PEDIATRIC_AGE '9 year old' at [0:10]
+Handoff #237:
+  MISSED: PEDIATRIC_AGE '8 weeks 3 days old' at [0:18]
+  MISSED: DATE_TIME '01:21 AM' at [79:87]
+Handoff #240:
+  MISSED: PEDIATRIC_AGE '16yo' at [24:28]
+Handoff #241:
+  MISSED: PEDIATRIC_AGE '2 day old' at [63:72]
+Handoff #242:
+  MISSED: PEDIATRIC_AGE '6 year old' at [57:67]
+Handoff #243:
+  MISSED: PEDIATRIC_AGE '5 months old' at [31:43]
+  MISSED: LOCATION '8564 Pena Ports' at [74:89]
+Handoff #244:
+  MISSED: PEDIATRIC_AGE '12 years old' at [66:78]
+Handoff #245:
+  MISSED: LOCATION '345 Wagner Roads Apt. 035' at [73:98]
+Handoff #246:
+  MISSED: ROOM '21' at [39:41]
+Handoff #247:
+  MISSED: ROOM '44' at [33:35]
+Handoff #253:
+  MISSED: PEDIATRIC_AGE '5 year old' at [0:10]
+Handoff #255:
+  MISSED: PEDIATRIC_AGE '13 year old' at [15:26]
+  MISSED: LOCATION '0083 Dodson Islands Apt. 003' at [71:99]
+Handoff #256:
+  MISSED: PEDIATRIC_AGE '12 weeks 5 days old' at [14:33]
+  MISSED: LOCATION 'Jefferson Montessori' at [39:59]
+  MISSED: LOCATION '04618 Dean Squares' at [163:181]
+Handoff #257:
+  MISSED: LOCATION 'Memorial Hospital' at [49:66]
+Handoff #258:
+  MISSED: LOCATION '143 Hinton Hill' at [38:53]
+Handoff #259:
+  MISSED: ROOM '235' at [135:138]
+Handoff #262:
+  MISSED: PEDIATRIC_AGE '13 months old' at [41:54]
+  MISSED: LOCATION 'Regional Medical Center' at [108:131]
+Handoff #263:
+  MISSED: PEDIATRIC_AGE '24 month old' at [18:30]
+Handoff #264:
+  MISSED: MEDICAL_RECORD_NUMBER '25303956' at [20:28]
+Handoff #265:
+  MISSED: MEDICAL_RECORD_NUMBER '49189370' at [23:31]
+  MISSED: PEDIATRIC_AGE '16 days old' at [58:69]
+Handoff #275:
+  MISSED: PEDIATRIC_AGE '6 day old' at [0:9]
+Handoff #277:
+  MISSED: PEDIATRIC_AGE '3 yo' at [0:4]
+Handoff #280:
+  MISSED: PEDIATRIC_AGE '7 weeks 2 days old' at [25:43]
+Handoff #281:
+  MISSED: PEDIATRIC_AGE '16 year old' at [68:79]
+Handoff #282:
+  MISSED: ROOM '490' at [23:26]
+  MISSED: PEDIATRIC_AGE '5 year old' at [55:65]
+Handoff #283:
+  MISSED: PEDIATRIC_AGE 'day of life 3' at [35:48]
+  MISSED: LOCATION '066 Frye Spur Suite 800' at [85:108]
+Handoff #284:
+  MISSED: PEDIATRIC_AGE '3 years old' at [59:70]
+Handoff #285:
+  MISSED: LOCATION '5439 Barajas View Apt. 157' at [80:106]
+Handoff #286:
+  MISSED: ROOM '198' at [44:47]
+Handoff #287:
+  MISSED: ROOM '498' at [36:39]
+Handoff #293:
+  MISSED: PEDIATRIC_AGE '7 weeks 1 days old' at [0:18]
+Handoff #295:
+  MISSED: PEDIATRIC_AGE '3 weeks 5 days old' at [15:33]
+  MISSED: LOCATION '7812 Meagan Walks Apt. 834' at [74:100]
+Handoff #296:
+  MISSED: PEDIATRIC_AGE '9 weeks old' at [16:27]
+  MISSED: LOCATION '38567 Keith Canyon' at [162:180]
+Handoff #297:
+  MISSED: LOCATION 'General Hospital' at [44:60]
+Handoff #298:
+  MISSED: LOCATION '22259 Donna Mall Suite 177' at [41:67]
+Handoff #302:
+  MISSED: PEDIATRIC_AGE '12 hours old' at [42:54]
+  MISSED: LOCATION 'Regional Medical Center' at [109:132]
+Handoff #303:
+  MISSED: PEDIATRIC_AGE '5 weeks 6 days old' at [21:39]
+Handoff #304:
+  MISSED: MEDICAL_RECORD_NUMBER '31715773' at [20:28]
+Handoff #305:
+  MISSED: MEDICAL_RECORD_NUMBER '16986408' at [23:31]
+  MISSED: PEDIATRIC_AGE 'day of life 2' at [51:64]
+Handoff #306:
+  MISSED: MEDICAL_RECORD_NUMBER '18600733' at [8:16]
+Handoff #315:
+  MISSED: PEDIATRIC_AGE 'day of life 2' at [0:13]
+Handoff #317:
+  MISSED: PEDIATRIC_AGE '2 year old' at [0:10]
+Handoff #320:
+  MISSED: PEDIATRIC_AGE 'DOL 4' at [23:28]
+Handoff #321:
+  MISSED: PEDIATRIC_AGE '14 years old' at [71:83]
+Handoff #322:
+  MISSED: ROOM '938' at [21:24]
+  MISSED: PEDIATRIC_AGE '2 weeks 3 days old' at [53:71]
+Handoff #323:
+  MISSED: MEDICAL_RECORD_NUMBER '5819919' at [19:26]
+  MISSED: PEDIATRIC_AGE 'DOL 6' at [33:38]
+  MISSED: LOCATION '5539 White Summit' at [81:98]
+Handoff #324:
+  MISSED: PEDIATRIC_AGE '6mo' at [64:67]
+Handoff #325:
+  MISSED: LOCATION '552 Coleman Manor Suite 564' at [74:101]
+Handoff #326:
+  MISSED: ROOM '280' at [41:44]
+Handoff #327:
+  MISSED: ROOM '521' at [34:37]
+Handoff #333:
+  MISSED: PEDIATRIC_AGE '3yo' at [0:3]
+Handoff #335:
+  MISSED: PEDIATRIC_AGE '3 weeks 2 days old' at [14:32]
+Handoff #336:
+  MISSED: PEDIATRIC_AGE 'day of life 7' at [14:27]
+  MISSED: LOCATION 'Kennedy Montessori' at [33:51]
+  MISSED: LOCATION '3564 Bolton Mountain' at [153:173]
+Handoff #337:
+  MISSED: LOCATION 'University Medical Center' at [51:76]
+  MISSED: PHONE_NUMBER '560-913-6730x371' at [133:149]
+  MISSED: LOCATION 'Maldonadoport' at [172:185]
+Handoff #338:
+  MISSED: LOCATION '7435 Michelle Forge' at [39:58]
+Handoff #339:
+  MISSED: PERSON 'Beth Hall' at [89:98]
+  MISSED: ROOM '805' at [136:139]
+  MISSED: ROOM '596' at [195:198]
+Handoff #342:
+  MISSED: PEDIATRIC_AGE '7 month old' at [41:52]
+  MISSED: LOCATION 'Memorial Hospital' at [98:115]
+Handoff #343:
+  MISSED: PEDIATRIC_AGE '20 days old' at [17:28]
+Handoff #344:
+  MISSED: MEDICAL_RECORD_NUMBER '41006711' at [20:28]
+Handoff #345:
+  MISSED: MEDICAL_RECORD_NUMBER '34011268' at [23:31]
+  MISSED: PEDIATRIC_AGE '17 years old' at [51:63]
+Handoff #355:
+  MISSED: PEDIATRIC_AGE '12mo' at [0:4]
+Handoff #357:
+  MISSED: PEDIATRIC_AGE '4 years old' at [0:11]
+Handoff #360:
+  MISSED: PEDIATRIC_AGE '4 weeks 1 days old' at [24:42]
+Handoff #361:
+  MISSED: PEDIATRIC_AGE '6 days old' at [66:76]
+Handoff #362:
+  MISSED: PEDIATRIC_AGE '17 year old' at [60:71]
+Handoff #363:
+  MISSED: PEDIATRIC_AGE '14yo' at [35:39]
+  MISSED: LOCATION '48058 Mark Square Apt. 206' at [83:109]
+Handoff #364:
+  MISSED: PEDIATRIC_AGE '13 months old' at [55:68]
+Handoff #365:
+  MISSED: LOCATION '03924 Matthew Unions' at [77:97]
+Handoff #369:
+  MISSED: ROOM '5' at [38:39]
+Handoff #373:
+  MISSED: PEDIATRIC_AGE '5 months old' at [0:12]
+Handoff #375:
+  MISSED: PEDIATRIC_AGE '8 months old' at [15:27]
+  MISSED: LOCATION '757 Ronald Trail Apt. 965' at [66:91]
+Handoff #376:
+  MISSED: PEDIATRIC_AGE '2 years old' at [17:28]
+  MISSED: LOCATION 'Hillside Montessori' at [34:53]
+  MISSED: LOCATION '2111 Walters Corner Suite 892' at [167:196]
+Handoff #377:
+  MISSED: LOCATION 'University Medical Center' at [44:69]
+Handoff #378:
+  MISSED: LOCATION '97767 Carolyn Avenue' at [39:59]
+Handoff #382:
+  MISSED: PEDIATRIC_AGE '6 weeks 3 days old' at [39:57]
+  MISSED: LOCATION 'University Medical Center' at [114:139]
+Handoff #383:
+  MISSED: PEDIATRIC_AGE '2 months old' at [17:29]
+Handoff #384:
+  MISSED: MEDICAL_RECORD_NUMBER '18886963' at [20:28]
+Handoff #385:
+  MISSED: MEDICAL_RECORD_NUMBER '35149571' at [23:31]
+  MISSED: PEDIATRIC_AGE '10yo' at [51:55]
+Handoff #386:
+  MISSED: MEDICAL_RECORD_NUMBER '46439766' at [8:16]
+Handoff #395:
+  MISSED: PEDIATRIC_AGE '1 weeks 6 days old' at [0:18]
+Handoff #397:
+  MISSED: PEDIATRIC_AGE '11 day old' at [0:10]
+Handoff #400:
+  MISSED: PEDIATRIC_AGE 'day of life 1' at [23:36]
+Handoff #401:
+  MISSED: PEDIATRIC_AGE '3yo' at [66:69]
+Handoff #402:
+  MISSED: ROOM '37' at [24:26]
+  MISSED: PEDIATRIC_AGE '10 weeks 2 days old' at [55:74]
+Handoff #403:
+  MISSED: PEDIATRIC_AGE '5 weeks 2 days old' at [31:49]
+  MISSED: LOCATION '9217 Stanley Spur' at [78:95]
+Handoff #404:
+  MISSED: PEDIATRIC_AGE '17 days old' at [59:70]
+  MISSED: LOCATION 'Moraleschester' at [132:146]
+Handoff #405:
+  MISSED: LOCATION '975 Lynn Fall' at [72:85]
+Handoff #413:
+  MISSED: PEDIATRIC_AGE '4 days old' at [0:10]
+Handoff #415:
+  MISSED: PEDIATRIC_AGE '4 years old' at [16:27]
+  MISSED: LOCATION '2805 Tammy Ranch' at [76:92]
+Handoff #416:
+  MISSED: PEDIATRIC_AGE '16 years old' at [17:29]
+  MISSED: LOCATION 'Oak Park Elementary' at [35:54]
+  MISSED: LOCATION '001 Robert Pine Apt. 753' at [155:179]
+Handoff #417:
+  MISSED: LOCATION 'General Hospital' at [50:66]
+Handoff #418:
+  MISSED: LOCATION '14066 Ferrell Green Suite 271' at [37:66]
+Handoff #419:
+  MISSED: DATE_TIME '07:41 AM' at [55:63]
+  MISSED: ROOM '335' at [149:152]
+  MISSED: ROOM '3-37' at [205:209]
+Handoff #422:
+  MISSED: PERSON 'Crystal Jones' at [0:13]
+  MISSED: PEDIATRIC_AGE '21 month old' at [41:53]
+  MISSED: LOCATION 'General Hospital' at [102:118]
+Handoff #423:
+  MISSED: PEDIATRIC_AGE '2 weeks 3 days old' at [22:40]
+Handoff #424:
+  MISSED: MEDICAL_RECORD_NUMBER '38619492' at [20:28]
+  MISSED: ROOM '380' at [54:57]
+Handoff #425:
+  MISSED: MEDICAL_RECORD_NUMBER '28956482' at [23:31]
+  MISSED: PEDIATRIC_AGE '15 days old' at [48:59]
+Handoff #426:
+  MISSED: MEDICAL_RECORD_NUMBER '27900736' at [8:16]
+Handoff #435:
+  MISSED: PEDIATRIC_AGE '3 day old' at [0:9]
+Handoff #437:
+  MISSED: PEDIATRIC_AGE '8 months old' at [0:12]
+Handoff #440:
+  MISSED: PEDIATRIC_AGE '3 years old' at [26:37]
+Handoff #441:
+  MISSED: PEDIATRIC_AGE '2 day old' at [65:74]
+Handoff #442:
+  MISSED: ROOM '172' at [28:31]
+  MISSED: PEDIATRIC_AGE '12yo' at [60:64]
+Handoff #443:
+  MISSED: MEDICAL_RECORD_NUMBER '7300387' at [17:24]
+  MISSED: PEDIATRIC_AGE '3 day old' at [31:40]
+  MISSED: LOCATION '39726 Taylor Stravenue Apt. 543' at [77:108]
+Handoff #444:
+  MISSED: PEDIATRIC_AGE '7 mo old' at [56:64]
+  MISSED: LOCATION 'New Sophia' at [123:133]
+Handoff #445:
+  MISSED: LOCATION '18063 Michael Garden Apt. 074' at [70:99]
+Handoff #446:
+  MISSED: ROOM '640' at [39:42]
+  MISSED: PERSON 'French' at [82:88]
+Handoff #453:
+  MISSED: PEDIATRIC_AGE '3 year old' at [0:10]
+Handoff #455:
+  MISSED: PEDIATRIC_AGE '10yo' at [13:17]
+  MISSED: LOCATION '751 Mccullough Dam' at [59:77]
+Handoff #456:
+  MISSED: PEDIATRIC_AGE '8 weeks 6 days old' at [13:31]
+  MISSED: LOCATION '610 Fowler Groves' at [159:176]
+Handoff #457:
+  MISSED: LOCATION 'Children's Hospital' at [52:71]
+  MISSED: PHONE_NUMBER '394-678-7300x2447' at [129:146]
+  MISSED: LOCATION 'Whitebury' at [169:178]
+Handoff #458:
+  MISSED: LOCATION '796 Burton Mountains Apt. 589' at [42:71]
+Handoff #462:
+  MISSED: PEDIATRIC_AGE '10 weeks 2 days old' at [41:60]
+  MISSED: LOCATION 'General Hospital' at [113:129]
+Handoff #463:
+  MISSED: PEDIATRIC_AGE '17 year old' at [13:24]
+Handoff #464:
+  MISSED: MEDICAL_RECORD_NUMBER '52181984' at [20:28]
+Handoff #465:
+  MISSED: MEDICAL_RECORD_NUMBER '84777007' at [23:31]
+  MISSED: PEDIATRIC_AGE '10 mo old' at [51:60]
+Handoff #475:
+  MISSED: PEDIATRIC_AGE '12yo' at [0:4]
+Handoff #477:
+  MISSED: PEDIATRIC_AGE '6yo' at [0:3]
+Handoff #480:
+  MISSED: PEDIATRIC_AGE '8 weeks 5 days old' at [27:45]
+Handoff #481:
+  MISSED: PEDIATRIC_AGE '2 year old' at [69:79]
+Handoff #482:
+  MISSED: PEDIATRIC_AGE '10 day old' at [61:71]
+Handoff #483:
+  MISSED: PEDIATRIC_AGE '15 month old' at [31:43]
+  MISSED: LOCATION '276 Larry Loaf Suite 197' at [72:96]
+Handoff #484:
+  MISSED: PEDIATRIC_AGE '12 weeks 4 days old' at [61:80]
+  MISSED: LOCATION 'Brianbury' at [142:151]
+Handoff #485:
+  MISSED: LOCATION '790 Gray Loaf' at [79:92]
+Handoff #486:
+  MISSED: ROOM '960' at [40:43]
+Handoff #487:
+  MISSED: ROOM '8-17' at [34:38]
+Handoff #493:
+  MISSED: PEDIATRIC_AGE '14mo' at [0:4]
+Handoff #495:
+  MISSED: PEDIATRIC_AGE '16 months old' at [16:29]
+  MISSED: LOCATION '5409 Mckenzie Shore Apt. 348' at [71:99]
+Handoff #496:
+  MISSED: PEDIATRIC_AGE '14yo' at [16:20]
+  MISSED: LOCATION 'Kennedy Elementary' at [26:44]
+  MISSED: LOCATION '296 Hayes Well' at [156:170]
+Handoff #497:
+  MISSED: LOCATION 'Regional Medical Center' at [47:70]
+Handoff #498:
+  MISSED: LOCATION '86771 Jennifer Field' at [42:62]
+Handoff #499:
+  MISSED: ROOM '5' at [142:143]
+  MISSED: ROOM '739' at [195:198]
+
+============================================================

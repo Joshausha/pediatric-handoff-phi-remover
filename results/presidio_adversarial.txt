@@ -1,0 +1,95 @@
+============================================================
+PRESIDIO PHI DETECTION EVALUATION REPORT
+============================================================
+
+OVERALL METRICS:
+  Total expected PHI spans: 156
+  Total detected spans:     189
+  True positives:           132
+  False negatives (LEAKS):  24
+  False positives:          57
+
+  Precision: 69.8%
+  Recall:    84.6%
+  F1 Score:  76.5%
+  F2 Score:  81.2%  ← PRIMARY METRIC (recall-weighted)
+
+WEIGHTED METRICS (spoken handoff relevance):
+  Weighted Recall:    92.4%
+  Weighted Precision: 69.8%
+  Weighted F2 Score:  86.8%  ← PRIMARY METRIC
+
+  Weights applied:
+    PERSON: 5
+    GUARDIAN_NAME: 5
+    ROOM: 4
+    PHONE_NUMBER: 2
+    DATE_TIME: 2
+    MEDICAL_RECORD_NUMBER: 1
+    EMAIL_ADDRESS: 0
+    LOCATION: 0
+    PEDIATRIC_AGE: 0
+
+❌ SAFETY CHECK: FAILED - PHI LEAKS DETECTED!
+   24 PHI spans were NOT detected!
+
+PER-TYPE PERFORMANCE:
+  ❌ DATE_TIME: P=31% R=69% F1=43% F2=56%
+  ✅ EMAIL_ADDRESS: P=100% R=100% F1=100% F2=100%
+  ✅ GUARDIAN_NAME: P=0% R=0% F1=0% F2=0%
+  ✅ LOCATION: P=17% R=100% F1=29% F2=50%
+  ❌ MEDICAL_RECORD_NUMBER: P=100% R=90% F1=95% F2=92%
+  ❌ PEDIATRIC_AGE: P=0% R=0% F1=0% F2=0%
+  ✅ PERSON: P=92% R=100% F1=96% F2=98%
+  ✅ PHONE_NUMBER: P=100% R=100% F1=100% F2=100%
+  ❌ ROOM: P=60% R=56% F1=58% F2=57%
+
+MISSED PHI DETAILS (CRITICAL):
+----------------------------------------
+Handoff #0:
+  MISSED: PEDIATRIC_AGE '12 month old' at [33:45]
+Handoff #3:
+  MISSED: ROOM '637' at [10:13]
+  MISSED: ROOM '304' at [27:30]
+Handoff #4:
+  MISSED: PEDIATRIC_AGE '17yo' at [42:46]
+Handoff #10:
+  MISSED: ROOM '910' at [33:36]
+Handoff #15:
+  MISSED: PEDIATRIC_AGE '4 year old' at [32:42]
+Handoff #17:
+  MISSED: PEDIATRIC_AGE '4 day old' at [21:30]
+Handoff #19:
+  MISSED: ROOM '8' at [0:1]
+Handoff #25:
+  MISSED: ROOM '7' at [6:7]
+Handoff #29:
+  MISSED: DATE_TIME 'January 04' at [8:18]
+  MISSED: DATE_TIME 'January 21' at [20:30]
+Handoff #36:
+  MISSED: MEDICAL_RECORD_NUMBER '7018128' at [27:34]
+Handoff #45:
+  MISSED: ROOM '27' at [45:47]
+Handoff #47:
+  MISSED: PEDIATRIC_AGE '11 weeks 3 days old' at [24:43]
+Handoff #53:
+  MISSED: PEDIATRIC_AGE '24 day old' at [8:18]
+Handoff #54:
+  MISSED: PEDIATRIC_AGE '10 year old' at [31:42]
+Handoff #55:
+  MISSED: PEDIATRIC_AGE '4 yo' at [25:29]
+Handoff #59:
+  MISSED: PEDIATRIC_AGE '8yo' at [32:35]
+Handoff #62:
+  MISSED: ROOM '490' at [10:13]
+Handoff #63:
+  MISSED: PEDIATRIC_AGE '22mo' at [44:48]
+Handoff #74:
+  MISSED: PEDIATRIC_AGE '15yo' at [28:32]
+Handoff #76:
+  MISSED: PEDIATRIC_AGE '19 month old' at [19:31]
+Handoff #88:
+  MISSED: DATE_TIME 'January 09' at [8:18]
+  MISSED: DATE_TIME 'January 08' at [20:30]
+
+============================================================

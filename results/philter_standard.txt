@@ -1,0 +1,2049 @@
+============================================================
+PHILTER-UCSF PHI DETECTION BENCHMARK REPORT
+============================================================
+
+OVERALL METRICS:
+  Total expected PHI spans: 1672
+  Total detected spans:     320
+  True positives:           39
+  False negatives (LEAKS):  1633
+  False positives:          281
+
+  Precision: 12.2%
+  Recall:    2.3%
+  F1 Score:  3.9%
+  F2 Score:  2.8%  ← PRIMARY METRIC (recall-weighted)
+
+WEIGHTED METRICS (spoken handoff relevance):
+  Weighted Recall:    3.1%
+  Weighted Precision: 10.3%
+  Weighted F2 Score:  3.6%  ← PRIMARY METRIC
+
+  Weights applied:
+    PERSON: 5
+    GUARDIAN_NAME: 5
+    ROOM: 4
+    PHONE_NUMBER: 2
+    DATE_TIME: 2
+    MEDICAL_RECORD_NUMBER: 1
+    EMAIL_ADDRESS: 0
+    LOCATION: 0
+    PEDIATRIC_AGE: 0
+
+❌ SAFETY CHECK: FAILED - PHI LEAKS DETECTED!
+   1633 PHI spans were NOT detected!
+
+PER-TYPE PERFORMANCE:
+  ❌ DATE_TIME: P=0% R=0% F1=0% F2=0%
+  ❌ EMAIL_ADDRESS: P=0% R=0% F1=0% F2=0%
+  ✅ GUARDIAN_NAME: P=0% R=0% F1=0% F2=0%
+  ❌ LOCATION: P=0% R=0% F1=0% F2=0%
+  ❌ MEDICAL_RECORD_NUMBER: P=0% R=0% F1=0% F2=0%
+  ❌ PEDIATRIC_AGE: P=0% R=0% F1=0% F2=0%
+  ❌ PERSON: P=0% R=0% F1=0% F2=0%
+  ❌ PHONE_NUMBER: P=0% R=0% F1=0% F2=0%
+  ❌ ROOM: P=45% R=43% F1=44% F2=44%
+
+MISSED PHI DETAILS (CRITICAL):
+----------------------------------------
+Handoff #0:
+  MISSED: PERSON 'Allison Hill' at [8:20]
+  MISSED: PEDIATRIC_AGE '5 days old' at [24:34]
+  MISSED: DATE_TIME 'January 13' at [71:81]
+  MISSED: PERSON 'Brandon Hall' at [110:122]
+  MISSED: PHONE_NUMBER '+1-808-738-6379x402' at [160:179]
+Handoff #1:
+  MISSED: PERSON 'Daniel Gallagher' at [11:27]
+  MISSED: MEDICAL_RECORD_NUMBER '22448136' at [33:41]
+  MISSED: DATE_TIME 'January 09' at [48:58]
+  MISSED: PEDIATRIC_AGE '6 weeks 4 days old' at [70:88]
+Handoff #2:
+  MISSED: PERSON 'Baker' at [5:10]
+  MISSED: ROOM '847' at [23:26]
+  MISSED: DATE_TIME 'January 11' at [33:43]
+  MISSED: PEDIATRIC_AGE 'DOL 6' at [55:60]
+  MISSED: PERSON 'Lisa Hensley' at [69:81]
+  MISSED: PERSON 'Michele Williams' at [101:117]
+Handoff #3:
+  MISSED: PERSON 'Dylan Miller' at [0:12]
+  MISSED: MEDICAL_RECORD_NUMBER '2694522' at [14:21]
+  MISSED: PEDIATRIC_AGE '9 mo old' at [28:36]
+  MISSED: LOCATION '3419 Amanda Gardens Apt. 764' at [67:95]
+  MISSED: PERSON 'Frederick Tate' at [129:143]
+  MISSED: PHONE_NUMBER '7305564139' at [153:163]
+Handoff #4:
+  MISSED: PERSON 'Rios' at [13:17]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 96282117' at [23:35]
+  MISSED: PEDIATRIC_AGE '8 day old' at [63:72]
+  MISSED: PERSON 'Jessica Silva' at [92:105]
+  MISSED: PERSON 'Zachary Taylor' at [110:124]
+  MISSED: LOCATION 'Daviston' at [132:140]
+Handoff #5:
+  MISSED: PERSON 'Brittany Moore' at [12:26]
+  MISSED: PHONE_NUMBER '+1-669-716-6978x48018' at [30:51]
+  MISSED: LOCATION '6270 Stanton Track' at [79:97]
+  MISSED: PERSON 'White' at [127:132]
+  MISSED: PHONE_NUMBER '248-793-2528' at [141:153]
+Handoff #6:
+  MISSED: PERSON 'Brian Cox DVM' at [17:30]
+  MISSED: ROOM '16' at [39:41]
+  MISSED: PERSON 'Allen' at [81:86]
+  MISSED: PHONE_NUMBER '001-411-671-8227' at [90:106]
+  MISSED: PERSON 'Jenny Lewis' at [140:151]
+  MISSED: PERSON 'Melissa Marquez' at [212:227]
+Handoff #7:
+  MISSED: PERSON 'Michael Brooks' at [0:14]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 26240908' at [20:32]
+  MISSED: ROOM '8' at [39:40]
+  MISSED: DATE_TIME '03:40 PM' at [57:65]
+  MISSED: PERSON 'Crystal Robinson' at [95:111]
+Handoff #8:
+  MISSED: PERSON 'Mark Perez' at [16:26]
+  MISSED: PERSON 'Andrea Young' at [57:69]
+  MISSED: PHONE_NUMBER '+1-873-782-9973x76311' at [73:94]
+  MISSED: PERSON 'Jenkins' at [127:134]
+Handoff #9:
+  MISSED: PERSON 'Matthew Lucas' at [18:31]
+  MISSED: ROOM '512' at [39:42]
+  MISSED: PERSON 'Rebecca Rodriguez' at [62:79]
+  MISSED: PHONE_NUMBER '538.372.6247' at [93:105]
+  MISSED: PERSON 'Ramos' at [121:126]
+Handoff #10:
+  MISSED: PERSON 'Kimberly Smith' at [4:18]
+  MISSED: MEDICAL_RECORD_NUMBER '41726318' at [24:32]
+  MISSED: PERSON 'John Lewis' at [67:77]
+  MISSED: PERSON 'Anthony Gray' at [106:118]
+  MISSED: PHONE_NUMBER '(247)746-8723x4309' at [122:140]
+Handoff #11:
+  MISSED: PERSON 'Kevin Shaw' at [0:10]
+  MISSED: PERSON 'Tyler Miller' at [53:65]
+  MISSED: DATE_TIME 'January 05' at [69:79]
+  MISSED: PERSON 'Larson' at [103:109]
+Handoff #13:
+  MISSED: PEDIATRIC_AGE '13 days old' at [0:11]
+Handoff #15:
+  MISSED: PERSON 'Bradley Sandoval' at [0:16]
+  MISSED: PEDIATRIC_AGE '4yo' at [18:21]
+  MISSED: PERSON 'Christina Moran' at [45:60]
+  MISSED: LOCATION '6247 Hickman Cliffs' at [66:85]
+  MISSED: PERSON 'Marc Hart' at [91:100]
+  MISSED: PERSON 'Joshua Wagner' at [119:132]
+  MISSED: PERSON 'Gregory Jones' at [170:183]
+  MISSED: PHONE_NUMBER '254.627.8498' at [187:199]
+  MISSED: PERSON 'Ashley Humphrey' at [220:235]
+Handoff #16:
+  MISSED: PERSON 'Steve Newton' at [0:12]
+  MISSED: PEDIATRIC_AGE '9 day old' at [14:23]
+  MISSED: LOCATION 'Maple Grove Middle School' at [29:54]
+  MISSED: PERSON 'Mark Baker' at [103:113]
+  MISSED: PHONE_NUMBER '840.216.4005x2427' at [117:134]
+  MISSED: LOCATION '28059 Russell Canyon' at [161:181]
+  MISSED: PERSON 'Timothy Stanton' at [192:207]
+Handoff #17:
+  MISSED: PERSON 'Hunter Fleming' at [12:26]
+  MISSED: MEDICAL_RECORD_NUMBER '57469942' at [32:40]
+  MISSED: LOCATION 'Memorial Hospital' at [47:64]
+  MISSED: PERSON 'Henson' at [112:118]
+  MISSED: PHONE_NUMBER '(392)832-2602x56342' at [122:141]
+  MISSED: LOCATION 'Port Thomasborough' at [164:182]
+  MISSED: DATE_TIME '11:00 AM' at [188:196]
+Handoff #18:
+  MISSED: PERSON 'Eric Pope' at [0:9]
+  MISSED: LOCATION '03654 Tammy Harbors' at [33:52]
+  MISSED: PERSON 'Bell' at [73:77]
+  MISSED: DATE_TIME 'January 12' at [81:91]
+  MISSED: DATE_TIME '08:08 PM' at [95:103]
+  MISSED: PHONE_NUMBER '+1-350-814-2940' at [148:163]
+  MISSED: PERSON 'Emily Obrien' at [171:183]
+Handoff #19:
+  MISSED: PERSON 'Dixon' at [5:10]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 87388337' at [16:28]
+  MISSED: DATE_TIME 'January 06' at [42:52]
+  MISSED: DATE_TIME '02:45 AM' at [56:64]
+  MISSED: PERSON 'Renee Mcdaniel' at [82:96]
+  MISSED: ROOM '3-22' at [132:136]
+  MISSED: PERSON 'Belinda Mccullough' at [142:160]
+Handoff #20:
+  MISSED: PERSON 'James Phillips' at [17:31]
+  MISSED: EMAIL_ADDRESS 'jamesortega@example.com' at [62:85]
+  MISSED: PERSON 'Stephanie Gilbert' at [119:136]
+  MISSED: PHONE_NUMBER '968-504-4369x9577' at [140:157]
+Handoff #21:
+  MISSED: PERSON 'Rebecca Moyer' at [0:13]
+  MISSED: PERSON 'Diane Beck' at [28:38]
+  MISSED: EMAIL_ADDRESS 'cardenaskaren@example.net' at [108:133]
+  MISSED: PHONE_NUMBER '533-820-0379x1769' at [173:190]
+Handoff #22:
+  MISSED: PERSON 'David Douglas Jr.' at [0:17]
+  MISSED: DATE_TIME 'January 17' at [23:33]
+  MISSED: PEDIATRIC_AGE '13 years old' at [45:57]
+  MISSED: LOCATION 'Memorial Hospital' at [104:121]
+Handoff #23:
+  MISSED: PERSON 'Justin Lowery' at [0:13]
+  MISSED: PEDIATRIC_AGE 'day of life 7' at [15:28]
+  MISSED: PERSON 'Kristin Stewart' at [66:81]
+  MISSED: PERSON 'Michelle Wagner' at [132:147]
+  MISSED: PHONE_NUMBER '+1-972-577-4348' at [151:166]
+Handoff #24:
+  MISSED: MEDICAL_RECORD_NUMBER '46855845' at [20:28]
+  MISSED: PERSON 'Micheal Young' at [30:43]
+Handoff #25:
+  MISSED: MEDICAL_RECORD_NUMBER '20814950' at [23:31]
+  MISSED: PERSON 'David Benson' at [36:48]
+  MISSED: PEDIATRIC_AGE '8 year old' at [50:60]
+Handoff #26:
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 64707061' at [8:20]
+  MISSED: PERSON 'John Brown' at [25:35]
+  MISSED: DATE_TIME 'January 19' at [71:81]
+Handoff #35:
+  MISSED: PEDIATRIC_AGE '5 weeks 6 days old' at [0:18]
+Handoff #37:
+  MISSED: PEDIATRIC_AGE '9 day old' at [0:9]
+  MISSED: DATE_TIME '06:07 AM' at [59:67]
+Handoff #38:
+  MISSED: DATE_TIME '08:46 AM' at [50:58]
+Handoff #39:
+  MISSED: DATE_TIME '07:26 AM' at [43:51]
+Handoff #40:
+  MISSED: PERSON 'Jeffrey Camacho' at [8:23]
+  MISSED: PEDIATRIC_AGE '2 day old' at [27:36]
+  MISSED: DATE_TIME 'January 08' at [75:85]
+  MISSED: PERSON 'George Hobbs' at [114:126]
+  MISSED: PHONE_NUMBER '264-517-0805x310' at [164:180]
+Handoff #41:
+  MISSED: PERSON 'Alex Hernandez' at [11:25]
+  MISSED: MEDICAL_RECORD_NUMBER '8945036' at [31:38]
+  MISSED: DATE_TIME 'January 15' at [45:55]
+  MISSED: PEDIATRIC_AGE '2 yo' at [67:71]
+Handoff #42:
+  MISSED: PERSON 'Lyons' at [5:10]
+  MISSED: DATE_TIME 'January 14' at [41:51]
+  MISSED: PEDIATRIC_AGE '6 year old' at [63:73]
+  MISSED: PERSON 'Ashley Johnson' at [82:96]
+  MISSED: PERSON 'Michael Rubio' at [116:129]
+Handoff #43:
+  MISSED: PERSON 'Miguel Jones' at [0:12]
+  MISSED: MEDICAL_RECORD_NUMBER '2709620' at [14:21]
+  MISSED: PEDIATRIC_AGE '9yo' at [28:31]
+  MISSED: LOCATION '8651 Smith Manor' at [81:97]
+  MISSED: PERSON 'Tyler Reid' at [129:139]
+  MISSED: PHONE_NUMBER '626.728.4987x769' at [149:165]
+Handoff #44:
+  MISSED: PERSON 'Christian' at [13:22]
+  MISSED: MEDICAL_RECORD_NUMBER '47437115' at [28:36]
+  MISSED: PEDIATRIC_AGE '4 yo' at [64:68]
+  MISSED: PERSON 'Johnny Nguyen' at [88:101]
+  MISSED: PERSON 'Mr. David Ramirez' at [106:123]
+  MISSED: LOCATION 'Angelahaven' at [131:142]
+Handoff #45:
+  MISSED: PERSON 'Angela Cortez' at [12:25]
+  MISSED: PHONE_NUMBER '783.977.7014x3634' at [29:46]
+  MISSED: LOCATION '8557 Parker Fort Apt. 351' at [74:99]
+  MISSED: PERSON 'Newton' at [129:135]
+  MISSED: PHONE_NUMBER '001-723-437-4989x41343' at [144:166]
+Handoff #46:
+  MISSED: PERSON 'Michael Martinez' at [17:33]
+  MISSED: ROOM '155' at [42:45]
+  MISSED: PERSON 'Tran' at [85:89]
+  MISSED: PHONE_NUMBER '001-227-610-9477x752' at [93:113]
+  MISSED: PERSON 'Austin Vasquez' at [145:159]
+  MISSED: PERSON 'Amy Hernandez' at [220:233]
+Handoff #47:
+  MISSED: PERSON 'Elizabeth Mcknight' at [0:18]
+  MISSED: MEDICAL_RECORD_NUMBER '84903294' at [24:32]
+  MISSED: ROOM '5-34' at [39:43]
+  MISSED: DATE_TIME '06:02 PM' at [60:68]
+  MISSED: PERSON 'Scott Branch' at [98:110]
+Handoff #48:
+  MISSED: PERSON 'Marc Lynch' at [16:26]
+  MISSED: PERSON 'Christine Clark' at [57:72]
+  MISSED: PHONE_NUMBER '+1-212-532-8120x67974' at [76:97]
+  MISSED: PERSON 'Mann' at [131:135]
+Handoff #49:
+  MISSED: PERSON 'Andrea Hall' at [18:29]
+  MISSED: PERSON 'Regina Gonzalez' at [68:83]
+  MISSED: PHONE_NUMBER '683-624-2102' at [97:109]
+  MISSED: PERSON 'Gonzales' at [125:133]
+Handoff #50:
+  MISSED: PERSON 'Terri Mason' at [4:15]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 68755000' at [21:33]
+  MISSED: PERSON 'Andrew Reynolds' at [68:83]
+  MISSED: PERSON 'David Davis' at [112:123]
+  MISSED: PHONE_NUMBER '+1-899-904-9027x87429' at [127:148]
+Handoff #51:
+  MISSED: PERSON 'Julie Ortiz' at [0:11]
+  MISSED: PERSON 'Shannon Rivera' at [49:63]
+  MISSED: DATE_TIME 'January 16' at [67:77]
+  MISSED: PERSON 'Roberts' at [101:108]
+Handoff #53:
+  MISSED: PEDIATRIC_AGE '17 year old' at [0:11]
+Handoff #55:
+  MISSED: PERSON 'Wayne Powell' at [0:12]
+  MISSED: PEDIATRIC_AGE '2 yo' at [14:18]
+  MISSED: PERSON 'Cody Cox' at [42:50]
+  MISSED: LOCATION '703 Dunn Heights Suite 710' at [56:82]
+  MISSED: PERSON 'Lisa Allen' at [88:98]
+  MISSED: PERSON 'Juan Tran' at [117:126]
+  MISSED: PERSON 'Willie Durham' at [164:177]
+  MISSED: PHONE_NUMBER '412.874.8467x737' at [181:197]
+  MISSED: PERSON 'Kyle Francis' at [218:230]
+Handoff #56:
+  MISSED: PERSON 'Benjamin Barton' at [0:15]
+  MISSED: PEDIATRIC_AGE '16 years old' at [17:29]
+  MISSED: LOCATION 'Lakewood Academy' at [35:51]
+  MISSED: PERSON 'Edwin Matthews' at [94:108]
+  MISSED: PHONE_NUMBER '+1-572-878-7558x86753' at [112:133]
+  MISSED: LOCATION '0576 Mcneil Turnpike' at [160:180]
+  MISSED: PERSON 'Andrew Shaw MD' at [198:212]
+Handoff #57:
+  MISSED: PERSON 'Shelly Alexander' at [12:28]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 12059919' at [34:46]
+  MISSED: LOCATION 'General Hospital' at [53:69]
+  MISSED: PERSON 'Thomas' at [117:123]
+  MISSED: PHONE_NUMBER '+1-921-274-5961x5865' at [127:147]
+  MISSED: LOCATION 'East Crystalport' at [170:186]
+  MISSED: DATE_TIME '07:57 AM' at [192:200]
+Handoff #58:
+  MISSED: PERSON 'Jessica Garcia' at [0:14]
+  MISSED: LOCATION '2400 Flynn Hill' at [38:53]
+  MISSED: PERSON 'Howard' at [74:80]
+  MISSED: DATE_TIME 'January 10' at [84:94]
+  MISSED: DATE_TIME '04:42 AM' at [98:106]
+  MISSED: PHONE_NUMBER '001-922-421-9693' at [150:166]
+  MISSED: PERSON 'David Scott' at [180:191]
+Handoff #59:
+  MISSED: PERSON 'Smith' at [5:10]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 48605268' at [16:28]
+  MISSED: DATE_TIME 'January 13' at [43:53]
+  MISSED: DATE_TIME '09:34 AM' at [57:65]
+  MISSED: PERSON 'Elizabeth Hayden DDS' at [98:118]
+  MISSED: ROOM '907' at [156:159]
+  MISSED: PERSON 'Ian Phillips' at [165:177]
+Handoff #60:
+  MISSED: PERSON 'Adam Grimes' at [17:28]
+  MISSED: EMAIL_ADDRESS 'lozanojulie@example.com' at [59:82]
+  MISSED: PERSON 'Crystal Pham' at [116:128]
+  MISSED: PHONE_NUMBER '239.742.1047' at [132:144]
+Handoff #61:
+  MISSED: PERSON 'Ann Phillips' at [0:12]
+  MISSED: PERSON 'Carlos Ryan' at [29:40]
+  MISSED: EMAIL_ADDRESS 'maria47@example.com' at [110:129]
+  MISSED: PHONE_NUMBER '001-651-371-2368x5160' at [169:190]
+Handoff #62:
+  MISSED: PERSON 'Michael Chambers' at [0:16]
+  MISSED: DATE_TIME 'January 13' at [22:32]
+  MISSED: PEDIATRIC_AGE '15 year old' at [44:55]
+  MISSED: LOCATION 'Memorial Hospital' at [91:108]
+Handoff #63:
+  MISSED: PERSON 'Kristina Herman' at [0:15]
+  MISSED: PEDIATRIC_AGE '21 days old' at [17:28]
+  MISSED: PERSON 'Susan Turner' at [81:93]
+  MISSED: PERSON 'Andrew Johnson' at [149:163]
+  MISSED: PHONE_NUMBER '811.338.2675x8692' at [167:184]
+Handoff #64:
+  MISSED: MEDICAL_RECORD_NUMBER '75679047' at [20:28]
+  MISSED: PERSON 'Teresa Ramirez' at [30:44]
+Handoff #65:
+  MISSED: MEDICAL_RECORD_NUMBER '69686067' at [23:31]
+  MISSED: PERSON 'Savannah Garcia' at [36:51]
+  MISSED: PEDIATRIC_AGE '10yo' at [53:57]
+Handoff #66:
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN2015861' at [8:18]
+  MISSED: PERSON 'Colton Martinez' at [23:38]
+  MISSED: DATE_TIME 'January 19' at [74:84]
+Handoff #75:
+  MISSED: PEDIATRIC_AGE '2 year old' at [0:10]
+Handoff #77:
+  MISSED: PEDIATRIC_AGE '14 years old' at [0:12]
+  MISSED: DATE_TIME '01:27 AM' at [56:64]
+Handoff #78:
+  MISSED: DATE_TIME '11:20 AM' at [50:58]
+Handoff #79:
+  MISSED: DATE_TIME '09:00 PM' at [44:52]
+Handoff #80:
+  MISSED: PERSON 'Richard Chapman' at [8:23]
+  MISSED: PEDIATRIC_AGE '2 day old' at [27:36]
+  MISSED: DATE_TIME 'January 17' at [73:83]
+  MISSED: PERSON 'Nichole Alvarez' at [112:127]
+  MISSED: PHONE_NUMBER '001-258-991-7839x08470' at [165:187]
+Handoff #81:
+  MISSED: PERSON 'Jessica Rodriguez' at [11:28]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 19863756' at [34:46]
+  MISSED: DATE_TIME 'January 20' at [53:63]
+  MISSED: PEDIATRIC_AGE '10 weeks 1 days old' at [75:94]
+Handoff #82:
+  MISSED: PERSON 'Jones' at [5:10]
+  MISSED: DATE_TIME 'January 13' at [41:51]
+  MISSED: PEDIATRIC_AGE '10 years old' at [63:75]
+  MISSED: PERSON 'Kerry Chavez DDS' at [84:100]
+  MISSED: PERSON 'Michael Farrell' at [120:135]
+Handoff #83:
+  MISSED: PERSON 'Patricia Le' at [0:11]
+  MISSED: MEDICAL_RECORD_NUMBER '8215376' at [13:20]
+  MISSED: PEDIATRIC_AGE '8 mo old' at [27:35]
+  MISSED: LOCATION '1565 Brooks Drives Suite 111' at [73:101]
+  MISSED: PERSON 'Patrick Watson' at [131:145]
+  MISSED: PHONE_NUMBER '(780)898-8516' at [155:168]
+Handoff #84:
+  MISSED: PERSON 'Parrish' at [13:20]
+  MISSED: MEDICAL_RECORD_NUMBER '48604965' at [26:34]
+  MISSED: PEDIATRIC_AGE '4 years old' at [58:69]
+  MISSED: PERSON 'John Boone' at [89:99]
+  MISSED: PERSON 'Justin Wilson' at [104:117]
+  MISSED: LOCATION 'Audreychester' at [125:138]
+Handoff #85:
+  MISSED: PERSON 'Vanessa Cardenas' at [12:28]
+  MISSED: PHONE_NUMBER '+1-480-494-0244x550' at [32:51]
+  MISSED: LOCATION '20183 Barnes Junctions Apt. 545' at [79:110]
+  MISSED: PERSON 'Frank' at [140:145]
+  MISSED: PHONE_NUMBER '001-691-902-2901' at [154:170]
+Handoff #86:
+  MISSED: PERSON 'Karla Ramos' at [17:28]
+  MISSED: PERSON 'Wilson' at [88:94]
+  MISSED: PHONE_NUMBER '(614)597-8403x69003' at [98:117]
+  MISSED: PERSON 'Donna Wilson' at [152:164]
+  MISSED: PERSON 'Casey James' at [227:238]
+Handoff #87:
+  MISSED: PERSON 'Kathryn Whitaker' at [0:16]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN2209226' at [22:32]
+  MISSED: ROOM '228' at [39:42]
+  MISSED: DATE_TIME '10:41 PM' at [59:67]
+  MISSED: PERSON 'Erik Patterson' at [97:111]
+Handoff #88:
+  MISSED: PERSON 'Mark Roberts' at [16:28]
+  MISSED: PERSON 'Frederick Solis' at [66:81]
+  MISSED: PHONE_NUMBER '+1-875-616-1369x681' at [85:104]
+  MISSED: PERSON 'Morgan' at [136:142]
+Handoff #89:
+  MISSED: PERSON 'Angela Schultz' at [18:32]
+  MISSED: ROOM '17' at [40:42]
+  MISSED: PERSON 'Hannah Luna' at [62:73]
+  MISSED: PHONE_NUMBER '+1-923-912-4329x2127' at [87:107]
+  MISSED: PERSON 'Maldonado' at [123:132]
+Handoff #90:
+  MISSED: PERSON 'Lori Hernandez' at [4:18]
+  MISSED: MEDICAL_RECORD_NUMBER '72937522' at [24:32]
+  MISSED: PERSON 'Eric Hill' at [67:76]
+  MISSED: PERSON 'Jordan Collins' at [105:119]
+  MISSED: PHONE_NUMBER '200.954.1199x867' at [123:139]
+Handoff #91:
+  MISSED: PERSON 'Laura Lopez' at [0:11]
+  MISSED: PERSON 'Chris Brown' at [54:65]
+  MISSED: DATE_TIME 'January 03' at [69:79]
+  MISSED: PERSON 'Nolan' at [103:108]
+Handoff #93:
+  MISSED: PEDIATRIC_AGE '2 days old' at [0:10]
+Handoff #95:
+  MISSED: PERSON 'Helen Hardin' at [0:12]
+  MISSED: PEDIATRIC_AGE '14mo' at [14:18]
+  MISSED: PERSON 'Amy Mccoy' at [42:51]
+  MISSED: LOCATION '51864 Cummings Shoals Apt. 519' at [57:87]
+  MISSED: PERSON 'Sydney Collins' at [93:107]
+  MISSED: PERSON 'Mary Anderson' at [126:139]
+  MISSED: PERSON 'Angela Hansen' at [177:190]
+  MISSED: PHONE_NUMBER '+1-752-981-6850x5423' at [194:214]
+  MISSED: PERSON 'Zachary Moore' at [235:248]
+Handoff #96:
+  MISSED: PERSON 'Richard Romero' at [0:14]
+  MISSED: PEDIATRIC_AGE '4 year old' at [16:26]
+  MISSED: LOCATION 'Oak Park Middle School' at [32:54]
+  MISSED: PERSON 'Christopher Guerra' at [87:105]
+  MISSED: PHONE_NUMBER '001-592-670-6537x94738' at [109:131]
+  MISSED: LOCATION '59774 Shaw Manor Apt. 392' at [158:183]
+  MISSED: PERSON 'John Watson' at [194:205]
+Handoff #97:
+  MISSED: PERSON 'Michelle Black' at [12:26]
+  MISSED: MEDICAL_RECORD_NUMBER '48260510' at [32:40]
+  MISSED: LOCATION 'Children's Hospital' at [47:66]
+  MISSED: PERSON 'Hines' at [114:119]
+  MISSED: PHONE_NUMBER '878-726-1375x060' at [123:139]
+  MISSED: LOCATION 'South Virginia' at [162:176]
+  MISSED: DATE_TIME '05:25 PM' at [182:190]
+Handoff #98:
+  MISSED: PERSON 'Timothy Combs' at [0:13]
+  MISSED: LOCATION '20472 West Avenue Apt. 043' at [37:63]
+  MISSED: PERSON 'Conley' at [84:90]
+  MISSED: DATE_TIME 'January 13' at [94:104]
+  MISSED: DATE_TIME '09:17 PM' at [108:116]
+  MISSED: PHONE_NUMBER '(214)534-1036x97117' at [159:178]
+  MISSED: PERSON 'Aaron Gomez' at [192:203]
+Handoff #99:
+  MISSED: PERSON 'Duncan' at [5:11]
+  MISSED: MEDICAL_RECORD_NUMBER '2436363' at [17:24]
+  MISSED: DATE_TIME 'January 22' at [38:48]
+  MISSED: DATE_TIME '07:18 PM' at [52:60]
+  MISSED: PERSON 'Rachel Romero' at [87:100]
+  MISSED: ROOM '2-25' at [136:140]
+  MISSED: PERSON 'Alan Kramer' at [146:157]
+Handoff #100:
+  MISSED: PERSON 'Ashley Perkins' at [17:31]
+  MISSED: EMAIL_ADDRESS 'dennis58@example.com' at [62:82]
+  MISSED: PERSON 'Carrie Maxwell' at [116:130]
+  MISSED: PHONE_NUMBER '772.621.7043x030' at [134:150]
+Handoff #101:
+  MISSED: PERSON 'Virginia Daniels' at [0:16]
+  MISSED: PERSON 'Matthew Mitchell' at [24:40]
+  MISSED: EMAIL_ADDRESS 'joshua56@example.com' at [112:132]
+  MISSED: PHONE_NUMBER '001-876-452-7758x4161' at [172:193]
+Handoff #102:
+  MISSED: PERSON 'Erica Miller' at [0:12]
+  MISSED: DATE_TIME 'January 15' at [18:28]
+  MISSED: PEDIATRIC_AGE '8 weeks 4 days old' at [40:58]
+  MISSED: LOCATION 'Community Hospital' at [101:119]
+Handoff #103:
+  MISSED: PERSON 'Nicholas Buck' at [0:13]
+  MISSED: PEDIATRIC_AGE '3yo' at [15:18]
+  MISSED: PERSON 'Theresa Jones' at [71:84]
+  MISSED: PERSON 'Robert Shelton' at [140:154]
+  MISSED: PHONE_NUMBER '7298702135' at [158:168]
+Handoff #104:
+  MISSED: MEDICAL_RECORD_NUMBER '86134287' at [20:28]
+  MISSED: PERSON 'Christian Cole' at [30:44]
+Handoff #105:
+  MISSED: MEDICAL_RECORD_NUMBER '20319387' at [23:31]
+  MISSED: PERSON 'Kendra Sanders' at [36:50]
+  MISSED: PEDIATRIC_AGE '9 year old' at [52:62]
+Handoff #106:
+  MISSED: MEDICAL_RECORD_NUMBER '13478029' at [8:16]
+  MISSED: PERSON 'Kathryn Hughes' at [21:35]
+  MISSED: DATE_TIME 'January 13' at [71:81]
+Handoff #115:
+  MISSED: PEDIATRIC_AGE '12 weeks 3 days old' at [0:19]
+Handoff #117:
+  MISSED: PEDIATRIC_AGE '15yo' at [0:4]
+  MISSED: DATE_TIME '04:40 PM' at [57:65]
+Handoff #118:
+  MISSED: DATE_TIME '10:36 PM' at [50:58]
+Handoff #119:
+  MISSED: DATE_TIME '04:39 PM' at [44:52]
+Handoff #120:
+  MISSED: PERSON 'Barbara Harris' at [8:22]
+  MISSED: PEDIATRIC_AGE '8 day old' at [26:35]
+  MISSED: DATE_TIME 'January 08' at [72:82]
+  MISSED: PERSON 'Julie Bird' at [111:121]
+  MISSED: PHONE_NUMBER '(891)314-6786' at [159:172]
+Handoff #121:
+  MISSED: PERSON 'Evan Jones' at [11:21]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 79438885' at [27:39]
+  MISSED: DATE_TIME 'January 08' at [46:56]
+  MISSED: PEDIATRIC_AGE '17yo' at [68:72]
+Handoff #122:
+  MISSED: PERSON 'Matthews' at [5:13]
+  MISSED: DATE_TIME 'January 21' at [39:49]
+  MISSED: PEDIATRIC_AGE '1 days old' at [61:71]
+  MISSED: PERSON 'Christopher Donovan' at [80:99]
+  MISSED: PERSON 'Travis Stone' at [119:131]
+Handoff #123:
+  MISSED: PERSON 'Blake Gonzalez' at [0:14]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN3100009' at [16:26]
+  MISSED: PEDIATRIC_AGE '9yo' at [33:36]
+  MISSED: LOCATION '922 Kirby Port' at [73:87]
+  MISSED: PERSON 'Alyssa Williams' at [117:132]
+  MISSED: PHONE_NUMBER '+1-594-839-6907x8447' at [142:162]
+Handoff #124:
+  MISSED: PERSON 'Evans' at [13:18]
+  MISSED: MEDICAL_RECORD_NUMBER '18041391' at [24:32]
+  MISSED: PEDIATRIC_AGE '15 months old' at [60:73]
+  MISSED: PERSON 'Charles Hensley' at [93:108]
+  MISSED: PERSON 'William Reed' at [113:125]
+  MISSED: LOCATION 'Andersonstad' at [133:145]
+Handoff #125:
+  MISSED: PERSON 'Ashley Allen' at [12:24]
+  MISSED: PHONE_NUMBER '847-532-1046' at [28:40]
+  MISSED: LOCATION '9532 Ferrell Mountain' at [68:89]
+  MISSED: PERSON 'Jimenez' at [119:126]
+  MISSED: PHONE_NUMBER '670-916-8733x9500' at [135:152]
+Handoff #126:
+  MISSED: PERSON 'Sarah Chambers' at [17:31]
+  MISSED: ROOM '35' at [40:42]
+  MISSED: PERSON 'Boone' at [82:87]
+  MISSED: PHONE_NUMBER '(624)356-5060x98358' at [91:110]
+  MISSED: PERSON 'Pamela Ramirez' at [147:161]
+  MISSED: PERSON 'Barbara Hester' at [222:236]
+Handoff #127:
+  MISSED: PERSON 'Robert Morgan' at [0:13]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN3420404' at [19:29]
+  MISSED: DATE_TIME '07:36 PM' at [59:67]
+  MISSED: PERSON 'Andrew Reeves' at [97:110]
+Handoff #128:
+  MISSED: PERSON 'Kelly Hernandez' at [16:31]
+  MISSED: PERSON 'Timothy Flores' at [66:80]
+  MISSED: PHONE_NUMBER '(794)795-8887x9470' at [84:102]
+  MISSED: PERSON 'Rodriguez' at [139:148]
+Handoff #129:
+  MISSED: PERSON 'Rebecca Swanson' at [18:33]
+  MISSED: ROOM '711' at [41:44]
+  MISSED: PERSON 'Walter Patton' at [64:77]
+  MISSED: PHONE_NUMBER '001-399-530-9728x96230' at [91:113]
+  MISSED: PERSON 'Smith' at [129:134]
+Handoff #130:
+  MISSED: PERSON 'Michael Jenkins' at [4:19]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 18359252' at [25:37]
+  MISSED: PERSON 'Kelly Hoffman' at [72:85]
+  MISSED: PERSON 'Mrs. Jamie Frye DDS' at [114:133]
+  MISSED: PHONE_NUMBER '+1-658-654-9733' at [137:152]
+Handoff #131:
+  MISSED: PERSON 'William Evans' at [0:13]
+  MISSED: PERSON 'Melissa Burns' at [50:63]
+  MISSED: DATE_TIME 'January 11' at [67:77]
+  MISSED: PERSON 'Castro' at [101:107]
+Handoff #133:
+  MISSED: PEDIATRIC_AGE '2 weeks 4 days old' at [0:18]
+Handoff #135:
+  MISSED: PERSON 'Tina Ballard' at [0:12]
+  MISSED: PEDIATRIC_AGE '1 weeks 2 days old' at [14:32]
+  MISSED: PERSON 'Angela Bradshaw' at [56:71]
+  MISSED: LOCATION '733 Fitzpatrick Square Suite 219' at [77:109]
+  MISSED: PERSON 'Cynthia Williams' at [115:131]
+  MISSED: PERSON 'Courtney Hall' at [150:163]
+  MISSED: PERSON 'Gary Kennedy' at [201:213]
+  MISSED: PHONE_NUMBER '+1-520-282-6773x45401' at [217:238]
+  MISSED: PERSON 'Carrie Khan' at [259:270]
+Handoff #136:
+  MISSED: PERSON 'Thomas Osborn' at [0:13]
+  MISSED: PEDIATRIC_AGE '16 months old' at [15:28]
+  MISSED: LOCATION 'Kennedy Elementary' at [34:52]
+  MISSED: PERSON 'Lance Hebert' at [95:107]
+  MISSED: PHONE_NUMBER '947-688-7287x43152' at [111:129]
+  MISSED: LOCATION '54932 Wilcox Passage' at [156:176]
+  MISSED: PERSON 'Michael Lopez' at [188:201]
+Handoff #137:
+  MISSED: PERSON 'Franklin Wright' at [12:27]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN7435310' at [33:43]
+  MISSED: LOCATION 'University Medical Center' at [50:75]
+  MISSED: PERSON 'Griffin' at [123:130]
+  MISSED: PHONE_NUMBER '654-499-0453x017' at [134:150]
+  MISSED: LOCATION 'Parksport' at [173:182]
+  MISSED: DATE_TIME '09:53 AM' at [188:196]
+Handoff #138:
+  MISSED: PERSON 'Teresa Richardson' at [0:17]
+  MISSED: LOCATION '27279 Perry Plaza' at [41:58]
+  MISSED: PERSON 'Durham' at [79:85]
+  MISSED: DATE_TIME 'January 17' at [89:99]
+  MISSED: DATE_TIME '04:19 PM' at [103:111]
+  MISSED: PHONE_NUMBER '339.218.7851' at [156:168]
+  MISSED: PERSON 'Christina Herrera' at [181:198]
+Handoff #139:
+  MISSED: PERSON 'Martin' at [5:11]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 25601471' at [17:29]
+  MISSED: DATE_TIME 'January 05' at [44:54]
+  MISSED: DATE_TIME '01:18 PM' at [58:66]
+  MISSED: PERSON 'Jill Brown' at [84:94]
+  MISSED: ROOM '937' at [130:133]
+  MISSED: PERSON 'Megan Parker' at [139:151]
+  MISSED: ROOM '505' at [187:190]
+Handoff #140:
+  MISSED: PERSON 'Aaron Robinson' at [17:31]
+  MISSED: EMAIL_ADDRESS 'williamsmelvin@example.org' at [62:88]
+  MISSED: PERSON 'Amy Shannon' at [122:133]
+  MISSED: PHONE_NUMBER '404.762.2656x7661' at [137:154]
+Handoff #141:
+  MISSED: PERSON 'Willie Long' at [0:11]
+  MISSED: PERSON 'Courtney Smith' at [26:40]
+  MISSED: EMAIL_ADDRESS 'steven86@example.net' at [112:132]
+  MISSED: PHONE_NUMBER '(533)575-2431x0690' at [172:190]
+Handoff #142:
+  MISSED: PERSON 'Kirk Griffin' at [0:12]
+  MISSED: DATE_TIME 'January 15' at [18:28]
+  MISSED: PEDIATRIC_AGE '13 year old' at [40:51]
+  MISSED: LOCATION 'Memorial Hospital' at [93:110]
+Handoff #143:
+  MISSED: PERSON 'Scott Brown' at [0:11]
+  MISSED: PEDIATRIC_AGE '3 years old' at [13:24]
+  MISSED: PERSON 'Kyle Chambers' at [83:96]
+  MISSED: PERSON 'Shawn Odom' at [144:154]
+  MISSED: PHONE_NUMBER '836.744.0892x68705' at [158:176]
+Handoff #144:
+  MISSED: MEDICAL_RECORD_NUMBER '65878146' at [20:28]
+  MISSED: PERSON 'Elijah White' at [30:42]
+  MISSED: ROOM '16' at [53:55]
+Handoff #145:
+  MISSED: MEDICAL_RECORD_NUMBER '40245233' at [23:31]
+  MISSED: PERSON 'Michael Shaffer' at [36:51]
+  MISSED: PEDIATRIC_AGE '6 days old' at [53:63]
+Handoff #146:
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 42595918' at [8:20]
+  MISSED: PERSON 'Gary Miller' at [25:36]
+  MISSED: DATE_TIME 'January 10' at [72:82]
+Handoff #155:
+  MISSED: PEDIATRIC_AGE '22 month old' at [0:12]
+Handoff #157:
+  MISSED: PEDIATRIC_AGE '1 weeks 1 days old' at [0:18]
+  MISSED: DATE_TIME '04:06 AM' at [69:77]
+Handoff #158:
+  MISSED: DATE_TIME '04:05 PM' at [50:58]
+Handoff #159:
+  MISSED: DATE_TIME '09:37 AM' at [44:52]
+Handoff #160:
+  MISSED: PERSON 'Joseph Howard' at [8:21]
+  MISSED: PEDIATRIC_AGE '6 weeks 4 days old' at [25:43]
+  MISSED: DATE_TIME 'January 11' at [82:92]
+  MISSED: PERSON 'Miranda Gill' at [121:133]
+  MISSED: PHONE_NUMBER '835-656-0932x04899' at [171:189]
+Handoff #161:
+  MISSED: PERSON 'Gary James' at [11:21]
+  MISSED: MEDICAL_RECORD_NUMBER '9376888' at [27:34]
+  MISSED: DATE_TIME 'January 13' at [41:51]
+  MISSED: PEDIATRIC_AGE '10 years old' at [63:75]
+Handoff #162:
+  MISSED: PERSON 'Hines' at [5:10]
+  MISSED: ROOM '930' at [23:26]
+  MISSED: DATE_TIME 'January 17' at [33:43]
+  MISSED: PEDIATRIC_AGE '3 weeks 1 days old' at [55:73]
+  MISSED: PERSON 'Katherine Stark' at [82:97]
+  MISSED: PERSON 'Maria Brown' at [117:128]
+Handoff #163:
+  MISSED: PERSON 'Ryan Landry' at [0:11]
+  MISSED: MEDICAL_RECORD_NUMBER '10856822' at [13:21]
+  MISSED: PEDIATRIC_AGE '5 months old' at [28:40]
+  MISSED: LOCATION '87509 Hopkins Brook' at [76:95]
+  MISSED: PERSON 'Jennifer Smith' at [125:139]
+  MISSED: PHONE_NUMBER '001-548-640-8621x1823' at [149:170]
+Handoff #164:
+  MISSED: PERSON 'Ochoa' at [13:18]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN7658817' at [24:34]
+  MISSED: PEDIATRIC_AGE '19 months old' at [62:75]
+  MISSED: PERSON 'Courtney Sutton DVM' at [95:114]
+  MISSED: PERSON 'Shannon Malone' at [119:133]
+  MISSED: LOCATION 'South Nicholasside' at [141:159]
+Handoff #165:
+  MISSED: PERSON 'Mark Warner' at [12:23]
+  MISSED: PHONE_NUMBER '576-959-1803' at [27:39]
+  MISSED: LOCATION '14890 Sarah Island Apt. 392' at [67:94]
+  MISSED: PERSON 'Goodwin' at [124:131]
+  MISSED: PHONE_NUMBER '001-461-342-9396x856' at [140:160]
+Handoff #166:
+  MISSED: PERSON 'Valerie Brown' at [17:30]
+  MISSED: ROOM '5-05' at [39:43]
+  MISSED: PERSON 'Jacobs' at [83:89]
+  MISSED: PHONE_NUMBER '+1-896-450-4773x586' at [93:112]
+  MISSED: PERSON 'Angelica Montgomery' at [146:165]
+  MISSED: PERSON 'Benjamin Adams' at [232:246]
+Handoff #167:
+  MISSED: PERSON 'Richard Moore' at [0:13]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 52503832' at [19:31]
+  MISSED: ROOM '7' at [38:39]
+  MISSED: DATE_TIME '09:03 AM' at [56:64]
+  MISSED: PERSON 'Ian Nelson' at [94:104]
+Handoff #168:
+  MISSED: PERSON 'Cody Cole' at [16:25]
+  MISSED: PERSON 'Ashley Davis' at [60:72]
+  MISSED: PHONE_NUMBER '+1-819-395-6046' at [76:91]
+  MISSED: PERSON 'Santana' at [123:130]
+Handoff #169:
+  MISSED: PERSON 'Carolyn James' at [18:31]
+  MISSED: PERSON 'Charles Jackson' at [64:79]
+  MISSED: PHONE_NUMBER '964-371-5437x993' at [93:109]
+  MISSED: PERSON 'Taylor' at [125:131]
+Handoff #170:
+  MISSED: PERSON 'Manuel Brock' at [4:16]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN8385715' at [22:32]
+  MISSED: PERSON 'Robert Villarreal' at [67:84]
+  MISSED: PERSON 'Brandy Flores' at [113:126]
+  MISSED: PHONE_NUMBER '001-837-652-6547x935' at [130:150]
+Handoff #171:
+  MISSED: PERSON 'Jenna Wilson' at [0:12]
+  MISSED: PERSON 'Zachary White' at [55:68]
+  MISSED: DATE_TIME 'January 17' at [72:82]
+  MISSED: PERSON 'Johnson' at [106:113]
+Handoff #173:
+  MISSED: PEDIATRIC_AGE '8 years old' at [0:11]
+Handoff #175:
+  MISSED: PERSON 'Rebecca Ortiz' at [0:13]
+  MISSED: PEDIATRIC_AGE '5mo' at [15:18]
+  MISSED: PERSON 'Matthew Espinoza' at [42:58]
+  MISSED: LOCATION '79796 Stephens Turnpike Suite 891' at [64:97]
+  MISSED: PERSON 'David Ortega' at [103:115]
+  MISSED: PERSON 'Lonnie Hart' at [134:145]
+  MISSED: PERSON 'Maria Rasmussen' at [183:198]
+  MISSED: PHONE_NUMBER '761-801-4388x89937' at [202:220]
+  MISSED: PERSON 'Michael Vaughn' at [241:255]
+Handoff #176:
+  MISSED: PERSON 'Zachary Webb' at [0:12]
+  MISSED: PEDIATRIC_AGE '7 weeks old' at [14:25]
+  MISSED: LOCATION 'Lincoln Middle School' at [31:52]
+  MISSED: PERSON 'Jesse Clark' at [100:111]
+  MISSED: PHONE_NUMBER '357.417.7514x0105' at [115:132]
+  MISSED: LOCATION '282 Castro Mountain' at [159:178]
+  MISSED: PERSON 'Lori Lopez' at [196:206]
+Handoff #177:
+  MISSED: PERSON 'Jennifer Mclaughlin' at [12:31]
+  MISSED: MEDICAL_RECORD_NUMBER '8542617' at [37:44]
+  MISSED: LOCATION 'Memorial Hospital' at [51:68]
+  MISSED: PERSON 'Jordan' at [116:122]
+  MISSED: PHONE_NUMBER '7337419182' at [126:136]
+  MISSED: LOCATION 'South Daniel' at [159:171]
+  MISSED: DATE_TIME '07:23 AM' at [177:185]
+Handoff #178:
+  MISSED: PERSON 'Vincent Edwards MD' at [0:18]
+  MISSED: LOCATION '155 Williamson Via Suite 991' at [42:70]
+  MISSED: PERSON 'Powers' at [91:97]
+  MISSED: DATE_TIME 'January 07' at [101:111]
+  MISSED: DATE_TIME '12:35 AM' at [115:123]
+  MISSED: PHONE_NUMBER '(852)886-6929' at [163:176]
+  MISSED: PERSON 'Mr. Thomas Arias' at [190:206]
+Handoff #179:
+  MISSED: PERSON 'Thompson' at [5:13]
+  MISSED: MEDICAL_RECORD_NUMBER '9214830' at [19:26]
+  MISSED: DATE_TIME 'January 04' at [40:50]
+  MISSED: DATE_TIME '08:27 AM' at [54:62]
+  MISSED: PERSON 'Sharon Crane' at [87:99]
+  MISSED: ROOM '9-27' at [137:141]
+  MISSED: PERSON 'Ryan Burns' at [147:157]
+  MISSED: ROOM '678' at [193:196]
+Handoff #180:
+  MISSED: PERSON 'Philip Carter' at [17:30]
+  MISSED: EMAIL_ADDRESS 'jeffrey42@example.com' at [61:82]
+  MISSED: PERSON 'Patricia Simpson' at [116:132]
+  MISSED: PHONE_NUMBER '519.614.8580x78361' at [136:154]
+Handoff #181:
+  MISSED: PERSON 'Amanda Baker' at [0:12]
+  MISSED: PERSON 'Xavier Rowe' at [22:33]
+  MISSED: EMAIL_ADDRESS 'lisamatthews@example.com' at [94:118]
+  MISSED: PHONE_NUMBER '001-696-429-2330x958' at [158:178]
+Handoff #182:
+  MISSED: PERSON 'Michael Roberts' at [0:15]
+  MISSED: DATE_TIME 'January 06' at [21:31]
+  MISSED: PEDIATRIC_AGE '17yo' at [43:47]
+  MISSED: LOCATION 'Children's Hospital' at [89:108]
+Handoff #183:
+  MISSED: PERSON 'Sharon Martinez DVM' at [0:19]
+  MISSED: PEDIATRIC_AGE '5 day old' at [21:30]
+  MISSED: PERSON 'Megan Burns' at [77:88]
+  MISSED: PERSON 'Lori Brooks' at [141:152]
+  MISSED: PHONE_NUMBER '216-384-5775' at [156:168]
+Handoff #184:
+  MISSED: MEDICAL_RECORD_NUMBER '71532017' at [20:28]
+  MISSED: PERSON 'Melissa Horn' at [30:42]
+  MISSED: ROOM '13' at [53:55]
+Handoff #185:
+  MISSED: MEDICAL_RECORD_NUMBER '67665720' at [23:31]
+  MISSED: PERSON 'Kathleen Morris' at [36:51]
+  MISSED: PEDIATRIC_AGE '6 weeks 4 days old' at [53:71]
+Handoff #186:
+  MISSED: MEDICAL_RECORD_NUMBER '9142618' at [8:15]
+  MISSED: PERSON 'Stephanie Farmer' at [20:36]
+  MISSED: DATE_TIME 'January 02' at [72:82]
+Handoff #195:
+  MISSED: PEDIATRIC_AGE '15 month old' at [0:12]
+Handoff #197:
+  MISSED: PEDIATRIC_AGE '2 weeks 2 days old' at [0:18]
+  MISSED: DATE_TIME '07:08 AM' at [59:67]
+Handoff #198:
+  MISSED: DATE_TIME '08:46 AM' at [50:58]
+Handoff #199:
+  MISSED: DATE_TIME '10:45 PM' at [43:51]
+Handoff #200:
+  MISSED: PERSON 'Blake Wheeler' at [8:21]
+  MISSED: PEDIATRIC_AGE '4 yo' at [25:29]
+  MISSED: DATE_TIME 'January 01' at [66:76]
+  MISSED: PERSON 'Bryan Dalton' at [105:117]
+  MISSED: PHONE_NUMBER '001-427-813-6111x554' at [155:175]
+Handoff #201:
+  MISSED: PERSON 'Nicole Anderson' at [11:26]
+  MISSED: MEDICAL_RECORD_NUMBER '2147756' at [32:39]
+  MISSED: DATE_TIME 'January 12' at [46:56]
+  MISSED: PEDIATRIC_AGE 'DOL 2' at [68:73]
+Handoff #202:
+  MISSED: PERSON 'Bowen' at [5:10]
+  MISSED: DATE_TIME 'January 16' at [36:46]
+  MISSED: PEDIATRIC_AGE '14 year old' at [58:69]
+  MISSED: PERSON 'Brenda Martinez' at [78:93]
+  MISSED: PERSON 'Heather Jordan' at [113:127]
+Handoff #203:
+  MISSED: PERSON 'Danielle Newman' at [0:15]
+  MISSED: MEDICAL_RECORD_NUMBER '5780177' at [17:24]
+  MISSED: PEDIATRIC_AGE '13yo' at [31:35]
+  MISSED: LOCATION '640 Troy Creek' at [78:92]
+  MISSED: PERSON 'Mr. Joseph Levine DVM' at [127:148]
+  MISSED: PHONE_NUMBER '626-596-5827x10910' at [158:176]
+Handoff #204:
+  MISSED: PERSON 'Williams' at [13:21]
+  MISSED: MEDICAL_RECORD_NUMBER '63415303' at [27:35]
+  MISSED: PEDIATRIC_AGE '11 years old' at [61:73]
+  MISSED: PERSON 'Angela Herrera' at [93:107]
+  MISSED: PERSON 'Diamond Collins' at [112:127]
+  MISSED: LOCATION 'Port Eric' at [135:144]
+Handoff #205:
+  MISSED: PERSON 'Kevin Hines' at [12:23]
+  MISSED: PHONE_NUMBER '+1-214-663-0316x1799' at [27:47]
+  MISSED: LOCATION '02027 Mills Tunnel' at [75:93]
+  MISSED: PERSON 'Carson' at [123:129]
+  MISSED: PHONE_NUMBER '625-324-1056x481' at [138:154]
+Handoff #206:
+  MISSED: PERSON 'Jorge Brown PhD' at [17:32]
+  MISSED: ROOM '12' at [41:43]
+  MISSED: PERSON 'Scott' at [83:88]
+  MISSED: PHONE_NUMBER '291-938-0003' at [92:104]
+  MISSED: PERSON 'Chris Velazquez' at [133:148]
+  MISSED: PERSON 'Robert Klein' at [215:227]
+Handoff #207:
+  MISSED: PERSON 'Courtney Wright' at [0:15]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN5550953' at [21:31]
+  MISSED: ROOM '685' at [38:41]
+  MISSED: DATE_TIME '03:13 PM' at [58:66]
+  MISSED: PERSON 'Stephanie White' at [96:111]
+Handoff #208:
+  MISSED: PERSON 'Vicki Finley' at [16:28]
+  MISSED: PERSON 'Sharon Ayala' at [59:71]
+  MISSED: PHONE_NUMBER '951-787-0534x9493' at [75:92]
+  MISSED: PERSON 'Bonilla' at [123:130]
+Handoff #209:
+  MISSED: PERSON 'Kimberly Flynn' at [18:32]
+  MISSED: PERSON 'Joshua Fields' at [65:78]
+  MISSED: PHONE_NUMBER '001-205-406-4138x367' at [92:112]
+  MISSED: PERSON 'Dawson' at [128:134]
+Handoff #210:
+  MISSED: PERSON 'Stephanie Meyer' at [4:19]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN8691649' at [25:35]
+  MISSED: PERSON 'Angela Davis' at [70:82]
+  MISSED: PERSON 'Robert Jones' at [111:123]
+  MISSED: PHONE_NUMBER '001-706-723-4456' at [127:143]
+Handoff #211:
+  MISSED: PERSON 'David Harding' at [0:13]
+  MISSED: PERSON 'Lauren Moore' at [57:69]
+  MISSED: DATE_TIME 'January 04' at [73:83]
+  MISSED: PERSON 'Owens' at [107:112]
+Handoff #213:
+  MISSED: PEDIATRIC_AGE '3 years old' at [0:11]
+Handoff #215:
+  MISSED: PERSON 'Ann Aguirre' at [0:11]
+  MISSED: PEDIATRIC_AGE '12 weeks 5 days old' at [13:32]
+  MISSED: PERSON 'Cindy Gates' at [56:67]
+  MISSED: LOCATION '35680 Green Extensions' at [73:95]
+  MISSED: PERSON 'Jared Chavez' at [101:113]
+  MISSED: PERSON 'Danielle Murray' at [132:147]
+  MISSED: PERSON 'Brenda Smith' at [185:197]
+  MISSED: PHONE_NUMBER '001-932-436-5199x41013' at [201:223]
+  MISSED: PERSON 'Ryan Lamb' at [244:253]
+Handoff #216:
+  MISSED: PERSON 'Tom Williams' at [0:12]
+  MISSED: PEDIATRIC_AGE '3 yo' at [14:18]
+  MISSED: LOCATION 'Hillside Elementary' at [24:43]
+  MISSED: PERSON 'Carrie Lewis' at [92:104]
+  MISSED: PHONE_NUMBER '(544)672-0999' at [108:121]
+  MISSED: LOCATION '8701 Reyes Manor Apt. 838' at [148:173]
+  MISSED: PERSON 'Rachael Howard DDS' at [186:204]
+Handoff #217:
+  MISSED: PERSON 'Dr. Jonathan Price' at [12:30]
+  MISSED: MEDICAL_RECORD_NUMBER '1437264' at [36:43]
+  MISSED: LOCATION 'Community Hospital' at [50:68]
+  MISSED: PERSON 'Harper' at [116:122]
+  MISSED: PHONE_NUMBER '3405785932' at [126:136]
+  MISSED: LOCATION 'West Amanda' at [159:170]
+  MISSED: DATE_TIME '09:41 AM' at [176:184]
+Handoff #218:
+  MISSED: PERSON 'Pamela Gould' at [0:12]
+  MISSED: LOCATION '2239 Drake Square Suite 905' at [36:63]
+  MISSED: PERSON 'Meza' at [84:88]
+  MISSED: DATE_TIME 'January 13' at [92:102]
+  MISSED: DATE_TIME '05:44 AM' at [106:114]
+  MISSED: PHONE_NUMBER '984.227.0103x9308' at [151:168]
+  MISSED: PERSON 'Christina Anderson' at [176:194]
+Handoff #219:
+  MISSED: PERSON 'Love' at [5:9]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN1999183' at [15:25]
+  MISSED: DATE_TIME 'January 04' at [39:49]
+  MISSED: DATE_TIME '09:20 AM' at [53:61]
+  MISSED: PERSON 'Sarah Valencia' at [74:88]
+  MISSED: ROOM '3-22' at [124:128]
+  MISSED: PERSON 'William Oconnor' at [134:149]
+  MISSED: ROOM '921' at [185:188]
+Handoff #220:
+  MISSED: PERSON 'Kristina Preston' at [17:33]
+  MISSED: EMAIL_ADDRESS 'jeffrey92@example.com' at [64:85]
+  MISSED: PERSON 'Michael Anderson' at [119:135]
+  MISSED: PHONE_NUMBER '001-909-469-0295x9391' at [139:160]
+Handoff #221:
+  MISSED: PERSON 'Blake Reed' at [0:10]
+  MISSED: PERSON 'Stephen Davis' at [19:32]
+  MISSED: EMAIL_ADDRESS 'nsmith@example.org' at [102:120]
+  MISSED: PHONE_NUMBER '001-915-841-0067x626' at [160:180]
+Handoff #222:
+  MISSED: PERSON 'James Poole' at [0:11]
+  MISSED: DATE_TIME 'January 18' at [17:27]
+  MISSED: PEDIATRIC_AGE '4 years old' at [39:50]
+  MISSED: LOCATION 'Community Hospital' at [86:104]
+Handoff #223:
+  MISSED: PERSON 'Dean Garcia' at [0:11]
+  MISSED: PEDIATRIC_AGE '3 weeks 3 days old' at [13:31]
+  MISSED: PERSON 'Kimberly Villanueva' at [69:88]
+  MISSED: PERSON 'William Barry' at [137:150]
+  MISSED: PHONE_NUMBER '001-806-629-6201x533' at [154:174]
+Handoff #224:
+  MISSED: MEDICAL_RECORD_NUMBER '98663948' at [20:28]
+  MISSED: PERSON 'David Williams' at [30:44]
+Handoff #225:
+  MISSED: MEDICAL_RECORD_NUMBER '30614492' at [23:31]
+  MISSED: PERSON 'Aaron Miller' at [36:48]
+  MISSED: PEDIATRIC_AGE '17 years old' at [50:62]
+Handoff #226:
+  MISSED: MEDICAL_RECORD_NUMBER '2627170' at [8:15]
+  MISSED: PERSON 'Christopher Carter' at [20:38]
+  MISSED: DATE_TIME 'January 02' at [74:84]
+Handoff #235:
+  MISSED: PEDIATRIC_AGE '9 year old' at [0:10]
+Handoff #237:
+  MISSED: PEDIATRIC_AGE '8 weeks 3 days old' at [0:18]
+  MISSED: DATE_TIME '01:21 AM' at [79:87]
+Handoff #238:
+  MISSED: DATE_TIME '01:22 PM' at [50:58]
+Handoff #239:
+  MISSED: DATE_TIME '11:39 AM' at [44:52]
+Handoff #240:
+  MISSED: PERSON 'Leah Spencer' at [8:20]
+  MISSED: PEDIATRIC_AGE '16yo' at [24:28]
+  MISSED: DATE_TIME 'January 22' at [67:77]
+  MISSED: PERSON 'Taylor Armstrong' at [106:122]
+  MISSED: PHONE_NUMBER '474.316.0898' at [160:172]
+Handoff #241:
+  MISSED: PERSON 'Joann Rush' at [11:21]
+  MISSED: MEDICAL_RECORD_NUMBER '4554926' at [27:34]
+  MISSED: DATE_TIME 'January 18' at [41:51]
+  MISSED: PEDIATRIC_AGE '2 day old' at [63:72]
+Handoff #242:
+  MISSED: PERSON 'Miller' at [5:11]
+  MISSED: ROOM '5-10' at [24:28]
+  MISSED: DATE_TIME 'January 08' at [35:45]
+  MISSED: PEDIATRIC_AGE '6 year old' at [57:67]
+  MISSED: PERSON 'James Nguyen' at [76:88]
+  MISSED: PERSON 'Jimmy Marks' at [108:119]
+Handoff #243:
+  MISSED: PERSON 'Lisa Mills' at [0:10]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 25102023' at [12:24]
+  MISSED: PEDIATRIC_AGE '5 months old' at [31:43]
+  MISSED: LOCATION '8564 Pena Ports' at [74:89]
+  MISSED: PERSON 'Christopher Powell' at [123:141]
+  MISSED: PHONE_NUMBER '+1-796-606-5307x450' at [151:170]
+Handoff #244:
+  MISSED: PERSON 'Collins' at [13:20]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 23182514' at [26:38]
+  MISSED: PEDIATRIC_AGE '12 years old' at [66:78]
+  MISSED: PERSON 'Jason Brewer' at [98:110]
+  MISSED: PERSON 'Daniel Holloway' at [115:130]
+  MISSED: LOCATION 'Malonestad' at [138:148]
+Handoff #245:
+  MISSED: PERSON 'Kaylee Moore' at [12:24]
+  MISSED: PHONE_NUMBER '986-228-9023x3030' at [28:45]
+  MISSED: LOCATION '345 Wagner Roads Apt. 035' at [73:98]
+  MISSED: PERSON 'Burns' at [128:133]
+  MISSED: PHONE_NUMBER '827.298.5524x140' at [142:158]
+Handoff #246:
+  MISSED: PERSON 'Kenneth Hanna' at [17:30]
+  MISSED: ROOM '21' at [39:41]
+  MISSED: PERSON 'Byrd' at [81:85]
+  MISSED: PHONE_NUMBER '668-600-7229x034' at [89:105]
+  MISSED: PERSON 'Sarah Stevens' at [142:155]
+  MISSED: PERSON 'Michael Holloway' at [221:237]
+Handoff #247:
+  MISSED: PERSON 'Brian Hunt' at [0:10]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN5742531' at [16:26]
+  MISSED: ROOM '44' at [33:35]
+  MISSED: DATE_TIME '02:15 AM' at [52:60]
+  MISSED: PERSON 'Donald Nguyen' at [90:103]
+Handoff #248:
+  MISSED: PERSON 'Matthew Farley' at [16:30]
+  MISSED: PERSON 'Joseph Allen' at [59:71]
+  MISSED: PHONE_NUMBER '8968520744' at [75:85]
+  MISSED: PERSON 'Doyle' at [118:123]
+Handoff #249:
+  MISSED: PERSON 'Laura Lee' at [18:27]
+  MISSED: PERSON 'Karen Shepard' at [61:74]
+  MISSED: PHONE_NUMBER '(484)728-2417x248' at [88:105]
+  MISSED: PERSON 'Pena' at [121:125]
+Handoff #250:
+  MISSED: PERSON 'Seth Fisher' at [4:15]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN7235796' at [21:31]
+  MISSED: PERSON 'Edward York' at [66:77]
+  MISSED: PERSON 'Sean Silva' at [106:116]
+  MISSED: PHONE_NUMBER '+1-417-538-1684x602' at [120:139]
+Handoff #251:
+  MISSED: PERSON 'William Orozco' at [0:14]
+  MISSED: PERSON 'Scott White' at [55:66]
+  MISSED: DATE_TIME 'January 02' at [70:80]
+  MISSED: PERSON 'Cook' at [104:108]
+Handoff #253:
+  MISSED: PEDIATRIC_AGE '5 year old' at [0:10]
+Handoff #255:
+  MISSED: PERSON 'Brooke Glover' at [0:13]
+  MISSED: PEDIATRIC_AGE '13 year old' at [15:26]
+  MISSED: PERSON 'Madeline Powell' at [50:65]
+  MISSED: LOCATION '0083 Dodson Islands Apt. 003' at [71:99]
+  MISSED: PERSON 'Shawn Collins' at [105:118]
+  MISSED: PERSON 'Jonathan Torres' at [137:152]
+  MISSED: PERSON 'Angel Fry' at [190:199]
+  MISSED: PHONE_NUMBER '889.285.6257x532' at [203:219]
+  MISSED: PERSON 'Nicholas Anderson' at [240:257]
+Handoff #256:
+  MISSED: PERSON 'Leah Jackson' at [0:12]
+  MISSED: PEDIATRIC_AGE '12 weeks 5 days old' at [14:33]
+  MISSED: LOCATION 'Jefferson Montessori' at [39:59]
+  MISSED: PERSON 'Joseph Williams' at [107:122]
+  MISSED: PHONE_NUMBER '6109016761' at [126:136]
+  MISSED: LOCATION '04618 Dean Squares' at [163:181]
+  MISSED: PERSON 'Steven Hunt' at [199:210]
+Handoff #257:
+  MISSED: PERSON 'Diane Glover' at [12:24]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 36661903' at [30:42]
+  MISSED: LOCATION 'Memorial Hospital' at [49:66]
+  MISSED: PERSON 'Gonzalez' at [114:122]
+  MISSED: PHONE_NUMBER '783-556-4208x737' at [126:142]
+  MISSED: LOCATION 'North Emilyville' at [165:181]
+  MISSED: DATE_TIME '05:54 AM' at [187:195]
+Handoff #258:
+  MISSED: PERSON 'Brittany Davis' at [0:14]
+  MISSED: LOCATION '143 Hinton Hill' at [38:53]
+  MISSED: PERSON 'Baker' at [74:79]
+  MISSED: DATE_TIME 'January 02' at [83:93]
+  MISSED: DATE_TIME '04:08 PM' at [97:105]
+  MISSED: PHONE_NUMBER '4454561100' at [150:160]
+  MISSED: PERSON 'Jeffrey Howell' at [168:182]
+Handoff #259:
+  MISSED: PERSON 'Johns' at [5:10]
+  MISSED: MEDICAL_RECORD_NUMBER '60012498' at [16:24]
+  MISSED: DATE_TIME 'January 08' at [39:49]
+  MISSED: DATE_TIME '07:52 PM' at [53:61]
+  MISSED: PERSON 'Denise Cruz' at [86:97]
+  MISSED: ROOM '235' at [135:138]
+  MISSED: PERSON 'Amy Dunlap' at [144:154]
+Handoff #260:
+  MISSED: PERSON 'Karen Carroll' at [17:30]
+  MISSED: EMAIL_ADDRESS 'ywhite@example.com' at [61:79]
+  MISSED: PERSON 'Shari Hobbs' at [113:124]
+  MISSED: PHONE_NUMBER '001-527-771-6701x4508' at [128:149]
+Handoff #261:
+  MISSED: PERSON 'Melissa Montgomery' at [0:18]
+  MISSED: PERSON 'Danielle Reed' at [35:48]
+  MISSED: EMAIL_ADDRESS 'marygrant@example.net' at [108:129]
+  MISSED: PHONE_NUMBER '7025877217' at [169:179]
+Handoff #262:
+  MISSED: PERSON 'Donald Hunter' at [0:13]
+  MISSED: DATE_TIME 'January 13' at [19:29]
+  MISSED: PEDIATRIC_AGE '13 months old' at [41:54]
+  MISSED: LOCATION 'Regional Medical Center' at [108:131]
+Handoff #263:
+  MISSED: PERSON 'Jonathan Stewart' at [0:16]
+  MISSED: PEDIATRIC_AGE '24 month old' at [18:30]
+  MISSED: PERSON 'Andrew Dunn' at [70:81]
+  MISSED: PERSON 'Tracey Walsh' at [130:142]
+  MISSED: PHONE_NUMBER '783.975.5037x58997' at [146:164]
+Handoff #264:
+  MISSED: MEDICAL_RECORD_NUMBER '25303956' at [20:28]
+  MISSED: PERSON 'Matthew Smith' at [30:43]
+Handoff #265:
+  MISSED: MEDICAL_RECORD_NUMBER '49189370' at [23:31]
+  MISSED: PERSON 'Jacqueline Rodriguez' at [36:56]
+  MISSED: PEDIATRIC_AGE '16 days old' at [58:69]
+Handoff #266:
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 24356130' at [8:20]
+  MISSED: PERSON 'Craig Martinez' at [25:39]
+  MISSED: DATE_TIME 'January 19' at [75:85]
+Handoff #275:
+  MISSED: PEDIATRIC_AGE '6 day old' at [0:9]
+Handoff #277:
+  MISSED: PEDIATRIC_AGE '3 yo' at [0:4]
+  MISSED: DATE_TIME '04:27 PM' at [55:63]
+Handoff #278:
+  MISSED: DATE_TIME '08:59 AM' at [50:58]
+Handoff #279:
+  MISSED: DATE_TIME '09:17 AM' at [44:52]
+Handoff #280:
+  MISSED: PERSON 'Sydney Farmer' at [8:21]
+  MISSED: PEDIATRIC_AGE '7 weeks 2 days old' at [25:43]
+  MISSED: DATE_TIME 'January 10' at [82:92]
+  MISSED: PERSON 'Jason Graves' at [121:133]
+  MISSED: PHONE_NUMBER '001-484-785-8333x9452' at [171:192]
+Handoff #281:
+  MISSED: PERSON 'Paige Hart' at [11:21]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 81659221' at [27:39]
+  MISSED: DATE_TIME 'January 07' at [46:56]
+  MISSED: PEDIATRIC_AGE '16 year old' at [68:79]
+Handoff #282:
+  MISSED: PERSON 'Mills' at [5:10]
+  MISSED: ROOM '490' at [23:26]
+  MISSED: DATE_TIME 'January 04' at [33:43]
+  MISSED: PEDIATRIC_AGE '5 year old' at [55:65]
+  MISSED: PERSON 'Richard Terrell' at [74:89]
+  MISSED: PERSON 'Brianna Brown' at [109:122]
+Handoff #283:
+  MISSED: PERSON 'Christina Weaver' at [0:16]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN8593275' at [18:28]
+  MISSED: PEDIATRIC_AGE 'day of life 3' at [35:48]
+  MISSED: LOCATION '066 Frye Spur Suite 800' at [85:108]
+  MISSED: PERSON 'Sean Dalton' at [136:147]
+  MISSED: PHONE_NUMBER '435.498.9334x721' at [157:173]
+Handoff #284:
+  MISSED: PERSON 'Moss' at [13:17]
+  MISSED: MEDICAL_RECORD_NUMBER '60626689' at [23:31]
+  MISSED: PEDIATRIC_AGE '3 years old' at [59:70]
+  MISSED: PERSON 'Ryan Smith' at [90:100]
+  MISSED: PERSON 'Timothy Williams' at [105:121]
+  MISSED: LOCATION 'Candiceport' at [129:140]
+Handoff #285:
+  MISSED: PERSON 'Kenneth Howard DDS' at [12:30]
+  MISSED: PHONE_NUMBER '583-528-1826x88615' at [34:52]
+  MISSED: LOCATION '5439 Barajas View Apt. 157' at [80:106]
+  MISSED: PERSON 'Allen' at [136:141]
+  MISSED: PHONE_NUMBER '+1-799-930-5616x4840' at [150:170]
+Handoff #286:
+  MISSED: PERSON 'Mr. Matthew Flores' at [17:35]
+  MISSED: ROOM '198' at [44:47]
+  MISSED: PERSON 'Jackson' at [87:94]
+  MISSED: PHONE_NUMBER '001-288-901-3361x38612' at [98:120]
+  MISSED: PERSON 'Benjamin Thompson' at [149:166]
+  MISSED: PERSON 'Laura Perez' at [239:250]
+Handoff #287:
+  MISSED: PERSON 'James Mccoy' at [0:11]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 52467059' at [17:29]
+  MISSED: ROOM '498' at [36:39]
+  MISSED: DATE_TIME '11:46 AM' at [56:64]
+  MISSED: PERSON 'Margaret Montgomery' at [94:113]
+Handoff #288:
+  MISSED: PERSON 'Laurie Haynes' at [16:29]
+  MISSED: PERSON 'Jonathan Roberts' at [60:76]
+  MISSED: PHONE_NUMBER '+1-849-614-7660x72832' at [80:101]
+  MISSED: PERSON 'Thomas' at [135:141]
+Handoff #289:
+  MISSED: PERSON 'Traci Camacho' at [18:31]
+  MISSED: PERSON 'Brenda Williams' at [69:84]
+  MISSED: PHONE_NUMBER '001-596-888-1435' at [98:114]
+  MISSED: PERSON 'Whitehead' at [130:139]
+Handoff #290:
+  MISSED: PERSON 'Luis King' at [4:13]
+  MISSED: MEDICAL_RECORD_NUMBER '34341456' at [19:27]
+  MISSED: PERSON 'Latoya Brown' at [62:74]
+  MISSED: PERSON 'Wanda Dunn' at [103:113]
+  MISSED: PHONE_NUMBER '+1-581-341-4139x7552' at [117:137]
+Handoff #291:
+  MISSED: PERSON 'Benjamin Lee' at [0:12]
+  MISSED: PERSON 'Luis Torres' at [53:64]
+  MISSED: DATE_TIME 'January 13' at [68:78]
+  MISSED: PERSON 'Cunningham' at [102:112]
+Handoff #293:
+  MISSED: PEDIATRIC_AGE '7 weeks 1 days old' at [0:18]
+Handoff #295:
+  MISSED: PERSON 'Margaret Hill' at [0:13]
+  MISSED: PEDIATRIC_AGE '3 weeks 5 days old' at [15:33]
+  MISSED: PERSON 'Sherry Ford' at [57:68]
+  MISSED: LOCATION '7812 Meagan Walks Apt. 834' at [74:100]
+  MISSED: PERSON 'Lori Luna' at [106:115]
+  MISSED: PERSON 'Sarah Welch' at [134:145]
+  MISSED: PERSON 'Lauren Hammond' at [183:197]
+  MISSED: PHONE_NUMBER '808.548.8725' at [201:213]
+  MISSED: PERSON 'Leah Vincent' at [234:246]
+Handoff #296:
+  MISSED: PERSON 'Jonathan Davis' at [0:14]
+  MISSED: PEDIATRIC_AGE '9 weeks old' at [16:27]
+  MISSED: LOCATION 'Roosevelt Middle School' at [33:56]
+  MISSED: PERSON 'Christopher Knight' at [97:115]
+  MISSED: PHONE_NUMBER '001-627-750-3731' at [119:135]
+  MISSED: LOCATION '38567 Keith Canyon' at [162:180]
+  MISSED: PERSON 'Warren Schultz' at [192:206]
+Handoff #297:
+  MISSED: PERSON 'Patrick Lane' at [12:24]
+  MISSED: MEDICAL_RECORD_NUMBER '7319298' at [30:37]
+  MISSED: LOCATION 'General Hospital' at [44:60]
+  MISSED: PERSON 'Gray' at [108:112]
+  MISSED: PHONE_NUMBER '001-718-946-3865' at [116:132]
+  MISSED: LOCATION 'Eatontown' at [155:164]
+  MISSED: DATE_TIME '03:12 PM' at [170:178]
+Handoff #298:
+  MISSED: PERSON 'Christopher Jones' at [0:17]
+  MISSED: LOCATION '22259 Donna Mall Suite 177' at [41:67]
+  MISSED: PERSON 'Mendoza' at [88:95]
+  MISSED: DATE_TIME 'January 13' at [99:109]
+  MISSED: DATE_TIME '07:19 AM' at [113:121]
+  MISSED: PHONE_NUMBER '2304299228' at [165:175]
+  MISSED: PERSON 'Thomas Black' at [184:196]
+Handoff #299:
+  MISSED: PERSON 'Sullivan' at [5:13]
+  MISSED: MEDICAL_RECORD_NUMBER '98817918' at [19:27]
+  MISSED: DATE_TIME 'January 07' at [42:52]
+  MISSED: DATE_TIME '06:57 PM' at [56:64]
+  MISSED: PERSON 'Kaitlin Olson' at [89:102]
+  MISSED: PERSON 'Catherine Keller' at [149:165]
+Handoff #300:
+  MISSED: PERSON 'Tammy Carlson' at [17:30]
+  MISSED: EMAIL_ADDRESS 'hallpaul@example.org' at [61:81]
+  MISSED: PERSON 'Joseph Blankenship' at [115:133]
+  MISSED: PHONE_NUMBER '+1-962-491-2799x08811' at [137:158]
+Handoff #301:
+  MISSED: PERSON 'Kimberly Smith' at [0:14]
+  MISSED: PERSON 'Jacqueline Williams' at [31:50]
+  MISSED: EMAIL_ADDRESS 'shawnaolson@example.com' at [110:133]
+  MISSED: PHONE_NUMBER '(899)616-2473x149' at [173:190]
+Handoff #302:
+  MISSED: PERSON 'Michael Clarke' at [0:14]
+  MISSED: DATE_TIME 'January 13' at [20:30]
+  MISSED: PEDIATRIC_AGE '12 hours old' at [42:54]
+  MISSED: LOCATION 'Regional Medical Center' at [109:132]
+Handoff #303:
+  MISSED: PERSON 'Christopher Pearson' at [0:19]
+  MISSED: PEDIATRIC_AGE '5 weeks 6 days old' at [21:39]
+  MISSED: PERSON 'Jacob Hill' at [91:101]
+  MISSED: PERSON 'Jennifer Bowers' at [157:172]
+  MISSED: PHONE_NUMBER '525.988.7449x5621' at [176:193]
+Handoff #304:
+  MISSED: MEDICAL_RECORD_NUMBER '31715773' at [20:28]
+  MISSED: PERSON 'Jordan Hartman' at [30:44]
+Handoff #305:
+  MISSED: MEDICAL_RECORD_NUMBER '16986408' at [23:31]
+  MISSED: PERSON 'Vincent Smith' at [36:49]
+  MISSED: PEDIATRIC_AGE 'day of life 2' at [51:64]
+Handoff #306:
+  MISSED: MEDICAL_RECORD_NUMBER '18600733' at [8:16]
+  MISSED: PERSON 'Jacob Lynch' at [21:32]
+  MISSED: DATE_TIME 'January 16' at [68:78]
+Handoff #315:
+  MISSED: PEDIATRIC_AGE 'day of life 2' at [0:13]
+Handoff #317:
+  MISSED: PEDIATRIC_AGE '2 year old' at [0:10]
+  MISSED: DATE_TIME '04:43 AM' at [68:76]
+Handoff #318:
+  MISSED: DATE_TIME '08:47 PM' at [50:58]
+Handoff #319:
+  MISSED: DATE_TIME '12:42 AM' at [44:52]
+Handoff #320:
+  MISSED: PERSON 'Nancy Jones' at [8:19]
+  MISSED: PEDIATRIC_AGE 'DOL 4' at [23:28]
+  MISSED: DATE_TIME 'January 22' at [67:77]
+  MISSED: PERSON 'Larry Lee' at [106:115]
+  MISSED: PHONE_NUMBER '(390)642-6818x1845' at [153:171]
+Handoff #321:
+  MISSED: PERSON 'Robin Andrews' at [11:24]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 60610858' at [30:42]
+  MISSED: DATE_TIME 'January 13' at [49:59]
+  MISSED: PEDIATRIC_AGE '14 years old' at [71:83]
+Handoff #322:
+  MISSED: PERSON 'Ali' at [5:8]
+  MISSED: ROOM '938' at [21:24]
+  MISSED: DATE_TIME 'January 11' at [31:41]
+  MISSED: PEDIATRIC_AGE '2 weeks 3 days old' at [53:71]
+  MISSED: PERSON 'Wendy Rhodes' at [80:92]
+  MISSED: PERSON 'Ethan Moses' at [112:123]
+Handoff #323:
+  MISSED: PERSON 'Alexandra Collier' at [0:17]
+  MISSED: MEDICAL_RECORD_NUMBER '5819919' at [19:26]
+  MISSED: PEDIATRIC_AGE 'DOL 6' at [33:38]
+  MISSED: LOCATION '5539 White Summit' at [81:98]
+  MISSED: PERSON 'Mr. Nicolas Salas II' at [133:153]
+  MISSED: PHONE_NUMBER '239.252.1117' at [163:175]
+Handoff #324:
+  MISSED: PERSON 'Charles' at [13:20]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN6291817' at [26:36]
+  MISSED: PEDIATRIC_AGE '6mo' at [64:67]
+  MISSED: PERSON 'Paul Anderson' at [87:100]
+  MISSED: PERSON 'Jenny Ayers' at [105:116]
+  MISSED: LOCATION 'New Michaelburgh' at [124:140]
+Handoff #325:
+  MISSED: PERSON 'Bryan Holmes' at [12:24]
+  MISSED: PHONE_NUMBER '500-636-9155x94284' at [28:46]
+  MISSED: LOCATION '552 Coleman Manor Suite 564' at [74:101]
+  MISSED: PERSON 'Hayes' at [131:136]
+  MISSED: PHONE_NUMBER '001-829-531-4386' at [145:161]
+Handoff #326:
+  MISSED: PERSON 'Tyler Hernandez' at [17:32]
+  MISSED: ROOM '280' at [41:44]
+  MISSED: PERSON 'Fisher' at [84:90]
+  MISSED: PHONE_NUMBER '(288)857-4489' at [94:107]
+  MISSED: PERSON 'Amy Cervantes' at [137:150]
+  MISSED: PERSON 'Anne Garner' at [213:224]
+Handoff #327:
+  MISSED: PERSON 'Isaac Grant' at [0:11]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN6773715' at [17:27]
+  MISSED: ROOM '521' at [34:37]
+  MISSED: DATE_TIME '11:07 AM' at [54:62]
+  MISSED: PERSON 'Tracey Gonzalez' at [92:107]
+Handoff #328:
+  MISSED: PERSON 'Mariah Thompson' at [16:31]
+  MISSED: PERSON 'Michael Freeman' at [60:75]
+  MISSED: PHONE_NUMBER '001-871-369-4722x5699' at [79:100]
+  MISSED: PERSON 'Martin' at [135:141]
+Handoff #329:
+  MISSED: PERSON 'Matthew Page' at [18:30]
+  MISSED: PERSON 'Jeremy Roy' at [64:74]
+  MISSED: PHONE_NUMBER '(598)476-2202x341' at [88:105]
+  MISSED: PERSON 'Sanders' at [121:128]
+Handoff #330:
+  MISSED: PERSON 'Kara Brown' at [4:14]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 80327779' at [20:32]
+  MISSED: PERSON 'Angela Baker' at [67:79]
+  MISSED: PERSON 'Matthew Mcclure' at [108:123]
+  MISSED: PHONE_NUMBER '933-947-2282x0055' at [127:144]
+Handoff #331:
+  MISSED: PERSON 'Kimberly Nelson' at [0:15]
+  MISSED: PERSON 'Travis Ryan' at [56:67]
+  MISSED: DATE_TIME 'January 13' at [71:81]
+  MISSED: PERSON 'Bryant' at [105:111]
+Handoff #333:
+  MISSED: PEDIATRIC_AGE '3yo' at [0:3]
+Handoff #335:
+  MISSED: PERSON 'Jessica Diaz' at [0:12]
+  MISSED: PEDIATRIC_AGE '3 weeks 2 days old' at [14:32]
+  MISSED: PERSON 'Joseph Chang' at [56:68]
+  MISSED: LOCATION '4780 Arroyo Neck' at [74:90]
+  MISSED: PERSON 'Ralph Yates' at [96:107]
+  MISSED: PERSON 'Rebecca Kelley' at [126:140]
+  MISSED: PERSON 'Stephen Kim' at [178:189]
+  MISSED: PHONE_NUMBER '626.663.4163' at [193:205]
+  MISSED: PERSON 'Kim Adams' at [226:235]
+Handoff #336:
+  MISSED: PERSON 'Barry Taylor' at [0:12]
+  MISSED: PEDIATRIC_AGE 'day of life 7' at [14:27]
+  MISSED: LOCATION 'Kennedy Montessori' at [33:51]
+  MISSED: PERSON 'Christian Booker' at [96:112]
+  MISSED: PHONE_NUMBER '3214442703' at [116:126]
+  MISSED: LOCATION '3564 Bolton Mountain' at [153:173]
+  MISSED: PERSON 'Ryan Lynn' at [186:195]
+Handoff #337:
+  MISSED: PERSON 'Reginald Jones' at [12:26]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 34374441' at [32:44]
+  MISSED: LOCATION 'University Medical Center' at [51:76]
+  MISSED: PERSON 'Huang' at [124:129]
+  MISSED: PHONE_NUMBER '560-913-6730x371' at [133:149]
+  MISSED: LOCATION 'Maldonadoport' at [172:185]
+  MISSED: DATE_TIME '11:30 PM' at [191:199]
+Handoff #338:
+  MISSED: PERSON 'Nicholas Garner' at [0:15]
+  MISSED: LOCATION '7435 Michelle Forge' at [39:58]
+  MISSED: PERSON 'Mcpherson' at [79:88]
+  MISSED: DATE_TIME 'January 06' at [92:102]
+  MISSED: DATE_TIME '09:51 PM' at [106:114]
+  MISSED: PHONE_NUMBER '(949)416-3009' at [154:167]
+  MISSED: PERSON 'Danielle Porter' at [175:190]
+Handoff #339:
+  MISSED: PERSON 'Parks' at [5:10]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN2007511' at [16:26]
+  MISSED: DATE_TIME 'January 08' at [40:50]
+  MISSED: DATE_TIME '03:21 PM' at [54:62]
+  MISSED: PERSON 'Beth Hall' at [89:98]
+  MISSED: ROOM '805' at [136:139]
+  MISSED: PERSON 'Nathaniel King' at [145:159]
+  MISSED: ROOM '596' at [195:198]
+Handoff #340:
+  MISSED: PERSON 'Kristin Daniels' at [17:32]
+  MISSED: EMAIL_ADDRESS 'llopez@example.net' at [63:81]
+  MISSED: PERSON 'Nicholas Hill' at [115:128]
+  MISSED: PHONE_NUMBER '+1-282-818-2744x857' at [132:151]
+Handoff #341:
+  MISSED: PERSON 'Sonya Harvey' at [0:12]
+  MISSED: PERSON 'Cynthia Le' at [21:31]
+  MISSED: EMAIL_ADDRESS 'alexandriajimenez@example.net' at [91:120]
+  MISSED: PHONE_NUMBER '(394)256-5118' at [160:173]
+Handoff #342:
+  MISSED: PERSON 'Beverly Russo' at [0:13]
+  MISSED: DATE_TIME 'January 05' at [19:29]
+  MISSED: PEDIATRIC_AGE '7 month old' at [41:52]
+  MISSED: LOCATION 'Memorial Hospital' at [98:115]
+Handoff #343:
+  MISSED: PERSON 'Leslie Williams' at [0:15]
+  MISSED: PEDIATRIC_AGE '20 days old' at [17:28]
+  MISSED: PERSON 'Christine Henry' at [76:91]
+  MISSED: PERSON 'Mark Ward' at [140:149]
+  MISSED: PHONE_NUMBER '001-365-309-4801x4138' at [153:174]
+Handoff #344:
+  MISSED: MEDICAL_RECORD_NUMBER '41006711' at [20:28]
+  MISSED: PERSON 'Chelsey Fox' at [30:41]
+Handoff #345:
+  MISSED: MEDICAL_RECORD_NUMBER '34011268' at [23:31]
+  MISSED: PERSON 'Kristin Reese' at [36:49]
+  MISSED: PEDIATRIC_AGE '17 years old' at [51:63]
+Handoff #346:
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 99287317' at [8:20]
+  MISSED: PERSON 'Brian Sparks' at [25:37]
+  MISSED: DATE_TIME 'January 13' at [73:83]
+Handoff #355:
+  MISSED: PEDIATRIC_AGE '12mo' at [0:4]
+Handoff #357:
+  MISSED: PEDIATRIC_AGE '4 years old' at [0:11]
+  MISSED: DATE_TIME '07:40 PM' at [65:73]
+Handoff #358:
+  MISSED: DATE_TIME '07:38 PM' at [50:58]
+Handoff #359:
+  MISSED: DATE_TIME '01:18 AM' at [43:51]
+Handoff #360:
+  MISSED: PERSON 'Wendy Turner' at [8:20]
+  MISSED: PEDIATRIC_AGE '4 weeks 1 days old' at [24:42]
+  MISSED: DATE_TIME 'January 01' at [81:91]
+  MISSED: PERSON 'Melissa Hill' at [120:132]
+  MISSED: PHONE_NUMBER '+1-788-499-2107' at [170:185]
+Handoff #361:
+  MISSED: PERSON 'Jacob Perkins' at [11:24]
+  MISSED: MEDICAL_RECORD_NUMBER '5299058' at [30:37]
+  MISSED: DATE_TIME 'January 18' at [44:54]
+  MISSED: PEDIATRIC_AGE '6 days old' at [66:76]
+Handoff #362:
+  MISSED: PERSON 'Navarro' at [5:12]
+  MISSED: DATE_TIME 'January 04' at [38:48]
+  MISSED: PEDIATRIC_AGE '17 year old' at [60:71]
+  MISSED: PERSON 'Elizabeth Cross' at [80:95]
+  MISSED: PERSON 'Angela Brown' at [115:127]
+Handoff #363:
+  MISSED: PERSON 'Hannah Montoya' at [0:14]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 26178675' at [16:28]
+  MISSED: PEDIATRIC_AGE '14yo' at [35:39]
+  MISSED: LOCATION '48058 Mark Square Apt. 206' at [83:109]
+  MISSED: PERSON 'Laura Davis' at [141:152]
+  MISSED: PHONE_NUMBER '(846)822-5179x08641' at [162:181]
+Handoff #364:
+  MISSED: PERSON 'Ayala' at [13:18]
+  MISSED: MEDICAL_RECORD_NUMBER '3262755' at [24:31]
+  MISSED: PEDIATRIC_AGE '13 months old' at [55:68]
+  MISSED: PERSON 'Yolanda Warren' at [88:102]
+  MISSED: PERSON 'Derek Jordan' at [107:119]
+  MISSED: LOCATION 'North Emilychester' at [127:145]
+Handoff #365:
+  MISSED: PERSON 'Connor Cooper' at [12:25]
+  MISSED: PHONE_NUMBER '+1-704-425-9792x7033' at [29:49]
+  MISSED: LOCATION '03924 Matthew Unions' at [77:97]
+  MISSED: PERSON 'Rodriguez' at [127:136]
+  MISSED: PHONE_NUMBER '970.453.8338x848' at [145:161]
+Handoff #366:
+  MISSED: PERSON 'Mary Bennett' at [17:29]
+  MISSED: PERSON 'Jackson' at [83:90]
+  MISSED: PHONE_NUMBER '639-840-7016x4510' at [94:111]
+  MISSED: PERSON 'Katie Mckinney' at [146:160]
+  MISSED: PERSON 'Mr. Brandon Gonzalez' at [233:253]
+Handoff #367:
+  MISSED: PERSON 'Kristina Marquez' at [0:16]
+  MISSED: MEDICAL_RECORD_NUMBER '43204410' at [22:30]
+  MISSED: DATE_TIME '09:12 PM' at [60:68]
+  MISSED: PERSON 'Alicia Sutton' at [98:111]
+Handoff #368:
+  MISSED: PERSON 'Eric Ferrell' at [16:28]
+  MISSED: PERSON 'Antonio Scott' at [63:76]
+  MISSED: PHONE_NUMBER '(508)843-2562x1689' at [80:98]
+  MISSED: PERSON 'Berry' at [134:139]
+Handoff #369:
+  MISSED: PERSON 'Susan Murphy' at [18:30]
+  MISSED: ROOM '5' at [38:39]
+  MISSED: PERSON 'Lauren Sutton' at [59:72]
+  MISSED: PHONE_NUMBER '724.382.6292' at [86:98]
+  MISSED: PERSON 'Grant' at [114:119]
+Handoff #370:
+  MISSED: PERSON 'Shawn Acosta' at [4:16]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN7946441' at [22:32]
+  MISSED: PERSON 'Elizabeth Reese' at [67:82]
+  MISSED: PERSON 'Mallory Rodgers' at [111:126]
+  MISSED: PHONE_NUMBER '(531)522-0994' at [130:143]
+Handoff #371:
+  MISSED: PERSON 'Alexander Miller' at [0:16]
+  MISSED: PERSON 'Ryan Harrison' at [57:70]
+  MISSED: DATE_TIME 'January 15' at [74:84]
+  MISSED: PERSON 'White' at [108:113]
+Handoff #373:
+  MISSED: PEDIATRIC_AGE '5 months old' at [0:12]
+Handoff #375:
+  MISSED: PERSON 'Alexis Nelson' at [0:13]
+  MISSED: PEDIATRIC_AGE '8 months old' at [15:27]
+  MISSED: PERSON 'Andrea Ho' at [51:60]
+  MISSED: LOCATION '757 Ronald Trail Apt. 965' at [66:91]
+  MISSED: PERSON 'Todd Armstrong' at [97:111]
+  MISSED: PERSON 'Margaret Padilla' at [130:146]
+  MISSED: PERSON 'Brian Bryant' at [184:196]
+  MISSED: PHONE_NUMBER '2385860868' at [200:210]
+  MISSED: PERSON 'James Torres' at [231:243]
+Handoff #376:
+  MISSED: PERSON 'Julia Henderson' at [0:15]
+  MISSED: PEDIATRIC_AGE '2 years old' at [17:28]
+  MISSED: LOCATION 'Hillside Montessori' at [34:53]
+  MISSED: PERSON 'Ashley Osborne' at [102:116]
+  MISSED: PHONE_NUMBER '001-982-366-5702x793' at [120:140]
+  MISSED: LOCATION '2111 Walters Corner Suite 892' at [167:196]
+  MISSED: PERSON 'Amanda Jackson' at [216:230]
+Handoff #377:
+  MISSED: PERSON 'Seth Huffman' at [12:24]
+  MISSED: MEDICAL_RECORD_NUMBER '3426109' at [30:37]
+  MISSED: LOCATION 'University Medical Center' at [44:69]
+  MISSED: PERSON 'Hammond' at [117:124]
+  MISSED: PHONE_NUMBER '5642474212' at [128:138]
+  MISSED: LOCATION 'Alexanderfort' at [161:174]
+  MISSED: DATE_TIME '10:18 AM' at [180:188]
+Handoff #378:
+  MISSED: PERSON 'Abigail Andrade' at [0:15]
+  MISSED: LOCATION '97767 Carolyn Avenue' at [39:59]
+  MISSED: PERSON 'Sanchez' at [80:87]
+  MISSED: DATE_TIME 'January 13' at [91:101]
+  MISSED: DATE_TIME '08:28 AM' at [105:113]
+  MISSED: PHONE_NUMBER '602.720.5020' at [156:168]
+  MISSED: PERSON 'Jason Thompson' at [177:191]
+Handoff #379:
+  MISSED: PERSON 'Powers' at [5:11]
+  MISSED: MEDICAL_RECORD_NUMBER '8639301' at [17:24]
+  MISSED: DATE_TIME 'January 13' at [39:49]
+  MISSED: DATE_TIME '12:23 AM' at [53:61]
+  MISSED: PERSON 'Erica Merritt' at [79:92]
+  MISSED: PERSON 'Bryan Villarreal' at [139:155]
+Handoff #380:
+  MISSED: PERSON 'Melissa Salazar' at [17:32]
+  MISSED: EMAIL_ADDRESS 'duncantiffany@example.net' at [63:88]
+  MISSED: PERSON 'Mrs. Melissa Peck' at [122:139]
+  MISSED: PHONE_NUMBER '001-946-995-4899x529' at [143:163]
+Handoff #381:
+  MISSED: PERSON 'Christopher Lynch DDS' at [0:21]
+  MISSED: PERSON 'Alexander Garrett' at [36:53]
+  MISSED: EMAIL_ADDRESS 'laurenduarte@example.com' at [124:148]
+  MISSED: PHONE_NUMBER '3556830344' at [188:198]
+Handoff #382:
+  MISSED: PERSON 'Joshua Wang' at [0:11]
+  MISSED: DATE_TIME 'January 03' at [17:27]
+  MISSED: PEDIATRIC_AGE '6 weeks 3 days old' at [39:57]
+  MISSED: LOCATION 'University Medical Center' at [114:139]
+Handoff #383:
+  MISSED: PERSON 'George Chambers' at [0:15]
+  MISSED: PEDIATRIC_AGE '2 months old' at [17:29]
+  MISSED: PERSON 'Joe Grimes' at [78:88]
+  MISSED: PERSON 'Robert Reilly' at [136:149]
+  MISSED: PHONE_NUMBER '7847958803' at [153:163]
+Handoff #384:
+  MISSED: MEDICAL_RECORD_NUMBER '18886963' at [20:28]
+  MISSED: PERSON 'Diana Johnson' at [30:43]
+  MISSED: ROOM '4-37' at [54:58]
+Handoff #385:
+  MISSED: MEDICAL_RECORD_NUMBER '35149571' at [23:31]
+  MISSED: PERSON 'Sharon Walton' at [36:49]
+  MISSED: PEDIATRIC_AGE '10yo' at [51:55]
+Handoff #386:
+  MISSED: MEDICAL_RECORD_NUMBER '46439766' at [8:16]
+  MISSED: PERSON 'Jonathan Young' at [21:35]
+  MISSED: DATE_TIME 'January 10' at [71:81]
+Handoff #395:
+  MISSED: PEDIATRIC_AGE '1 weeks 6 days old' at [0:18]
+Handoff #397:
+  MISSED: PEDIATRIC_AGE '11 day old' at [0:10]
+  MISSED: DATE_TIME '08:20 PM' at [59:67]
+Handoff #398:
+  MISSED: DATE_TIME '03:21 AM' at [50:58]
+Handoff #399:
+  MISSED: DATE_TIME '10:49 AM' at [44:52]
+Handoff #400:
+  MISSED: PERSON 'Kelly Smith' at [8:19]
+  MISSED: PEDIATRIC_AGE 'day of life 1' at [23:36]
+  MISSED: DATE_TIME 'January 03' at [73:83]
+  MISSED: PERSON 'Nichole Johnson' at [112:127]
+  MISSED: PHONE_NUMBER '001-443-653-3448x57142' at [165:187]
+Handoff #401:
+  MISSED: PERSON 'Tyler Castro' at [11:23]
+  MISSED: MEDICAL_RECORD_NUMBER '37726346' at [29:37]
+  MISSED: DATE_TIME 'January 12' at [44:54]
+  MISSED: PEDIATRIC_AGE '3yo' at [66:69]
+Handoff #402:
+  MISSED: PERSON 'Thomas' at [5:11]
+  MISSED: ROOM '37' at [24:26]
+  MISSED: DATE_TIME 'January 04' at [33:43]
+  MISSED: PEDIATRIC_AGE '10 weeks 2 days old' at [55:74]
+  MISSED: PERSON 'Amber Johnson' at [83:96]
+  MISSED: PERSON 'Amber Reyes' at [116:127]
+Handoff #403:
+  MISSED: PERSON 'James Bush' at [0:10]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 92720444' at [12:24]
+  MISSED: PEDIATRIC_AGE '5 weeks 2 days old' at [31:49]
+  MISSED: LOCATION '9217 Stanley Spur' at [78:95]
+  MISSED: PERSON 'Travis Thomas' at [127:140]
+  MISSED: PHONE_NUMBER '+1-345-762-5577x017' at [150:169]
+Handoff #404:
+  MISSED: PERSON 'Mendoza' at [13:20]
+  MISSED: MEDICAL_RECORD_NUMBER '5735492' at [26:33]
+  MISSED: PEDIATRIC_AGE '17 days old' at [59:70]
+  MISSED: PERSON 'Miguel Rodriguez' at [90:106]
+  MISSED: PERSON 'Andrea Turner' at [111:124]
+  MISSED: LOCATION 'Moraleschester' at [132:146]
+Handoff #405:
+  MISSED: PERSON 'David Moore' at [12:23]
+  MISSED: PHONE_NUMBER '361.953.9669x5832' at [27:44]
+  MISSED: LOCATION '975 Lynn Fall' at [72:85]
+  MISSED: PERSON 'Parker' at [115:121]
+  MISSED: PHONE_NUMBER '(219)419-6570x1329' at [130:148]
+Handoff #406:
+  MISSED: PERSON 'Jodi Carter' at [17:28]
+  MISSED: PERSON 'Gonzalez' at [83:91]
+  MISSED: PHONE_NUMBER '+1-654-294-6519x09862' at [95:116]
+  MISSED: PERSON 'Tracy Smith' at [145:156]
+  MISSED: PERSON 'Heather Callahan' at [217:233]
+Handoff #407:
+  MISSED: PERSON 'Cynthia Park' at [0:12]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 93914843' at [18:30]
+  MISSED: DATE_TIME '10:33 PM' at [60:68]
+  MISSED: PERSON 'Daniel Thompson' at [98:113]
+Handoff #408:
+  MISSED: PERSON 'Justin Bridges' at [16:30]
+  MISSED: PERSON 'Brittany Bright' at [60:75]
+  MISSED: PHONE_NUMBER '+1-822-401-0276x21267' at [79:100]
+  MISSED: PERSON 'Hicks' at [136:141]
+Handoff #409:
+  MISSED: PERSON 'Janice Perez' at [18:30]
+  MISSED: ROOM '2-37' at [38:42]
+  MISSED: PERSON 'Cynthia Shaw' at [62:74]
+  MISSED: PHONE_NUMBER '(689)950-0975x19712' at [88:107]
+  MISSED: PERSON 'Black' at [123:128]
+Handoff #410:
+  MISSED: PERSON 'Mark Alvarado' at [4:17]
+  MISSED: MEDICAL_RECORD_NUMBER '95052118' at [23:31]
+  MISSED: PERSON 'Lauren Austin' at [66:79]
+  MISSED: PERSON 'Kimberly Smith' at [108:122]
+  MISSED: PHONE_NUMBER '687.695.6544x209' at [126:142]
+Handoff #411:
+  MISSED: PERSON 'John Jackson' at [0:12]
+  MISSED: PERSON 'Dorothy Mclaughlin' at [51:69]
+  MISSED: DATE_TIME 'January 01' at [73:83]
+  MISSED: PERSON 'Washington' at [107:117]
+Handoff #413:
+  MISSED: PEDIATRIC_AGE '4 days old' at [0:10]
+Handoff #415:
+  MISSED: PERSON 'Brian Thompson' at [0:14]
+  MISSED: PEDIATRIC_AGE '4 years old' at [16:27]
+  MISSED: PERSON 'Jacqueline Thompson' at [51:70]
+  MISSED: LOCATION '2805 Tammy Ranch' at [76:92]
+  MISSED: PERSON 'Brittany Crawford' at [98:115]
+  MISSED: PERSON 'Patricia Young MD' at [134:151]
+  MISSED: PERSON 'Christine Navarro' at [189:206]
+  MISSED: PHONE_NUMBER '(504)810-2767x478' at [210:227]
+  MISSED: PERSON 'Jeanette Baker' at [248:262]
+Handoff #416:
+  MISSED: PERSON 'Jessica Roberts' at [0:15]
+  MISSED: PEDIATRIC_AGE '16 years old' at [17:29]
+  MISSED: LOCATION 'Oak Park Elementary' at [35:54]
+  MISSED: PERSON 'Marcia Blanchard' at [89:105]
+  MISSED: PHONE_NUMBER '(794)454-4149x67393' at [109:128]
+  MISSED: LOCATION '001 Robert Pine Apt. 753' at [155:179]
+  MISSED: PERSON 'Andrew Harvey' at [190:203]
+Handoff #417:
+  MISSED: PERSON 'Kristopher Shannon' at [12:30]
+  MISSED: MEDICAL_RECORD_NUMBER '3043299' at [36:43]
+  MISSED: LOCATION 'General Hospital' at [50:66]
+  MISSED: PERSON 'Rosario' at [114:121]
+  MISSED: PHONE_NUMBER '692-969-2124' at [125:137]
+  MISSED: LOCATION 'Lake Shawnview' at [160:174]
+  MISSED: DATE_TIME '10:14 AM' at [180:188]
+Handoff #418:
+  MISSED: PERSON 'Mary Carrillo' at [0:13]
+  MISSED: LOCATION '14066 Ferrell Green Suite 271' at [37:66]
+  MISSED: PERSON 'Vasquez' at [87:94]
+  MISSED: DATE_TIME 'January 21' at [98:108]
+  MISSED: DATE_TIME '01:33 PM' at [112:120]
+  MISSED: PHONE_NUMBER '+1-371-328-6391x7410' at [157:177]
+  MISSED: PERSON 'Paula Smith' at [190:201]
+Handoff #419:
+  MISSED: PERSON 'Jimenez' at [5:12]
+  MISSED: MEDICAL_RECORD_NUMBER '15078212' at [18:26]
+  MISSED: DATE_TIME 'January 09' at [41:51]
+  MISSED: DATE_TIME '07:41 AM' at [55:63]
+  MISSED: PERSON 'Laura Robertson' at [96:111]
+  MISSED: ROOM '335' at [149:152]
+  MISSED: PERSON 'Troy Meyers' at [158:169]
+  MISSED: ROOM '3-37' at [205:209]
+Handoff #420:
+  MISSED: PERSON 'Eric Brown' at [17:27]
+  MISSED: EMAIL_ADDRESS 'diazmelissa@example.com' at [58:81]
+  MISSED: PERSON 'Joe Miranda' at [115:126]
+  MISSED: PHONE_NUMBER '+1-932-580-6346x1571' at [130:150]
+Handoff #421:
+  MISSED: PERSON 'Corey Cortez' at [0:12]
+  MISSED: PERSON 'James Sparks' at [26:38]
+  MISSED: EMAIL_ADDRESS 'zferguson@example.com' at [101:122]
+  MISSED: PHONE_NUMBER '9054050613' at [162:172]
+Handoff #422:
+  MISSED: PERSON 'Crystal Jones' at [0:13]
+  MISSED: DATE_TIME 'January 17' at [19:29]
+  MISSED: PEDIATRIC_AGE '21 month old' at [41:53]
+  MISSED: LOCATION 'General Hospital' at [102:118]
+Handoff #423:
+  MISSED: PERSON 'Christopher Williams' at [0:20]
+  MISSED: PEDIATRIC_AGE '2 weeks 3 days old' at [22:40]
+  MISSED: PERSON 'Kevin Meyers' at [78:90]
+  MISSED: PERSON 'Kurt Gilbert' at [139:151]
+  MISSED: PHONE_NUMBER '436-756-5198' at [155:167]
+Handoff #424:
+  MISSED: MEDICAL_RECORD_NUMBER '38619492' at [20:28]
+  MISSED: PERSON 'Leslie Rogers' at [30:43]
+  MISSED: ROOM '380' at [54:57]
+Handoff #425:
+  MISSED: MEDICAL_RECORD_NUMBER '28956482' at [23:31]
+  MISSED: PERSON 'Carol Wood' at [36:46]
+  MISSED: PEDIATRIC_AGE '15 days old' at [48:59]
+Handoff #426:
+  MISSED: MEDICAL_RECORD_NUMBER '27900736' at [8:16]
+  MISSED: PERSON 'Ryan Salazar' at [21:33]
+  MISSED: DATE_TIME 'January 18' at [69:79]
+Handoff #435:
+  MISSED: PEDIATRIC_AGE '3 day old' at [0:9]
+Handoff #437:
+  MISSED: PEDIATRIC_AGE '8 months old' at [0:12]
+  MISSED: DATE_TIME '08:00 AM' at [50:58]
+Handoff #438:
+  MISSED: DATE_TIME '08:32 AM' at [50:58]
+Handoff #439:
+  MISSED: DATE_TIME '01:48 AM' at [44:52]
+Handoff #440:
+  MISSED: PERSON 'William Davila' at [8:22]
+  MISSED: PEDIATRIC_AGE '3 years old' at [26:37]
+  MISSED: DATE_TIME 'January 17' at [76:86]
+  MISSED: PERSON 'Destiny Lee' at [115:126]
+  MISSED: PHONE_NUMBER '(577)822-0054' at [164:177]
+Handoff #441:
+  MISSED: PERSON 'Luis Wu' at [11:18]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 15813974' at [24:36]
+  MISSED: DATE_TIME 'January 03' at [43:53]
+  MISSED: PEDIATRIC_AGE '2 day old' at [65:74]
+Handoff #442:
+  MISSED: PERSON 'Washington' at [5:15]
+  MISSED: ROOM '172' at [28:31]
+  MISSED: DATE_TIME 'January 20' at [38:48]
+  MISSED: PEDIATRIC_AGE '12yo' at [60:64]
+  MISSED: PERSON 'Jennifer Burgess' at [73:89]
+  MISSED: PERSON 'Crystal Rodriguez' at [109:126]
+Handoff #443:
+  MISSED: PERSON 'David Gutierrez' at [0:15]
+  MISSED: MEDICAL_RECORD_NUMBER '7300387' at [17:24]
+  MISSED: PEDIATRIC_AGE '3 day old' at [31:40]
+  MISSED: LOCATION '39726 Taylor Stravenue Apt. 543' at [77:108]
+  MISSED: PERSON 'Michael Brown' at [137:150]
+  MISSED: PHONE_NUMBER '(417)476-2534' at [160:173]
+Handoff #444:
+  MISSED: PERSON 'Lane' at [13:17]
+  MISSED: MEDICAL_RECORD_NUMBER '2450798' at [23:30]
+  MISSED: PEDIATRIC_AGE '7 mo old' at [56:64]
+  MISSED: PERSON 'Diana Blair' at [84:95]
+  MISSED: PERSON 'Danielle Murphy' at [100:115]
+  MISSED: LOCATION 'New Sophia' at [123:133]
+Handoff #445:
+  MISSED: PERSON 'Stephanie Butler' at [12:28]
+  MISSED: PHONE_NUMBER '3079806867' at [32:42]
+  MISSED: LOCATION '18063 Michael Garden Apt. 074' at [70:99]
+  MISSED: PERSON 'Martin' at [129:135]
+  MISSED: PHONE_NUMBER '399.807.7262x570' at [144:160]
+Handoff #446:
+  MISSED: PERSON 'Faith Johnson' at [17:30]
+  MISSED: ROOM '640' at [39:42]
+  MISSED: PERSON 'French' at [82:88]
+  MISSED: PHONE_NUMBER '795-908-5016' at [92:104]
+  MISSED: PERSON 'Jacob Wong' at [138:148]
+  MISSED: PERSON 'Michael Harris' at [220:234]
+Handoff #447:
+  MISSED: PERSON 'Mrs. Ashley Mendoza' at [0:19]
+  MISSED: MEDICAL_RECORD_NUMBER '4782209' at [25:32]
+  MISSED: DATE_TIME '12:52 AM' at [62:70]
+  MISSED: PERSON 'Anthony Watson' at [100:114]
+Handoff #448:
+  MISSED: PERSON 'Jonathan Gallegos' at [16:33]
+  MISSED: PERSON 'Meghan Patel' at [66:78]
+  MISSED: PHONE_NUMBER '379-451-3711x6241' at [82:99]
+  MISSED: PERSON 'Rodriguez' at [134:143]
+Handoff #449:
+  MISSED: PERSON 'Shaun Meyer DDS' at [18:33]
+  MISSED: PERSON 'Bonnie Reed' at [72:83]
+  MISSED: PHONE_NUMBER '704.931.0385x695' at [97:113]
+  MISSED: PERSON 'Watkins' at [129:136]
+Handoff #450:
+  MISSED: PERSON 'Eric Anderson' at [4:17]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN3881270' at [23:33]
+  MISSED: PERSON 'Cristina Watson' at [68:83]
+  MISSED: PERSON 'Ryan Hernandez' at [112:126]
+  MISSED: PHONE_NUMBER '272-792-8422x2231' at [130:147]
+Handoff #451:
+  MISSED: PERSON 'Jessica Wood' at [0:12]
+  MISSED: PERSON 'Amanda Stewart' at [56:70]
+  MISSED: DATE_TIME 'January 08' at [74:84]
+  MISSED: PERSON 'Watson' at [108:114]
+Handoff #453:
+  MISSED: PEDIATRIC_AGE '3 year old' at [0:10]
+Handoff #455:
+  MISSED: PERSON 'Tanya Moore' at [0:11]
+  MISSED: PEDIATRIC_AGE '10yo' at [13:17]
+  MISSED: PERSON 'Kara Roberts' at [41:53]
+  MISSED: LOCATION '751 Mccullough Dam' at [59:77]
+  MISSED: PERSON 'Audrey Johnson' at [83:97]
+  MISSED: PERSON 'Connie Howard' at [116:129]
+  MISSED: PERSON 'Lee Lee' at [167:174]
+  MISSED: PHONE_NUMBER '234.730.1871x86375' at [178:196]
+  MISSED: PERSON 'Mike Patterson' at [217:231]
+Handoff #456:
+  MISSED: PERSON 'Adam Cooper' at [0:11]
+  MISSED: PEDIATRIC_AGE '8 weeks 6 days old' at [13:31]
+  MISSED: LOCATION 'Lakewood Elementary' at [37:56]
+  MISSED: PERSON 'Jill Riddle' at [101:112]
+  MISSED: PHONE_NUMBER '942.766.2991x234' at [116:132]
+  MISSED: LOCATION '610 Fowler Groves' at [159:176]
+  MISSED: PERSON 'Joel Bradley' at [196:208]
+Handoff #457:
+  MISSED: PERSON 'Christina Collier' at [12:29]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN9230660' at [35:45]
+  MISSED: LOCATION 'Children's Hospital' at [52:71]
+  MISSED: PERSON 'Carson' at [119:125]
+  MISSED: PHONE_NUMBER '394-678-7300x2447' at [129:146]
+  MISSED: LOCATION 'Whitebury' at [169:178]
+  MISSED: DATE_TIME '09:23 AM' at [184:192]
+Handoff #458:
+  MISSED: PERSON 'Katherine Arellano' at [0:18]
+  MISSED: LOCATION '796 Burton Mountains Apt. 589' at [42:71]
+  MISSED: PERSON 'Smith' at [92:97]
+  MISSED: DATE_TIME 'January 06' at [101:111]
+  MISSED: DATE_TIME '11:30 PM' at [115:123]
+  MISSED: PHONE_NUMBER '372-552-0456x50448' at [160:178]
+  MISSED: PERSON 'Linda Jackson' at [192:205]
+Handoff #459:
+  MISSED: PERSON 'Morris' at [5:11]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN6051155' at [17:27]
+  MISSED: DATE_TIME 'January 16' at [41:51]
+  MISSED: DATE_TIME '02:41 PM' at [55:63]
+  MISSED: PERSON 'Heather Thomas' at [81:95]
+  MISSED: PERSON 'Thomas Martin' at [143:156]
+Handoff #460:
+  MISSED: PERSON 'Colin Prince' at [17:29]
+  MISSED: EMAIL_ADDRESS 'butlersabrina@example.org' at [60:85]
+  MISSED: PERSON 'Tammy Mendoza' at [119:132]
+  MISSED: PHONE_NUMBER '452-579-8524x0132' at [136:153]
+Handoff #461:
+  MISSED: PERSON 'Daniel Zavala' at [0:13]
+  MISSED: PERSON 'Rachel Jones' at [30:42]
+  MISSED: EMAIL_ADDRESS 'gwilliams@example.org' at [102:123]
+  MISSED: PHONE_NUMBER '+1-589-507-1401x40119' at [163:184]
+Handoff #462:
+  MISSED: PERSON 'Gregory Davis' at [0:13]
+  MISSED: DATE_TIME 'January 19' at [19:29]
+  MISSED: PEDIATRIC_AGE '10 weeks 2 days old' at [41:60]
+  MISSED: LOCATION 'General Hospital' at [113:129]
+Handoff #463:
+  MISSED: PERSON 'Kathy Jones' at [0:11]
+  MISSED: PEDIATRIC_AGE '17 year old' at [13:24]
+  MISSED: PERSON 'Corey Campbell' at [70:84]
+  MISSED: PERSON 'Nicholas Glass' at [137:151]
+  MISSED: PHONE_NUMBER '875.392.7125x66383' at [155:173]
+Handoff #464:
+  MISSED: MEDICAL_RECORD_NUMBER '52181984' at [20:28]
+  MISSED: PERSON 'Brian Taylor' at [30:42]
+Handoff #465:
+  MISSED: MEDICAL_RECORD_NUMBER '84777007' at [23:31]
+  MISSED: PERSON 'Angela Snyder' at [36:49]
+  MISSED: PEDIATRIC_AGE '10 mo old' at [51:60]
+Handoff #466:
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN8448343' at [8:18]
+  MISSED: PERSON 'Jason Mercer' at [23:35]
+  MISSED: DATE_TIME 'January 10' at [71:81]
+Handoff #475:
+  MISSED: PEDIATRIC_AGE '12yo' at [0:4]
+Handoff #477:
+  MISSED: PEDIATRIC_AGE '6yo' at [0:3]
+  MISSED: DATE_TIME '08:09 AM' at [45:53]
+Handoff #478:
+  MISSED: DATE_TIME '02:28 PM' at [50:58]
+Handoff #479:
+  MISSED: DATE_TIME '07:08 PM' at [44:52]
+Handoff #480:
+  MISSED: PERSON 'Rebecca Harding' at [8:23]
+  MISSED: PEDIATRIC_AGE '8 weeks 5 days old' at [27:45]
+  MISSED: DATE_TIME 'January 22' at [84:94]
+  MISSED: PERSON 'Brittany Gibson' at [123:138]
+  MISSED: PHONE_NUMBER '347-973-2010' at [176:188]
+Handoff #481:
+  MISSED: PERSON 'Valerie Reyes' at [11:24]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN3562495' at [30:40]
+  MISSED: DATE_TIME 'January 07' at [47:57]
+  MISSED: PEDIATRIC_AGE '2 year old' at [69:79]
+Handoff #482:
+  MISSED: PERSON 'Guerrero' at [5:13]
+  MISSED: DATE_TIME 'January 18' at [39:49]
+  MISSED: PEDIATRIC_AGE '10 day old' at [61:71]
+  MISSED: PERSON 'Dennis Cooper PhD' at [80:97]
+  MISSED: PERSON 'Tiffany Johnson' at [117:132]
+Handoff #483:
+  MISSED: PERSON 'Thomas Reyes' at [0:12]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN7313879' at [14:24]
+  MISSED: PEDIATRIC_AGE '15 month old' at [31:43]
+  MISSED: LOCATION '276 Larry Loaf Suite 197' at [72:96]
+  MISSED: PERSON 'Laura Alvarez' at [130:143]
+  MISSED: PHONE_NUMBER '(780)664-7969' at [153:166]
+Handoff #484:
+  MISSED: PERSON 'Flores' at [13:19]
+  MISSED: MEDICAL_RECORD_NUMBER '89250658' at [25:33]
+  MISSED: PEDIATRIC_AGE '12 weeks 4 days old' at [61:80]
+  MISSED: PERSON 'Steven Peterson' at [100:115]
+  MISSED: PERSON 'Gregory Howard' at [120:134]
+  MISSED: LOCATION 'Brianbury' at [142:151]
+Handoff #485:
+  MISSED: PERSON 'Matthew Watkins' at [12:27]
+  MISSED: PHONE_NUMBER '001-814-615-2085x076' at [31:51]
+  MISSED: LOCATION '790 Gray Loaf' at [79:92]
+  MISSED: PERSON 'Morris' at [122:128]
+  MISSED: PHONE_NUMBER '671-735-7852' at [137:149]
+Handoff #486:
+  MISSED: PERSON 'Christina Reid' at [17:31]
+  MISSED: ROOM '960' at [40:43]
+  MISSED: PERSON 'Jefferson' at [83:92]
+  MISSED: PHONE_NUMBER '344.304.9639' at [96:108]
+  MISSED: PERSON 'Austin Solis' at [142:154]
+  MISSED: PERSON 'Gregory Jones' at [217:230]
+Handoff #487:
+  MISSED: PERSON 'Kathy Evans' at [0:11]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN4356734' at [17:27]
+  MISSED: ROOM '8-17' at [34:38]
+  MISSED: DATE_TIME '09:26 PM' at [55:63]
+  MISSED: PERSON 'Shirley Burton' at [93:107]
+Handoff #488:
+  MISSED: PERSON 'Chelsea Porter' at [16:30]
+  MISSED: PERSON 'Mark Lamb' at [63:72]
+  MISSED: PHONE_NUMBER '001-769-308-3572x32466' at [76:98]
+  MISSED: PERSON 'Harris' at [132:138]
+Handoff #489:
+  MISSED: PERSON 'Dustin Martin' at [18:31]
+  MISSED: PERSON 'Chris Johnson' at [64:77]
+  MISSED: PHONE_NUMBER '677-486-6032x4204' at [91:108]
+  MISSED: PERSON 'Newman' at [124:130]
+Handoff #490:
+  MISSED: PERSON 'Amy Mosley' at [4:14]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN5999260' at [20:30]
+  MISSED: PERSON 'Stephanie Russell' at [65:82]
+  MISSED: PERSON 'Matthew Davis' at [111:124]
+  MISSED: PHONE_NUMBER '001-523-319-8189x8471' at [128:149]
+Handoff #491:
+  MISSED: PERSON 'Emily Collier' at [0:13]
+  MISSED: PERSON 'Natasha Walls' at [59:72]
+  MISSED: DATE_TIME 'January 05' at [76:86]
+  MISSED: PERSON 'Rodriguez' at [110:119]
+Handoff #493:
+  MISSED: PEDIATRIC_AGE '14mo' at [0:4]
+Handoff #495:
+  MISSED: PERSON 'Travis Stewart' at [0:14]
+  MISSED: PEDIATRIC_AGE '16 months old' at [16:29]
+  MISSED: PERSON 'Sherry Giles' at [53:65]
+  MISSED: LOCATION '5409 Mckenzie Shore Apt. 348' at [71:99]
+  MISSED: PERSON 'Mark Haynes' at [105:116]
+  MISSED: PERSON 'Melinda Nichols' at [135:150]
+  MISSED: PERSON 'Jeremy Smith' at [188:200]
+  MISSED: PHONE_NUMBER '(344)913-4327x5604' at [204:222]
+  MISSED: PERSON 'Jason Randall' at [243:256]
+Handoff #496:
+  MISSED: PERSON 'Sherri Wilkins' at [0:14]
+  MISSED: PEDIATRIC_AGE '14yo' at [16:20]
+  MISSED: LOCATION 'Kennedy Elementary' at [26:44]
+  MISSED: PERSON 'Nicholas Kelley' at [92:107]
+  MISSED: PHONE_NUMBER '370-402-7206x34591' at [111:129]
+  MISSED: LOCATION '296 Hayes Well' at [156:170]
+  MISSED: PERSON 'Michael Serrano' at [188:203]
+Handoff #497:
+  MISSED: PERSON 'Christina Perry' at [12:27]
+  MISSED: MEDICAL_RECORD_NUMBER '7601736' at [33:40]
+  MISSED: LOCATION 'Regional Medical Center' at [47:70]
+  MISSED: PERSON 'Duffy' at [118:123]
+  MISSED: PHONE_NUMBER '001-530-608-9317' at [127:143]
+  MISSED: LOCATION 'North Richard' at [166:179]
+  MISSED: DATE_TIME '05:48 AM' at [185:193]
+Handoff #498:
+  MISSED: PERSON 'Brandon Richardson' at [0:18]
+  MISSED: LOCATION '86771 Jennifer Field' at [42:62]
+  MISSED: PERSON 'Shah' at [83:87]
+  MISSED: DATE_TIME 'January 18' at [91:101]
+  MISSED: DATE_TIME '06:42 PM' at [105:113]
+  MISSED: PHONE_NUMBER '262.663.9343x6262' at [156:173]
+  MISSED: PERSON 'Jerry Wright' at [180:192]
+Handoff #499:
+  MISSED: PERSON 'Aguilar' at [5:12]
+  MISSED: MEDICAL_RECORD_NUMBER 'MRN 21507650' at [18:30]
+  MISSED: DATE_TIME 'January 11' at [44:54]
+  MISSED: DATE_TIME '05:02 PM' at [58:66]
+  MISSED: PERSON 'Daniel Reyes' at [92:104]
+  MISSED: ROOM '5' at [142:143]
+  MISSED: PERSON 'Amy Galvan' at [149:159]
+  MISSED: ROOM '739' at [195:198]
+
+============================================================
