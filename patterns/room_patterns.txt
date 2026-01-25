@@ -1,0 +1,1 @@
+(?i)\b(?:room|rm)\s+\d{1,4}[A-Za-z]?\b|(?i)\bbed\s+\d{1,2}[A-Za-z]?\b|(?i)\b(?:picu|nicu|icu)\s+bed\s+\d{1,3}[A-Za-z]?\b|(?i)\bbay\s+\d{1,2}[A-Za-z]?\b|(?i)\bisolette\s+\d{1,3}\b|(?i)\b(?:room|rm)\s+\d{1,2}[-/]\d{1,2}\b|\b\d{1,2}-\d{1,2}\b|(?i)\b\d{1,2}\s*(?:north|south|east|west|tower|floor)\b

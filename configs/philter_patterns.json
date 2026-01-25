@@ -1,0 +1,16 @@
+[
+  {
+    "title": "guardian_names",
+    "type": "regex",
+    "filepath": "./patterns/guardian_patterns.txt",
+    "exclude": true,
+    "phi_type": "GUARDIAN_NAME"
+  },
+  {
+    "title": "room_numbers",
+    "type": "regex",
+    "filepath": "./patterns/room_patterns.txt",
+    "exclude": true,
+    "phi_type": "ROOM"
+  }
+]
