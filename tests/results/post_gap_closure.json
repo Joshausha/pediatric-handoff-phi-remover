@@ -1,0 +1,1684 @@
+{
+  "metrics": {
+    "total_expected": 1508,
+    "total_detected": 1965,
+    "true_positives": 1303,
+    "false_negatives": 205,
+    "false_positives": 662,
+    "precision": 0.6631043256997455,
+    "recall": 0.8640583554376657,
+    "f1": 0.7503599193780592,
+    "f2": 0.8146805051894459,
+    "precision_mean": 0.6626643907338614,
+    "precision_ci_lower": 0.6409923145095261,
+    "precision_ci_upper": 0.6835984518642193,
+    "recall_mean": 0.8637605997578874,
+    "recall_ci_lower": 0.8462024757949852,
+    "recall_ci_upper": 0.8799239466328652
+  },
+  "error_taxonomy": {
+    "pattern_miss": [
+      {
+        "entity_type": "ROOM",
+        "text": "847",
+        "context": "847",
+        "start": 23,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "2694522",
+        "context": "2694522",
+        "start": 14,
+        "end": 21,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "3419 Amanda Gardens Apt. 764",
+        "context": "3419 Amanda Gardens Apt. 764",
+        "start": 67,
+        "end": 95,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Daviston",
+        "context": "Daviston",
+        "start": 132,
+        "end": 140,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "6270 Stanton Track",
+        "context": "6270 Stanton Track",
+        "start": 79,
+        "end": 97,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "16",
+        "context": "16",
+        "start": 39,
+        "end": 41,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "8",
+        "context": "8",
+        "start": 39,
+        "end": 40,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Crystal Robinson",
+        "context": "Crystal Robinson",
+        "start": 95,
+        "end": 111,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "512",
+        "context": "512",
+        "start": 39,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "6247 Hickman Cliffs",
+        "context": "6247 Hickman Cliffs",
+        "start": 66,
+        "end": 85,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "28059 Russell Canyon",
+        "context": "28059 Russell Canyon",
+        "start": 161,
+        "end": 181,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 47,
+        "end": 64,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "03654 Tammy Harbors",
+        "context": "03654 Tammy Harbors",
+        "start": 33,
+        "end": 52,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "08:08 PM",
+        "context": "08:08 PM",
+        "start": 95,
+        "end": 103,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 104,
+        "end": 121,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "46855845",
+        "context": "46855845",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "20814950",
+        "context": "20814950",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "264-517-0805x310",
+        "context": "264-517-0805x310",
+        "start": 164,
+        "end": 180,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "2709620",
+        "context": "2709620",
+        "start": 14,
+        "end": 21,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "8651 Smith Manor",
+        "context": "8651 Smith Manor",
+        "start": 81,
+        "end": 97,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Angelahaven",
+        "context": "Angelahaven",
+        "start": 131,
+        "end": 142,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "8557 Parker Fort Apt. 351",
+        "context": "8557 Parker Fort Apt. 351",
+        "start": 74,
+        "end": 99,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "155",
+        "context": "155",
+        "start": 42,
+        "end": 45,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "5-34",
+        "context": "5-34",
+        "start": 39,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Scott Branch",
+        "context": "Scott Branch",
+        "start": 98,
+        "end": 110,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "703 Dunn Heights Suite 710",
+        "context": "703 Dunn Heights Suite 710",
+        "start": 56,
+        "end": 82,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Lakewood Academy",
+        "context": "Lakewood Academy",
+        "start": 35,
+        "end": 51,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "0576 Mcneil Turnpike",
+        "context": "0576 Mcneil Turnpike",
+        "start": 160,
+        "end": 180,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 53,
+        "end": 69,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "2400 Flynn Hill",
+        "context": "2400 Flynn Hill",
+        "start": 38,
+        "end": 53,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "907",
+        "context": "907",
+        "start": 156,
+        "end": 159,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Crystal Pham",
+        "context": "Crystal Pham",
+        "start": 116,
+        "end": 128,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 91,
+        "end": 108,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "75679047",
+        "context": "75679047",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "69686067",
+        "context": "69686067",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Colton Martinez",
+        "context": "Colton Martinez",
+        "start": 23,
+        "end": 38,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "8215376",
+        "context": "8215376",
+        "start": 13,
+        "end": 20,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "1565 Brooks Drives Suite 111",
+        "context": "1565 Brooks Drives Suite 111",
+        "start": 73,
+        "end": 101,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Audreychester",
+        "context": "Audreychester",
+        "start": 125,
+        "end": 138,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "20183 Barnes Junctions Apt. 545",
+        "context": "20183 Barnes Junctions Apt. 545",
+        "start": 79,
+        "end": 110,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "228",
+        "context": "228",
+        "start": 39,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "17",
+        "context": "17",
+        "start": 40,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "51864 Cummings Shoals Apt. 519",
+        "context": "51864 Cummings Shoals Apt. 519",
+        "start": 57,
+        "end": 87,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "59774 Shaw Manor Apt. 392",
+        "context": "59774 Shaw Manor Apt. 392",
+        "start": 158,
+        "end": 183,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Children's Hospital",
+        "context": "Children's Hospital",
+        "start": 47,
+        "end": 66,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "20472 West Avenue Apt. 043",
+        "context": "20472 West Avenue Apt. 043",
+        "start": 37,
+        "end": 63,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Community Hospital",
+        "context": "Community Hospital",
+        "start": 101,
+        "end": 119,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "86134287",
+        "context": "86134287",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Christian Cole",
+        "context": "Christian Cole",
+        "start": 30,
+        "end": 44,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "20319387",
+        "context": "20319387",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "13478029",
+        "context": "13478029",
+        "start": 8,
+        "end": 16,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "922 Kirby Port",
+        "context": "922 Kirby Port",
+        "start": 73,
+        "end": 87,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "9532 Ferrell Mountain",
+        "context": "9532 Ferrell Mountain",
+        "start": 68,
+        "end": 89,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "35",
+        "context": "35",
+        "start": 40,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "711",
+        "context": "711",
+        "start": 41,
+        "end": 44,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "733 Fitzpatrick Square Suite 219",
+        "context": "733 Fitzpatrick Square Suite 219",
+        "start": 77,
+        "end": 109,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Kennedy Elementary",
+        "context": "Kennedy Elementary",
+        "start": 34,
+        "end": 52,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "54932 Wilcox Passage",
+        "context": "54932 Wilcox Passage",
+        "start": 156,
+        "end": 176,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "University Medical Center",
+        "context": "University Medical Center",
+        "start": 50,
+        "end": 75,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "27279 Perry Plaza",
+        "context": "27279 Perry Plaza",
+        "start": 41,
+        "end": 58,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "937",
+        "context": "937",
+        "start": 130,
+        "end": 133,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "505",
+        "context": "505",
+        "start": 187,
+        "end": 190,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 93,
+        "end": 110,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "65878146",
+        "context": "65878146",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "16",
+        "context": "16",
+        "start": 53,
+        "end": 55,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "40245233",
+        "context": "40245233",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "930",
+        "context": "930",
+        "start": 23,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "10856822",
+        "context": "10856822",
+        "start": 13,
+        "end": 21,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "87509 Hopkins Brook",
+        "context": "87509 Hopkins Brook",
+        "start": 76,
+        "end": 95,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "576-959-1803",
+        "context": "576-959-1803",
+        "start": 27,
+        "end": 39,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "14890 Sarah Island Apt. 392",
+        "context": "14890 Sarah Island Apt. 392",
+        "start": 67,
+        "end": 94,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "5-05",
+        "context": "5-05",
+        "start": 39,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "7",
+        "context": "7",
+        "start": 38,
+        "end": 39,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "79796 Stephens Turnpike Suite 891",
+        "context": "79796 Stephens Turnpike Suite 891",
+        "start": 64,
+        "end": 97,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 51,
+        "end": 68,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "South Daniel",
+        "context": "South Daniel",
+        "start": 159,
+        "end": 171,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "07:23 AM",
+        "context": "07:23 AM",
+        "start": 177,
+        "end": 185,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "155 Williamson Via Suite 991",
+        "context": "155 Williamson Via Suite 991",
+        "start": 42,
+        "end": 70,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "678",
+        "context": "678",
+        "start": 193,
+        "end": 196,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Children's Hospital",
+        "context": "Children's Hospital",
+        "start": 89,
+        "end": 108,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "71532017",
+        "context": "71532017",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "13",
+        "context": "13",
+        "start": 53,
+        "end": 55,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "67665720",
+        "context": "67665720",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "9142618",
+        "context": "9142618",
+        "start": 8,
+        "end": 15,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "07:08 AM",
+        "context": "07:08 AM",
+        "start": 59,
+        "end": 67,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "5780177",
+        "context": "5780177",
+        "start": 17,
+        "end": 24,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Port Eric",
+        "context": "Port Eric",
+        "start": 135,
+        "end": 144,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "02027 Mills Tunnel",
+        "context": "02027 Mills Tunnel",
+        "start": 75,
+        "end": 93,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "12",
+        "context": "12",
+        "start": 41,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "291-938-0003",
+        "context": "291-938-0003",
+        "start": 92,
+        "end": 104,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "685",
+        "context": "685",
+        "start": 38,
+        "end": 41,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "35680 Green Extensions",
+        "context": "35680 Green Extensions",
+        "start": 73,
+        "end": 95,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "8701 Reyes Manor Apt. 838",
+        "context": "8701 Reyes Manor Apt. 838",
+        "start": 148,
+        "end": 173,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Community Hospital",
+        "context": "Community Hospital",
+        "start": 50,
+        "end": 68,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "09:41 AM",
+        "context": "09:41 AM",
+        "start": 176,
+        "end": 184,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "2239 Drake Square Suite 905",
+        "context": "2239 Drake Square Suite 905",
+        "start": 36,
+        "end": 63,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "921",
+        "context": "921",
+        "start": 185,
+        "end": 188,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Community Hospital",
+        "context": "Community Hospital",
+        "start": 86,
+        "end": 104,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "98663948",
+        "context": "98663948",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "30614492",
+        "context": "30614492",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "2627170",
+        "context": "2627170",
+        "start": 8,
+        "end": 15,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "01:21 AM",
+        "context": "01:21 AM",
+        "start": 79,
+        "end": 87,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "8564 Pena Ports",
+        "context": "8564 Pena Ports",
+        "start": 74,
+        "end": 89,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "345 Wagner Roads Apt. 035",
+        "context": "345 Wagner Roads Apt. 035",
+        "start": 73,
+        "end": 98,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "21",
+        "context": "21",
+        "start": 39,
+        "end": 41,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "44",
+        "context": "44",
+        "start": 33,
+        "end": 35,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Jefferson Montessori",
+        "context": "Jefferson Montessori",
+        "start": 39,
+        "end": 59,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "04618 Dean Squares",
+        "context": "04618 Dean Squares",
+        "start": 163,
+        "end": 181,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 49,
+        "end": 66,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "143 Hinton Hill",
+        "context": "143 Hinton Hill",
+        "start": 38,
+        "end": 53,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "235",
+        "context": "235",
+        "start": 135,
+        "end": 138,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Regional Medical Center",
+        "context": "Regional Medical Center",
+        "start": 108,
+        "end": 131,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "25303956",
+        "context": "25303956",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "49189370",
+        "context": "49189370",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "490",
+        "context": "490",
+        "start": 23,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "066 Frye Spur Suite 800",
+        "context": "066 Frye Spur Suite 800",
+        "start": 85,
+        "end": 108,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "5439 Barajas View Apt. 157",
+        "context": "5439 Barajas View Apt. 157",
+        "start": 80,
+        "end": 106,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "198",
+        "context": "198",
+        "start": 44,
+        "end": 47,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "498",
+        "context": "498",
+        "start": 36,
+        "end": 39,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "7812 Meagan Walks Apt. 834",
+        "context": "7812 Meagan Walks Apt. 834",
+        "start": 74,
+        "end": 100,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "38567 Keith Canyon",
+        "context": "38567 Keith Canyon",
+        "start": 162,
+        "end": 180,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 44,
+        "end": 60,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "22259 Donna Mall Suite 177",
+        "context": "22259 Donna Mall Suite 177",
+        "start": 41,
+        "end": 67,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Regional Medical Center",
+        "context": "Regional Medical Center",
+        "start": 109,
+        "end": 132,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "31715773",
+        "context": "31715773",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "16986408",
+        "context": "16986408",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "18600733",
+        "context": "18600733",
+        "start": 8,
+        "end": 16,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "938",
+        "context": "938",
+        "start": 21,
+        "end": 24,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "5819919",
+        "context": "5819919",
+        "start": 19,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "5539 White Summit",
+        "context": "5539 White Summit",
+        "start": 81,
+        "end": 98,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "552 Coleman Manor Suite 564",
+        "context": "552 Coleman Manor Suite 564",
+        "start": 74,
+        "end": 101,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "280",
+        "context": "280",
+        "start": 41,
+        "end": 44,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "521",
+        "context": "521",
+        "start": 34,
+        "end": 37,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Kennedy Montessori",
+        "context": "Kennedy Montessori",
+        "start": 33,
+        "end": 51,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "3564 Bolton Mountain",
+        "context": "3564 Bolton Mountain",
+        "start": 153,
+        "end": 173,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "University Medical Center",
+        "context": "University Medical Center",
+        "start": 51,
+        "end": 76,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "560-913-6730x371",
+        "context": "560-913-6730x371",
+        "start": 133,
+        "end": 149,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Maldonadoport",
+        "context": "Maldonadoport",
+        "start": 172,
+        "end": 185,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "7435 Michelle Forge",
+        "context": "7435 Michelle Forge",
+        "start": 39,
+        "end": 58,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Beth Hall",
+        "context": "Beth Hall",
+        "start": 89,
+        "end": 98,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "805",
+        "context": "805",
+        "start": 136,
+        "end": 139,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "596",
+        "context": "596",
+        "start": 195,
+        "end": 198,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Memorial Hospital",
+        "context": "Memorial Hospital",
+        "start": 98,
+        "end": 115,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "41006711",
+        "context": "41006711",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "34011268",
+        "context": "34011268",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "48058 Mark Square Apt. 206",
+        "context": "48058 Mark Square Apt. 206",
+        "start": 83,
+        "end": 109,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "03924 Matthew Unions",
+        "context": "03924 Matthew Unions",
+        "start": 77,
+        "end": 97,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "5",
+        "context": "5",
+        "start": 38,
+        "end": 39,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "757 Ronald Trail Apt. 965",
+        "context": "757 Ronald Trail Apt. 965",
+        "start": 66,
+        "end": 91,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Hillside Montessori",
+        "context": "Hillside Montessori",
+        "start": 34,
+        "end": 53,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "2111 Walters Corner Suite 892",
+        "context": "2111 Walters Corner Suite 892",
+        "start": 167,
+        "end": 196,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "University Medical Center",
+        "context": "University Medical Center",
+        "start": 44,
+        "end": 69,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "97767 Carolyn Avenue",
+        "context": "97767 Carolyn Avenue",
+        "start": 39,
+        "end": 59,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "University Medical Center",
+        "context": "University Medical Center",
+        "start": 114,
+        "end": 139,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "18886963",
+        "context": "18886963",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "35149571",
+        "context": "35149571",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "46439766",
+        "context": "46439766",
+        "start": 8,
+        "end": 16,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "37",
+        "context": "37",
+        "start": 24,
+        "end": 26,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "9217 Stanley Spur",
+        "context": "9217 Stanley Spur",
+        "start": 78,
+        "end": 95,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Moraleschester",
+        "context": "Moraleschester",
+        "start": 132,
+        "end": 146,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "975 Lynn Fall",
+        "context": "975 Lynn Fall",
+        "start": 72,
+        "end": 85,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "2805 Tammy Ranch",
+        "context": "2805 Tammy Ranch",
+        "start": 76,
+        "end": 92,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Oak Park Elementary",
+        "context": "Oak Park Elementary",
+        "start": 35,
+        "end": 54,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "001 Robert Pine Apt. 753",
+        "context": "001 Robert Pine Apt. 753",
+        "start": 155,
+        "end": 179,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 50,
+        "end": 66,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "14066 Ferrell Green Suite 271",
+        "context": "14066 Ferrell Green Suite 271",
+        "start": 37,
+        "end": 66,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "DATE_TIME",
+        "text": "07:41 AM",
+        "context": "07:41 AM",
+        "start": 55,
+        "end": 63,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "335",
+        "context": "335",
+        "start": 149,
+        "end": 152,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "3-37",
+        "context": "3-37",
+        "start": 205,
+        "end": 209,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "Crystal Jones",
+        "context": "Crystal Jones",
+        "start": 0,
+        "end": 13,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 102,
+        "end": 118,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "38619492",
+        "context": "38619492",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "380",
+        "context": "380",
+        "start": 54,
+        "end": 57,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "28956482",
+        "context": "28956482",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "27900736",
+        "context": "27900736",
+        "start": 8,
+        "end": 16,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "172",
+        "context": "172",
+        "start": 28,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "7300387",
+        "context": "7300387",
+        "start": 17,
+        "end": 24,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "39726 Taylor Stravenue Apt. 543",
+        "context": "39726 Taylor Stravenue Apt. 543",
+        "start": 77,
+        "end": 108,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "New Sophia",
+        "context": "New Sophia",
+        "start": 123,
+        "end": 133,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "18063 Michael Garden Apt. 074",
+        "context": "18063 Michael Garden Apt. 074",
+        "start": 70,
+        "end": 99,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "640",
+        "context": "640",
+        "start": 39,
+        "end": 42,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PERSON",
+        "text": "French",
+        "context": "French",
+        "start": 82,
+        "end": 88,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "751 Mccullough Dam",
+        "context": "751 Mccullough Dam",
+        "start": 59,
+        "end": 77,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "610 Fowler Groves",
+        "context": "610 Fowler Groves",
+        "start": 159,
+        "end": 176,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Children's Hospital",
+        "context": "Children's Hospital",
+        "start": 52,
+        "end": 71,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "PHONE_NUMBER",
+        "text": "394-678-7300x2447",
+        "context": "394-678-7300x2447",
+        "start": 129,
+        "end": 146,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Whitebury",
+        "context": "Whitebury",
+        "start": 169,
+        "end": 178,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "796 Burton Mountains Apt. 589",
+        "context": "796 Burton Mountains Apt. 589",
+        "start": 42,
+        "end": 71,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "General Hospital",
+        "context": "General Hospital",
+        "start": 113,
+        "end": 129,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "52181984",
+        "context": "52181984",
+        "start": 20,
+        "end": 28,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "MEDICAL_RECORD_NUMBER",
+        "text": "84777007",
+        "context": "84777007",
+        "start": 23,
+        "end": 31,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Brianbury",
+        "context": "Brianbury",
+        "start": 142,
+        "end": 151,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "790 Gray Loaf",
+        "context": "790 Gray Loaf",
+        "start": 79,
+        "end": 92,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "960",
+        "context": "960",
+        "start": 40,
+        "end": 43,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "8-17",
+        "context": "8-17",
+        "start": 34,
+        "end": 38,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "5409 Mckenzie Shore Apt. 348",
+        "context": "5409 Mckenzie Shore Apt. 348",
+        "start": 71,
+        "end": 99,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Kennedy Elementary",
+        "context": "Kennedy Elementary",
+        "start": 26,
+        "end": 44,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "Regional Medical Center",
+        "context": "Regional Medical Center",
+        "start": 47,
+        "end": 70,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "86771 Jennifer Field",
+        "context": "86771 Jennifer Field",
+        "start": 42,
+        "end": 62,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "5",
+        "context": "5",
+        "start": 142,
+        "end": 143,
+        "failure_mode": "pattern_miss"
+      },
+      {
+        "entity_type": "ROOM",
+        "text": "739",
+        "context": "739",
+        "start": 195,
+        "end": 198,
+        "failure_mode": "pattern_miss"
+      }
+    ],
+    "threshold_miss": [],
+    "deny_list_filtered": [],
+    "novel_variant": [],
+    "span_boundary": [
+      {
+        "entity_type": "PERSON",
+        "text": "Virginia Daniels",
+        "context": "Virginia Daniels",
+        "start": 0,
+        "end": 16,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "0083 Dodson Islands Apt. 003",
+        "context": "0083 Dodson Islands Apt. 003",
+        "start": 71,
+        "end": 99,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "276 Larry Loaf Suite 197",
+        "context": "276 Larry Loaf Suite 197",
+        "start": 72,
+        "end": 96,
+        "failure_mode": "span_boundary"
+      },
+      {
+        "entity_type": "LOCATION",
+        "text": "296 Hayes Well",
+        "context": "296 Hayes Well",
+        "start": 156,
+        "end": 170,
+        "failure_mode": "span_boundary"
+      }
+    ],
+    "ner_miss": []
+  },
+  "deployment_readiness": {
+    "decision": "RETURN_TO_PHASE_4",
+    "recall_point_estimate": 0.8640583554376657,
+    "recall_ci_lower": 0.8462024757949852,
+    "recall_ci_upper": 0.8799239466328652,
+    "threshold": 0.95,
+    "meets_threshold": false,
+    "reasoning": "Recall 95% CI lower bound (84.6%) does not meet the 95% threshold required for clinical deployment."
+  },
+  "metadata": {
+    "validation_date": "2026-01-25T00:06:30.931194",
+    "n_handoffs": 500,
+    "n_bootstrap_iterations": 1000,
+    "overlap_threshold": 0.5
+  }
+}
