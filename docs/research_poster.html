@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local PHI De-identification for Pediatric Handoff Transcription</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 0.5in;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-size: 9pt;
+            line-height: 1.3;
+            color: #333;
+            background: white;
+        }
+
+        .poster {
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.25in;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            color: white;
+            padding: 12px 16px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .header h1 {
+            font-size: 16pt;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .header .subtitle {
+            font-size: 11pt;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        .header .author {
+            font-size: 10pt;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* Grid Layout */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .section {
+            background: #f7fafc;
+            border-radius: 6px;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .section h2 {
+            font-size: 11pt;
+            color: #1a365d;
+            border-bottom: 2px solid #3182ce;
+            padding-bottom: 4px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .section h3 {
+            font-size: 9pt;
+            color: #2c5282;
+            margin: 8px 0 4px 0;
+            font-weight: 600;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 8pt;
+            margin: 6px 0;
+        }
+
+        th, td {
+            padding: 3px 4px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        th {
+            background: #edf2f7;
+            font-weight: 600;
+            color: #1a365d;
+        }
+
+        tr:nth-child(even) {
+            background: #f7fafc;
+        }
+
+        /* Architecture Diagram */
+        .architecture {
+            background: #edf2f7;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 8px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 7pt;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .architecture .arrow {
+            color: #3182ce;
+            font-weight: bold;
+        }
+
+        .box {
+            display: inline-block;
+            background: white;
+            border: 1px solid #3182ce;
+            border-radius: 3px;
+            padding: 2px 6px;
+            margin: 2px;
+        }
+
+        /* Lists */
+        ul, ol {
+            padding-left: 14px;
+            margin: 4px 0;
+        }
+
+        li {
+            margin-bottom: 2px;
+        }
+
+        /* Highlights */
+        .highlight {
+            background: #bee3f8;
+            padding: 1px 4px;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .stat {
+            font-size: 14pt;
+            font-weight: 700;
+            color: #2c5282;
+        }
+
+        .stat-label {
+            font-size: 7pt;
+            color: #718096;
+            text-transform: uppercase;
+        }
+
+        .key-finding {
+            background: #fef3cd;
+            border-left: 3px solid #f6ad55;
+            padding: 6px 8px;
+            margin: 8px 0;
+            font-size: 8pt;
+        }
+
+        /* Status indicators */
+        .status-good { color: #2f855a; }
+        .status-warn { color: #c05621; }
+
+        /* References section */
+        .references {
+            grid-column: span 3;
+            font-size: 7pt;
+            line-height: 1.4;
+        }
+
+        .references ol {
+            columns: 2;
+            column-gap: 20px;
+        }
+
+        .references li {
+            margin-bottom: 3px;
+            break-inside: avoid;
+        }
+
+        /* Footer */
+        .footer {
+            grid-column: span 3;
+            text-align: center;
+            font-size: 7pt;
+            color: #718096;
+            padding-top: 6px;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 8px;
+        }
+
+        /* Full width sections */
+        .full-width {
+            grid-column: span 3;
+        }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .section { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        <!-- Header -->
+        <div class="header">
+            <h1>Local PHI De-identification for Pediatric Handoff Transcription</h1>
+            <div class="subtitle">A HIPAA-Compliant Approach Using Microsoft Presidio</div>
+            <div class="author">Josh Pankin, MD — PGY-3 Pediatrics Resident</div>
+        </div>
+
+        <div class="content">
+            <!-- BACKGROUND -->
+            <div class="section">
+                <h2>BACKGROUND</h2>
+
+                <h3>The Problem</h3>
+                <table>
+                    <tr>
+                        <td><span class="stat">67%</span></td>
+                        <td>of sentinel events involve communication failures<sup>3</sup></td>
+                    </tr>
+                    <tr>
+                        <td><span class="stat">23-47%</span></td>
+                        <td>error reduction with I-PASS handoff protocol<sup>1,2</sup></td>
+                    </tr>
+                </table>
+
+                <h3>Challenge</h3>
+                <ul>
+                    <li>Audio transcription can support I-PASS documentation</li>
+                    <li>Commercial tools send PHI to cloud servers</li>
+                    <li><strong>HIPAA</strong>: PHI must never leave institutional control without BAAs</li>
+                </ul>
+
+                <h3>I-PASS Framework</h3>
+                <p><strong>I</strong>llness severity • <strong>P</strong>atient summary • <strong>A</strong>ction list • <strong>S</strong>ituation awareness • <strong>S</strong>ynthesis</p>
+            </div>
+
+            <!-- METHODS -->
+            <div class="section">
+                <h2>METHODS</h2>
+
+                <h3>Architecture: 100% Local Processing</h3>
+                <div class="architecture">
+                    <span class="box">Audio</span> <span class="arrow">→</span>
+                    <span class="box">faster-whisper</span> <span class="arrow">→</span>
+                    <span class="box">Presidio + Custom</span> <span class="arrow">→</span>
+                    <span class="box">De-ID Transcript</span>
+                    <br><small>↓ Local device &nbsp;&nbsp;&nbsp; ↓ No cloud API &nbsp;&nbsp;&nbsp; ↓ Local NLP</small>
+                </div>
+
+                <h3>Technology Stack</h3>
+                <table>
+                    <tr><th>Component</th><th>Technology</th></tr>
+                    <tr><td>Transcription</td><td>faster-whisper (CTranslate2)</td></tr>
+                    <tr><td>De-identification</td><td>Microsoft Presidio</td></tr>
+                    <tr><td>Custom Recognizers</td><td>Python regex + NLP</td></tr>
+                    <tr><td>Validation</td><td>Synthetic framework (n=500)</td></tr>
+                </table>
+
+                <h3>Custom Pediatric Recognizers</h3>
+                <ul>
+                    <li>Guardian names ("Mom Sarah")</li>
+                    <li>Baby designations ("Baby Smith")</li>
+                    <li>Pediatric ages ("3 month old")</li>
+                    <li>Room/bed numbers</li>
+                    <li>Medical record numbers (MRN)</li>
+                </ul>
+            </div>
+
+            <!-- RESULTS -->
+            <div class="section">
+                <h2>RESULTS</h2>
+
+                <h3>System Performance</h3>
+                <table>
+                    <tr><td>Test audio</td><td><strong>27-minute</strong> handoff</td></tr>
+                    <tr><td>Unit tests</td><td><strong>21/21</strong> passing (100%)</td></tr>
+                    <tr><td>Speed</td><td>~1 min per 10 min audio</td></tr>
+                    <tr><td>HIPAA</td><td><strong>100%</strong> local processing</td></tr>
+                </table>
+
+                <h3>PHI Detection Accuracy</h3>
+                <table>
+                    <tr><th>Entity</th><th>Recall</th><th>F1</th><th></th></tr>
+                    <tr><td>EMAIL</td><td>100%</td><td>1.00</td><td class="status-good">✓</td></tr>
+                    <tr><td>PERSON</td><td>98.8%</td><td>0.97</td><td class="status-good">✓</td></tr>
+                    <tr><td>DATE_TIME</td><td>96.8%</td><td>0.93</td><td class="status-good">✓</td></tr>
+                    <tr><td>PHONE</td><td>74.0%</td><td>0.78</td><td class="status-warn">⚠</td></tr>
+                    <tr><td>MRN</td><td>70.9%</td><td>0.74</td><td class="status-warn">⚠</td></tr>
+                    <tr><td><strong>Overall</strong></td><td><strong>77.9%</strong></td><td><strong>0.82</strong></td><td></td></tr>
+                </table>
+
+                <div class="key-finding">
+                    <strong>Key Finding:</strong> Our 77.9% recall aligns with Kotevski et al.'s benchmark (80.6%) for out-of-the-box Presidio.<sup>6</sup> Healthcare-tuned models achieve 96%+ F1.<sup>7,8</sup>
+                </div>
+            </div>
+
+            <!-- CONCLUSIONS -->
+            <div class="section full-width">
+                <h2>CONCLUSIONS & FUTURE DIRECTIONS</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+                    <div>
+                        <h3>Principal Findings</h3>
+                        <ol>
+                            <li><strong>Local-only processing</strong> maintains HIPAA compliance without BAAs</li>
+                            <li><strong>Out-of-the-box Presidio</strong> achieves 77.9% recall—consistent with benchmarks</li>
+                            <li><strong>Gap to deployment</strong>: Domain-specific fine-tuning required for 96%+ F1</li>
+                            <li><strong>Pediatric-specific PHI</strong> requires custom recognizers</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3>Clinical Implications</h3>
+                        <ul>
+                            <li class="status-good">✓ Transcription supports I-PASS workflows</li>
+                            <li class="status-good">✓ No cloud PHI transmission risk</li>
+                            <li class="status-good">✓ Synthetic testing enables validation</li>
+                            <li class="status-warn">⚠ Human review required until recall >95%</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Future Directions</h3>
+                        <table>
+                            <tr><td>Phase 1</td><td>Improve recall to >90%</td></tr>
+                            <tr><td>Phase 2</td><td>IRB-approved clinical validation</td></tr>
+                            <tr><td>Phase 3</td><td>EHR integration</td></tr>
+                            <tr><td>Phase 4</td><td>Multi-site deployment</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- REFERENCES -->
+            <div class="section references">
+                <h2>REFERENCES</h2>
+                <ol>
+                    <li>Starmer AJ, et al. Changes in Medical Errors after Implementation of a Handoff Program. <em>N Engl J Med</em>. 2014;371(19):1803-1812.</li>
+                    <li>Starmer AJ, et al. I-PASS Handoff Program. <em>Pediatrics</em>. 2017;140(S2).</li>
+                    <li>The Joint Commission. Sentinel Event Data: Root Causes by Event Type. 2023.</li>
+                    <li>Microsoft. Presidio: Data Protection and De-identification SDK. 2024.</li>
+                    <li>HHS OCR. Guidance Regarding Methods for De-identification of PHI. 45 CFR 164.514.</li>
+                    <li><strong>Kotevski DP, et al. Evaluation of an automated Presidio anonymisation model. <em>Int J Med Inform</em>. 2022;168:104880.</strong> ⭐</li>
+                    <li>John Snow Labs. Clinical NER on n2c2 de-identification benchmark. 2022.</li>
+                    <li>Kuzucu M, et al. Healthcare NLP: Open-Source Medical Language Processing. arXiv:2312.08495. 2024.</li>
+                </ol>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <strong>Contact:</strong> Josh Pankin, MD • josh.pankin@gmail.com • github.com/pankin/pediatric-handoff-phi-remover<br>
+                Project developed with Claude Code AI assistance. Microsoft Presidio is open-source (MIT License). <em>Poster created: 2026-01-23</em>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

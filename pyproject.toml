@@ -13,13 +13,10 @@ keywords = ["healthcare", "hipaa", "transcription", "phi", "pediatrics", "de-ide
 [tool.ruff]
 line-length = 100
 target-version = "py39"
+ignore = ["E501"]  # Line too long - let formatter handle it
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
-ignore = [
-    "E501",  # Line too long - let formatter handle it
-    "B008",  # Function call in default argument - FastAPI pattern (File(...))
-]
 
 [tool.bandit]
 exclude_dirs = ["tests", "venv", ".venv"]

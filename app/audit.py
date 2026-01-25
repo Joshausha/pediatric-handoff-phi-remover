@@ -8,13 +8,13 @@ Logs processing events WITHOUT any PHI. Only captures:
 - Success/failure status
 """
 
-import json
 import logging
 import uuid
-from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+from dataclasses import dataclass, asdict
+import json
 
 from .config import settings
 

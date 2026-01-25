@@ -116,6 +116,25 @@ source venv/bin/activate
 uvicorn app.main:app --reload
 ```
 
+## Future Enhancement: n2c2 2014 De-identification Dataset
+
+**Idea**: Access gold-standard labeled clinical dataset for AI validation
+
+**What it is**: The n2c2 (formerly i2b2) 2014 de-identification challenge dataset contains real clinical notes with PHI labels - valuable for training/validating the Presidio detection model.
+
+**Access process**:
+1. Register at https://portal.dbmi.hms.harvard.edu/projects/n2c2-nlp/
+2. Sign Data Use Agreement
+3. Download XML-formatted clinical notes with PHI labels
+4. Convert to format compatible with our project
+
+**Potential benefits**:
+- Benchmark custom recognizers against gold-standard labels
+- Identify false positive/negative patterns
+- Quantify accuracy improvements from pediatric-specific recognizers
+
+*Added: 2026-01-23*
+
 ## Notes
 
 See CLAUDE.md for detailed development context.
