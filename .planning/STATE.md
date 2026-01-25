@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 5 complete - Expert review requires over-redaction fix before Phase 6
+**Current focus:** Phase 5 complete - APPROVED FOR PERSONAL USE, ready for Phase 6
 
 ## Current Position
 
 Phase: 5 of 8 (Validation & Compliance - COMPLETE)
 Plan: 4 of 4 complete (05-01, 05-02, 05-03, 05-04 complete)
-Status: Phase 5 complete - Expert review determination: REQUIRES IMPROVEMENT (over-redaction)
-Last activity: 2026-01-25 — Completed 05-04: Expert review with REQUIRES IMPROVEMENT determination
+Status: Phase 5 complete - Expert review: APPROVED FOR PERSONAL USE (over-redaction FIXED)
+Last activity: 2026-01-25 — Expert review approved after DATE_TIME deny list fix (commit cfbd5b1)
 
-Progress: [█████████░] 95% (Phases 1-5, 7, 8 complete; Phase 6 blocked on over-redaction fix)
+Progress: [█████████░] 95% (Phases 1-5, 7, 8 complete; Phase 6 next)
 
 ### Post-Gap-Closure Metrics (from 04-06, revised 07-03)
 
@@ -122,9 +122,11 @@ Recent decisions affecting current work:
 - **Continue with Presidio engine** (94.4% weighted recall exceeds improvement threshold; no alternative provides >5% gain; Philter incomplete, BERT blocked) — From 07-03
 - **Weighted metrics reveal true performance** (94.4% vs 77.9% unweighted; zero-weight entities (EMAIL, LOCATION, PEDIATRIC_AGE) explain gap) — From 07-03
 - **Phase 7 complete - resume Phase 5** (Expert review with clinical SME on current Presidio system; engine decision finalized) — From 07-03
-- **Expert review: REQUIRES IMPROVEMENT** (PHI safety acceptable but over-redaction of clinical timeline info critical; "5 months old", "day 4", "overnight" being redacted as DATE) — From 05-04
 - **Provider contact info not PHI** (Provider pager numbers like "#1719" are not patient PHI and should not be redacted) — From 05-04
 - **LOCATION misses acceptable for spoken handoffs** (Address detection failures at weight=0 are acceptable; addresses rare in spoken handoffs) — From 05-04
+- **DATE_TIME deny list uses substring matching** (Enables filtering "5 months old" via "months old" entry; fixes over-redaction of clinical timeline) — From 05-04
+- **Clinical timeline terms added to DATE_TIME deny list** (overnight, day 1-14, dol 1-7, days/weeks/months/years old; preserves clinical context) — From 05-04
+- **Expert review: APPROVED FOR PERSONAL USE** (PHI safety verified, over-redaction fixed, acceptable for personal clinical use; no high-weight PHI leaked) — From 05-04
 
 ### Pending Todos
 
@@ -197,10 +199,10 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 05-04 - Expert review with REQUIRES IMPROVEMENT determination
-Resume file: .planning/phases/05-validation-compliance/05-04-SUMMARY.md
-Next: Fix over-redaction (add deny list entries for clinical timeline words), then Phase 6
+Stopped at: Phase 5 complete - Expert review APPROVED FOR PERSONAL USE
+Resume file: .planning/phases/05-validation-compliance/EXPERT_REVIEW.md
+Next: Phase 6 - Real Handoff Testing (test on actual spoken transcripts)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-25 (Phase 5 complete - expert review requires over-redaction fix before Phase 6)*
+*Last updated: 2026-01-25 (Phase 5 complete - expert review APPROVED after over-redaction fix)*
