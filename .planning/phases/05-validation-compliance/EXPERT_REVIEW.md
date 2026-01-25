@@ -1,6 +1,6 @@
 # Expert Review: HIPAA Expert Determination (VALD-03)
 
-**Review Date:** _______________
+**Review Date:** 2026-01-25
 **Reviewer:** Dr. Josh Pankin, MD (Pediatric Resident PGY-3)
 **Related Document:** [VALIDATION_REPORT.md](./VALIDATION_REPORT.md)
 
@@ -71,16 +71,16 @@ For each row: Mark PHI status, note any issues, and provide expert assessment.
 
 | # | Sample ID | PHI Detected | Missed PHI? | Over-redacted? | Notes | Status |
 |---|-----------|--------------|-------------|----------------|-------|--------|
-| 1 | 15 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
-| 2 | 223 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
-| 3 | 26 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
-| 4 | 98 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
-| 5 | 209 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
-| 6 | 38 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
-| 7 | 109 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
-| 8 | 373 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
-| 9 | 92 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
-| 10 | 147 | __ entities | [ ] Yes [ ] No | [ ] Yes [ ] No | | [ ] OK [ ] Issue |
+| 1 | 15 | 8 entities | [x] Yes | [ ] No | Address "6247 Hickman Cliffs" visible | Issue |
+| 2 | 223 | 5 entities | [ ] No | [ ] No | All PHI caught | OK |
+| 3 | 26 | 3 entities | [ ] No | [ ] No | All PHI caught | OK |
+| 4 | 98 | 6 entities | [x] Yes | [ ] No | Address "20472 West Avenue Apt. 043" visible | Issue |
+| 5 | 209 | 4 entities | [ ] No | [ ] No | Pager "#1719" is provider pager (Dr. Dawson), not PHI | OK |
+| 6 | 38 | 1 entity | [ ] No | [ ] No | All PHI caught | OK |
+| 7 | 109 | 0 entities | [ ] No | [ ] No | No PHI in original | OK |
+| 8 | 373 | 2 entities | [ ] No | [x] Yes | "5 months old" and "day 4" over-redacted as [DATE] | Issue |
+| 9 | 92 | 1 entity | [ ] No | [x] Yes | "overnight" over-redacted as [DATE] | Issue |
+| 10 | 147 | 1 entity | [ ] No | [x] Yes | "overnight" over-redacted as [DATE] | Issue |
 
 ---
 
@@ -92,11 +92,12 @@ _Document any PHI visible in de-identified output that should have been redacted
 
 | Sample ID | Missed PHI | Entity Type | Risk Level | Notes |
 |-----------|------------|-------------|------------|-------|
-| | | | | |
-| | | | | |
-| | | | | |
+| 15 | "6247 Hickman Cliffs" | LOCATION | Low (weight=0) | Address - known NER limitation |
+| 98 | "20472 West Avenue Apt. 043" | LOCATION | Low (weight=0) | Address - known NER limitation |
 
-**Total missed PHI:** ___ / ___ spans reviewed
+**Total missed PHI:** 2 / ~31 spans reviewed
+
+**Note:** Sample 209 pager "#1719" initially flagged but determined to be Dr. Dawson's (fellow) provider pager — provider contact info is NOT patient PHI.
 
 ### Over-Redaction Instances
 
@@ -104,16 +105,17 @@ _Document any clinical content inappropriately redacted:_
 
 | Sample ID | Over-redacted Text | Expected Behavior | Impact |
 |-----------|-------------------|-------------------|--------|
-| | | | |
-| | | | |
-| | | | |
+| 373 | "5 months old" → [DATE] | Keep (age not PHI unless 90+) | **CRITICAL** - loses patient age for clinical decision-making |
+| 373 | "day 4" → [DATE] | Keep (clinical timeline) | **CRITICAL** - loses illness timeline for clinical decisions |
+| 92, 147 | "overnight" → [DATE] | Keep (relative time word) | **CRITICAL** - loses clinical timeline context |
 
 ### Overall Assessment
 
 - **Total samples reviewed:** 10
-- **Samples with issues:** ___
-- **Samples fully acceptable:** ___
-- **Critical findings (high-weight PHI leaked):** ___
+- **Samples with issues:** 5 (2 missed PHI, 3 over-redaction)
+- **Samples fully acceptable:** 5
+- **Missed PHI (high-weight):** 0 — only LOCATION (weight=0) missed; no patient-identifiable PHI leaked
+- **Over-redaction (clinical impact):** 3 samples — **CRITICAL** for clinical decision-making context
 
 ---
 
@@ -142,8 +144,8 @@ _Provide expert opinion on whether residual risk is acceptable for intended use:
   - No real-time clinical decision making based on output
   - Statistical performance (94.4% weighted recall) adequate for personal use
 
-[ ] **REQUIRES IMPROVEMENT** - Residual risk requires:
-  - [ ] Additional pattern improvements
+[ x] **REQUIRES IMPROVEMENT** - Residual risk requires:
+  - [ x] Additional pattern improvements
   - [ ] Enhanced user training
   - [ ] Workflow modifications
   - [ ] Other: _______________
@@ -168,18 +170,18 @@ The Pediatric Handoff PHI Remover system provides acceptable de-identification f
 - Mitigated by user review of all outputs
 - Acceptable per HIPAA Expert Determination standards for this use case
 
-### [ ] REQUIRES IMPROVEMENT
+### [x] REQUIRES IMPROVEMENT
 
 The system requires the following improvements before use:
-- _______________________________________________________________
-- _______________________________________________________________
-- _______________________________________________________________
+- **CRITICAL:** Over-redaction of clinical timeline information ("5 months old", "day 4", "overnight") removes essential context for clinical decision-making
+- **Action needed:** Add deny list entries for relative time words and pediatric age descriptors that are not HIPAA PHI
+- **PHI safety:** No high-weight PHI was leaked (only LOCATION addresses, weight=0, never spoken in handoffs)
 
 ---
 
-**Signature:** _________________________________
+**Signature:** _____Josh Pankin____________________________
 
-**Date:** _______________
+**Date:** _______1/25/26________
 
 **Print Name:** Dr. Josh Pankin, MD
 
@@ -220,4 +222,5 @@ Per Phase 7 decision ([07-03-SUMMARY.md](../07-alternative-engine-benchmark/07-0
 ---
 
 *Generated: 2026-01-25*
+*Review Completed: 2026-01-25*
 *Review Template Version: 1.0*
