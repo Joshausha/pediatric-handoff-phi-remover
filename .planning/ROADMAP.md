@@ -19,7 +19,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 5: Validation & Compliance** - External validation and clinical deployment readiness
 - [ ] **Phase 6: Real Handoff Testing** - User reads actual text handoffs to validate PHI detection
 - [ ] **Phase 7: Alternative Engine Benchmark** - Compare Philter-UCSF and Stanford BERT against current Presidio
-- [ ] **Phase 8: Weighted Recall Evaluation** - Add spoken handoff relevance weighting to evaluate_presidio.py
+- [x] **Phase 8: Weighted Recall Evaluation** - Add spoken handoff relevance weighting to evaluate_presidio.py ✓
 
 ## Phase Details
 
@@ -164,7 +164,7 @@ Plans:
 **Plans**: 1 plan in 1 wave
 
 Plans:
-- [ ] 08-01-PLAN.md — Add weighted scoring to evaluate_presidio.py with configurable entity weights
+- [x] 08-01-PLAN.md — Add weighted scoring to evaluate_presidio.py with configurable entity weights ✓
 
 **Context:**
 - Unweighted recall (77.9%) underestimates real-world performance for spoken handoffs
@@ -190,7 +190,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 4. Pattern Improvements | 6/6 | ✓ Complete | 2026-01-25 |
 | 5. Validation & Compliance | 3/4 | ◆ Partial (05-04 deferred) | - |
 | 6. Real Handoff Testing | 0/? | Not planned | - |
-| 7. Alternative Engine Benchmark | 0/3 | ◆ NEXT | - |
+| 7. Alternative Engine Benchmark | 0/3 | ◆ Planned (NEXT) | - |
 | 8. Weighted Recall Evaluation | 1/1 | ✓ Complete | 2026-01-25 |
 
 ---
@@ -222,4 +222,4 @@ Plans 04-04 and 04-05 address easy wins. Plan 04-06 analyzes remaining gaps and 
 
 ---
 *Roadmap created: 2026-01-23*
-*Last updated: 2026-01-25 (05-03 complete, Phase 7 benchmark next)*
+*Last updated: 2026-01-25 (Phase 7 planned, ready for execution)*
