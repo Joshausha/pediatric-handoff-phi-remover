@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 7: Alternative Engine Benchmark (in progress - 07-01 & 07-02 complete)
+**Current focus:** Phase 5 complete - Expert review requires over-redaction fix before Phase 6
 
 ## Current Position
 
-Phase: 7 of 8 (Alternative Engine Benchmark - COMPLETE)
-Plan: 3 of 3 complete (07-01, 07-02, 07-03 complete; 07-04 not needed)
-Status: Phase 7 complete - Decision to continue with Presidio (94.4% weighted recall)
-Last activity: 2026-01-25 — Completed 07-03: Engine benchmark decision documented
+Phase: 5 of 8 (Validation & Compliance - COMPLETE)
+Plan: 4 of 4 complete (05-01, 05-02, 05-03, 05-04 complete)
+Status: Phase 5 complete - Expert review determination: REQUIRES IMPROVEMENT (over-redaction)
+Last activity: 2026-01-25 — Completed 05-04: Expert review with REQUIRES IMPROVEMENT determination
 
-Progress: [█████████░] 91% (Phases 1-4, 7, 8 complete; Phase 5 partial 3/4; Phase 6 unstarted)
+Progress: [█████████░] 95% (Phases 1-5, 7, 8 complete; Phase 6 blocked on over-redaction fix)
 
 ### Post-Gap-Closure Metrics (from 04-06, revised 07-03)
 
@@ -39,9 +39,9 @@ Progress: [█████████░] 91% (Phases 1-4, 7, 8 complete; Phase
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 18
-- Average duration: 5.0 min
-- Total execution time: 1.5 hours
+- Total plans completed: 19
+- Average duration: 5.2 min
+- Total execution time: 1.6 hours
 
 **By Phase:**
 
@@ -51,13 +51,13 @@ Progress: [█████████░] 91% (Phases 1-4, 7, 8 complete; Phase
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
 | 04-pattern-improvements | 5/6 | 31 min | 6.2 min |
-| 05-validation-compliance | 3/4 | 8 min | 2.7 min |
+| 05-validation-compliance | 4/4 | 20 min | 5.0 min |
 | 07-alternative-engine-benchmark | 3/3 | 13 min | 4.3 min |
 | 08-weighted-recall-evaluation | 1/1 | 3 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-05 (5min), 08-01 (3min), 07-01 (6min), 07-02 (4min), 07-03 (3min)
-- Trend: Phase 7 complete - documentation tasks efficient (3-6min)
+- Last 5 plans: 08-01 (3min), 07-01 (6min), 07-02 (4min), 07-03 (3min), 05-04 (12min)
+- Trend: Expert review checkpoint added time due to manual review requirement
 
 *Updated after each plan completion*
 
@@ -122,12 +122,23 @@ Recent decisions affecting current work:
 - **Continue with Presidio engine** (94.4% weighted recall exceeds improvement threshold; no alternative provides >5% gain; Philter incomplete, BERT blocked) — From 07-03
 - **Weighted metrics reveal true performance** (94.4% vs 77.9% unweighted; zero-weight entities (EMAIL, LOCATION, PEDIATRIC_AGE) explain gap) — From 07-03
 - **Phase 7 complete - resume Phase 5** (Expert review with clinical SME on current Presidio system; engine decision finalized) — From 07-03
+- **Expert review: REQUIRES IMPROVEMENT** (PHI safety acceptable but over-redaction of clinical timeline info critical; "5 months old", "day 4", "overnight" being redacted as DATE) — From 05-04
+- **Provider contact info not PHI** (Provider pager numbers like "#1719" are not patient PHI and should not be redacted) — From 05-04
+- **LOCATION misses acceptable for spoken handoffs** (Address detection failures at weight=0 are acceptable; addresses rare in spoken handoffs) — From 05-04
 
 ### Pending Todos
 
 - **Philter full implementation** — Complete remaining 6/8 entity types (PERSON, PHONE, EMAIL, DATE_TIME, LOCATION, MRN) for future benchmark comparison. Current: 2/8 entity types (GUARDIAN_NAME, ROOM) with 24 patterns translated. Deferred per user request 2026-01-25.
 
 ### Blockers/Concerns
+
+**From Expert Review (05-04):**
+- **CRITICAL:** Over-redaction of clinical timeline information removes essential context for clinical decision-making
+  - "5 months old" → [DATE] — loses patient age
+  - "day 4" → [DATE] — loses illness timeline
+  - "overnight" → [DATE] — loses clinical context
+- **Action needed:** Add deny list entries for relative time words and age descriptors before Phase 6
+- **PHI safety:** Acceptable - no high-weight PHI leaked in expert review
 
 **From Research:**
 - Synthetic data may not represent real transcripts — external validation in Phase 5 is critical
@@ -186,10 +197,10 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 07-03 - Phase 7 complete with engine decision documented
-Resume file: .planning/phases/07-alternative-engine-benchmark/07-03-SUMMARY.md
-Next: 05-04 Expert review with clinical SME (resume Phase 5 with Presidio engine)
+Stopped at: Completed 05-04 - Expert review with REQUIRES IMPROVEMENT determination
+Resume file: .planning/phases/05-validation-compliance/05-04-SUMMARY.md
+Next: Fix over-redaction (add deny list entries for clinical timeline words), then Phase 6
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-25 (Phase 7 complete - 07-03 engine decision documented, resume Phase 5 next)*
+*Last updated: 2026-01-25 (Phase 5 complete - expert review requires over-redaction fix before Phase 6)*
