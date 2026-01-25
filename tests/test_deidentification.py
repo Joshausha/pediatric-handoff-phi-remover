@@ -552,6 +552,72 @@ class TestRoomMRNEdgeCases:
 
 
 # =============================================================================
+# HYPHENATED ROOM EDGE CASE TESTS (Phase 04-05)
+# =============================================================================
+
+# Test data for standalone hyphenated room numbers
+HYPHENATED_ROOM_CASES = [
+    # (input_text, phi_that_must_be_removed, description)
+    # Positive cases - should be detected as rooms
+    ("Patient in 3-22 with bronchiolitis", "3-22", "standalone_hyphenated"),
+    ("Moved to 5-10 for monitoring", "5-10", "standalone_hyphenated_2"),
+    ("Currently in 2-25 isolation room", "2-25", "standalone_with_context"),
+    ("9-27 patient stable overnight", "9-27", "start_of_sentence"),
+    ("Transfer from 4-11 to PICU", "4-11", "mid_sentence"),
+    ("Admitted to floor 3-22 this morning", "3-22", "with_floor_context"),
+    ("Located in bed 3-22 by window", "3-22", "with_bed_context"),
+    ("PICU 3-22 is full", "3-22", "after_unit_name"),
+]
+
+# Negative cases - should NOT be detected as rooms (age ranges, date ranges, etc.)
+HYPHENATED_NON_ROOM_CASES = [
+    # (input_text, text_that_should_remain, description)
+    ("Child is 3-5 years old", "3-5", "age_range"),
+    ("Schedule for 9-12 months", "9-12", "month_range"),
+]
+
+
+class TestHyphenatedRoomEdgeCases:
+    """
+    Test standalone hyphenated room number patterns.
+
+    These tests verify that Phase 04-05 pattern improvements catch:
+    - Standalone hyphenated rooms (3-22, 5-10) without Room prefix
+    - Various sentence positions (start, middle, end)
+    - Context words that boost confidence
+
+    Also verify no over-detection on:
+    - Age ranges (3-5 years old)
+    - Date/time ranges (9-12 months)
+    """
+
+    @pytest.mark.parametrize("text,phi,desc", HYPHENATED_ROOM_CASES,
+                             ids=[case[2] for case in HYPHENATED_ROOM_CASES])
+    def test_hyphenated_room_detected(self, text, phi, desc):
+        """Test that hyphenated room numbers are properly redacted."""
+        result = deidentify_text(text)
+        assert phi not in result.clean_text, f"Room '{phi}' should be removed ({desc})"
+
+    @pytest.mark.parametrize("text,should_remain,desc", HYPHENATED_NON_ROOM_CASES,
+                             ids=[case[2] for case in HYPHENATED_NON_ROOM_CASES])
+    def test_hyphenated_non_room_preserved(self, text, should_remain, desc):
+        """Test that non-room hyphenated numbers (age ranges, etc.) are NOT over-detected.
+
+        Note: The standalone hyphenated pattern has a low score (0.55) which means
+        Presidio's context scoring should prevent false positives on age/date ranges
+        when no room-related context words are present.
+        """
+        result = deidentify_text(text)
+        # Without room-related context words, the low score pattern should not trigger
+        # If ROOM entity was detected, it means over-detection occurred
+        room_entities = [e for e in result.entities_found if e.entity_type == "ROOM"]
+        assert len(room_entities) == 0, (
+            f"'{should_remain}' incorrectly detected as ROOM in '{text}' ({desc}). "
+            f"No room context words present, pattern should not match."
+        )
+
+
+# =============================================================================
 # GUARDIAN AND BABY NAME EDGE CASE TESTS (Phase 04-01)
 # =============================================================================
 
