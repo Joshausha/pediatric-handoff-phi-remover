@@ -9,28 +9,31 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 
 ## Current Position
 
-Phase: 4 of 5 (Pattern Improvements) - GAP CLOSURE IN PROGRESS
-Plan: 5 of 6 complete (04-05 hyphenated rooms done)
-Status: Gap closure for validation failures in progress
-Last activity: 2026-01-25 — Completed 04-05: Hyphenated room patterns for standalone formats
+Phase: 4 of 5 (Pattern Improvements) - COMPLETE
+Plan: 6 of 6 complete (04-06 gap analysis done)
+Status: Phase 4 complete, ready for Phase 5 external validation
+Last activity: 2026-01-25 — Completed 04-06: Gap analysis with conservative decision
 
-Progress: [████████░░] 77% (Gap closure 04-05 complete, 04-06 remaining)
+Progress: [████████░░] 80% (Phase 4 complete, Phase 5 remaining)
 
-### Validation Gap Summary (from 05-03)
+### Post-Gap-Closure Metrics (from 04-06)
 
-**Recall:** 83.0% (95% CI: 81.0% - 84.8%) — Target: 95%
-**False negatives:** 257 PHI spans missed
+**Recall:** 86.4% (95% CI: 84.6% - 88.0%)
+**False negatives:** 205 PHI spans remaining
 
-| Failure Mode | Count | Top Entities |
-|--------------|-------|--------------|
-| pattern_miss | 246 | ROOM (standalone numbers), MRN (no # prefix), LOCATION (addresses) |
-| span_boundary | 11 | ROOM (hyphenated like 3-22) |
+| Entity Type | FNs | Decision |
+|-------------|-----|----------|
+| LOCATION | 104 | Not addressable (NER limitation) |
+| ROOM | 44 | Accept (high FP risk) |
+| MRN | 37 | Accept (conflicts with phone) |
+| PERSON | 9 | Not addressable (NER edge cases) |
+| DATE_TIME | 6 | Defer (low impact) |
+| PHONE_NUMBER | 5 | Defer (diminishing returns) |
 
-**Gap closure needed for:**
-1. ROOM - standalone numbers (847, 16, 8) without "Room" prefix
-2. MEDICAL_RECORD_NUMBER - 7-digit numbers without # prefix (2694522)
-3. LOCATION - full addresses missed by spaCy NER
-4. ~~PHONE_NUMBER - international format (001-411-671-8227)~~ **RESOLVED** (04-04: 5 patterns added)
+**Gap closure completed:**
+- ~~PHONE_NUMBER~~ 04-04: International/extension formats (+52 TPs)
+- ~~ROOM hyphenated~~ 04-05: Standalone hyphenated patterns
+- **Conservative decision (04-06):** Accept 86.4% recall with documented residual risk
 
 ## Performance Metrics
 
@@ -95,6 +98,7 @@ Recent decisions affecting current work:
 - **Phone patterns supplement Presidio default** (5 patterns for international/extension formats with context-dependent scoring) — From 04-04
 - **10-digit unformatted phone: low score (0.60)** (Requires context words to avoid false positives on other 10-digit numbers) — From 04-04
 - **Standalone hyphenated room: low score (0.55)** (Requires context words like room/bed/floor to avoid false positives on age ranges) — From 04-05
+- **Option-c: Conservative gap closure** (Accept limitations with documented residual risk; 86.4% recall sufficient for personal QI project with user review mitigation; maintaining precision preserves clinical utility) — From 04-06
 - **Target validation sample: 200 transcripts** (Minimum viable: 50; narrow confidence intervals for >95% recall verification) — From 05-01
 - **Stratification by dominant PHI type** (Preserves entity distribution from synthetic to validation data) — From 05-01
 - **70/30 val/test split** (No training needed - tuning on val, final metrics on test) — From 05-01
@@ -165,10 +169,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 04-05 hyphenated room patterns
-Resume file: .planning/phases/04-pattern-improvements/04-05-SUMMARY.md
-Next: Execute 04-06-PLAN.md (standalone room numbers)
+Stopped at: Completed Phase 4 Pattern Improvements
+Resume file: .planning/phases/04-pattern-improvements/04-06-SUMMARY.md
+Next: Phase 5 external validation with real handoff transcripts
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-25 (04-05 hyphenated rooms complete, 04-06 remaining)*
+*Last updated: 2026-01-25 (Phase 4 complete, 04-06 gap analysis done)*
