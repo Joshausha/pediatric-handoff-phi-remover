@@ -201,10 +201,13 @@ def deidentify_text(
             logger.debug(f"Filtered out deny-listed PEDIATRIC_AGE: {detected_text}")
             continue
 
-        # Check DATE_TIME deny list
-        if result.entity_type == "DATE_TIME" and detected_text.lower() in [w.lower() for w in settings.deny_list_date_time]:
-            logger.debug(f"Filtered out deny-listed DATE_TIME: {detected_text}")
-            continue
+        # Check DATE_TIME deny list (uses substring match for clinical timeline patterns)
+        # e.g., "5 months old" matches "months old" in deny list
+        if result.entity_type == "DATE_TIME":
+            detected_lower = detected_text.lower()
+            if any(term.lower() in detected_lower for term in settings.deny_list_date_time):
+                logger.debug(f"Filtered out deny-listed DATE_TIME: {detected_text}")
+                continue
 
         results.append(result)
 

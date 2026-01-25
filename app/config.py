@@ -156,12 +156,23 @@ class Settings(BaseSettings):
     )
     deny_list_date_time: List[str] = Field(
         default=[
-            "today", "tonight", "yesterday", "tomorrow",
+            # Relative time words
+            "today", "tonight", "yesterday", "tomorrow", "overnight",
+            # Dosing schedules
             "q4h", "q6h", "q8h", "q12h",
             "BID", "TID", "QID", "PRN", "prn",
             "daily", "nightly", "qd", "qhs",
+            # Day of illness patterns (clinical timeline - not PHI)
+            "day 1", "day 2", "day 3", "day 4", "day 5", "day 6", "day 7",
+            "day 8", "day 9", "day 10", "day 11", "day 12", "day 13", "day 14",
+            # Day of life (neonatal - not PHI)
+            "day of life", "dol",
+            "dol 1", "dol 2", "dol 3", "dol 4", "dol 5", "dol 6", "dol 7",
+            # Age descriptors (not PHI under HIPAA unless 90+)
+            "days old", "weeks old", "months old", "years old",
+            "week old", "month old", "year old", "day old",
         ],
-        description="Generic time references and dosing schedules not flagged as DATE_TIME"
+        description="Generic time references, dosing schedules, and clinical timeline terms not flagged as DATE_TIME"
     )
 
     # =========================================================================
