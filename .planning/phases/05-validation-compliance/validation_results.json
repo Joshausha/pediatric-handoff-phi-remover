@@ -1,20 +1,20 @@
 {
   "metrics": {
     "total_expected": 1508,
-    "total_detected": 1913,
-    "true_positives": 1251,
-    "false_negatives": 257,
+    "total_detected": 1965,
+    "true_positives": 1303,
+    "false_negatives": 205,
     "false_positives": 662,
-    "precision": 0.6539466806063774,
-    "recall": 0.8295755968169761,
-    "f1": 0.7313650979245835,
-    "f2": 0.7872876022655758,
-    "precision_mean": 0.6539176731498143,
-    "precision_ci_lower": 0.6327705227903233,
-    "precision_ci_upper": 0.6751433707199832,
-    "recall_mean": 0.8294960924191291,
-    "recall_ci_lower": 0.8103222821567917,
-    "recall_ci_upper": 0.847941858297803
+    "precision": 0.6631043256997455,
+    "recall": 0.8640583554376657,
+    "f1": 0.7503599193780592,
+    "f2": 0.8146805051894459,
+    "precision_mean": 0.6631056837455072,
+    "precision_ci_lower": 0.6423095590186435,
+    "precision_ci_upper": 0.6838347781744009,
+    "recall_mean": 0.8640909552598441,
+    "recall_ci_lower": 0.8465679676985195,
+    "recall_ci_upper": 0.8808740051143275
   },
   "error_taxonomy": {
     "pattern_miss": [
@@ -67,14 +67,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-411-671-8227",
-        "context": "001-411-671-8227",
-        "start": 90,
-        "end": 106,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "ROOM",
         "text": "8",
         "context": "8",
@@ -99,14 +91,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "538.372.6247",
-        "context": "538.372.6247",
-        "start": 93,
-        "end": 105,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "6247 Hickman Cliffs",
         "context": "6247 Hickman Cliffs",
@@ -128,14 +112,6 @@
         "context": "Memorial Hospital",
         "start": 47,
         "end": 64,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "(392)832-2602x56342",
-        "context": "(392)832-2602x56342",
-        "start": 122,
-        "end": 141,
         "failure_mode": "pattern_miss"
       },
       {
@@ -219,14 +195,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-723-437-4989x41343",
-        "context": "001-723-437-4989x41343",
-        "start": 144,
-        "end": 166,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "ROOM",
         "text": "155",
         "context": "155",
@@ -248,14 +216,6 @@
         "context": "Scott Branch",
         "start": 98,
         "end": 110,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-899-904-9027x87429",
-        "context": "+1-899-904-9027x87429",
-        "start": 127,
-        "end": 148,
         "failure_mode": "pattern_miss"
       },
       {
@@ -291,27 +251,11 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-921-274-5961x5865",
-        "context": "+1-921-274-5961x5865",
-        "start": 127,
-        "end": 147,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "2400 Flynn Hill",
         "context": "2400 Flynn Hill",
         "start": 38,
         "end": 53,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-922-421-9693",
-        "context": "001-922-421-9693",
-        "start": 150,
-        "end": 166,
         "failure_mode": "pattern_miss"
       },
       {
@@ -363,14 +307,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-258-991-7839x08470",
-        "context": "001-258-991-7839x08470",
-        "start": 165,
-        "end": 187,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "MEDICAL_RECORD_NUMBER",
         "text": "8215376",
         "context": "8215376",
@@ -403,27 +339,11 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-691-902-2901",
-        "context": "001-691-902-2901",
-        "start": 154,
-        "end": 170,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "ROOM",
         "text": "228",
         "context": "228",
         "start": 39,
         "end": 42,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-875-616-1369x681",
-        "context": "+1-875-616-1369x681",
-        "start": 85,
-        "end": 104,
         "failure_mode": "pattern_miss"
       },
       {
@@ -435,43 +355,11 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-923-912-4329x2127",
-        "context": "+1-923-912-4329x2127",
-        "start": 87,
-        "end": 107,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "200.954.1199x867",
-        "context": "200.954.1199x867",
-        "start": 123,
-        "end": 139,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "51864 Cummings Shoals Apt. 519",
         "context": "51864 Cummings Shoals Apt. 519",
         "start": 57,
         "end": 87,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-752-981-6850x5423",
-        "context": "+1-752-981-6850x5423",
-        "start": 194,
-        "end": 214,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-592-670-6537x94738",
-        "context": "001-592-670-6537x94738",
-        "start": 109,
-        "end": 131,
         "failure_mode": "pattern_miss"
       },
       {
@@ -547,14 +435,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-594-839-6907x8447",
-        "context": "+1-594-839-6907x8447",
-        "start": 142,
-        "end": 162,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "9532 Ferrell Mountain",
         "context": "9532 Ferrell Mountain",
@@ -576,14 +456,6 @@
         "context": "711",
         "start": 41,
         "end": 44,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-399-530-9728x96230",
-        "context": "001-399-530-9728x96230",
-        "start": 91,
-        "end": 113,
         "failure_mode": "pattern_miss"
       },
       {
@@ -715,14 +587,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-461-342-9396x856",
-        "context": "001-461-342-9396x856",
-        "start": 140,
-        "end": 160,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "ROOM",
         "text": "5-05",
         "context": "5-05",
@@ -731,27 +595,11 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-896-450-4773x586",
-        "context": "+1-896-450-4773x586",
-        "start": 93,
-        "end": 112,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "ROOM",
         "text": "7",
         "context": "7",
         "start": 38,
         "end": 39,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-837-652-6547x935",
-        "context": "001-837-652-6547x935",
-        "start": 130,
-        "end": 150,
         "failure_mode": "pattern_miss"
       },
       {
@@ -800,14 +648,6 @@
         "context": "678",
         "start": 193,
         "end": 196,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-696-429-2330x958",
-        "context": "001-696-429-2330x958",
-        "start": 158,
-        "end": 178,
         "failure_mode": "pattern_miss"
       },
       {
@@ -915,14 +755,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-932-436-5199x41013",
-        "context": "001-932-436-5199x41013",
-        "start": 201,
-        "end": 223,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "8701 Reyes Manor Apt. 838",
         "context": "8701 Reyes Manor Apt. 838",
@@ -936,14 +768,6 @@
         "context": "Community Hospital",
         "start": 50,
         "end": 68,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "3405785932",
-        "context": "3405785932",
-        "start": 126,
-        "end": 136,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1016,14 +840,6 @@
         "context": "8564 Pena Ports",
         "start": 74,
         "end": 89,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-796-606-5307x450",
-        "context": "+1-796-606-5307x450",
-        "start": 151,
-        "end": 170,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1139,27 +955,11 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-799-930-5616x4840",
-        "context": "+1-799-930-5616x4840",
-        "start": 150,
-        "end": 170,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "ROOM",
         "text": "198",
         "context": "198",
         "start": 44,
         "end": 47,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-288-901-3361x38612",
-        "context": "001-288-901-3361x38612",
-        "start": 98,
-        "end": 120,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1171,27 +971,11 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-596-888-1435",
-        "context": "001-596-888-1435",
-        "start": 98,
-        "end": 114,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "7812 Meagan Walks Apt. 834",
         "context": "7812 Meagan Walks Apt. 834",
         "start": 74,
         "end": 100,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-627-750-3731",
-        "context": "001-627-750-3731",
-        "start": 119,
-        "end": 135,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1216,14 +1000,6 @@
         "context": "22259 Donna Mall Suite 177",
         "start": 41,
         "end": 67,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-962-491-2799x08811",
-        "context": "+1-962-491-2799x08811",
-        "start": 137,
-        "end": 158,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1256,14 +1032,6 @@
         "context": "18600733",
         "start": 8,
         "end": 16,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "(390)642-6818x1845",
-        "context": "(390)642-6818x1845",
-        "start": 153,
-        "end": 171,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1307,35 +1075,11 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "(288)857-4489",
-        "context": "(288)857-4489",
-        "start": 94,
-        "end": 107,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "ROOM",
         "text": "521",
         "context": "521",
         "start": 34,
         "end": 37,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-871-369-4722x5699",
-        "context": "001-871-369-4722x5699",
-        "start": 79,
-        "end": 100,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "(598)476-2202x341",
-        "context": "(598)476-2202x341",
-        "start": 88,
-        "end": 105,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1411,22 +1155,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-282-818-2744x857",
-        "context": "+1-282-818-2744x857",
-        "start": 132,
-        "end": 151,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "(394)256-5118",
-        "context": "(394)256-5118",
-        "start": 160,
-        "end": 173,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "Memorial Hospital",
         "context": "Memorial Hospital",
@@ -1448,14 +1176,6 @@
         "context": "34011268",
         "start": 23,
         "end": 31,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-788-499-2107",
-        "context": "+1-788-499-2107",
-        "start": 170,
-        "end": 185,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1491,27 +1211,11 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "2385860868",
-        "context": "2385860868",
-        "start": 200,
-        "end": 210,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "Hillside Montessori",
         "context": "Hillside Montessori",
         "start": 34,
         "end": 53,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-982-366-5702x793",
-        "context": "001-982-366-5702x793",
-        "start": 120,
-        "end": 140,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1536,14 +1240,6 @@
         "context": "97767 Carolyn Avenue",
         "start": 39,
         "end": 59,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "001-946-995-4899x529",
-        "context": "001-946-995-4899x529",
-        "start": 143,
-        "end": 163,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1595,14 +1291,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-345-762-5577x017",
-        "context": "+1-345-762-5577x017",
-        "start": 150,
-        "end": 169,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "Moraleschester",
         "context": "Moraleschester",
@@ -1616,22 +1304,6 @@
         "context": "975 Lynn Fall",
         "start": 72,
         "end": 85,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-654-294-6519x09862",
-        "context": "+1-654-294-6519x09862",
-        "start": 95,
-        "end": 116,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-822-401-0276x21267",
-        "context": "+1-822-401-0276x21267",
-        "start": 79,
-        "end": 100,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1675,14 +1347,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-371-328-6391x7410",
-        "context": "+1-371-328-6391x7410",
-        "start": 157,
-        "end": 177,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "DATE_TIME",
         "text": "07:41 AM",
         "context": "07:41 AM",
@@ -1704,14 +1368,6 @@
         "context": "3-37",
         "start": 205,
         "end": 209,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-932-580-6346x1571",
-        "context": "+1-932-580-6346x1571",
-        "start": 130,
-        "end": 150,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1803,14 +1459,6 @@
         "failure_mode": "pattern_miss"
       },
       {
-        "entity_type": "PHONE_NUMBER",
-        "text": "399.807.7262x570",
-        "context": "399.807.7262x570",
-        "start": 144,
-        "end": 160,
-        "failure_mode": "pattern_miss"
-      },
-      {
         "entity_type": "ROOM",
         "text": "640",
         "context": "640",
@@ -1872,14 +1520,6 @@
         "context": "796 Burton Mountains Apt. 589",
         "start": 42,
         "end": 71,
-        "failure_mode": "pattern_miss"
-      },
-      {
-        "entity_type": "PHONE_NUMBER",
-        "text": "+1-589-507-1401x40119",
-        "context": "+1-589-507-1401x40119",
-        "start": 163,
-        "end": 184,
         "failure_mode": "pattern_miss"
       },
       {
@@ -1992,22 +1632,6 @@
     "novel_variant": [],
     "span_boundary": [
       {
-        "entity_type": "ROOM",
-        "text": "3-22",
-        "context": "3-22",
-        "start": 132,
-        "end": 136,
-        "failure_mode": "span_boundary"
-      },
-      {
-        "entity_type": "ROOM",
-        "text": "2-25",
-        "context": "2-25",
-        "start": 136,
-        "end": 140,
-        "failure_mode": "span_boundary"
-      },
-      {
         "entity_type": "PERSON",
         "text": "Virginia Daniels",
         "context": "Virginia Daniels",
@@ -2016,51 +1640,11 @@
         "failure_mode": "span_boundary"
       },
       {
-        "entity_type": "ROOM",
-        "text": "9-27",
-        "context": "9-27",
-        "start": 137,
-        "end": 141,
-        "failure_mode": "span_boundary"
-      },
-      {
-        "entity_type": "ROOM",
-        "text": "3-22",
-        "context": "3-22",
-        "start": 124,
-        "end": 128,
-        "failure_mode": "span_boundary"
-      },
-      {
-        "entity_type": "ROOM",
-        "text": "5-10",
-        "context": "5-10",
-        "start": 24,
-        "end": 28,
-        "failure_mode": "span_boundary"
-      },
-      {
         "entity_type": "LOCATION",
         "text": "0083 Dodson Islands Apt. 003",
         "context": "0083 Dodson Islands Apt. 003",
         "start": 71,
         "end": 99,
-        "failure_mode": "span_boundary"
-      },
-      {
-        "entity_type": "ROOM",
-        "text": "4-37",
-        "context": "4-37",
-        "start": 54,
-        "end": 58,
-        "failure_mode": "span_boundary"
-      },
-      {
-        "entity_type": "ROOM",
-        "text": "2-37",
-        "context": "2-37",
-        "start": 38,
-        "end": 42,
         "failure_mode": "span_boundary"
       },
       {
@@ -2084,15 +1668,15 @@
   },
   "deployment_readiness": {
     "decision": "RETURN_TO_PHASE_4",
-    "recall_point_estimate": 0.8295755968169761,
-    "recall_ci_lower": 0.8103222821567917,
-    "recall_ci_upper": 0.847941858297803,
+    "recall_point_estimate": 0.8640583554376657,
+    "recall_ci_lower": 0.8465679676985195,
+    "recall_ci_upper": 0.8808740051143275,
     "threshold": 0.95,
     "meets_threshold": false,
-    "reasoning": "Recall 95% CI lower bound (81.0%) does not meet the 95% threshold required for clinical deployment."
+    "reasoning": "Recall 95% CI lower bound (84.7%) does not meet the 95% threshold required for clinical deployment."
   },
   "metadata": {
-    "validation_date": "2026-01-24T18:43:57.825778",
+    "validation_date": "2026-01-25T01:19:50.961241",
     "n_handoffs": 500,
     "n_bootstrap_iterations": 10000,
     "overlap_threshold": 0.5

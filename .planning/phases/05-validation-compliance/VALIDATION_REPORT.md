@@ -1,6 +1,6 @@
 # Validation Report: Pediatric Handoff PHI Remover
 
-**Validation Date:** 2026-01-24T18:43:57.825778  
+**Validation Date:** 2026-01-25T01:19:50.961241  
 **Dataset Size:** 500 handoffs  
 **Bootstrap Iterations:** 10000  
 
@@ -8,16 +8,16 @@
 
 | Metric | Value | 95% Confidence Interval |
 |--------|-------|------------------------|
-| **Recall** | 83.0% | [81.0%, 84.8%] |
-| **Precision** | 65.4% | [63.3%, 67.5%] |
-| **F1 Score** | 73.1% | - |
-| **F2 Score** | 78.7% | - |
+| **Recall** | 86.4% | [84.7%, 88.1%] |
+| **Precision** | 66.3% | [64.2%, 68.4%] |
+| **F1 Score** | 75.0% | - |
+| **F2 Score** | 81.5% | - |
 
 ### Deployment Decision
 
 **Decision:** `RETURN_TO_PHASE_4`
 
-**Rationale:** Recall 95% CI lower bound (81.0%) does not meet the 95% threshold required for clinical deployment.
+**Rationale:** Recall 95% CI lower bound (84.7%) does not meet the 95% threshold required for clinical deployment.
 
 **Safety Threshold:** Recall 95% CI lower bound must be ≥ 95%
 
@@ -26,43 +26,41 @@
 ### Detection Performance
 
 - **Total PHI spans (ground truth):** 1508
-- **Total spans detected:** 1913
-- **True positives:** 1251
-- **False negatives (PHI leaks):** 257
+- **Total spans detected:** 1965
+- **True positives:** 1303
+- **False negatives (PHI leaks):** 205
 - **False positives (over-redaction):** 662
 
 ### Statistical Validation
 
 Bootstrap confidence intervals (95%) calculated using percentile method with 10,000 iterations:
 
-- **Recall CI:** [81.0%, 84.8%]
-- **Precision CI:** [63.3%, 67.5%]
+- **Recall CI:** [84.7%, 88.1%]
+- **Precision CI:** [64.2%, 68.4%]
 
 ## Error Taxonomy
 
-**Total false negatives:** 257
+**Total false negatives:** 205
 
 ### Breakdown by Failure Mode
 
-#### PATTERN MISS (246 cases, 95.7%)
+#### PATTERN MISS (201 cases, 98.0%)
 
 1. **ROOM**: `847`
 2. **MEDICAL_RECORD_NUMBER**: `2694522`
 3. **LOCATION**: `3419 Amanda Gardens Apt. 764`
 4. **LOCATION**: `Daviston`
 5. **LOCATION**: `6270 Stanton Track`
-   _(and 241 more)_
+   _(and 196 more)_
 
 **Recommendation:** → Add regex patterns to custom recognizers
 
-#### SPAN BOUNDARY (11 cases, 4.3%)
+#### SPAN BOUNDARY (4 cases, 2.0%)
 
-1. **ROOM**: `3-22`
-2. **ROOM**: `2-25`
-3. **PERSON**: `Virginia Daniels`
-4. **ROOM**: `9-27`
-5. **ROOM**: `3-22`
-   _(and 6 more)_
+1. **PERSON**: `Virginia Daniels`
+2. **LOCATION**: `0083 Dodson Islands Apt. 003`
+3. **LOCATION**: `276 Larry Loaf Suite 197`
+4. **LOCATION**: `296 Hayes Well`
 
 **Recommendation:** → Review entity boundary detection logic
 
@@ -108,7 +106,7 @@ This threshold accounts for statistical uncertainty in recall estimation.
 
 This validation provides statistical evidence for HIPAA Expert Determination:
 
-- **Recall performance:** 83.0% with 95% CI [81.0%, 84.8%]
+- **Recall performance:** 86.4% with 95% CI [84.7%, 88.1%]
 - **Residual risk assessment:** Based on false negative rate and failure mode analysis
 - **Statistical rigor:** Bootstrap confidence intervals quantify estimation uncertainty
 
@@ -122,4 +120,4 @@ This tool is intended for personal quality improvement use only:
 
 ---
 
-*Generated: 2026-01-24 18:43:57*
+*Generated: 2026-01-25 01:19:50*
