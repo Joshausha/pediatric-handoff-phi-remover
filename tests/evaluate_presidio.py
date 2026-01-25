@@ -384,6 +384,22 @@ class PresidioEvaluator:
             metrics.false_negatives += len(result.false_negatives)
             metrics.false_positives += len(result.false_positives)
 
+        # Initialize entity stats tracking
+        entity_stats = {}
+
+        for result in results:
+            for span in result.true_positives:
+                entity_stats.setdefault(span.entity_type, {"tp": 0, "fn": 0, "fp": 0})
+                entity_stats[span.entity_type]["tp"] += 1
+            for span in result.false_negatives:
+                entity_stats.setdefault(span.entity_type, {"tp": 0, "fn": 0, "fp": 0})
+                entity_stats[span.entity_type]["fn"] += 1
+            for det in result.false_positives:
+                entity_stats.setdefault(det["entity_type"], {"tp": 0, "fn": 0, "fp": 0})
+                entity_stats[det["entity_type"]]["fp"] += 1
+
+        metrics.entity_stats = entity_stats
+
         # Build binary arrays for CI calculation
         y_true = []
         y_pred = []
