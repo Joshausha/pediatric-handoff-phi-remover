@@ -816,5 +816,85 @@ class TestPatternSmokeTests:
                 f"PEDIATRIC_AGE should be disabled but detected in: {text}"
 
 
+# =============================================================================
+# PHONE NUMBER EDGE CASE TESTS (Phase 04-04)
+# =============================================================================
+
+# Test data for phone number edge cases that Presidio's default recognizer misses
+PHONE_NUMBER_EDGE_CASES = [
+    # (input_text, phi_that_must_be_removed, description)
+    # International with 001 prefix
+    ("Contact at 001-411-671-8227 for updates", "001-411-671-8227", "intl_001_dashes"),
+    ("Call 001.723.437.4989 anytime", "001.723.437.4989", "intl_001_dots"),
+    ("Reach parent at 001-555-123-4567x12345", "001-555-123-4567x12345", "intl_001_extension"),
+    # International with +1 prefix
+    ("Phone +1-899-904-9027", "+1-899-904-9027", "intl_plus1_dashes"),
+    ("Contact +1.788.499.2107 for questions", "+1.788.499.2107", "intl_plus1_dots"),
+    ("Pager +1-555-123-4567x87429", "+1-555-123-4567x87429", "intl_plus1_extension"),
+    # Dot-separated format
+    ("Call 538.372.6247 for mom", "538.372.6247", "dot_separated_basic"),
+    ("Reach at 200.954.1199x867", "200.954.1199x867", "dot_separated_extension"),
+    # Parentheses without space
+    ("Phone (392)832-2602 for dad", "(392)832-2602", "parens_no_space_basic"),
+    ("Contact (288)857-4489x56342", "(288)857-4489x56342", "parens_no_space_extension"),
+    # 10-digit unformatted (with context)
+    ("Call phone 3405785932 for updates", "3405785932", "unformatted_10digit_call"),
+    ("Contact number 2385860868", "2385860868", "unformatted_10digit_contact"),
+    ("Reach parent at pager 5551234567", "5551234567", "unformatted_10digit_pager"),
+    ("Cell 9876543210 for mom", "9876543210", "unformatted_10digit_cell"),
+]
+
+
+class TestPhoneNumberEdgeCases:
+    """
+    Test phone number pattern edge cases.
+
+    These tests verify that Phase 04-04 pattern improvements catch:
+    - International formats with 001 prefix
+    - International formats with +1 prefix
+    - Dot-separated phone numbers with extensions
+    - Parentheses format without space after area code
+    - 10-digit unformatted numbers (context-dependent)
+    """
+
+    @pytest.mark.parametrize("text,phi,desc", PHONE_NUMBER_EDGE_CASES,
+                             ids=[case[2] for case in PHONE_NUMBER_EDGE_CASES])
+    def test_phone_edge_case(self, text, phi, desc):
+        """Test that phone numbers are properly redacted in various formats."""
+        result = deidentify_text(text)
+        assert phi not in result.clean_text, \
+            f"Phone '{phi}' should be removed ({desc}). Got: '{result.clean_text}'"
+
+    def test_phone_001_preserves_context(self):
+        """Test that context around 001 phone is preserved."""
+        result = deidentify_text("Contact family at 001-555-123-4567 for updates")
+        assert "Contact family at" in result.clean_text
+        assert "for updates" in result.clean_text
+
+    def test_phone_extension_detected(self):
+        """Test that phone numbers with extensions are fully detected."""
+        result = deidentify_text("Call 555.123.4567x12345 for mom")
+        # Extension should be removed along with the phone number
+        assert "x12345" not in result.clean_text
+        assert "555.123.4567" not in result.clean_text
+
+    def test_phone_no_false_positive_on_clinical_numbers(self):
+        """Test that clinical numbers aren't flagged as phone numbers."""
+        # These should NOT be flagged as phone numbers
+        clinical_texts = [
+            "FiO2 of 60%, sats 94%, temp 37.2",  # Clinical values
+            "Weight 3.5 kg, length 50 cm",  # Measurements
+            "Give 10 mL/kg bolus",  # Dosing
+            "BP 90/60, HR 120, RR 30",  # Vital signs
+        ]
+        for text in clinical_texts:
+            result = deidentify_text(text)
+            # Clinical values should be preserved (not redacted as phone)
+            assert "60%" in result.clean_text or "94%" in result.clean_text or \
+                   "3.5 kg" in result.clean_text or "10 mL" in result.clean_text or \
+                   "90/60" in result.clean_text, \
+                f"Clinical content over-redacted in: {text}"
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
