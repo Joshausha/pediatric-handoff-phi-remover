@@ -51,6 +51,9 @@ class EvaluationMetrics:
     false_negatives: int = 0  # PHI leaks - must be 0
     false_positives: int = 0  # Over-redaction
 
+    # Per-entity type tracking for weighted calculation
+    entity_stats: dict[str, dict[str, int]] = field(default_factory=dict)
+
     @property
     def precision(self) -> float:
         """Precision = TP / (TP + FP)"""
@@ -88,6 +91,35 @@ class EvaluationMetrics:
     def is_safe(self) -> bool:
         """Safety check: no PHI leaks (100% recall)."""
         return self.false_negatives == 0
+
+    def weighted_recall(self, weights: dict[str, int]) -> float:
+        """Calculate recall weighted by spoken handoff relevance."""
+        weighted_tp = 0
+        weighted_total = 0
+        for entity_type, stats in self.entity_stats.items():
+            weight = weights.get(entity_type, 0)
+            weighted_tp += stats["tp"] * weight
+            weighted_total += (stats["tp"] + stats["fn"]) * weight
+        return weighted_tp / weighted_total if weighted_total > 0 else 0.0
+
+    def weighted_precision(self, weights: dict[str, int]) -> float:
+        """Calculate precision weighted by spoken handoff relevance."""
+        weighted_tp = 0
+        weighted_detected = 0
+        for entity_type, stats in self.entity_stats.items():
+            weight = weights.get(entity_type, 0)
+            weighted_tp += stats["tp"] * weight
+            weighted_detected += (stats["tp"] + stats["fp"]) * weight
+        return weighted_tp / weighted_detected if weighted_detected > 0 else 0.0
+
+    def weighted_f2(self, weights: dict[str, int]) -> float:
+        """Calculate F2 score weighted by spoken handoff relevance."""
+        p = self.weighted_precision(weights)
+        r = self.weighted_recall(weights)
+        beta = 2.0
+        if p + r == 0:
+            return 0.0
+        return (1 + beta**2) * (p * r) / (beta**2 * p + r)
 
     def bootstrap_recall_ci(
         self,
