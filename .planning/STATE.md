@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-23)
 ## Current Position
 
 Phase: 4 of 5 (Pattern Improvements) - GAP CLOSURE IN PROGRESS
-Plan: 4 of 6 complete (04-04 phone patterns done)
+Plan: 5 of 6 complete (04-05 hyphenated rooms done)
 Status: Gap closure for validation failures in progress
-Last activity: 2026-01-25 — Completed 04-04: Phone number patterns for international/extension formats
+Last activity: 2026-01-25 — Completed 04-05: Hyphenated room patterns for standalone formats
 
-Progress: [███████░░░] 73% (Gap closure 04-04 complete, 04-05 and 04-06 remaining)
+Progress: [████████░░] 77% (Gap closure 04-05 complete, 04-06 remaining)
 
 ### Validation Gap Summary (from 05-03)
 
@@ -46,11 +46,11 @@ Progress: [███████░░░] 73% (Gap closure 04-04 complete, 04-0
 | 01-baseline-measurement | 6/6 | 38 min | 6.3 min |
 | 02-threshold-calibration | 2/2 | 9 min | 4.5 min |
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
-| 04-pattern-improvements | 4/6 | 26 min | 6.5 min |
+| 04-pattern-improvements | 5/6 | 31 min | 6.2 min |
 | 05-validation-compliance | 2/3 | 6 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 04-02 (4min), 04-03 (8min), 05-01 (3min), 05-02 (3min), 04-04 (5min)
+- Last 5 plans: 04-03 (8min), 05-01 (3min), 05-02 (3min), 04-04 (5min), 04-05 (5min)
 - Trend: Gap closure plans executing efficiently
 
 *Updated after each plan completion*
@@ -94,6 +94,7 @@ Recent decisions affecting current work:
 - **Regression test thresholds** (Guardian >80%, Room >40%, standard entities >90%) — From 04-03
 - **Phone patterns supplement Presidio default** (5 patterns for international/extension formats with context-dependent scoring) — From 04-04
 - **10-digit unformatted phone: low score (0.60)** (Requires context words to avoid false positives on other 10-digit numbers) — From 04-04
+- **Standalone hyphenated room: low score (0.55)** (Requires context words like room/bed/floor to avoid false positives on age ranges) — From 04-05
 - **Target validation sample: 200 transcripts** (Minimum viable: 50; narrow confidence intervals for >95% recall verification) — From 05-01
 - **Stratification by dominant PHI type** (Preserves entity distribution from synthetic to validation data) — From 05-01
 - **70/30 val/test split** (No training needed - tuning on val, final metrics on test) — From 05-01
@@ -164,10 +165,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 04-04 phone number patterns
-Resume file: .planning/phases/04-pattern-improvements/04-04-SUMMARY.md
-Next: Execute 04-05-PLAN.md (hyphenated room numbers)
+Stopped at: Completed 04-05 hyphenated room patterns
+Resume file: .planning/phases/04-pattern-improvements/04-05-SUMMARY.md
+Next: Execute 04-06-PLAN.md (standalone room numbers)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-25 (04-04 phone patterns complete, 04-05 and 04-06 remaining)*
+*Last updated: 2026-01-25 (04-05 hyphenated rooms complete, 04-06 remaining)*
