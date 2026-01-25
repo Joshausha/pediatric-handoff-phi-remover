@@ -5,14 +5,14 @@
 See: .planning/PROJECT.md (updated 2026-01-23)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 7: Alternative Engine Benchmark (in progress - 07-02 complete)
+**Current focus:** Phase 7: Alternative Engine Benchmark (in progress - 07-01 & 07-02 complete)
 
 ## Current Position
 
 Phase: 7 of 8 (Alternative Engine Benchmark - in progress)
 Plan: 2 of 4 complete (07-01 Philter-UCSF, 07-02 Stanford BERT integration complete)
-Status: BERT integration complete, ready for 07-03 comparative benchmark
-Last activity: 2026-01-25 — Completed 07-02: Stanford BERT integration
+Status: Both alternative engines configured, ready for 07-03 comparative benchmark
+Last activity: 2026-01-25 — Completed 07-01: Philter-UCSF installation & pattern translation
 
 Progress: [████████░░] 87% (Phases 1-4, 8 complete; Phase 5 partial; Phase 7 in progress: 2/4 plans)
 
@@ -38,9 +38,9 @@ Progress: [████████░░] 87% (Phases 1-4, 8 complete; Phase 5 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
-- Average duration: 4.9 min
-- Total execution time: 1.4 hours
+- Total plans completed: 18
+- Average duration: 5.0 min
+- Total execution time: 1.5 hours
 
 **By Phase:**
 
@@ -51,12 +51,12 @@ Progress: [████████░░] 87% (Phases 1-4, 8 complete; Phase 5 
 | 03-deny-list-refinement | 2/2 | 5 min | 2.5 min |
 | 04-pattern-improvements | 5/6 | 31 min | 6.2 min |
 | 05-validation-compliance | 3/4 | 8 min | 2.7 min |
-| 07-alternative-engine-benchmark | 2/4 | 8 min | 4.0 min |
+| 07-alternative-engine-benchmark | 2/4 | 14 min | 7.0 min |
 | 08-weighted-recall-evaluation | 1/1 | 3 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 05-02 (3min), 04-04 (5min), 04-05 (5min), 08-01 (3min), 07-02 (4min)
-- Trend: Consistent fast execution on infrastructure and integration tasks
+- Last 5 plans: 04-04 (5min), 04-05 (5min), 08-01 (3min), 07-02 (4min), 07-01 (6min)
+- Trend: Phase 7 benchmarking tasks averaging 5min (pattern translation + integration)
 
 *Updated after each plan completion*
 
@@ -115,6 +115,9 @@ Recent decisions affecting current work:
 - **BERT entity mapping to Presidio types** (PATIENT/HCW/VENDOR → PERSON, DATE → DATE_TIME, PHONE → PHONE_NUMBER, HOSPITAL → LOCATION, ID → MEDICAL_RECORD_NUMBER; consolidates person-like entities for unified evaluation) — From 07-02
 - **TransformersNlpEngine integration pattern** (Use Presidio's TransformersNlpEngine not direct HuggingFace pipeline; enables custom recognizer wiring and consistent evaluation framework) — From 07-02
 - **CPU inference runtime management** (--sample flag required for BERT benchmarks; 5-10s per handoff on CPU means 20 samples ~3min, 600 samples ~1-2hr) — From 07-02
+- **Use lookbehind patterns for Philter** (Python re module supports lookbehind; preserves relationship words like "Mom", "Dad" in output) — From 07-01
+- **Focus on high-weight patterns first** (GUARDIAN_NAME weight=5, ROOM weight=4; faster initial benchmark, representative of clinical importance) — From 07-01
+- **Bypass Philter file-based pipeline** (Direct regex matching for fair comparison; Philter designed for batch file processing not span extraction) — From 07-01
 
 ### Pending Todos
 
@@ -179,10 +182,10 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-25
-Stopped at: Completed 07-02 Stanford BERT integration
-Resume file: .planning/phases/07-alternative-engine-benchmark/07-02-SUMMARY.md
+Stopped at: Completed 07-01 Philter-UCSF installation & pattern translation
+Resume file: .planning/phases/07-alternative-engine-benchmark/07-01-SUMMARY.md
 Next: 07-03 Comparative benchmark (Presidio vs Philter vs BERT)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-25 (07-02 complete, 07-03 comparative benchmark next)*
+*Last updated: 2026-01-25 (07-01 & 07-02 complete, 07-03 comparative benchmark next)*
