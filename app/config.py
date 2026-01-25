@@ -177,6 +177,27 @@ class Settings(BaseSettings):
     )
 
     # =========================================================================
+    # Spoken Handoff Relevance Weights (Phase 8)
+    # =========================================================================
+    # Weights for weighted recall calculation based on spoken handoff relevance
+    # Higher weight = more frequently spoken during I-PASS handoffs
+    # Source: SPOKEN_HANDOFF_ANALYSIS.md (2026-01-25)
+    spoken_handoff_weights: Dict[str, int] = Field(
+        default={
+            "PERSON": 5,              # Critical - spoken constantly
+            "GUARDIAN_NAME": 5,       # Same as PERSON
+            "ROOM": 4,                # High - used for patient identification
+            "PHONE_NUMBER": 2,        # Medium - occasionally spoken
+            "DATE_TIME": 2,           # Medium - admission dates, but often vague
+            "MEDICAL_RECORD_NUMBER": 1,  # Low - rarely spoken aloud
+            "EMAIL_ADDRESS": 0,       # Never spoken
+            "LOCATION": 0,            # Never spoken - addresses not relevant
+            "PEDIATRIC_AGE": 0,       # User decision - ages not PHI under HIPAA
+        },
+        description="Spoken handoff relevance weights for weighted recall calculation"
+    )
+
+    # =========================================================================
     # Application Settings
     # =========================================================================
     debug: bool = Field(
