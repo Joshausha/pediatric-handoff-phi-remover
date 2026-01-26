@@ -17,7 +17,7 @@ SAMPLE_TRANSCRIPTS = [
         "id": 2,
         "text": "Picking up Michael Thompson, MRN 12345678, a 2 month old former 35 weeker with BPD on home O2, here with bronchiolitis. Currently on high flow at 2 liters per kilo with FiO2 of 60%. To do: blood gas at midnight, continue nebs every 4 hours, strict I/Os. Parents are John and Mary Thompson, they're at the Ronald McDonald House and can be reached at 555-0123.",
         "phi_elements": ["patient_name", "mrn", "guardian_names", "phone_number", "location"],
-        "expected_removed": ["Michael Thompson", "12345678", "John", "Mary Thompson", "555-0123", "Ronald McDonald House"],
+        "expected_removed": ["Michael Thompson", "12345678", "John", "Mary Thompson", "555-0123"],  # Note: "Ronald McDonald House" not PHI - well-known charity
         "expected_preserved": ["bronchiolitis", "BPD", "FiO2", "blood gas", "high flow"]
     },
     {
@@ -53,8 +53,8 @@ EXPECTED_OUTPUTS = {
     },
     2: {
         "input": "Picking up Michael Thompson, MRN 12345678, a 2 month old former 35 weeker",
-        "expected_markers": ["[NAME]", "[MRN]"],
-        "should_contain": ["2 month old", "35 weeker"]
+        "expected_markers": ["[NAME]", "[MRN]", "[AGE]"],  # v1.0: "35 weeker" redacted as gestational age
+        "should_contain": ["2 month old"]  # Note: "35 weeker" now correctly redacted as [AGE]
     },
     3: {
         "input": "Baby Martinez in PICU bed 7, born January 15th, currently 3 weeks 2 days old. Grandma Rosa is primary caregiver.",

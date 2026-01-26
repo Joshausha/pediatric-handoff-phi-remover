@@ -28,5 +28,4 @@ httpx==0.26.0
 faker>=19.0.0
 presidio-evaluator>=0.2.4
 
-# Rule-based de-identification (Philter - kept for future exploration)
-philter-ucsf>=2.0.0
+# Note: philter-ucsf removed - only v1.0.3 exists on PyPI, not used in current implementation
