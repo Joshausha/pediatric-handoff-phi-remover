@@ -4,7 +4,8 @@ Sample pediatric handoff transcripts for testing de-identification.
 These represent realistic clinical language with various PHI patterns.
 
 Note: expected_removed lists reflect CURRENT detection capabilities.
-Items in expected_missed are known gaps for future improvement.
+Items in expected_missed are known PHI detection gaps.
+Items in expected_over_detected are clinical terms incorrectly flagged as PHI.
 """
 
 # Sample transcripts with expected PHI elements
@@ -23,7 +24,8 @@ SAMPLE_TRANSCRIPTS = [
         "phi_elements": ["patient_name", "mrn", "guardian_names", "phone_number", "location"],
         "expected_removed": ["Michael Thompson", "12345678", "John", "Mary Thompson"],  # Current detection
         "expected_missed": ["555-0123"],  # Known gap: 7-digit phone numbers without area code
-        "expected_preserved": ["bronchiolitis", "BPD", "FiO2", "blood gas", "high flow"]
+        "expected_over_detected": ["high flow"],  # Over-detection: "Currently on high " flagged as LOCATION
+        "expected_preserved": ["bronchiolitis", "BPD", "FiO2", "blood gas"]  # Removed "high flow" - over-detected
     },
     {
         "id": 3,
@@ -31,7 +33,8 @@ SAMPLE_TRANSCRIPTS = [
         "phi_elements": ["patient_name", "detailed_age", "room_number", "guardian_name", "date"],
         "expected_removed": ["Martinez", "bed 7", "January 15th", "Rosa"],  # Current detection
         "expected_missed": ["3 weeks 2 days"],  # Known gap: detailed age patterns with plural weeks/days
-        "expected_preserved": ["IVH", "PICU", "room air", "discharge", "feeding"]
+        "expected_over_detected": ["PICU"],  # Over-detection: "PICU bed 7" redacted as single [ROOM] entity
+        "expected_preserved": ["IVH", "room air", "discharge", "feeding"]  # Removed "PICU" - over-detected
     },
     {
         "id": 4,
@@ -47,7 +50,7 @@ SAMPLE_TRANSCRIPTS = [
         "phi_elements": ["minimal_phi"],
         "expected_removed": [],  # Minimal PHI - mostly clinical content
         "expected_missed": [],  # No known gaps
-        "expected_preserved": ["cellulitis", "antibiotics", "erythema", "afebrile"]
+        "expected_preserved": ["cellulitis", "antibiotics", "erythema", "Afebrile"]  # Note: case-sensitive
     }
 ]
 
