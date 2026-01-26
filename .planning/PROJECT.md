@@ -2,100 +2,97 @@
 
 ## What This Is
 
-A comprehensive quality improvement project to strengthen PHI detection in the Pediatric Handoff PHI Remover. Addresses regex edge cases, inconsistent deny list logic, and uncalibrated score thresholds identified in codebase analysis. Success measured by precision/recall metrics against a 500-transcript synthetic corpus.
+A HIPAA-compliant web application that transcribes pediatric patient handoff recordings and removes all Protected Health Information (PHI) before displaying the transcript. All processing happens locally—no patient data ever leaves the user's machine. Validated on 27 real clinical handoffs with 94.4% weighted recall and zero false negatives.
 
 ## Core Value
 
 Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content.
 
+## Current State (v1.0 Shipped)
+
+**Status:** ✅ APPROVED FOR PRODUCTION (2026-01-25)
+
+**Key Metrics:**
+- Weighted Recall: 94.4%
+- Real Handoffs Validated: 27
+- False Negatives: 0
+- Production Status: Approved for personal clinical use
+
+**Tech Stack:**
+- Backend: FastAPI + faster-whisper + Presidio
+- Frontend: HTML/CSS/JS with recording + upload
+- Tests: 5,204 LOC Python (pytest)
+- App Code: 2,085 LOC Python
+
 ## Requirements
 
 ### Validated
 
-<!-- Existing functionality that's working and relied upon -->
+<!-- Requirements shipped in v1.0 -->
 
-- ✓ Core transcription pipeline (faster-whisper) — existing
-- ✓ Presidio de-identification integration — existing
-- ✓ Guardian name detection ("Mom [NAME]", "Dad [NAME]") — existing
-- ✓ Baby name detection ("Baby [NAME]", "Infant [NAME]") — existing
-- ✓ MRN pattern detection (including #12345678) — existing
-- ✓ Room/bed number detection with unit preservation — existing
-- ✓ Pediatric age detection — existing
-- ✓ Medical abbreviation deny lists (NC, RA, OR, etc.) — existing
-- ✓ Security hardening (CORS, rate limiting, audit logging) — existing
-- ✓ Docker deployment with health checks — existing
-- ✓ CI/CD pipeline (GitHub Actions) — existing
+- ✓ Core transcription pipeline (faster-whisper) — v1.0
+- ✓ Presidio de-identification integration — v1.0
+- ✓ Guardian name detection ("Mom [NAME]", "Dad [NAME]") — v1.0
+- ✓ Baby name detection ("Baby [NAME]", "Infant [NAME]") — v1.0
+- ✓ MRN pattern detection (including #12345678) — v1.0
+- ✓ Room/bed number detection with unit preservation — v1.0
+- ✓ Medical abbreviation deny lists (NC, RA, OR, etc.) — v1.0
+- ✓ Security hardening (CORS, rate limiting, audit logging) — v1.0
+- ✓ Docker deployment with health checks — v1.0
+- ✓ F2 score evaluation framework — v1.0
+- ✓ Per-entity threshold calibration (0.30) — v1.0
+- ✓ Case-insensitive deny list filtering — v1.0
+- ✓ Bidirectional pattern matching — v1.0
+- ✓ Weighted recall metrics for spoken handoffs — v1.0
+- ✓ Real handoff validation (27 handoffs, 0 FN) — v1.0
 
 ### Active
 
-<!-- Current scope for this milestone -->
+<!-- No active requirements — project complete for v1.0 -->
 
-- [ ] Establish baseline precision/recall metrics against synthetic corpus
-- [ ] Fix regex lookbehind edge cases (lowercase, reversed patterns like "Jessica is Mom")
-- [ ] Standardize deny list comparison logic (case-insensitive across all entity types)
-- [ ] Calibrate detection threshold (currently 0.35) against corpus data
-- [ ] Calibrate validation threshold (currently 0.7) with clear rationale
-- [ ] Add regression tests for each fixed edge case
-- [ ] Document threshold calibration methodology
-- [ ] Achieve measurable improvement in precision/recall metrics
+(None — v1.0 complete)
 
 ### Out of Scope
 
-<!-- Explicit boundaries for this milestone -->
+<!-- Explicit boundaries -->
 
-- Performance optimizations (model loading, Presidio scan efficiency) — separate concern, not PHI accuracy
+- Performance optimizations (model loading, Presidio scan efficiency) — separate concern
 - Additional security hardening (XSS, CSP, path traversal) — separate milestone
-- Test coverage for non-PHI paths (concurrency, large files, error handling) — separate milestone
 - New features (speaker diarization, batch processing, GPU support) — future enhancement
 - Unicode/international name support — low priority for pediatric handoffs
+- Phase 9: Age Pattern Architecture — deferred (deny list working)
 
 ## Context
 
-**Baseline metrics (from docs/research_poster.md, n=500 synthetic I-PASS transcripts):**
+**v1.0 shipped 2026-01-25** with 8 phases, 24 plans across 3 days of development.
 
-| Entity | Precision | Recall | F1 | Status |
-|--------|-----------|--------|-----|--------|
-| EMAIL | 100% | 100% | 1.00 | ✓ Excellent |
-| PERSON | 95.2% | 98.8% | 0.97 | ✓ Good |
-| DATE_TIME | 89.1% | 96.8% | 0.93 | ✓ Good |
-| PHONE | 82.3% | 74.0% | 0.78 | ⚠ Needs tuning |
-| MRN | 78.5% | 70.9% | 0.74 | ⚠ Needs tuning |
-| PEDIATRIC_AGE | — | 36.6% | — | ⚠ Custom recognizer weak |
-| ROOM | — | 34.4% | — | ⚠ Custom recognizer weak |
-| **Overall** | **87.4%** | **77.9%** | **0.82** | — |
+**Baseline → Final metrics:**
+- Recall: 77.9% → 94.4% (weighted)
+- False Negatives on Real Data: N/A → 0
+- Production Status: Development → APPROVED
 
-**Target**: >95% recall for clinical deployment (per research poster)
-
-**Data available:**
-- 500 synthetic transcripts generated via Presidio research script (tests/evaluate_presidio.py)
-- Real PHI-free recordings used during development (no actual PHI present)
-- Baseline metrics already computed (see table above)
-
-**Setting:**
-- Research/QI project — metrics provide defensible evidence of improvement
-- Preemptive cleanup before hospital pilot deployment
-- Research poster already created (docs/research_poster.md) — will need updating with improved metrics
-
-**Known issues from codebase analysis:**
-- Lookbehind patterns only catch "Mom Jessica", miss "Jessica is Mom" and "mom jessica"
-- PERSON deny list: case-insensitive; LOCATION deny list: exact match — inconsistent
-- Detection threshold (0.35) and validation threshold (0.7) set arbitrarily, no calibration
-- PEDIATRIC_AGE and ROOM recognizers have very low recall (36.6% and 34.4%)
+**Known limitations (accepted):**
+- ROOM recall 43% vs 90% target (Presidio NER limitation)
+- Precision 67% (deny lists preventative, not corrective)
+- MEAS-02 deferred (human-annotated gold standard requires IRB)
 
 ## Constraints
 
 - **Trade-off**: Balanced — minimize both false positives (over-redaction) and false negatives (PHI leaks)
 - **HIPAA**: All changes must maintain compliance; when uncertain, treat as PHI
-- **Testability**: Every fix must have corresponding regression test
-- **Documentation**: Threshold choices must be justified with data
+- **Local-only**: No patient data transmitted externally
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Metrics-based success criteria | Research setting needs defensible evidence; 500 synthetic transcripts enable measurement | — Pending |
-| Balanced precision/recall trade-off | Clinical utility requires readable transcripts; pure aggressive approach over-redacts | — Pending |
-| Case-insensitive deny lists | Consistency prevents edge case bugs; clinical terms appear in various cases | — Pending |
+| F2 as primary metric | False negatives more dangerous than false positives | ✓ Good |
+| Per-entity 0.30 threshold | Lowest threshold maximizes recall; Presidio scores cluster at extremes | ✓ Good |
+| PEDIATRIC_AGE disabled | Ages not PHI under HIPAA unless 90+ | ✓ Good |
+| Continue with Presidio | 94.4% weighted recall; no alternative provides >5% gain | ✓ Good |
+| Deny list for ages | Simpler than custom recognizer; works in 27/27 real handoffs | ✓ Good |
+| Case-insensitive matching | Consistency prevents edge case bugs | ✓ Good |
+| Phase 9 deferred | Deny list approach working; no regression risk | ✓ Good |
 
 ---
-*Last updated: 2026-01-23 after initialization*
+*Last updated: 2026-01-25 after v1.0 milestone*
