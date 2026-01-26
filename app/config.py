@@ -4,10 +4,10 @@ Configuration module using Pydantic Settings.
 All settings can be overridden via environment variables or .env file.
 """
 
-from pydantic_settings import BaseSettings
-from pydantic import Field
-from typing import Dict, List
 from functools import lru_cache
+
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
@@ -32,7 +32,7 @@ class Settings(BaseSettings):
     # =========================================================================
     # Presidio Configuration
     # =========================================================================
-    phi_entities: List[str] = Field(
+    phi_entities: list[str] = Field(
         default=[
             "PERSON",
             "PHONE_NUMBER",
@@ -54,7 +54,7 @@ class Settings(BaseSettings):
         default=0.35,
         description="DEPRECATED: Use phi_score_thresholds instead. Global fallback threshold."
     )
-    phi_score_thresholds: Dict[str, float] = Field(
+    phi_score_thresholds: dict[str, float] = Field(
         default={
             # Phase 2 calibrated thresholds (2026-01-23)
             # Methodology: PR curve analysis, F2 optimization, recall>=90% floor
@@ -96,7 +96,7 @@ class Settings(BaseSettings):
     # Deny List - Medical terms that should NOT be flagged as PHI
     # =========================================================================
     # These are medical abbreviations/terms that NER models often misclassify
-    deny_list_location: List[str] = Field(
+    deny_list_location: list[str] = Field(
         default=[
             "NC",    # Nasal cannula
             "RA",    # Room air
@@ -115,7 +115,7 @@ class Settings(BaseSettings):
         ],
         description="Medical abbreviations that should not be flagged as LOCATION"
     )
-    deny_list_person: List[str] = Field(
+    deny_list_person: list[str] = Field(
         default=[
             "mom",   # Generic relationship, not a name
             "dad",   # Generic relationship, not a name
@@ -156,7 +156,7 @@ class Settings(BaseSettings):
         ],
         description="Words that should not be flagged as PERSON"
     )
-    deny_list_guardian_name: List[str] = Field(
+    deny_list_guardian_name: list[str] = Field(
         default=[
             "parent", "guardian", "caregiver", "family",
             # Speech artifacts (Phase 4 addition)
@@ -164,11 +164,11 @@ class Settings(BaseSettings):
         ],
         description="Generic relationship terms not flagged as GUARDIAN_NAME"
     )
-    deny_list_pediatric_age: List[str] = Field(
+    deny_list_pediatric_age: list[str] = Field(
         default=["infant", "toddler", "child", "adolescent", "teen", "newborn", "neonate"],
         description="Generic age categories not flagged as PEDIATRIC_AGE"
     )
-    deny_list_date_time: List[str] = Field(
+    deny_list_date_time: list[str] = Field(
         default=[
             # Relative time words
             "today", "tonight", "yesterday", "tomorrow", "overnight",
@@ -199,7 +199,7 @@ class Settings(BaseSettings):
     # =========================================================================
     # Custom MRN Patterns (hospital-specific, may need adjustment)
     # =========================================================================
-    mrn_patterns: List[str] = Field(
+    mrn_patterns: list[str] = Field(
         default=[
             r"\b\d{7,10}\b",           # Generic 7-10 digit number
             r"\bMRN[:\s]?\d{6,10}\b",  # "MRN: 1234567" format
@@ -256,7 +256,7 @@ class Settings(BaseSettings):
     # =========================================================================
     # Security Configuration
     # =========================================================================
-    cors_origins: List[str] = Field(
+    cors_origins: list[str] = Field(
         default=["http://localhost:8000", "http://127.0.0.1:8000"],
         description="Allowed CORS origins. Set CORS_ORIGINS env var to comma-separated list for production."
     )
