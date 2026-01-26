@@ -1,0 +1,16 @@
+# Development and testing dependencies
+# Install with: pip install -r requirements.txt -r requirements-dev.txt
+
+# Testing
+pytest>=7.0.0,<8.0.0
+pytest-asyncio==0.23.4
+httpx==0.26.0
+
+# PHI Test Data Generation
+faker>=19.0.0
+
+# Linting
+ruff>=0.1.0
+
+# Note: presidio-evaluator removed due to numpy>=2.0 conflict with spacy 3.7.x
+# Use manual evaluation with test_presidio.py instead
