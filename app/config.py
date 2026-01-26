@@ -214,7 +214,7 @@ class Settings(BaseSettings):
     # Weights for weighted recall calculation based on spoken handoff relevance
     # Higher weight = more frequently spoken during I-PASS handoffs
     # Source: SPOKEN_HANDOFF_ANALYSIS.md (2026-01-25)
-    spoken_handoff_weights: Dict[str, int] = Field(
+    spoken_handoff_weights: dict[str, int] = Field(
         default={
             "PERSON": 5,              # Critical - spoken constantly
             "GUARDIAN_NAME": 5,       # Same as PERSON
@@ -283,7 +283,7 @@ class Settings(BaseSettings):
         case_sensitive = False
 
 
-@lru_cache()
+@lru_cache
 def get_settings() -> Settings:
     """Get cached settings instance."""
     return Settings()
