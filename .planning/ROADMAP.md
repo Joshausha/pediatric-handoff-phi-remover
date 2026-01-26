@@ -38,15 +38,15 @@
   2. `pytest tests/` passes all tests (0 failures)
   3. GitHub Actions test workflow shows green checkmark
   4. GitHub Actions Docker build workflow shows green checkmark
-**Plans**: TBD
+**Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] 09-01: Fix dependencies and test expectations
-- [ ] 09-02: Verify CI pipelines pass
+- [ ] 09-01-PLAN.md — Fix test expectations (RMH preserved, "35 weeker" redacted)
+- [ ] 09-02-PLAN.md — Verify CI pipelines pass (push and monitor workflows)
 
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 1-8 | v1.0 | 24/24 | Complete | 2026-01-25 |
-| 9 | v2.0 | 0/2 | Not started | - |
+| 9 | v2.0 | 0/2 | Planned | - |
