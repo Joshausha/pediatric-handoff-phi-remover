@@ -139,6 +139,20 @@ class Settings(BaseSettings):
             "infant",
             "newborn",
             "neonate",
+            # Generic terms (Phase 6 addition)
+            "kid",
+            "child",
+            "toddler",
+            # Medical abbreviations mistaken for names (Phase 6 addition)
+            "DKA",   # Diabetic ketoacidosis
+            "CT",    # Computed tomography
+            "MRI",   # Magnetic resonance imaging
+            "EEG",   # Electroencephalogram
+            "ECG",   # Electrocardiogram
+            "EKG",   # Electrocardiogram (alternate)
+            "ICU",   # Intensive care unit
+            "PICU",  # Pediatric ICU
+            "NICU",  # Neonatal ICU
         ],
         description="Words that should not be flagged as PERSON"
     )
@@ -168,9 +182,16 @@ class Settings(BaseSettings):
             # Day of life (neonatal - not PHI)
             "day of life", "dol",
             "dol 1", "dol 2", "dol 3", "dol 4", "dol 5", "dol 6", "dol 7",
-            # Age descriptors (not PHI under HIPAA unless 90+)
+            # Age descriptors - SPACE separated (not PHI under HIPAA unless 90+)
             "days old", "weeks old", "months old", "years old",
             "week old", "month old", "year old", "day old",
+            # Age descriptors - HYPHENATED (Phase 6 fix: matches "7-year-old" etc.)
+            "day-old", "week-old", "month-old", "year-old",
+            "days-old", "weeks-old", "months-old", "years-old",
+            # Duration patterns (not dates)
+            "hours ago", "minutes ago",
+            "this morning", "this afternoon", "this evening", "last night",
+            "three minutes", "two minutes", "five minutes",
         ],
         description="Generic time references, dosing schedules, and clinical timeline terms not flagged as DATE_TIME"
     )
