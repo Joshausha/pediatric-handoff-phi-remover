@@ -20,6 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 6: Real Handoff Testing** - User reads actual text handoffs to validate PHI detection
 - [x] **Phase 7: Alternative Engine Benchmark** - Compare Philter-UCSF and Stanford BERT against current Presidio ✓ (Decision: Continue with Presidio)
 - [x] **Phase 8: Weighted Recall Evaluation** - Add spoken handoff relevance weighting to evaluate_presidio.py ✓
+- [ ] **Phase 9: Age Pattern Architecture** - Replace deny list approach with custom DATE_TIME recognizer that excludes age patterns
 
 ## Phase Details
 
@@ -122,7 +123,7 @@ Plans:
 **Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] 06-01-PLAN.md — Prepare validation templates and conduct first testing session (5+ handoffs)
+- [x] 06-01-PLAN.md — Prepare validation templates and conduct first testing session (5+ handoffs) ✓
 - [ ] 06-02-PLAN.md — Pattern analysis, fixes if needed, final session, and production verdict
 
 ### Phase 7: Alternative Engine Benchmark
@@ -179,6 +180,50 @@ Plans:
 **References:**
 - [docs/SPOKEN_HANDOFF_ANALYSIS.md](../docs/SPOKEN_HANDOFF_ANALYSIS.md) — Methodology and weight definitions
 
+### Phase 9: Age Pattern Architecture
+**Goal**: Replace fragile deny list approach with robust custom DATE_TIME recognizer that architecturally excludes age patterns
+**Depends on**: Phase 6 (real handoff testing reveals deny list limitations)
+**Requirements**: ARCH-01
+**Success Criteria** (what must be TRUE):
+  1. Custom PediatricDateTimeRecognizer created that subclasses Presidio's DateTimeRecognizer
+  2. Age patterns (`\d+\s*(year|month|week|day)s?\s*(old)?`) excluded at recognition level, not post-hoc filtering
+  3. All age formats preserved in output: "5 week", "18 year old", "3 months", etc.
+  4. No regression on legitimate DATE_TIME detection (actual dates, times)
+  5. Deny list entries for age patterns removed (cleaner architecture)
+**Plans**: 1 plan in 1 wave
+
+Plans:
+- [ ] 09-01-PLAN.md — Create PediatricDateTimeRecognizer with age pattern exclusion
+
+**Context:**
+Phase 6 real handoff testing revealed that deny list approach is fragile:
+- Deny list has "week old" but not "week" alone
+- Real speech often omits "old": "She's a 5 week, previously healthy..."
+- Endless deny list expansion is unsustainable
+
+**Architecture:**
+```python
+from presidio_analyzer.predefined_recognizers import DateTimeRecognizer
+import re
+
+class PediatricDateTimeRecognizer(DateTimeRecognizer):
+    """DATE_TIME recognizer that excludes pediatric age patterns."""
+
+    AGE_PATTERN = re.compile(r'\b\d+\s*(year|month|week|day)s?\s*(old)?\b', re.IGNORECASE)
+
+    def analyze(self, text, entities, nlp_artifacts=None):
+        results = super().analyze(text, entities, nlp_artifacts)
+        # Filter out age patterns at recognition level
+        return [r for r in results
+                if not self.AGE_PATTERN.match(text[r.start:r.end])]
+```
+
+**Benefits:**
+- Single regex handles all age variants (with/without "old", singular/plural)
+- No deny list maintenance required for age patterns
+- Cleaner separation of concerns (ages vs dates)
+- Extensible for other pediatric-specific DATE_TIME exclusions
+
 ## Progress
 
 **Execution Order:**
@@ -193,9 +238,10 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. Deny List Refinement | 2/2 | ✓ Complete (DENY-04 deferred) | 2026-01-24 |
 | 4. Pattern Improvements | 6/6 | ✓ Complete | 2026-01-25 |
 | 5. Validation & Compliance | 4/4 | ✓ Complete (APPROVED) | 2026-01-25 |
-| 6. Real Handoff Testing | 0/2 | Planned | - |
+| 6. Real Handoff Testing | 1/2 | In Progress | - |
 | 7. Alternative Engine Benchmark | 3/3 | ✓ Complete (Presidio selected) | 2026-01-25 |
 | 8. Weighted Recall Evaluation | 1/1 | ✓ Complete | 2026-01-25 |
+| 9. Age Pattern Architecture | 0/1 | Planned | - |
 
 ---
 
