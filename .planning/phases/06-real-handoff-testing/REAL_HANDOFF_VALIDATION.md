@@ -227,11 +227,21 @@ The DATE_TIME deny list uses substring matching but the deny list entries may no
 
 ## Configuration Changes During Testing
 
+### Decision: Fix Ages Before Session 2
+
+**Date:** 2026-01-25
+**Decision:** Fix DATE_TIME age over-redaction before proceeding to Session 2
+**Rationale:** System is SAFE (no PHI leaks) but UNUSABLE (ages required for clinical decisions)
+
+**Phase Placement:** This fix belongs in **Phase 6, Plan 06-02** (Task 3: Apply configuration fixes)
+- Plan 06-02 is designed for exactly this scenario: Session 1 reveals issues → analyze patterns → apply fixes → Session 2 validates
+- NOT a new phase or gap closure plan - this is the intended workflow
+
 ### Changes Made
 
 | Date | Change Description | Reason | Handoffs Re-tested |
 |------|-------------------|--------|-------------------|
-| (pending) | Need to fix DATE_TIME age pattern | CRITICAL: Ages being redacted | All |
+| (pending) | Expand DATE_TIME deny list for age patterns | CRITICAL: Ages being redacted | All 21 |
 
 ---
 
