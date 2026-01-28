@@ -85,8 +85,8 @@
 **Plans**: 2 plans
 
 Plans:
-- [ ] 10-01-PLAN.md — Prepare test scripts and documentation infrastructure
-- [ ] 10-02-PLAN.md — Record, process, and document false positives
+- [x] 10-01-PLAN.md — Prepare test scripts and documentation infrastructure
+- [x] 10-02-PLAN.md — Record, process, and document false positives
 
 #### Phase 11: Deny List Expansion and Unit Preservation
 **Goal**: False positives eliminated via targeted deny list additions and config fixes
@@ -131,10 +131,10 @@ Phases execute in numeric order: 10 → 11 → 12
 | 7. Calibration | v1.0 | 2/2 | Complete | 2026-01-25 |
 | 8. Validation | v1.0 | 3/3 | Complete | 2026-01-25 |
 | 9. CI/CD Pipeline Fix | v2.0 | 2/2 | Complete | 2026-01-26 |
-| 10. Test Script Generation | v2.1 | 0/2 | Planned | - |
+| 10. Test Script Generation | v2.1 | 2/2 | Complete | 2026-01-28 |
 | 11. Deny List Expansion | v2.1 | 0/? | Not started | - |
 | 12. Regression Validation | v2.1 | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-01-28*
-*Last updated: 2026-01-28*
+*Last updated: 2026-01-28 (Phase 10 complete)*

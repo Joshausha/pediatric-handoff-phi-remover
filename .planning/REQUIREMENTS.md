@@ -9,11 +9,11 @@ Requirements for over-detection quality pass. Each maps to roadmap phases.
 
 ### Test Scripts
 
-- [ ] **TEST-01**: Generate realistic I-PASS handoff scripts with respiratory support terminology
-- [ ] **TEST-02**: Generate realistic scripts with medication dosing and timeline language
-- [ ] **TEST-03**: Generate edge-case scripts targeting duration phrases ("three days of symptoms")
-- [ ] **TEST-04**: Generate edge-case scripts targeting flow terminology ("on high flow", "placed on high")
-- [ ] **TEST-05**: Record test scripts and process through PHI detection pipeline
+- [x] **TEST-01**: Generate realistic I-PASS handoff scripts with respiratory support terminology
+- [x] **TEST-02**: Generate realistic scripts with medication dosing and timeline language
+- [x] **TEST-03**: Generate edge-case scripts targeting duration phrases ("three days of symptoms")
+- [x] **TEST-04**: Generate edge-case scripts targeting flow terminology ("on high flow", "placed on high")
+- [x] **TEST-05**: Record test scripts and process through PHI detection pipeline
 
 ### Deny List Expansion
 
@@ -51,11 +51,11 @@ Deferred to later milestones.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TEST-01 | Phase 10 | Pending |
-| TEST-02 | Phase 10 | Pending |
-| TEST-03 | Phase 10 | Pending |
-| TEST-04 | Phase 10 | Pending |
-| TEST-05 | Phase 10 | Pending |
+| TEST-01 | Phase 10 | Complete |
+| TEST-02 | Phase 10 | Complete |
+| TEST-03 | Phase 10 | Complete |
+| TEST-04 | Phase 10 | Complete |
+| TEST-05 | Phase 10 | Complete |
 | DENY-01 | Phase 11 | Pending |
 | DENY-02 | Phase 11 | Pending |
 | DENY-03 | Phase 11 | Pending |
@@ -71,4 +71,4 @@ Deferred to later milestones.
 
 ---
 *Requirements defined: 2026-01-28*
-*Last updated: 2026-01-28 after initial definition*
+*Last updated: 2026-01-28 (Phase 10 complete - TEST-01 through TEST-05)*
