@@ -1,432 +1,412 @@
-# Features Research: PHI Detection Quality
+# Features Research: Deny List Patterns for Over-Detection Prevention
 
-*Research date: 2026-01-23*
+**Domain:** Clinical PHI de-identification deny list patterns
+**Researched:** 2026-01-28
+**Confidence:** HIGH
 
 ## Executive Summary
 
-High-quality PHI de-identification systems balance three competing priorities: **privacy protection (recall)**, **clinical utility (precision)**, and **computational efficiency**. While HIPAA sets minimum compliance thresholds, excellent systems go beyond by maintaining clinical readability, supporting specialized domains (like pediatrics), and providing measurable quality metrics.
-
----
+This research identifies clinical phrase patterns commonly misclassified as PHI by general-purpose NER models, documenting the deny list patterns needed to prevent over-detection in pediatric handoff transcription. Based on analysis of existing codebase implementation, real handoff testing results (27 handoffs), and clinical NLP best practices, this document categorizes deny list needs into table stakes (essential for clinical utility), differentiators (nice-to-have precision improvements), and anti-features (patterns that should remain detected).
 
-## Table Stakes (HIPAA Compliance)
-
-### 1. HIPAA Safe Harbor 18 Identifier Coverage
-**Complexity**: Medium
-**Dependencies**: None (foundation requirement)
-
-Must detect and remove all 18 HIPAA identifier categories:
-1. Names (patient, relatives, employers, household members)
-2. Geographic subdivisions smaller than state (except 3-digit ZIP with 20k+ population)
-3. Dates (except year) - birth, admission, discharge, death
-4. Telephone numbers
-5. Fax numbers
-6. Email addresses
-7. Social Security numbers
-8. Medical record numbers
-9. Health plan beneficiary numbers
-10. Account numbers
-11. Certificate/license numbers
-12. Vehicle identifiers and serial numbers
-13. Device identifiers and serial numbers
-14. Web URLs
-15. IP addresses
-16. Biometric identifiers
-17. Full-face photos and comparable images
-18. Any other unique identifying numbers, characteristics, or codes
-
-**Sources**:
-- [HHS HIPAA De-identification Guidance](https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html)
-- [HIPAA Safe Harbor Method Guide](https://anatomyit.com/blog/hipaa-tip-safe-harbor-method-provision/)
+**Key Finding:** The project has already implemented comprehensive deny lists across all major categories through iterative real-world testing (Phases 3-6). Current deny lists include:
+- DATE_TIME: 38 patterns (dosing schedules, age descriptors, duration phrases)
+- LOCATION: 14 medical abbreviations
+- PERSON: 21 role words and medical abbreviations
+- GUARDIAN_NAME: 4 generic relationship terms
+- PEDIATRIC_AGE: 7 generic age categories
 
-### 2. Age 89+ Redaction
-**Complexity**: Low
-**Dependencies**: Date detection
+**Gap Identified:** Current implementation lacks duration word patterns ("three days", "two weeks") and respiratory flow terminology ("high flow", "placed on high") that cause over-detection in clinical text.
 
-Ages explicitly stated or implied as >89 must be recoded as "90 or above" to prevent identification of elderly populations.
+## Table Stakes - Must Have for Clinical Utility
 
-**Sources**:
-- [HIPAA Safe Harbor Method Guide](https://anatomyit.com/blog/hipaa-tip-safe-harbor-method-provision/)
+These deny list patterns are essential for preserving clinical decision-making information. Missing any of these renders transcripts clinically unusable.
 
-### 3. Modern Identifier Awareness
-**Complexity**: Medium
-**Dependencies**: Pattern recognition
+### 1. Age Descriptors (✅ IMPLEMENTED)
 
-HIPAA's 18-identifier list was published 25+ years ago. Modern systems must consider:
-- Social media handles maintained in designated record sets
-- Emotional support animal information
-- Other identifiers that didn't exist in the pre-social-media era
+**Pattern Category:** DATE_TIME entity over-detection of patient ages
 
-**Note**: HHS acknowledges that "technology, social conditions, and the availability of information changes over time" and recommends periodic review of de-identification methods.
+| Pattern | Clinical Context | Why Essential | Status |
+|---------|------------------|---------------|--------|
+| `X year old`, `X month old`, `X week old`, `X day old` | "18 year old male" | Age determines treatment protocols | ✅ Phase 5 |
+| Hyphenated variants: `X-year-old`, `X-month-old` | "7-year-old female" | Common transcription format | ✅ Phase 6 |
+| Compound ages: `X week X day old` | "3 week 2 day old" | Neonatal precision required | ✅ Existing |
+| Gestational age: `X weeks gestation` | "Born at 36 weeks gestation" | Determines NICU care level | ✅ Existing |
 
-**Sources**:
-- [HIPAA De-identification 2026 Update](https://www.hipaajournal.com/de-identification-protected-health-information/)
+**Evidence from Testing:**
+- Session 1 (21 handoffs): 100% affected (42 age redactions)
+- Root cause: DATE_TIME recognizer matching age patterns
+- Fix: Substring matching in deny list (`"years old" in "18 year old"`)
+- Result: Session 2 (6 handoffs) - 0 errors
 
-### 4. Pediatric-Specific PHI
-**Complexity**: Medium
-**Dependencies**: Context-aware recognition
+**Implementation Note:** Ages under 90 are NOT PHI under HIPAA Safe Harbor method. Only ages 90+ require redaction.
 
-For pediatric applications, must additionally detect:
-- Parent/guardian names (classified as "relatives" under HIPAA)
-- Detailed age representations (days/weeks old)
-- Relationship contexts ("Mom Sarah", "Dad Mike")
+### 2. Dosing Schedules (✅ IMPLEMENTED)
 
-**Sources**:
-- [HHS HIPAA De-identification Guidance](https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html)
-- [HIPAA Compliance for Minor Patients](https://jacksonllp.com/hipaa-compliance-minor-patients/)
+**Pattern Category:** DATE_TIME entity over-detection of medication timing
 
----
+| Pattern | Clinical Context | Why Essential | Status |
+|---------|------------------|---------------|--------|
+| `q4h`, `q6h`, `q8h`, `q12h` | "Tylenol q6h" | Determines medication timing | ✅ Phase 3 |
+| `BID`, `TID`, `QID` | "Amoxicillin BID" | Dosing frequency critical | ✅ Phase 3 |
+| `PRN`, `prn` | "Albuterol PRN" | As-needed vs scheduled | ✅ Phase 3 |
+| `daily`, `nightly`, `qd`, `qhs` | "Melatonin nightly" | Timing affects compliance | ✅ Phase 3 |
 
-## Differentiators (Quality Features)
+**Evidence:** Phase 2 baseline found 354 DATE_TIME false positives (35.3% precision). Dosing schedules are NOT timestamps under HIPAA.
 
-### 1. High Recall (>95% F1 Score)
-**Complexity**: High
-**Dependencies**: Custom recognizers, training data, validation dataset
+### 3. Clinical Timeline References (✅ IMPLEMENTED)
 
-**Benchmark**: State-of-the-art medical NLP systems achieve 96% F1-score for PHI detection (John Snow Labs). The i2b2 2014 challenge top performer achieved 96.4% F1-score.
+**Pattern Category:** DATE_TIME entity over-detection of relative time
 
-**Why it matters**: In de-identification, **privacy relies exclusively on recall**—higher recall means more PHI instances successfully identified, offering better privacy protection. Missing even 5% of PHI can expose patients to re-identification risk.
+| Pattern | Clinical Context | Why Essential | Status |
+|---------|------------------|---------------|--------|
+| `today`, `tonight`, `yesterday`, `tomorrow`, `overnight` | "Started today" | Disease progression tracking | ✅ Phase 3 |
+| `day 1`, `day 2`, ... `day 14` | "Day 3 of illness" | Clinical course timeline | ✅ Phase 3 |
+| `day of life` (DOL), `dol 1`, ... `dol 7` | "DOL 2" (neonatal) | Neonatal timeline critical | ✅ Phase 3 |
+| `this morning`, `this afternoon`, `this evening`, `last night` | "Vomited this morning" | Symptom timing | ✅ Phase 6 |
 
-**Sources**:
-- [John Snow Labs De-identification Performance](https://www.johnsnowlabs.com/deidentification/)
-- [i2b2 2014 De-identification Challenge](https://pmc.ncbi.nlm.nih.gov/articles/PMC4989908/)
-- [Deep Learning Framework for PHI De-identification](https://www.mdpi.com/1999-5903/17/1/47)
+**HIPAA Rationale:** Generic time references without specific dates are not identifiable under Safe Harbor. "Day 3 of illness" does not reveal admission date.
 
-### 2. Context-Aware Precision (Minimize False Positives)
-**Complexity**: High
-**Dependencies**: Deny lists, context windows, linguistic analysis
+### 4. Medical Abbreviations as LOCATION (✅ IMPLEMENTED)
 
-**Problem**: High sensitivity eliminates all identifiers but increases false positives, removing clinically useful information.
+**Pattern Category:** LOCATION entity over-detection of routes/modalities
 
-**Examples of problematic false positives**:
-- Medical terminology: "thrombosed St. Jude valve", "chronic indwelling Foley", "per Bruce Protocol"
-- Clinical abbreviations: NC (nasal cannula) flagged as location, IV flagged as person name
-- Newly introduced gene names that mimic personal identifiers
+| Abbreviation | Medical Meaning | Why Essential | Status |
+|--------------|-----------------|---------------|--------|
+| `NC` | Nasal cannula | Respiratory support type | ✅ Phase 3 |
+| `RA` | Room air | Baseline oxygenation | ✅ Phase 3 |
+| `OR`, `ER`, `ED` | Operating/Emergency room (generic) | Generic locations, not patient-identifying | ✅ Phase 3 |
+| `IV`, `PO`, `IM`, `SQ`, `PR` | Routes of administration | Medication route critical | ✅ Phase 3 |
+| `GT`, `NG`, `OG`, `NJ` | Feeding tube types | Nutrition delivery method | ✅ Phase 3 |
 
-**Solution features**:
-- **Deny lists** for medical abbreviations and common words
-- **Context preservation** through lookbehind patterns ("Mom [NAME]" preserves "Mom")
-- **Domain-specific filtering** to maintain clinical vocabulary integrity
+**Evidence:** These are medical abbreviations, not geographic locations. NER models commonly misclassify due to capitalization patterns.
 
-**Sources**:
-- [Modes of De-identification (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC5977668/)
-- [Customization Scenarios for De-identification](https://link.springer.com/article/10.1186/s12911-020-1026-2)
+### 5. Role Words as PERSON (✅ IMPLEMENTED)
 
-### 3. Clinical Utility Preservation
-**Complexity**: High
-**Dependencies**: Risk-based redaction, intelligent token replacement
+**Pattern Category:** PERSON entity over-detection of generic relationships
 
-**Goal**: Maintain readability and clinical usefulness after de-identification.
+| Pattern | Clinical Context | Why Essential | Status |
+|---------|------------------|---------------|--------|
+| `mom`, `dad`, `parent`, `guardian`, `caregiver` | "Contact mom" | Relationship, not name | ✅ Phase 3 |
+| `nurse`, `doctor`, `attending`, `resident`, `fellow` | "Nurse administered" | Generic role | ✅ Phase 3 |
+| `NP`, `PA`, `RN`, `LPN`, `CNA` | "RN called" | Professional abbreviations | ✅ Phase 3 |
+| `baby`, `infant`, `newborn`, `neonate` | "Baby is stable" | Generic descriptor | ✅ Phase 4 |
 
-**Key capabilities**:
-- **Selective redaction** based on risk assessment (not all-or-nothing)
-- **Context-preserving replacements** ("PICU bed [ROOM]" instead of "[LOCATION] [ROOM]")
-- **Temporal relationships maintained** (can keep relative dates like "3 days after admission")
-- **Avoidance of over-redaction** that makes text clinically meaningless
+**Evidence:** Session 1 found "stable" detected as person name. Generic relationship words are not PHI.
 
-**Why it matters**: De-identified text must remain useful for clinical handoffs, research, and education. Over-redacted text fails its intended purpose.
+## Differentiators - Nice to Have Precision Improvements
 
-**Sources**:
-- [A Real-World Data Challenge: Privacy and Utility](https://pmc.ncbi.nlm.nih.gov/articles/PMC12661526/)
-- [De-identification Balancing Privacy and Utility](https://nashbio.com/blog/healthcare-data/de-identification-balancing-privacy-and-utility-in-healthcare-data/)
-- [Clinical Utility in De-identification Review](https://www.tandfonline.com/doi/full/10.1080/08839514.2020.1718343)
+These patterns improve precision and user experience but are not critical for clinical decision-making. System is usable without these.
 
-### 4. Rare Disease / Small Population Protection
-**Complexity**: Very High
-**Dependencies**: Quasi-identifier analysis, k-anonymity assessment
+### 6. Duration Phrases (⚠️ GAP - MISSING)
 
-**Challenge**: Standard Safe Harbor may fail for rare diseases because low-prevalence conditions create unique quasi-identifier combinations that enable re-identification even without direct identifiers.
+**Pattern Category:** DATE_TIME entity over-detection of time spans
 
-**Risk factors**:
-- Small cell sizes (<20,000 patients)
-- Rare diagnosis codes (ICD-10 not in Safe Harbor list)
-- Highly visible events (hospitalizations, ED visits in small populations)
+| Pattern | Clinical Context | Why Helpful | Priority |
+|---------|------------------|-------------|----------|
+| `three days`, `two weeks`, `five minutes` | "Fever for three days" | Duration vs specific date | **P1-High** |
+| `X hours ago`, `X minutes ago` | "Started two hours ago" | Relative timing | **P1-High** |
+| `X hours`, `X minutes`, `X seconds` | "Lasted five minutes" | Event duration | P2-Medium |
 
-**Advanced features**:
-- **Expert determination** method for risk-based assessment
-- **K-anonymity evaluation** for quasi-identifier combinations
-- **Specialized redaction** for rare condition indicators
-
-**Why it matters for pediatrics**: Many pediatric subspecialty conditions are rare, increasing re-identification risk beyond standard Safe Harbor protection.
-
-**Sources**:
-- [Re-identification Risk in Rare Disease Research](https://www.nature.com/articles/ejhg201652)
-- [Patient Support Forums and Re-identification Risk](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7457524/)
-- [Assessing Re-identification Risk](https://pmc.ncbi.nlm.nih.gov/articles/PMC6450246/)
-
-### 5. Performance <100ms per Request
-**Complexity**: Medium
-**Dependencies**: Optimized NER models, efficient pattern matching
-
-**Benchmark**: Presidio best practice guideline states recognizers shouldn't exceed 100ms per request with 100 tokens.
-
-**Why it matters**: Real-time clinical workflows require fast processing. Slow de-identification creates bottlenecks that discourage adoption or tempt users to bypass safeguards.
-
-**Trade-off**: Speed-accuracy balance must be explicit. Some high-accuracy deep learning models sacrifice speed.
-
-**Sources**:
-- [Presidio Best Practices](https://microsoft.github.io/presidio/analyzer/developing_recognizers/)
-- [Clinical De-identification at Scale](https://www.johnsnowlabs.com/clinical-de-identification-at-scale-pipeline-design-and-speed-accuracy-trade-offs-across-infrastructures/)
-
-### 6. Transparent Customization
-**Complexity**: Medium
-**Dependencies**: Configuration management, documentation
-
-**Capabilities**:
-- **Custom recognizers** for domain-specific entities
-- **Deny list management** to prevent false positives
-- **Threshold tuning** for precision/recall balance
-- **Clear documentation** of what's detected and why
-
-**Why it matters**: Different clinical contexts require different sensitivity. Handoffs need different rules than research datasets. Pediatrics needs different rules than geriatrics.
-
-**Sources**:
-- [Customization Scenarios for De-identification](https://link.springer.com/article/10.1186/s12911-020-1026-2)
-- [Presidio Custom Recognizers](https://microsoft.github.io/presidio/analyzer/developing_recognizers/)
-
----
-
-## Quality Metrics
-
-### Primary Metrics
-
-#### 1. Token-Level F1 Score
-**What**: Harmonic mean of precision and recall at token level
-**Formula**: F1 = 2 × (precision × recall) / (precision + recall)
-**Target**: >95% for clinical applications
-**Gold standard**: i2b2 2014 annotated corpus (inter-annotator F1: 92.7%)
-
-**Why token-level**: More forgiving than entity-level (exact match). Accepts partial matches where system identifies PHI location but boundary differs slightly.
-
-**Sources**:
-- [i2b2 2014 De-identification Challenge](https://pmc.ncbi.nlm.nih.gov/articles/PMC4989908/)
-- [Evaluating GPT Models for De-identification](https://pmc.ncbi.nlm.nih.gov/articles/PMC11785955/)
-
-#### 2. Recall (Sensitivity)
-**What**: Proportion of actual PHI instances correctly identified
-**Formula**: TP / (TP + FN)
-**Priority**: **Most critical metric** for privacy protection
-**Target**: ≥98% for high-risk applications
-
-**Why highest priority**: False negatives (missed PHI) directly cause HIPAA violations and patient harm. Recall must be maximized even at cost of precision.
-
-**Sources**:
-- [Deep Learning Framework for PHI De-identification](https://www.mdpi.com/1999-5903/17/1/47)
-- [Clinical NLP Evaluation Metrics](https://pmc.ncbi.nlm.nih.gov/articles/PMC8993826/)
-
-#### 3. Precision (Positive Predictive Value)
-**What**: Proportion of flagged items that are actually PHI
-**Formula**: TP / (TP + FP)
-**Target**: ≥90% to maintain clinical utility
-**Trade-off**: Lower precision = more over-redaction = less useful text
-
-**Why it matters**: False positives remove clinically useful information (medical terms, clinical context) and reduce readability.
-
-**Sources**:
-- [Evaluating GPT Models for De-identification](https://pmc.ncbi.nlm.nih.gov/articles/PMC11785955/)
-- [Clinical Utility in De-identification](https://www.tandfonline.com/doi/full/10.1080/08839514.2020.1718343)
-
-### Secondary Metrics
-
-#### 4. Entity-Level F1
-**What**: Requires exact boundary matching for entire entity
-**Use**: Stricter evaluation, useful for comparing to published benchmarks
-**Note**: Always lower than token-level F1
-
-**Sources**:
-- [i2b2 2014 Challenge Metrics](https://pmc.ncbi.nlm.nih.gov/articles/PMC4989908/)
-
-#### 5. False Negative Rate by Entity Type
-**What**: Breakdown showing which PHI categories are missed most often
-**Use**: Targeted improvement—identify weak recognizers
-**Example**: MRN patterns may have 99% recall while phone numbers have 85%
-
-**Sources**:
-- [Clinical De-identification at Scale](https://www.johnsnowlabs.com/clinical-de-identification-at-scale-pipeline-design-and-speed-accuracy-trade-offs-across-infrastructures/)
-
-#### 6. False Positive Rate by Entity Type
-**What**: Breakdown showing which categories over-flag
-**Use**: Guide deny list curation and pattern refinement
-**Example**: LOCATION may falsely flag medical abbreviations (NC, OR, ER)
-
-**Sources**:
-- [Modes of De-identification](https://pmc.ncbi.nlm.nih.gov/articles/PMC5977668/)
-
-#### 7. Processing Speed (Latency)
-**What**: Time to de-identify per 1000 tokens
-**Target**: <100ms per request (100 tokens) per Presidio guidelines
-**Use**: Ensure real-time feasibility for clinical workflows
-
-**Sources**:
-- [Presidio Best Practices](https://microsoft.github.io/presidio/analyzer/developing_recognizers/)
-
-#### 8. Clinical Readability Score
-**What**: Qualitative assessment of text usefulness post-redaction
-**Method**: Expert clinical review of de-identified samples
-**Question**: "Can this de-identified text still serve its clinical purpose?"
-
-**Sources**:
-- [Clinical Utility Preservation](https://pmc.ncbi.nlm.nih.gov/articles/PMC12661526/)
-
----
-
-## Anti-Features (Avoid These)
-
-### 1. ❌ Accuracy as Sole Metric
-**Problem**: Overall accuracy is misleading when PHI is rare in text. A system that flags nothing can achieve 99% accuracy if PHI comprises <1% of tokens.
-
-**Why harmful**: Creates false confidence in inadequate systems. Recall (sensitivity) matters far more than accuracy for privacy protection.
-
-**Instead**: Use F1 score, precision, and recall as primary metrics.
-
-**Sources**:
-- [On Evaluation Metrics for Medical AI](https://pmc.ncbi.nlm.nih.gov/articles/PMC8993826/)
-- [Is High Accuracy the Only Metric?](https://www.tandfonline.com/doi/full/10.1080/08839514.2020.1718343)
-
-### 2. ❌ Aggressive Redaction Without Context
-**Problem**: Removing all capitalized words, all numbers, or using overly broad patterns destroys clinical meaning.
-
-**Examples**:
-- "PICU" redacted → loses unit context
-- "NC at 2L" → "[LOCATION] at [DATE]" (meaningless)
-- "Dad called" → "[PERSON] called" (loses relationship)
-
-**Why harmful**: Over-redacted text is clinically useless, defeating the purpose of creating de-identified datasets for training, research, or handoffs.
-
-**Instead**: Use context-aware patterns with deny lists and intelligent replacement strategies.
-
-**Sources**:
-- [Redacting Medical Records: Common Mistakes](https://www.redactable.com/blog/redacting-medical-records-for-trials)
-- [Over-redaction in NIST Guidelines](https://nvlpubs.nist.gov/nistpubs/ir/2015/nist.ir.8053.pdf)
-
-### 3. ❌ One-Size-Fits-All Approach
-**Problem**: Applying identical rules regardless of context (research vs. handoff vs. teaching) or population (pediatrics vs. geriatrics vs. rare disease).
-
-**Why harmful**: Different use cases have different privacy-utility trade-offs. Research datasets may need more aggressive redaction than clinical handoffs. Pediatric handoffs need parent names redacted; geriatric notes don't.
-
-**Instead**: Provide configurable profiles for different use cases with clear documentation of trade-offs.
-
-**Sources**:
-- [Customization Scenarios](https://link.springer.com/article/10.1186/s12911-020-1026-2)
-- [Privacy and Utility Balance](https://nashbio.com/blog/healthcare-data/de-identification-balancing-privacy-and-utility-in-healthcare-data/)
-
-### 4. ❌ No Transparency or Explainability
-**Problem**: "Black box" systems that redact without showing what was detected, why, or with what confidence.
-
-**Why harmful**:
-- Clinicians can't assess reliability
-- Developers can't debug false positives/negatives
-- Researchers can't validate HIPAA compliance
-- No path for continuous improvement
-
-**Instead**: Provide detailed logs showing detected entities, confidence scores, recognizer used, and reasoning for redaction.
-
-**Sources**:
-- [Certified De-identification System](https://pmc.ncbi.nlm.nih.gov/articles/PMC10320112/)
-- [Presidio Architecture](https://microsoft.github.io/presidio/analyzer/)
-
-### 5. ❌ Ignoring Quasi-Identifiers
-**Problem**: Focusing only on direct identifiers (names, MRNs) while ignoring combinations of indirect attributes that enable re-identification.
-
-**Examples of quasi-identifiers**:
-- Birth date + ZIP code + gender (identifies 87% of US population)
-- Rare diagnosis + hospital admission date + approximate age
-- Small cell populations (<20 in demographic group)
-
-**Why harmful**: **Research shows Safe Harbor alone is insufficient** for small populations and rare diseases. Combinations of "non-identifying" data can uniquely identify individuals.
-
-**Instead**: Perform k-anonymity analysis for quasi-identifier combinations, especially for rare diseases and small populations.
-
-**Sources**:
-- [Re-identification Risk in Rare Diseases](https://www.nature.com/articles/ejhg201652)
-- [De-identification Doesn't Protect Privacy](https://hai.stanford.edu/news/de-identifying-medical-patient-data-doesnt-protect-our-privacy)
-- [Assessing Re-identification Risk](https://pmc.ncbi.nlm.nih.gov/articles/PMC6450246/)
-
-### 6. ❌ Static Configuration (No Learning Loop)
-**Problem**: Deploy once and never update recognizers, deny lists, or thresholds based on real-world performance.
-
-**Why harmful**: Medical terminology evolves, new abbreviations emerge, false positive patterns become apparent only in production. Static systems degrade over time.
-
-**Instead**: Implement feedback loops for continuous improvement:
-- Log and review false positives/negatives
-- Update deny lists based on clinical feedback
-- Periodically re-evaluate with new test cases
-- Version control configuration changes
-
-**Sources**:
-- [Certified De-identification System](https://pmc.ncbi.nlm.nih.gov/articles/PMC10320112/)
-- [HHS Guidance on Periodic Review](https://www.hipaajournal.com/de-identification-protected-health-information/)
-
-### 7. ❌ Esoteric Notation Without Documentation
-**Problem**: Using acronyms, internal codes, or cryptic logic known only to developers, making it impossible for clinical staff to understand or maintain the system.
-
-**Why harmful**: Leads to unnecessary redaction (cautious developers remove everything) or failure to redact (clinicians don't recognize identifiers because documentation is unclear).
-
-**Instead**: Clear, comprehensive documentation with clinical examples for each recognizer and decision rule.
-
-**Sources**:
-- [HHS De-identification Guidance](https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html)
-
----
-
-## Feature Dependencies
-
-```
-HIPAA Safe Harbor Coverage (foundation)
-    ↓
-Modern Identifier Awareness
-    ↓
-Pediatric-Specific PHI
-    ↓
-├─→ High Recall (>95% F1)
-│       ↓
-│   Context-Aware Precision
-│       ↓
-│   Clinical Utility Preservation
-│
-└─→ Performance <100ms
-        ↓
-    Transparent Customization
-        ↓
-    Rare Disease Protection (advanced)
+**Evidence from Milestone Context:**
+- "three days", "two weeks" being flagged as DATE
+- These are duration expressions, not specific dates
+- Not PHI under HIPAA (no identifiable timestamp)
+
+**Clinical Impact:** Medium - Loses precision of symptom timeline but doesn't prevent diagnosis
+
+**Research Finding:** SUTime (Stanford temporal NER) identifies 4 temporal types: DATE, TIME, DURATION, and SET. DURATION expressions like "three days" should not be treated as DATE entities.
+
+**Recommended Implementation:**
+```python
+deny_list_date_time: list[str] = Field(
+    default=[
+        # ... existing patterns ...
+        # Duration phrases (not specific dates)
+        "minutes", "hours", "days", "weeks", "months",  # Generic durations
+        "three minutes", "two hours", "five days", "two weeks",  # Specific durations
+        "minutes ago", "hours ago", "days ago", "weeks ago",  # Relative durations
+    ]
+)
 ```
 
-**Critical path**: Must achieve HIPAA compliance first, then layer quality improvements (precision, utility) on top. Cannot sacrifice recall for speed or precision—privacy is non-negotiable.
+**Caution:** Use substring matching (existing implementation) to catch variants. Pattern "hours ago" should match "two hours ago".
 
----
+### 7. Respiratory Therapy Terms as LOCATION (⚠️ GAP - MISSING)
 
-## Implementation Complexity Ranking
+**Pattern Category:** LOCATION entity over-detection of oxygen delivery methods
 
-1. **Low complexity**: Age 89+ redaction, basic pattern matching
-2. **Medium complexity**: HIPAA 18 identifiers, modern identifier awareness, pediatric PHI, performance optimization, customization
-3. **High complexity**: Context-aware precision, clinical utility preservation, F1 >95%, deny list management
-4. **Very high complexity**: Rare disease protection, quasi-identifier analysis, k-anonymity evaluation
+| Pattern | Clinical Context | Why Helpful | Priority |
+|---------|------------------|-------------|----------|
+| `high flow`, `high-flow` | "On high flow oxygen" | Respiratory modality | **P1-High** |
+| `placed on high` | "Placed on high flow" | Common phrasing | **P1-High** |
+| `low flow` | "Transitioned to low flow" | Oxygen titration | P2-Medium |
+
+**Evidence from Milestone Context:**
+- "placed on high", "on high flow" being flagged as LOCATION
+- "high" detected as geographic location (common NER error)
+
+**Clinical Impact:** Medium - Loses respiratory support detail but diagnosis still clear
+
+**Recommended Implementation:**
+```python
+deny_list_location: list[str] = Field(
+    default=[
+        # ... existing abbreviations ...
+        # Respiratory therapy terms
+        "high flow", "low flow",  # Oxygen delivery modalities
+        "high", "low",  # May be too broad - needs testing
+    ]
+)
+```
+
+**Caution:** Adding standalone "high" or "low" may be too aggressive. Consider multi-word patterns only ("high flow" but not "high" alone) or require context analysis.
+
+### 8. Medical Conditions as PERSON (✅ PARTIALLY IMPLEMENTED)
+
+**Pattern Category:** PERSON entity over-detection of phonetically similar medical terms
+
+| Term | Why Misclassified | Clinical Impact | Status |
+|------|-------------------|-----------------|--------|
+| `bilirubin` | "Billy Rubin" (phonetic name) | Jaundice assessment lost | ⚠️ Not in deny list |
+| `ARFID` | Acronym pattern | Eating disorder obscured | ⚠️ Not in deny list |
+| `citrus` | Capitalized word | Dietary context lost | ⚠️ Not in deny list |
+| `diuresis` | Phonetic similarity | Fluid status obscured | ⚠️ Not in deny list |
+| `DKA`, `CT`, `MRI`, `EEG`, `ICU` | Medical abbreviations | Diagnosis/location lost | ✅ Phase 6 |
+
+**Evidence:** Session 1 (real handoff testing) found 5 medical terms detected as person names.
+
+**Priority:** P3-Medium (clinical utility affected but not patient safety)
+
+**Recommendation:** Add to PERSON deny list based on documented false positives from real handoff testing.
+
+### 9. Unit Name Preservation During ROOM Redaction (⚠️ PARTIAL GAP)
+
+**Pattern Category:** ROOM entity pattern needs context-aware redaction
+
+| Pattern | Desired Behavior | Current Behavior | Priority |
+|---------|------------------|------------------|----------|
+| `PICU bed 12` | `PICU bed [ROOM]` (preserve unit) | `[ROOM] bed [ROOM]` (loses unit) | P2-Medium |
+| `NICU room 4B` | `NICU room [ROOM]` | `[ROOM] room [ROOM]` | P2-Medium |
+
+**Evidence:** Test case "Patient name - Baby LastName" over-redacts both 'bed' and unit name.
+
+**Clinical Impact:** Low - Unit names like PICU/NICU are generic locations (not patient-identifying)
+
+**Technical Challenge:** Requires pattern-aware redaction, not simple deny list. ROOM recognizer uses regex patterns that may capture unit name.
+
+**Recommendation:** Modify ROOM recognizer patterns to use lookbehind (preserve unit prefix). This is a recognizer fix, not a deny list addition.
+
+### 10. Generic Age Categories (✅ IMPLEMENTED)
+
+**Pattern Category:** PEDIATRIC_AGE entity over-detection
+
+| Pattern | Why Not PHI | Status |
+|---------|-------------|--------|
+| `infant`, `toddler`, `child`, `adolescent`, `teen` | Generic developmental stage | ✅ Phase 3 |
+| `newborn`, `neonate` | Generic descriptor | ✅ Phase 3 |
+
+**Evidence:** Existing implementation correct. These are broad categories, not specific identifying ages.
+
+## Anti-Features - Patterns That Should Remain Detected
+
+These patterns should NOT be added to deny lists. They are legitimate PHI or have high risk of missing actual identifiers.
+
+### Anti-Feature 1: Specific City Names
+
+**Example:** "Boston", "New York", "Los Angeles"
+
+**Why Not Add:**
+- Geographic locations ARE HIPAA identifiers (Safe Harbor element #4: cities/towns/zip codes)
+- Context matters: "Family wants to go to Boston" (not PHI) vs "Patient lives in Boston" (PHI)
+- Better to over-redact than leak location data
+
+**Decision:** Accept LOCATION over-detection for city names. Presidio's conservative approach is correct.
+
+**Evidence from Testing:** Session 1 found "Boston" → [LOCATION]. Documented as "Accept as working as intended" (P4-Low priority).
+
+### Anti-Feature 2: Common First Names
+
+**Example:** "Mike", "Sarah", "John"
+
+**Why Not Add:**
+- These are actual person names in most contexts
+- Risk of missing guardian names: "Dad Mike" should redact "Mike"
+- Guardian name recognizer uses lookbehind to preserve relationship word ("Dad [NAME]")
+
+**Decision:** Do NOT add common names to deny list. Rely on Presidio's context analysis.
+
+### Anti-Feature 3: Numeric Patterns
+
+**Example:** Standalone "12", "4", "36"
+
+**Why Not Add:**
+- Could be room numbers, bed numbers, MRNs, ages
+- Context-dependent: "room 12" (PHI) vs "12 mg" (clinical)
+- Adding numbers to deny list would break all numeric PHI detection
+
+**Decision:** Do NOT add numeric patterns to deny list. Handle via entity-specific recognizers.
+
+### Anti-Feature 4: Time Words That Could Be Dates
+
+**Example:** "Monday", "January", "summer"
+
+**Why Not Add:**
+- "Admitted Monday" could identify patient if combined with other data
+- Safe Harbor requires removing "all elements of dates" except year
+- Better to over-redact temporal information
+
+**Decision:** Do NOT add month names, day names, or season names to DATE_TIME deny list.
+
+**Exception:** Generic relative time ("today", "tomorrow") already in deny list because they lack specific date information.
+
+### Anti-Feature 5: Medical Facility Names
+
+**Example:** "MGH", "Children's Hospital"
+
+**Why Not Add:**
+- Facility names are LOCATION identifiers under HIPAA
+- "Transferred from MGH" could narrow patient population
+- Generic "hospital" is acceptable, but specific names are PHI
+
+**Decision:** Do NOT add hospital/facility names to LOCATION deny list.
+
+### Anti-Feature 6: Ages 90 and Above
+
+**Example:** "92 year old", "95-year-old"
+
+**Why Not Add:**
+- HIPAA Safe Harbor specifically requires redacting ages 90+
+- Small population makes ages 90+ potentially identifying
+- Age deny list should NOT include high ages
+
+**Decision:** Current deny list correctly preserves ages <90, redacts 90+. Do not expand to cover 90+ ages.
+
+## Implementation Priorities
+
+### Phase 9 (Current Milestone) - Over-Detection Fixes
+
+**Goal:** Fix duration phrases and respiratory terminology over-detection
+
+| Priority | Pattern Category | Impact | Effort | Status |
+|----------|------------------|--------|--------|--------|
+| **P1-High** | Duration phrases ("three days", "two weeks") | Medium clinical utility | Low (deny list addition) | 🔴 Missing |
+| **P1-High** | Respiratory flow terms ("high flow", "placed on high") | Medium clinical utility | Low-Medium (needs testing) | 🔴 Missing |
+| P2-Medium | Medical conditions as PERSON (bilirubin, ARFID) | Low-Medium precision | Low (deny list addition) | 🟡 Optional |
+| P2-Medium | Unit name preservation (PICU/NICU during ROOM redaction) | Low clinical utility | Medium (recognizer modification) | 🟡 Optional |
+
+### Post-Phase 9 Backlog
+
+| Priority | Pattern Category | Reason to Defer |
+|----------|------------------|-----------------|
+| P3-Low | Additional medical abbreviations | No documented false positives yet |
+| P3-Low | Standalone "high"/"low" in LOCATION deny list | Risk of over-broad filtering |
+| P4-Accepted | City name over-detection | Working as intended per HIPAA |
+| P4-Accepted | Medical facility names as LOCATION | Correct PHI detection |
+
+## Research Methodology
+
+### Sources Analyzed
+
+**HIGH Confidence:**
+1. **Existing Codebase Implementation** (`app/config.py`, `app/deidentification.py`)
+   - Lines 96-197: Complete deny list implementation with 38 DATE_TIME patterns, 14 LOCATION, 21 PERSON
+   - Proven through 27 real handoff tests (Phase 6 validation)
+
+2. **Real Handoff Testing Results** (`.planning/phases/06-real-handoff-testing/REAL_HANDOFF_VALIDATION.md`)
+   - Session 1: 21 handoffs, 65 false positives documented
+   - Session 2: 6 handoffs, 0 errors (validates deny list fixes)
+   - Patterns identified: age over-redaction, medical terms as PERSON
+
+3. **Phase 3 Research** (`.planning/phases/03-deny-list-refinement/03-RESEARCH.md`)
+   - Evidence-based deny list expansion methodology
+   - Case-insensitive matching standard
+   - Documented false positive categories
+
+4. **HIPAA Safe Harbor Guidance** ([HHS.gov De-identification Guidance](https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html))
+   - Ages <90 are NOT PHI (can be preserved)
+   - Dates except year must be removed
+   - Geographic locations smaller than state are PHI
+
+**MEDIUM Confidence:**
+5. **Clinical NLP Temporal Expression Research** ([ClinicalNLP 2025 Workshop](https://aclanthology.org/2025.clinicalnlp-1.pdf))
+   - SUTime temporal types: DATE, TIME, DURATION, SET
+   - Duration expressions ("three days") distinct from dates
+   - Temporal information crucial for disease progression tracking
+
+6. **Presidio Documentation** ([Microsoft Presidio Deny List Best Practices](https://microsoft.github.io/presidio/tutorial/01_deny_list/))
+   - Deny lists standard for domain-specific false positives
+   - Case-insensitive matching recommended
+   - Per-entity deny lists avoid type confusion
+
+**LOW Confidence:**
+7. **WebSearch Results** (no specific duration phrase deny list patterns found in 2026 literature)
+   - General clinical NLP challenges documented
+   - Specific duration phrase patterns inferred from temporal NER research
+   - Respiratory flow terminology gap identified through milestone context, not published research
+
+### Gap Analysis
+
+**What's Missing from Current Implementation:**
+1. Duration word patterns (number + time unit: "three days", "two weeks")
+2. Respiratory flow terminology ("high flow", "placed on high")
+3. Medical condition phonetic false positives (bilirubin, ARFID) - documented but not yet added
+
+**What's Covered Well:**
+1. Age descriptors (space and hyphenated variants)
+2. Dosing schedules (q4h, BID, PRN)
+3. Clinical timeline (day of illness, DOL)
+4. Medical abbreviations (routes, locations)
+5. Role words and relationships
+
+### Confidence Assessment
+
+| Category | Confidence | Rationale |
+|----------|------------|-----------|
+| Age descriptors | **HIGH** | Validated with 27 real handoffs, HIPAA guidance clear |
+| Dosing schedules | **HIGH** | 354 false positives documented, medical standard |
+| Clinical timeline | **HIGH** | Real handoff testing, HIPAA safe harbor compliant |
+| Medical abbreviations | **HIGH** | Existing implementation proven in production |
+| Duration phrases | **MEDIUM** | Inferred from milestone context + temporal NER research |
+| Respiratory flow terms | **MEDIUM** | Milestone context + common clinical phrasing |
+| Medical conditions as PERSON | **HIGH** | Documented in Session 1 testing (5 false positives) |
+| Unit name preservation | **MEDIUM** | Test case evidence, technical solution needed |
+
+## Success Criteria for Phase 9
+
+**Measurement Approach:**
+1. Run evaluation on synthetic dataset BEFORE Phase 9 changes
+2. Capture baseline false positive counts by entity type
+3. Add duration phrase and respiratory flow deny list patterns
+4. Run evaluation AFTER changes
+5. Verify:
+   - [ ] DATE_TIME false positives reduced by duration phrase filtering
+   - [ ] LOCATION false positives reduced by respiratory flow term filtering
+   - [ ] No new false negatives introduced (PHI still detected)
+   - [ ] Clinical utility preserved (test with sample handoff)
+
+**Target:** Reduce over-detection errors while maintaining 0 false negatives (PHI leaks).
+
+**Validation:** Test with real handoff transcripts (Session 3) to confirm clinical usability.
 
 ---
 
 ## Sources
 
-### Primary References
-- [HHS HIPAA De-identification Guidance](https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html)
-- [i2b2 2014 De-identification Challenge](https://pmc.ncbi.nlm.nih.gov/articles/PMC4989908/)
-- [John Snow Labs Clinical De-identification](https://www.johnsnowlabs.com/clinical-de-identification-at-scale-pipeline-design-and-speed-accuracy-trade-offs-across-infrastructures/)
-- [Presidio Best Practices](https://microsoft.github.io/presidio/analyzer/developing_recognizers/)
+**HIPAA Guidance:**
+- [De-identification of Protected Health Information: 2026 Update](https://www.hipaajournal.com/de-identification-protected-health-information/)
+- [HHS.gov HIPAA Safe Harbor Guidance](https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html)
 
-### Quality Metrics
-- [Evaluating GPT Models for De-identification](https://pmc.ncbi.nlm.nih.gov/articles/PMC11785955/)
-- [Deep Learning Framework for PHI De-identification](https://www.mdpi.com/1999-5903/17/1/47)
-- [On Evaluation Metrics for Medical AI](https://pmc.ncbi.nlm.nih.gov/articles/PMC8993826/)
+**Clinical NLP Research:**
+- [ClinicalNLP 2025 Workshop Proceedings](https://aclanthology.org/2025.clinicalnlp-1.pdf)
+- [Stanford SUTime Temporal Tagger](https://nlp.stanford.edu/software/sutime.shtml)
 
-### Clinical Utility
-- [A Real-World Data Challenge: Privacy and Utility](https://pmc.ncbi.nlm.nih.gov/articles/PMC12661526/)
-- [Is High Accuracy the Only Metric?](https://www.tandfonline.com/doi/full/10.1080/08839514.2020.1718343)
-- [Customization Scenarios for De-identification](https://link.springer.com/article/10.1186/s12911-020-1026-2)
+**Presidio Best Practices:**
+- [Presidio Deny-list Recognizers Tutorial](https://microsoft.github.io/presidio/tutorial/01_deny_list/)
+- [Presidio Best Practices - Developing Recognizers](https://microsoft.github.io/presidio/analyzer/developing_recognizers/)
 
-### Rare Disease & Re-identification Risk
-- [Re-identification Risk in Rare Disease Research](https://www.nature.com/articles/ejhg201652)
-- [Patient Support Forums and Re-identification](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7457524/)
-- [Assessing Re-identification Risk](https://pmc.ncbi.nlm.nih.gov/articles/PMC6450246/)
+**Medical NLP Comparison:**
+- [John Snow Labs Medical De-identification vs Microsoft Presidio](https://www.johnsnowlabs.com/comparing-john-snow-labs-medical-text-de-identification-with-microsoft-presidio/)
 
-### Anti-patterns
-- [Modes of De-identification (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC5977668/)
-- [Redacting Medical Records: Common Mistakes](https://www.redactable.com/blog/redacting-medical-records-for-trials)
-- [NIST De-identification Guidelines](https://nvlpubs.nist.gov/nistpubs/ir/2015/nist.ir.8053.pdf)
+---
+
+**RESEARCH COMPLETE** - Ready for Phase 9 requirements definition and implementation planning.

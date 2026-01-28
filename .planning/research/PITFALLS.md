@@ -1,396 +1,459 @@
-# Pitfalls Research: PHI Detection Improvement
+# Pitfalls Research: Deny List Expansion
 
-**Research Date**: 2026-01-23
-**Project**: Pediatric Handoff PHI Remover Quality Improvement
+**Research Date**: 2026-01-28
+**Project**: Pediatric Handoff PHI Remover - Deny List Expansion
+**Focus**: Common mistakes when expanding deny lists for clinical NER/de-identification systems
+**Confidence**: HIGH (based on project history + Presidio best practices + clinical NER research)
 
 ## Executive Summary
 
-PHI de-identification improvement projects face distinct failure modes that differ from general NLP tuning. The most critical distinction: **false negatives (missed PHI) carry legal/compliance risk, while false positives (over-scrubbing) degrade clinical utility**. This asymmetry drives many common mistakes.
+Deny list expansion for clinical PHI detection has a **unique failure profile**: the goal is reducing false positives (over-redaction) WITHOUT introducing false negatives (missed PHI). This creates an asymmetric risk where mistakes can either:
+1. Allow PHI through (legal/compliance risk)
+2. Over-redact clinical content (usability risk)
+
+This research documents mistakes that cause both failure modes, with emphasis on **project-specific lessons learned** from Phases 3-6.
 
 ---
 
-## Regex Tuning Pitfalls
+## Critical Pitfalls
 
-### 1. **Lexical Ambiguity - Over-Scrubbing Medical Terms**
+### Pitfall 1: Substring Matching Without Boundary Checking
 
-**What goes wrong**: Regex patterns designed for one purpose inadvertently mask unrelated text due to lexical ambiguities. Medical terms that appear in proper name lists (e.g., "breast") cause over-scrubbing. Laboratory values with 4+ consecutive digits (e.g., platelet count "68,000") get flagged as PHI identifiers.
+**What goes wrong**: Switching from exact match to substring match (e.g., `"months old" in detected_text`) causes unintended filtering of legitimate PHI that contains the substring.
+
+**Real example from codebase**:
+```python
+# DATE_TIME deny list check (deidentification.py line 204-210)
+# Uses SUBSTRING match for clinical timeline patterns
+if result.entity_type == "DATE_TIME":
+    detected_lower = detected_text.lower()
+    if any(term.lower() in detected_lower for term in settings.deny_list_date_time):
+        logger.debug(f"Filtered out deny-listed DATE_TIME: {detected_text}")
+        continue
+```
+
+**Why it's dangerous**:
+- "5 months old" matches "months old" → correctly filtered (age descriptor)
+- BUT: "admitted 5 months ago" matches "months old" → INCORRECTLY filtered
+- "birthday in 3 months" matches "months old" → INCORRECTLY filtered (missed PHI!)
 
 **Warning signs**:
-- Clinical staff report "nonsensical" de-identified transcripts
-- Medical abbreviations/terms appear as `[REDACTED]`
-- Numeric lab values disappear from output
+- Deny list term is multi-word phrase with generic words
+- False negative rate increases after deny list expansion
+- Test suite has exact matches but real transcripts have longer phrases
+- Pattern appears in middle of sentences, not just at boundaries
 
 **Prevention strategy**:
-- Maintain **deny lists** for medical terms (NC, RA, OR, ER, IV, PO, etc.)
-- Test regex patterns against clinical vocabulary databases (e.g., SNOMED CT)
-- Use lookbehind/lookahead patterns to preserve medical context: `(?<!platelet count: )\b\d{5,}\b`
+1. **Use exact match by default**: `detected_text.lower() in [w.lower() for w in deny_list]`
+2. **Substring match ONLY when necessary**: Clinical timeline patterns like "5 months old" where numeric prefix varies
+3. **Add boundary tokens**: Include spaces in deny list terms (`" months old "` not `"months old"`) to prevent mid-word matches
+4. **Test negative cases**: For each deny list term, create test case where it appears IN a PHI phrase that should NOT be filtered
 
-**Phase mapping**: Phase 2 (Regex Refinement) - Build comprehensive medical term deny lists
+**Which phase addresses**:
+- Phase 3 (Deny List Refinement): When expanding deny lists beyond exact abbreviations
+- Phase 6 (Real Handoff Testing): When substring match bugs surface in production
+
+**Project-specific lesson**: Phase 6 added "days old", "months old" to deny list. This REQUIRES substring matching because prefix changes ("3 days old", "7 months old"). But must verify it doesn't match "3 days ago" (which IS potential PHI).
 
 ---
 
-### 2. **Case Sensitivity Inconsistencies**
+### Pitfall 2: Adding Terms Without False Positive Evidence
 
-**What goes wrong**: Inconsistent case handling across different entity types creates detection gaps. Current system has PERSON deny list case-insensitive but LOCATION exact match—"Mom Jessica" caught but "mom jessica" missed.
+**What goes wrong**: Expanding deny lists based on hypothetical false positives rather than actual documented errors leads to bloat and potential security gaps.
+
+**Real example from project**:
+- Phase 3 added "DKA", "CT", "MRI", "EEG" to PERSON deny list
+- These were found through **evidence**: real false positives in test transcripts
+- Contrast with temptation to pre-emptively add entire medical abbreviation dictionary
+
+**Why it's dangerous**:
+- **Security risk**: Adding "Art" because it's a medical abbreviation (ART = antiretroviral therapy) but "Art Smith" is a real name
+- **Maintenance burden**: 500-item deny list is unmaintainable vs 50-item evidence-based list
+- **False confidence**: "We have 500 terms in deny list" doesn't mean better coverage
 
 **Warning signs**:
-- Detection works in test data (proper capitalization) but fails in real transcripts (variable case)
-- Some entity types show significantly lower recall than others
-- Case-normalized test suite passes but production detection fails
+- Deny list grows >100 terms without proportional false positive reduction
+- Terms added "just in case" without specific test failure
+- Copy-pasting abbreviation dictionaries from external sources
+- No comments documenting why each term was added
 
 **Prevention strategy**:
-- **Standardize**: All deny lists and pattern matching must use same case handling (recommend `.lower()` normalization)
-- Test with **case-variation synthetic data**: "Mom", "mom", "MOM", "mOm"
-- Document case sensitivity policy in `config.py` with enforcement
+1. **Evidence-driven expansion**: Add term ONLY after documenting false positive
+2. **One term = one test case**: Each deny list entry should have corresponding regression test
+3. **Comment rationale**: Document which test case or production error drove each addition
+4. **Periodic pruning**: Review deny list quarterly, remove terms with no recent matches
 
-**Phase mapping**: Phase 1 (Case Normalization) - Critical foundation before regex refinement
+**Which phase addresses**:
+- Phase 3 (Deny List Refinement): Establish evidence-driven process
+- Phase 6 (Real Handoff Testing): Document production errors that drive additions
+- Maintenance: Quarterly review of deny list effectiveness
 
-**Reference**: Clinical NER systems use capitalization features (allCaps, upperInitial, lowercase, mixedCaps) as signal, but **deny list filtering must be case-insensitive** to avoid gaps.
+**Project-specific lesson**: Phase 6 found "bilirubin" → [NAME] false positive. Rather than adding all medical terms, added specific evidence-based terms: bilirubin, ARFID, citrus, diuresis.
 
 ---
 
-### 3. **Context-Agnostic Pattern Matching**
+### Pitfall 3: Case Sensitivity Inconsistencies Across Files
 
-**What goes wrong**: Regex patterns without contextual awareness create false positives. Patterns like `\bMom\b` flag "Contact mom" (instruction) as a name, when only "Mom [Name]" should be flagged.
+**What goes wrong**: Fixing case-insensitive matching bug in `deidentification.py` but missing duplicate logic in `evaluate_presidio.py` and `calibrate_thresholds.py` causes test/production divergence.
+
+**Real example from project** (Phase 3 fix):
+```python
+# Bug existed in 3 files simultaneously:
+# - app/deidentification.py line 185 (production)
+# - tests/evaluate_presidio.py line 173 (evaluation)
+# - tests/calibrate_thresholds.py line 135 (calibration)
+
+# BEFORE (broken):
+if detected_text in settings.deny_list_location:  # "nc" won't match "NC"
+
+# AFTER (fixed):
+if detected_text.lower() in [w.lower() for w in settings.deny_list_location]:
+```
+
+**Why it's dangerous**:
+- Tests pass ("NC" filtered) but production fails ("nc" leaks through)
+- Threshold calibration uses different filtering than production
+- Metrics become unreliable - can't trust precision/recall numbers
 
 **Warning signs**:
-- High false positive rate for relationship words (Mom, Dad, Guardian)
-- Standalone prepositions/articles flagged as entities ("to OR", "the ER")
-- Numbers without medical context flagged as MRNs
+- Deny list logic copy-pasted across multiple files
+- Test performance differs significantly from production performance
+- Case variants ("NC" vs "nc" vs "Nc") show different behavior
+- Changes to deidentification.py require parallel changes elsewhere
 
 **Prevention strategy**:
-- Use **positive lookbehind** to require context: `(?<=Mom )[A-Z][a-z]+` matches "Mom Jessica" but not "Contact mom"
-- Build **context-aware patterns**: Only flag "OR" when not preceded by medical verbs (go, transfer, admit)
-- Test with **minimal pairs**: "Mom Jessica" (PHI) vs "Contact mom" (not PHI)
+1. **Grep before changes**: `grep -r "deny_list" app/ tests/` before modifying filtering logic
+2. **Shared function**: Extract deny list filtering to shared utility function (DRY principle)
+3. **Integration test**: Test that deidentification.py and evaluate_presidio.py produce identical results on same input
+4. **Code review checklist**: "Did you update all 3 files?"
 
-**Phase mapping**: Phase 2 (Regex Refinement) - After case normalization, before threshold tuning
+**Which phase addresses**:
+- Phase 3 (Deny List Refinement): Fix inconsistency across all files
+- Maintenance: Refactor to eliminate duplication
+
+**Project-specific lesson**: Phase 3 research identified this bug and documented all 3 locations requiring fix. Future: Extract shared `apply_deny_lists()` function.
 
 ---
 
-### 4. **Overfitting to Test Data Format**
+### Pitfall 4: Server Configuration Caching
 
-**What goes wrong**: Patterns optimized for structured test data fail on variable real-world transcription. Voice transcription produces "Jessica is mom" but test data only has "Mom Jessica"—lookbehind patterns miss reverse order.
+**What goes wrong**: Config changes don't take effect because server uses `@lru_cache()` and wasn't restarted.
+
+**Real example from project** (Phase 6, Session 1):
+```python
+# app/config.py line 286
+@lru_cache
+def get_settings() -> Settings:
+    """Get cached settings instance."""
+    return Settings()
+```
+
+**Timeline**:
+- Phase 5: Added age patterns to DATE_TIME deny list (commit cfbd5b1)
+- Phase 6 Session 1: "18 year old" still redacted to `[DATE]`
+- Root cause: Server started Saturday, never restarted, running with stale config
+- Fix: Restart server → "18 year old" preserved correctly
+
+**Why it's dangerous**:
+- **False negative detection**: Config has correct deny list but production uses old config with missing entries
+- **Wasted debugging time**: Investigate code when problem is cached config
+- **False confidence**: "I added the term but it's still detected" leads to wrong conclusions
 
 **Warning signs**:
-- High performance on synthetic data, low performance on real transcripts
-- Detection works for "Baby Smith" but not "Smith is the baby"
-- Patterns assume word order (lookbehind) that isn't stable in speech-to-text
+- Deny list changes don't affect production behavior
+- Restarting server "magically" fixes issues
+- Different behavior between test environment and production
+- Config file timestamps are recent but behavior unchanged
 
 **Prevention strategy**:
-- **Bidirectional patterns**: Match both "Mom Jessica" and "Jessica is Mom"
-- Test against **speech-to-text artifacts**: filler words, incomplete sentences, hesitations
-- Use **N-gram analysis** of real transcripts to identify actual patterns before writing regex
+1. **Document restart requirement**: "After changing config.py, restart server to pick up changes"
+2. **Add cache busting**: Development mode should disable `@lru_cache` or use short TTL
+3. **Health check endpoint**: `/health` endpoint shows config file timestamp vs server start time
+4. **Automated testing**: CI/CD should test with fresh config load (no cached settings)
 
-**Phase mapping**: Phase 3 (Validation) - Real transcript testing reveals overfitting
+**Which phase addresses**:
+- Phase 6 (Real Handoff Testing): When discovered
+- CI/CD improvements: Add config cache detection to test suite
 
-**Reference**: Research shows "one set of vocabularies that work well on one source of clinical notes may not work well on another set of notes"—domain-specific overfitting is a recognized NLP problem.
+**Project-specific lesson**: This cost 21 handoffs of false positive errors. Root cause was NOT code but cached config. Document restart requirement prominently.
 
 ---
 
-## Threshold Calibration Pitfalls
+### Pitfall 5: Ambiguous Terms That Are Sometimes PHI
 
-### 5. **Arbitrary Dual-Threshold Systems**
+**What goes wrong**: Adding terms to deny list that are context-dependent - sometimes PHI, sometimes not.
 
-**What goes wrong**: Current system has detection threshold 0.35 and validation threshold 0.7 with **no documented calibration methodology**. Unclear why these values, unclear what they optimize for.
+**Hypothetical dangerous examples**:
+```python
+# DON'T ADD THESE:
+deny_list_person = [
+    "gene",    # Gene Smith (name) vs gene therapy (medical)
+    "ed",      # Ed Johnson (name) vs ED (emergency dept)
+    "art",     # Art Williams (name) vs ART (antiretroviral therapy)
+    "bill",    # Bill Jones (name) vs medical bill
+]
+```
+
+**Why it's dangerous**:
+- "Contact Gene for updates" → Gene (person name) incorrectly preserved
+- "Patient Art Smith" → Art (name) incorrectly preserved
+- Creates **false negatives** (missed PHI) - the worst outcome for compliance
 
 **Warning signs**:
-- Threshold values chosen by intuition or copied from examples
-- No documented precision/recall metrics at chosen thresholds
-- Different thresholds for different stages without justification
+- Deny list term is common English word
+- Term appears in name databases (US Census names, SSA baby names)
+- Term has multiple meanings in medical vs general context
+- Capitalization changes meaning ("Bill" name vs "bill" invoice)
 
 **Prevention strategy**:
-- Generate **Precision-Recall curve** using 500 synthetic transcripts
-- Define **business requirements**: "Must achieve 99% recall (catch 99% of PHI) with acceptable precision"
-- Use **F-beta score** (β=2 for recall priority, β=0.5 for precision priority) to select optimal threshold
-- Document calibration: "Threshold 0.35 achieves 99.2% recall, 82% precision on validation set"
+1. **Never add ambiguous terms**: If term could be BOTH abbreviation AND name, don't add it
+2. **Rely on NER context**: Presidio's spaCy model uses sentence context - trust it for ambiguous cases
+3. **Check name databases**: Before adding term, search US SSA baby names database
+4. **Document non-ambiguous requirement**: Deny list policy: "Only add terms that are NEVER PHI in medical context"
 
-**Phase mapping**: Phase 4 (Threshold Optimization) - After regex refinement, use metrics to select thresholds
+**Which phase addresses**:
+- Phase 3 (Deny List Refinement): Establish deny list inclusion criteria
+- Code review: Reject deny list additions for ambiguous terms
 
-**Reference**: "A higher threshold will increase precision but decrease recall—A Precision-Recall Curve is a great tool for visualizing the trade-off."
+**Project-specific lesson**: "bilirubin", "ARFID", "DKA" are safe - not common names. "Gene", "Art", "Ed" are unsafe - common names. Document this distinction.
 
 ---
 
-### 6. **Ignoring Precision-Recall Tradeoffs**
+### Pitfall 6: Test Script Generation Without Negative Cases
 
-**What goes wrong**: Improving one metric (e.g., precision to reduce over-scrubbing) degrades the other (recall), increasing missed PHI risk. In healthcare, **recall takes precedence** because missed PHI has legal consequences, but excessive false positives make transcripts clinically useless.
+**What goes wrong**: When generating test scripts to validate deny list expansion, only creating positive cases ("term should be filtered") without negative cases ("term in PHI context should NOT be filtered").
+
+**Example of incomplete test**:
+```python
+# INCOMPLETE - Only tests positive case
+def test_months_old_not_redacted():
+    """Test that age descriptor is preserved."""
+    text = "This is a 5 months old infant."
+    result = deidentify_text(text)
+    assert "months old" in result.clean_text  # ✓ Tests preservation
+
+# MISSING - Negative case
+def test_months_ago_IS_redacted():
+    """Test that timeframe reference IS still caught as PHI."""
+    text = "Patient admitted 3 months ago on December 15th."
+    result = deidentify_text(text)
+    # Should redact "December 15th" even though "months ago" is present
+    assert "December" not in result.clean_text  # ✗ Not tested!
+```
+
+**Why it's dangerous**:
+- Deny list expansion can inadvertently create false negatives
+- Substring matching can filter too broadly
+- False sense of security - "All tests pass" but PHI leaks through
 
 **Warning signs**:
-- "Fixed" over-scrubbing by raising threshold, now missing PHI in spot checks
-- Focused only on F1 score (equal weighting) when recall should be prioritized
-- No documentation of acceptable false positive rate
+- Test suite only validates deny list filtering works
+- No tests for "this term SHOULD be detected despite deny list"
+- Real handoff testing finds false negatives not caught in test suite
+- Tests focus on precision improvement but don't verify recall maintained
 
 **Prevention strategy**:
-- Define **risk tolerance**: "No more than 1% missed PHI (99% recall minimum)"
-- Set **secondary optimization**: "Maximize precision while maintaining 99% recall"
-- Use **F2 score** (weighs recall 2x precision) as optimization target for PHI detection
-- Monitor **both metrics** in production: alert if recall drops below 99% OR precision drops below 75%
+1. **Paired tests**: For each deny list term, write BOTH positive (filter) and negative (don't filter) test cases
+2. **Adversarial test generation**: "How could this deny list entry cause a false negative?"
+3. **Recall regression testing**: After deny list expansion, run full recall evaluation to detect false negatives
+4. **Real-world validation**: Test against actual PHI-containing transcripts (de-identified for testing)
 
-**Phase mapping**: Phase 4 (Threshold Optimization) - Define risk tolerance before calibration
+**Which phase addresses**:
+- Phase 3 (Deny List Refinement): When creating test cases for new deny lists
+- Phase 6 (Real Handoff Testing): Validates no false negatives introduced
 
-**Reference**: "Recall takes precedence when the cost of missing a positive instance (false negatives) is substantial, with a classic example being in healthcare."
+**Project-specific lesson**: When adding "months old" to deny list, must also test "admitted 3 months ago on January 15" to ensure date still detected.
 
 ---
 
-### 7. **Single-Point Threshold Optimization**
+## Medium Risk Pitfalls
 
-**What goes wrong**: Choosing single optimal threshold ignores that different entity types may need different thresholds. PERSON names might need higher confidence than LOCATION to reduce false positives.
+### Pitfall 7: Deny List Ordering Dependencies
 
-**Warning signs**:
-- Some entity types have much higher false positive rates than others
-- Per-entity precision/recall metrics show large variance
-- Uniform threshold applied to all recognizers
+**What goes wrong**: Deny list filtering order matters if one term is substring of another.
+
+**Example**:
+```python
+deny_list_date_time = [
+    "day old",        # Matches "3 day old"
+    "days old",       # Matches "3 days old"
+    "day of life",    # Matches "day of life 5"
+    "dol",            # Matches "DOL 3"
+]
+
+# Substring match with first match wins:
+"3 days old infant" → matches "day old" first (wrong!)
+```
 
 **Prevention strategy**:
-- Calculate **per-entity-type metrics**: Precision/recall for PERSON, LOCATION, MRN, etc.
-- Consider **entity-specific thresholds** if variance is high (>10% difference in F2 score)
-- Test ensemble approach: Conservative threshold (0.3) for high-risk entities (PERSON, MRN), higher threshold (0.5) for lower-risk (LOCATION)
+- Use exact match by default (order doesn't matter)
+- For substring match, sort deny list by length descending (longest first)
+- Document that order matters for substring matching
+- Test with terms that are substrings of each other
 
-**Phase mapping**: Phase 4 (Threshold Optimization) - After evaluating per-entity metrics
+**Which phase addresses**: Phase 3 (Deny List Refinement)
 
 ---
 
-## Metrics Pitfalls
+### Pitfall 8: Unicode and Accent Normalization
 
-### 8. **Testing Only on Synthetic Data**
+**What goes wrong**: Medical terms with accents or special characters don't match deny list.
 
-**What goes wrong**: Synthetic data created by project team reflects **assumptions about PHI patterns**, not reality. Validation on synthetic data gives false confidence—real transcripts contain edge cases not imagined during synthetic data generation.
-
-**Warning signs**:
-- 99% metrics on test suite but users report missed PHI in production
-- Synthetic data all follows same grammatical patterns ("Mom [Name]" format)
-- Test cases don't include speech-to-text artifacts (stutters, corrections, fragments)
+**Example**:
+- "Café-au-lait spots" vs "Cafe-au-lait spots"
+- "José" (name) vs "Jose" (deny list entry - hypothetically)
 
 **Prevention strategy**:
-- Create **adversarial test cases**: Deliberately unusual patterns ("the mother, Jessica she said", "baby boy, Smith is his name")
-- Use **real de-identified transcripts** for validation (obtain from other medical centers if possible)
-- **External validation**: Have independent clinician review sample of de-identified transcripts
-- **Bootstrap confidence intervals**: Calculate 95% CI for recall metric using resampling
+- Use Unicode normalization (NFKC) before comparison if multi-cultural patient population
+- Document whether deny list supports accented characters
+- For this project: English-only transcription, accents rare, accept limitation
 
-**Phase mapping**: Phase 3 (Validation) - Before declaring success, test on external data
-
-**Reference**: "Rigorous validation of synthetic data is necessary to confirm clinical utility and reliability. Organizations should conduct external validation and re-identification testing."
+**Which phase addresses**: Phase 6 (Real Handoff Testing) - if non-English names appear
 
 ---
 
-### 9. **Ignoring Class Imbalance**
+### Pitfall 9: Over-Reliance on Deny Lists vs Threshold Tuning
 
-**What goes wrong**: PHI entities are **rare** in transcripts (maybe 2-5% of tokens). Accuracy metric is misleading: 95% accuracy could mean catching 0% of PHI if you just label everything as "not PHI". Precision/recall are mandatory metrics.
+**What goes wrong**: Using deny lists to compensate for poor threshold calibration instead of fixing root cause.
 
-**Warning signs**:
-- Reporting "98% accuracy" as main metric
-- No calculation of prevalence (what % of tokens are actually PHI)
-- Test data has unrealistically high PHI density
+**Example**:
+- DATE_TIME threshold too low (0.3) → detects "today" as PHI
+- Add "today" to deny list instead of raising threshold to 0.4
+
+**Why it's problematic**:
+- Deny lists treat symptom, not disease
+- Hides underlying model performance issues
+- Deny list grows unbounded as more false positives discovered
 
 **Prevention strategy**:
-- **Never use accuracy** as primary metric for PHI detection
-- Report **precision, recall, F2 score** as standard metrics
-- Calculate **PHI prevalence** in test data: should match real transcripts (~2-5%)
-- Use **stratified sampling** when creating test sets (ensure rare entity types represented)
+- Threshold tuning FIRST (Phase 2), deny lists SECOND (Phase 3)
+- Deny lists should be for domain-specific terms (medical abbreviations), not general words
+- If adding common English words to deny list, consider threshold adjustment instead
 
-**Phase mapping**: Phase 0 (Planning) - Choose correct metrics from start
+**Which phase addresses**: Phase 2 (Threshold Calibration) before Phase 3
 
 ---
 
-### 10. **Neglecting Error Proximity Analysis**
+### Pitfall 10: Deny List vs Recognizer Pattern Conflicts
 
-**What goes wrong**: Research shows **78% of false negative tokens were either directly preceded by or followed by a correctly classified PHI token**. This pattern indicates boundary detection errors—missed the last name when you caught the first name.
+**What goes wrong**: Adding term to deny list that conflicts with custom recognizer pattern.
 
-**Warning signs**:
-- False negatives cluster near true positives
-- Multi-word entities partially detected ("Jessica" caught but "Smith" missed)
-- Span boundary errors in output
+**Example from project**:
+```python
+# Custom recognizer pattern (pediatric.py):
+# Matches "Baby [NAME]" with lookbehind
+
+# Hypothetically adding to deny list:
+deny_list_person = ["baby"]  # DON'T DO THIS
+
+# Result: "Baby Smith" → neither custom recognizer fires (filtered)
+#         nor standard NER catches "Smith" (depends on context)
+```
 
 **Prevention strategy**:
-- Analyze **false negative proximity**: Are misses adjacent to correct detections?
-- Test **multi-token entities** explicitly: "Jessica Lynn Smith" (should detect all 3)
-- Consider **BIO tagging** (Beginning, Inside, Outside) for better boundary detection
-- Add **span expansion logic**: If detecting "Mom", check next 1-2 tokens for names
+- Review custom recognizer patterns before expanding deny lists
+- Ensure deny list doesn't filter terms that trigger custom recognizers
+- Integration test: Custom recognizers should still fire after deny list expansion
 
-**Phase mapping**: Phase 3 (Validation) - Error analysis should include proximity metrics
-
-**Reference**: "78% of false negative tokens were either directly preceded by or followed by a correctly classified PHI token" (NCBI study)
+**Which phase addresses**: Phase 3 (Deny List Refinement) - review custom recognizers
 
 ---
 
-## Testing Pitfalls
+## Prevention Checklist by Phase
 
-### 11. **No Ground Truth for Real Transcripts**
+### Before Adding ANY Deny List Term
 
-**What goes wrong**: You can't measure recall on real transcripts if you don't know what PHI is actually present. Spot-checking by humans is unreliable—humans miss PHI too, creating false confidence.
+- [ ] **Evidence documented**: False positive test case or production error documented
+- [ ] **Rationale comment**: Code comment explains why term was added
+- [ ] **Ambiguity check**: Term is not a common English name (check SSA database)
+- [ ] **Boundary check**: If substring match needed, verified it won't match PHI phrases
+- [ ] **Negative test case**: Created test where term SHOULD be detected (don't over-filter)
+- [ ] **All files updated**: Checked `deidentification.py`, `evaluate_presidio.py`, `calibrate_thresholds.py`
+- [ ] **Case normalization**: Uses `.lower()` comparison consistently
+- [ ] **Recognizer review**: Verified no conflict with custom recognizer patterns
 
-**Warning signs**:
-- "Manually reviewed 10 transcripts, looks good" as validation evidence
-- No inter-rater reliability measurement for human reviewers
-- No gold-standard annotated dataset
+### After Deny List Expansion
 
-**Prevention strategy**:
-- Create **gold-standard dataset**: Have 2-3 independent clinicians annotate same 50 transcripts, measure inter-rater agreement (Cohen's kappa)
-- Use only **high-agreement transcripts** (kappa > 0.8) as ground truth
-- For production monitoring, use **expert panel**: 3 reviewers, majority vote
-- Implement **human-in-the-loop checks** for random sample of transcripts
+- [ ] **Recall regression test**: Run full evaluation to check false negative rate unchanged
+- [ ] **Precision improvement**: Verify false positive rate decreased as expected
+- [ ] **Server restart**: If config.py changed, restart server to pick up changes
+- [ ] **Integration test**: Same behavior across deidentification and evaluation code paths
+- [ ] **Real handoff validation**: Test with actual clinical handoff transcripts
 
-**Phase mapping**: Phase 3 (Validation) - Create gold standard before declaring metrics
+### Maintenance
 
-**Reference**: "Embedding human-in-the-loop checks especially for free-text and edge cases" recommended as best practice.
-
----
-
-### 12. **Insufficient Coverage of Edge Cases**
-
-**What goes wrong**: Test suite focuses on common patterns (standard names, phone numbers) but misses edge cases that appear in real transcripts (nicknames, informal speech, transcription errors).
-
-**Warning signs**:
-- Test suite has 500 cases but only 10-15 distinct PHI patterns
-- All names in test data are standard English names
-- No test cases for transcription errors ("Doctor Jen—uh, Jennifer")
-
-**Prevention strategy**:
-- **Taxonomy of edge cases**: Nicknames, initials, titles, hyphenated names, transcription corrections, multiple entities in one phrase
-- **Adversarial testing**: Try to break system with unusual but realistic inputs
-- **Cultural diversity**: Test non-English names common in local population
-- **Speech artifacts**: Stutters ("J-J-Jessica"), corrections ("Mom—I mean the mother"), hesitations ("uh", "um")
-
-**Phase mapping**: Phase 3 (Validation) - Expand test suite with edge cases
-
----
-
-### 13. **Ignoring Computational Performance**
-
-**What goes wrong**: Regex tuning adds complexity (lookbehinds, alternations), increasing processing time. Presidio's NER models are already slow—if regex preprocessing adds 2x overhead, 30-minute transcripts might timeout.
-
-**Warning signs**:
-- Frontend already increased timeout from 10min to 30min
-- Complex regex patterns with nested alternations and lookarounds
-- No performance benchmarking before deploying changes
-
-**Prevention strategy**:
-- **Benchmark processing time**: Measure ms/token before and after regex changes
-- Set **performance budget**: "Regex preprocessing must complete in <10% of total processing time"
-- **Profile regex patterns**: Some patterns are expensive (catastrophic backtracking)
-- Test with **realistic transcript lengths**: 5,000-10,000 word transcripts
-
-**Phase mapping**: Phase 2 (Regex Refinement) - Profile each new pattern
-
----
-
-### 14. **Surrogation vs. Redaction Confusion**
-
-**What goes wrong**: Surrogation (replacing PHI with plausible synthetic values) is **stronger privacy protection** than redaction (`[NAME]`) because false negatives are hidden. Current system uses redaction—any missed PHI is exposed.
-
-**Warning signs**:
-- System uses `[NAME]`, `[DATE]` placeholder approach
-- No consideration of surrogation option
-- False negative PHI remains visible in output
-
-**Prevention strategy**:
-- **Evaluate surrogation**: Replace "Jessica" with synthetic name "Emma Johnson" (preserves clinical utility, hides false negatives)
-- If sticking with redaction, **must achieve very high recall** (>99.5%) since misses are visible
-- Consider **hybrid approach**: Surrogation for names/dates, redaction for phone numbers
-- Document rationale for redaction vs surrogation choice
-
-**Phase mapping**: Phase 0 (Planning) - Choose de-identification strategy before building
-
-**Reference**: "Surrogation strengthens privacy protections as any false-negative PHI values are hidden within a document."
-
----
-
-### 15. **No Residual Risk Measurement**
-
-**What goes wrong**: HIPAA Safe Harbor method requires removing 18 identifiers, but regex-based systems have **inherent miss rate**. Without measuring residual risk (probability PHI remains), you can't claim HIPAA compliance.
-
-**Warning signs**:
-- No formal risk assessment documentation
-- Claiming "HIPAA-compliant" without statistical evidence
-- No confidence intervals on recall metric
-
-**Prevention strategy**:
-- Calculate **95% confidence interval** for recall using bootstrap resampling
-- Report **upper bound on miss rate**: "95% confident that ≤1.2% of PHI is missed"
-- Compare against **HIPAA Expert Determination** requirements (statistician must certify risk)
-- Consider formal **Safe Harbor audit**: External expert validates 18 identifier removal
-
-**Phase mapping**: Phase 5 (Compliance Validation) - Final step before production
-
-**Reference**: "Organizations should monitor de-identification performance by measuring residual risk and computing confidence intervals to capture sampling uncertainty."
-
----
-
-## Prevention Checklist
-
-Use this checklist during planning and review:
-
-### Phase 0: Planning
-- [ ] Chosen metrics appropriate for imbalanced data (precision/recall/F2, not accuracy)
-- [ ] Defined risk tolerance (e.g., "99% recall minimum")
-- [ ] Selected de-identification strategy (redaction vs surrogation) with documented rationale
-- [ ] Identified external validation data source
-
-### Phase 1: Case Normalization
-- [ ] All deny lists use consistent case handling (recommend lowercase normalization)
-- [ ] Case sensitivity policy documented in `config.py`
-- [ ] Test suite includes case variation examples
-
-### Phase 2: Regex Refinement
-- [ ] Medical term deny lists built from clinical vocabulary databases
-- [ ] Context-aware patterns use lookahead/lookbehind appropriately
-- [ ] Bidirectional patterns handle both "Mom Jessica" and "Jessica is mom"
-- [ ] Each new pattern benchmarked for performance (catastrophic backtracking check)
-- [ ] Patterns tested against minimal pairs (PHI vs non-PHI)
-
-### Phase 3: Validation
-- [ ] Gold-standard dataset created with inter-rater reliability (kappa > 0.8)
-- [ ] Edge case taxonomy covers nicknames, transcription errors, cultural diversity
-- [ ] Error proximity analysis performed (are false negatives adjacent to true positives?)
-- [ ] External validation on real transcripts (not just synthetic data)
-- [ ] Adversarial testing with deliberately unusual patterns
-
-### Phase 4: Threshold Optimization
-- [ ] Precision-recall curve generated using validation set
-- [ ] Threshold selection documented with supporting metrics
-- [ ] Both precision and recall monitored (not just F1)
-- [ ] Per-entity-type metrics calculated (consider entity-specific thresholds)
-- [ ] F2 score used as optimization target (prioritizes recall)
-
-### Phase 5: Compliance Validation
-- [ ] Residual risk calculated with 95% confidence interval
-- [ ] External expert review (human-in-the-loop sample)
-- [ ] HIPAA Safe Harbor or Expert Determination compliance documented
-- [ ] Production monitoring plan defined (alert thresholds for recall/precision)
+- [ ] **Quarterly review**: Review deny list effectiveness, remove unused terms
+- [ ] **Performance check**: Ensure deny list size (<100 terms) doesn't impact performance
+- [ ] **Documentation update**: Keep rationale comments current with test evidence
 
 ---
 
 ## Key Takeaways
 
-1. **Recall is non-negotiable** in PHI detection—legal/compliance risk outweighs clinical utility degradation from over-scrubbing
-2. **Case sensitivity inconsistencies** are the most common preventable error—standardize early
-3. **Synthetic data validation** creates false confidence—external validation is mandatory
-4. **Context-agnostic regex** generates high false positive rates—use lookbehind/lookahead patterns
-5. **Threshold optimization without business requirements** is guessing—define risk tolerance first
+1. **Substring matching is dangerous** - Use exact match by default, substring only when necessary with careful boundary checking
+2. **Evidence-driven expansion** - Never add terms without documented false positive
+3. **Test negative cases** - Ensure deny list doesn't create false negatives (missed PHI)
+4. **Case consistency across files** - Fix in all 3 code paths: production, evaluation, calibration
+5. **Server restart required** - Config changes don't take effect until server restart due to `@lru_cache`
+6. **Ambiguous terms are unsafe** - Don't add terms that could be both names and abbreviations
+7. **Recall is non-negotiable** - Deny list expansion must NOT reduce recall (missed PHI)
 
 ---
 
-## References
+## Project-Specific Lessons Learned
 
-- [PHI De-Identification at HHS](https://www.hhs.gov/hipaa/for-professionals/special-topics/de-identification/index.html)
-- [18 HIPAA Identifiers - Censinet](https://censinet.com/perspectives/18-hipaa-identifiers-for-phi-de-identification)
-- [De-identification of clinical notes with pseudo-labeling - BMC](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-025-02913-z)
-- [Open Source PHI De-Identification Review - IntuitionLabs](https://intuitionlabs.ai/articles/open-source-phi-de-identification-tools)
-- [Software Tool for Removing Patient Identifying Information - PMC](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2528047/)
-- [Deidentification using pre-trained transformers - PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC8330601/)
-- [Automated de-identification of free-text medical records - BMC](https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/1472-6947-8-32)
-- [Comparing Medical Text De-identification - John Snow Labs](https://www.johnsnowlabs.com/comparing-john-snow-labs-medical-text-de-identification-with-microsoft-presidio/)
-- [Precision/Recall Tradeoff - Medium](https://medium.com/analytics-vidhya/precision-recall-tradeoff-79e892d43134)
-- [Machine Learning Classification Metrics - Google Developers](https://developers.google.com/machine-learning/crash-course/classification/accuracy-precision-recall)
-- [Threshold Dilemma in Machine Learning - Medium](https://medium.com/@ibezimchike/threshold-dilemma-in-machine-learning-balancing-precision-and-recall-for-optimal-model-performance-eb3dc01e162e)
-- [Medical Image De-Identification: Synthetic DICOM Data - arXiv](https://arxiv.org/html/2508.01889)
-- [Synthesizing Healthcare Data for AI with HIPAA - Tonic.ai](https://www.tonic.ai/guides/hipaa-ai-compliance)
-- [Evaluating GPT models for clinical note de-identification - Nature](https://www.nature.com/articles/s41598-025-86890-3)
-- [De-Identification of Personal Information - NIST](https://nvlpubs.nist.gov/nistpubs/ir/2015/nist.ir.8053.pdf)
-- [Recent Advances in Named Entity Recognition - arXiv](https://arxiv.org/html/2401.10825v3)
-- [Clinical NER and Relation Extraction: Systematic Review - ScienceDirect](https://www.sciencedirect.com/science/article/pii/S1386505623001405)
-- [Clinical Named Entity Recognition Using Deep Learning - PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC5977567/)
+### Phase 3 Success
+- Fixed case-insensitive bug across 3 files simultaneously
+- Added DATE_TIME, GUARDIAN_NAME, PEDIATRIC_AGE deny lists
+- Evidence-based: Only added terms with documented false positives
+
+### Phase 6 Discovery
+- **Server restart requirement** caused 21 handoffs of false errors
+- Root cause: `@lru_cache()` on config meant changes didn't load
+- Lesson: Document restart requirement prominently
+
+### Phase 6 Medical Terms
+- Added "bilirubin", "ARFID", "citrus", "diuresis" to PERSON deny list
+- Evidence: Real false positives in handoff transcripts
+- Safe: Not common English names (checked SSA database)
 
 ---
 
-*Research completed: 2026-01-23*
-*Document Version: 1.0*
+## Sources
+
+**HIGH Confidence:**
+- [Presidio Deny List Documentation](https://microsoft.github.io/presidio/tutorial/01_deny_list/) - Official guidance on deny list implementation
+- [Presidio Best Practices](https://microsoft.github.io/presidio/analyzer/developing_recognizers/) - Recognizer development and false positive management
+- Project codebase analysis - Direct inspection of `deidentification.py`, `config.py`, test files
+- Phase 3 Research (03-RESEARCH.md) - Documented case-insensitive bug and deny list expansion
+- Phase 6 Pattern Analysis (patterns_identified.md) - Real production errors documented
+
+**MEDIUM Confidence:**
+- [Clinical NER Challenges](https://pmc.ncbi.nlm.nih.gov/articles/PMC10651400/) - Named Entity Recognition in Electronic Health Records methodological review
+- [String Matching Methods](https://note.nkmk.me/en/python-str-compare/) - Python string comparison best practices
+- [NER Evaluation Metrics](https://github.com/MantisAI/nervaluate) - Exact vs partial matching in NER evaluation
+- [Sensitive Data Discovery](https://www.docontrol.io/blog/sensitive-data-discovery-tools) - Why exact matching causes false negatives
+
+**LOW Confidence (general guidance):**
+- Web search results on medical abbreviation misinterpretation (general issues, not deny list specific)
+- HIPAA guidance on de-identification (legal requirements, not technical implementation)
+
+---
+
+## Confidence Assessment
+
+| Area | Confidence | Rationale |
+|------|------------|-----------|
+| Substring matching pitfalls | HIGH | Project experienced this issue, well-documented in research |
+| Evidence-driven expansion | HIGH | Phase 3 established this pattern, Phase 6 validated it |
+| Case sensitivity bugs | HIGH | Found and fixed in Phase 3 across 3 files |
+| Server caching issue | HIGH | Phase 6 Session 1 documented this root cause |
+| Ambiguous terms | MEDIUM | General best practice, not project-specific experience yet |
+| Test negative cases | MEDIUM | General testing principle, project hasn't had false negative incidents |
+| Unicode normalization | LOW | Not yet encountered in English-only transcripts |
+
+---
+
+*Research completed: 2026-01-28*
+*Document version: 2.0 (Deny List Expansion Focus)*
+*Primary researcher: Claude Code (Research Agent)*
