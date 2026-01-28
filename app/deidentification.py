@@ -181,10 +181,13 @@ def deidentify_text(
 
         detected_text = text[result.start:result.end].strip()
 
-        # Check LOCATION deny list
-        if result.entity_type == "LOCATION" and detected_text.lower() in [w.lower() for w in settings.deny_list_location]:
-            logger.debug(f"Filtered out deny-listed LOCATION: {detected_text}")
-            continue
+        # Check LOCATION deny list (uses substring matching like DATE_TIME)
+        if result.entity_type == "LOCATION":
+            detected_lower = detected_text.lower()
+            is_denied = any(term.lower() in detected_lower for term in settings.deny_list_location)
+            if is_denied:
+                logger.debug(f"Filtered out deny-listed LOCATION: {detected_text}")
+                continue
 
         # Check PERSON deny list
         if result.entity_type == "PERSON" and detected_text.lower() in [w.lower() for w in settings.deny_list_person]:
