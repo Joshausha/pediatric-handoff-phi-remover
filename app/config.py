@@ -153,6 +153,9 @@ class Settings(BaseSettings):
             "ICU",   # Intensive care unit
             "PICU",  # Pediatric ICU
             "NICU",  # Neonatal ICU
+            "CVICU", # Cardiovascular ICU
+            "CCU",   # Cardiac care unit
+            "PACU",  # Post-anesthesia care unit
         ],
         description="Words that should not be flagged as PERSON"
     )

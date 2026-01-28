@@ -88,11 +88,50 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
             score=0.65
         ),
         # ICU bed formats with unit names (preserve unit, redact number)
-        # "PICU bed 7", "picu bed 3A", "NICU bed 21", "ICU bed 4"
+        # Using lookbehind to match only "bed X" portion, preserving unit name
+        # "PICU bed 7" -> "PICU [ROOM]", "NICU bed 21" -> "NICU [ROOM]"
+
+        # PICU bed - match only "bed X" portion (PICU preserved)
+        Pattern(
+            name="picu_bed",
+            regex=r"(?i)(?<=picu )bed\s+\d{1,3}[A-Za-z]?\b",
+            score=0.80
+        ),
+        # NICU bed - match only "bed X" portion (NICU preserved)
+        Pattern(
+            name="nicu_bed",
+            regex=r"(?i)(?<=nicu )bed\s+\d{1,3}[A-Za-z]?\b",
+            score=0.80
+        ),
+        # ICU bed - match only "bed X" portion (ICU preserved)
         Pattern(
             name="icu_bed",
-            regex=r"(?i)\b(?:picu|nicu|icu)\s+bed\s+\d{1,3}[A-Za-z]?\b",
+            regex=r"(?i)(?<=icu )bed\s+\d{1,3}[A-Za-z]?\b",
             score=0.80
+        ),
+        # CVICU bed - match only "bed X" portion (CVICU preserved)
+        Pattern(
+            name="cvicu_bed",
+            regex=r"(?i)(?<=cvicu )bed\s+\d{1,3}[A-Za-z]?\b",
+            score=0.80
+        ),
+        # CCU bed - match only "bed X" portion (CCU preserved)
+        Pattern(
+            name="ccu_bed",
+            regex=r"(?i)(?<=ccu )bed\s+\d{1,3}[A-Za-z]?\b",
+            score=0.80
+        ),
+        # PACU bed - match only "bed X" portion (PACU preserved)
+        Pattern(
+            name="pacu_bed",
+            regex=r"(?i)(?<=pacu )bed\s+\d{1,3}[A-Za-z]?\b",
+            score=0.75
+        ),
+        # L&D room - match only "room X" portion (L&D preserved)
+        Pattern(
+            name="ld_room",
+            regex=r"(?i)(?<=l&d )room\s+\d{1,4}[A-Za-z]?\b",
+            score=0.75
         ),
         # Bay number (NICU specific): "bay 5", "Bay 12"
         Pattern(
@@ -133,7 +172,8 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
         supported_entity="ROOM",
         name="Room Number Recognizer",
         patterns=room_patterns,
-        context=["room", "bed", "floor", "unit", "located", "admitted to", "transferred to", "bay", "isolette"]
+        context=["room", "bed", "floor", "unit", "located", "admitted to", "transferred to", "bay", "isolette",
+                 "picu", "nicu", "icu", "cvicu", "ccu", "pacu", "l&d"]
     )
     recognizers.append(room_recognizer)
 
