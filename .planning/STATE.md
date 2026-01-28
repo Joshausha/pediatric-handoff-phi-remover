@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-01-28)
 ## Current Position
 
 Phase: 11 of 12 (Deny List Expansion)
-Plan: 03 of 3
+Plan: 02 of 3
 Status: In progress
-Last activity: 2026-01-28 — Completed 11-03-PLAN.md (unit name preservation in ROOM redaction)
+Last activity: 2026-01-28 — Completed 11-02-PLAN.md (flow terms and PERSON deny list expansion)
 
 Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [####░░░░░░] 40% v2.1
 
@@ -42,7 +42,7 @@ Tracked via xfail markers in CI:
 - Street addresses (425 Oak Street)
 
 **Over-detection:**
-- "Currently on high" as LOCATION (11-02 will fix)
+- ~~"Currently on high" as LOCATION~~ FIXED in 11-02
 - ~~Duration phrases ("three days of symptoms") as DATE_TIME~~ FIXED in 11-01
 - ~~Unit names lost during ROOM redaction~~ FIXED in 11-03
 
@@ -58,6 +58,8 @@ Recent decisions affecting current work:
 - **10-01: Logging structure**: Per-script sections with tables, then batch pattern analysis for systematic documentation
 - **10-02: Manual review**: Used human review over automation to identify context-dependent false positives
 - **10-02: Impact prioritization**: Prioritized Phase 11 work by false positive volume (DATE_TIME 58%, LOCATION 33%, PERSON 9%)
+- **11-02: Broad deny terms justified**: Added standalone "high" and "low" to LOCATION deny list despite being broad - overwhelmingly used for oxygen flow rates in pediatric handoffs, minimal risk of missing legitimate location PHI
+- **11-02: Dual deny list inclusion**: Added "flow" to both LOCATION and PERSON deny lists to prevent false positives in either entity type
 - **11-03: Unit preservation**: Use separate fixed-width lookbehind patterns per unit type instead of alternation for reliable regex matching
 
 ### Pending Todos
@@ -71,9 +73,9 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 11-03-PLAN.md (unit name preservation in ROOM redaction)
+Stopped at: Completed 11-02-PLAN.md (flow terms and PERSON deny list expansion)
 Resume file: None
-Next: Continue Phase 11 (11-02 LOCATION deny list expansion remaining)
+Next: Phase 11 complete - ready for final validation
 
 ---
 *State initialized: 2026-01-23*
