@@ -192,6 +192,50 @@ class Settings(BaseSettings):
             "hours ago", "minutes ago",
             "this morning", "this afternoon", "this evening", "last night",
             "three minutes", "two minutes", "five minutes",
+
+            # ===== Phase 11-01: Duration Pattern Expansion =====
+            # Simple duration (written-out numbers) - DAYS
+            "one day", "two days", "three days", "four days", "five days",
+            "six days", "seven days",
+            # Simple duration (written-out numbers) - WEEKS
+            "one week", "two weeks", "three weeks", "four weeks",
+            # Simple duration (written-out numbers) - MONTHS
+            "one month", "two months", "three months",
+            # Simple duration (written-out numbers) - HOURS
+            "one hour", "two hours", "three hours", "four hours", "five hours",
+            "six hours", "eight hours", "twelve hours", "twenty-four hours",
+
+            # Numeric duration (common values)
+            "24 hours", "48 hours", "72 hours",
+            "1 hour", "2 hours", "3 hours", "4 hours", "6 hours",
+            "12 hours", "18 hours", "36 hours", "60 hours",
+
+            # Informal duration
+            "a day", "a few days", "couple days", "half a day",
+            "a week", "a few weeks", "couple weeks",
+            "a couple of days", "a couple of hours",
+            "another hour", "another day", "one more hour", "one more day",
+
+            # Duration ranges
+            "two to three days", "three to four days", "one to two weeks",
+            "a day or two", "a few more days",
+
+            # Recent past patterns (substring matches)
+            "the past two days", "the past few days", "the last few days",
+            "last 24 hours", "past 24 hours", "past 48 hours",
+            "the past week", "the last week",
+
+            # Duration context words
+            "days ago", "weeks ago", "months ago",
+            "a day and a half", "day and a half",
+            "five hours ago", "six hours ago", "twelve hours ago",
+
+            # Clinical percentages (oxygen saturation context)
+            "mid-90s", "low 90s", "high 90s",
+            "mid-80s", "low 80s", "high 80s",
+
+            # Dosing counts that look like dates
+            "4 doses", "3 doses", "2 doses", "1 dose",
         ],
         description="Generic time references, dosing schedules, and clinical timeline terms not flagged as DATE_TIME"
     )
