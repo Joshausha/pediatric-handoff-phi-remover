@@ -98,6 +98,7 @@ class Settings(BaseSettings):
     # These are medical abbreviations/terms that NER models often misclassify
     deny_list_location: list[str] = Field(
         default=[
+            # Basic medical abbreviations
             "NC",    # Nasal cannula
             "RA",    # Room air
             "OR",    # Operating room (generic)
@@ -112,11 +113,37 @@ class Settings(BaseSettings):
             "NG",    # Nasogastric
             "OG",    # Orogastric
             "NJ",    # Nasojejunal
+
+            # ===== Phase 11-02: Flow Terminology Expansion =====
+            # Flow rates and oxygen delivery (commonly misdetected as LOCATION)
+            "high flow",                # High flow oxygen
+            "low flow",                 # Low flow oxygen
+            "on high",                  # "Currently on high"
+            "on low",                   # "Currently on low"
+            "high",                     # Standalone in respiratory context
+            "low",                      # Standalone in respiratory context
+            "flow",                     # Generic flow term
+            "nasal high flow",          # Nasal high flow oxygen
+            "high flow nasal cannula",  # HFNC spelled out
+            "HFNC",                     # High flow nasal cannula abbreviation
+
+            # Room air variations
+            "room air",                 # Full phrase (RA already covered)
+
+            # Hospital unit names (ensure protected - some already in PERSON list)
+            "PICU",                     # Pediatric ICU
+            "NICU",                     # Neonatal ICU
+            "ICU",                      # Intensive care unit
+
+            # Clinical location context (not PHI)
+            "bedside",                  # At bedside
+            "floor",                    # Hospital floor
         ],
         description="Medical abbreviations that should not be flagged as LOCATION"
     )
     deny_list_person: list[str] = Field(
         default=[
+            # Relationships and roles
             "mom",   # Generic relationship, not a name
             "dad",   # Generic relationship, not a name
             "parent",
@@ -156,6 +183,21 @@ class Settings(BaseSettings):
             "CVICU", # Cardiovascular ICU
             "CCU",   # Cardiac care unit
             "PACU",  # Post-anesthesia care unit
+
+            # ===== Phase 11-02: Clinical Descriptor Expansion =====
+            # Clinical symptom descriptors (sound like names to NER)
+            "barky",                    # Croup cough descriptor
+
+            # Location descriptors in clinical context
+            "bedside",                  # At bedside / bedside nurse
+            "room",                     # Room air context
+
+            # Clinical status descriptors (rarely flagged but preventative)
+            "stable",                   # Patient status
+            "critical",                 # Patient status
+
+            # Respiratory terms (prevent over-detection)
+            "flow",                     # Prevent "Flow" as name
         ],
         description="Words that should not be flagged as PERSON"
     )
