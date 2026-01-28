@@ -8,6 +8,16 @@ A HIPAA-compliant web application that transcribes pediatric patient handoff rec
 
 Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content.
 
+## Current Milestone: v2.1 Over-Detection Quality Pass
+
+**Goal:** Reduce false positives by expanding deny lists based on systematic testing with realistic and edge-case handoff scripts.
+
+**Target features:**
+- Generate realistic and edge-case I-PASS handoff test scripts
+- Record and process to discover over-detection issues
+- Fix deny lists for duration phrases, medical flow terminology, unit preservation
+- Validate no regressions
+
 ## Current State
 
 **v2.0 CI/CD Pipeline Fix shipped 2026-01-26**
@@ -49,9 +59,15 @@ Production-ready HIPAA-compliant PHI detection with:
 
 ### Active
 
-<!-- Next milestone requirements (none yet) -->
+<!-- v2.1 Over-Detection Quality Pass requirements -->
 
-(No active requirements — start new milestone with `/gsd:new-milestone`)
+- [ ] Generate realistic I-PASS handoff test scripts
+- [ ] Generate edge-case scripts targeting duration phrases, flow terminology, unit names
+- [ ] Record and process test handoffs to discover over-detection issues
+- [ ] Add duration patterns to DATE_TIME deny list (one day, two days, three days, etc.)
+- [ ] Add medical flow terminology to LOCATION deny list (high flow, placed on high, etc.)
+- [ ] Preserve unit names (PICU, NICU) during ROOM redaction
+- [ ] Validate no regressions on 27 real handoffs
 
 ### Out of Scope
 
@@ -104,4 +120,4 @@ Production-ready HIPAA-compliant PHI detection with:
 | xfail for known issues | CI passes while tracking quality debt | ✓ Good |
 
 ---
-*Last updated: 2026-01-26 after v2.0 milestone*
+*Last updated: 2026-01-28 after v2.1 milestone start*

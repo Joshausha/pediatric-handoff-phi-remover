@@ -2,19 +2,19 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-26)
+See: .planning/PROJECT.md (updated 2026-01-28)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Planning next milestone
+**Current focus:** v2.1 Over-Detection Quality Pass
 
 ## Current Position
 
-Phase: Ready for next milestone
-Plan: Not started
-Status: v2.0 shipped, ready for /gsd:new-milestone
-Last activity: 2026-01-26 — v2.0 milestone complete
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements for v2.1
+Last activity: 2026-01-28 — Milestone v2.1 started
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [░░░░░░░░░░] 0% v2.1
 
 ## Milestones Shipped
 
@@ -54,4 +54,4 @@ Next: /gsd:new-milestone (when ready for v2.1 or v3.0)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-26*
+*Last updated: 2026-01-28*
