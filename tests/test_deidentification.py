@@ -486,6 +486,114 @@ class TestDenyListFiltering:
 
 
 # =============================================================================
+# FALSE POSITIVE REGRESSION TESTS (Phase 11)
+# =============================================================================
+
+class TestFalsePositiveRegressions:
+    """
+    Regression tests for false positives documented in Phase 10.
+
+    These tests ensure deny list expansions eliminate documented false positives
+    while not introducing regressions on legitimate PHI detection.
+    """
+
+    # --- DATE_TIME False Positives (26 instances documented) ---
+
+    @pytest.mark.parametrize("phrase", [
+        # Simple duration
+        "three days of symptoms",
+        "two days of fever",
+        "six hours of vomiting",
+        "twelve hours ago",
+        "48 hours observation",
+        "one week of cough",
+        # Relative time
+        "yesterday she was febrile",
+        "tomorrow we plan to discharge",
+        "started this morning",
+        # Clinical progression
+        "day 4 of illness",
+        "day 2 of antibiotics",
+        # Continuation
+        "another hour of observation",
+        "one more hour then discharge",
+        # Ranges and recent past
+        "two to three days more",
+        "the past two days",
+        "last 24 hours stable",
+        # Clinical percentages
+        "sats in the mid-90s",
+        "saturation mid-90s on room air",
+    ])
+    def test_duration_phrase_not_flagged(self, phrase):
+        """Duration phrases should NOT be flagged as DATE_TIME."""
+        result = deidentify_text(phrase)
+        assert "[DATE]" not in result.clean_text, \
+            f"Duration phrase '{phrase}' incorrectly flagged as DATE_TIME"
+
+    # --- LOCATION False Positives (15 instances documented) ---
+
+    @pytest.mark.parametrize("phrase", [
+        # Flow terminology
+        "patient on high flow oxygen",
+        "started on high flow nasal cannula",
+        "weaning to low flow",
+        "currently on high, doing well",
+        "on low flow, sats stable",
+        "high flow at 8 liters",
+        "low flow at 2 liters",
+        # Room air
+        "room air trial in progress",
+        "saturating well on room air",
+    ])
+    def test_flow_terminology_not_flagged(self, phrase):
+        """Flow terminology should NOT be flagged as LOCATION."""
+        result = deidentify_text(phrase)
+        # Check that high/low/room aren't replaced with [LOCATION]
+        assert "[LOCATION]" not in result.clean_text, \
+            f"Flow term in '{phrase}' incorrectly flagged as LOCATION"
+        # Also verify the clinical terms are preserved
+        for term in ["high flow", "low flow", "room air", "on high", "on low"]:
+            if term in phrase.lower():
+                assert term in result.clean_text.lower(), \
+                    f"Flow term '{term}' was removed from '{phrase}'"
+
+    # --- PERSON False Positives (4 instances documented) ---
+
+    @pytest.mark.parametrize("phrase", [
+        "barky cough consistent with croup",
+        "barky quality to the cough",
+        "mom at bedside",
+        "bedside nurse updated",
+        "patient on room air",
+        "room air comfortable",
+    ])
+    def test_clinical_descriptors_not_flagged(self, phrase):
+        """Clinical descriptors should NOT be flagged as PERSON."""
+        result = deidentify_text(phrase)
+        assert "[NAME]" not in result.clean_text, \
+            f"Clinical term in '{phrase}' incorrectly flagged as PERSON"
+
+    # --- Verify PHI Still Detected ---
+
+    def test_legitimate_datetime_still_detected(self):
+        """Real dates should still be detected."""
+        result = deidentify_text("Admitted on January 15th, 2026")
+        assert "January 15th" not in result.clean_text or "[DATE]" in result.clean_text
+
+    def test_legitimate_location_still_detected(self):
+        """Real locations should still be detected."""
+        result = deidentify_text("Family lives in Boston")
+        assert "Boston" not in result.clean_text or "[LOCATION]" in result.clean_text
+
+    def test_legitimate_person_still_detected(self):
+        """Real person names should still be detected."""
+        result = deidentify_text("Patient Sarah Johnson is stable")
+        assert "Sarah" not in result.clean_text
+        assert "Johnson" not in result.clean_text
+
+
+# =============================================================================
 # ROOM AND MRN EDGE CASE TESTS (Phase 04-02)
 # =============================================================================
 

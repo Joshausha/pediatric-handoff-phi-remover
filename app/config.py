@@ -198,6 +198,9 @@ class Settings(BaseSettings):
 
             # Respiratory terms (prevent over-detection)
             "flow",                     # Prevent "Flow" as name
+
+            # Common prepositions sometimes flagged as names
+            "at",                       # "mom at bedside" - prevent "at" detection
         ],
         description="Words that should not be flagged as PERSON"
     )
@@ -206,6 +209,8 @@ class Settings(BaseSettings):
             "parent", "guardian", "caregiver", "family",
             # Speech artifacts (Phase 4 addition)
             "uh", "um",
+            # Common prepositions (Phase 11 addition - prevent "mom at bedside")
+            "at",
         ],
         description="Generic relationship terms not flagged as GUARDIAN_NAME"
     )
