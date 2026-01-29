@@ -303,24 +303,44 @@ class Settings(BaseSettings):
     )
 
     # =========================================================================
-    # Spoken Handoff Relevance Weights (Phase 8)
+    # Spoken Handoff Weights (Phase 8 + v2.2 Dual-Weighting)
     # =========================================================================
-    # Weights for weighted recall calculation based on spoken handoff relevance
-    # Higher weight = more frequently spoken during I-PASS handoffs
-    # Source: SPOKEN_HANDOFF_ANALYSIS.md (2026-01-25)
-    spoken_handoff_weights: dict[str, int] = Field(
+    # Two separate weight schemes for different evaluation purposes:
+    # 1. Frequency weights: How often is this PHI type actually spoken?
+    # 2. Risk weights: If missed, how severe is the PHI leak?
+    #
+    # Source: SPOKEN_HANDOFF_ANALYSIS.md (updated 2026-01-28)
+
+    # Frequency weights: Based on how often each PHI type is spoken in I-PASS handoffs
+    spoken_handoff_weights: dict[str, float] = Field(
         default={
-            "PERSON": 5,              # Critical - spoken constantly
-            "GUARDIAN_NAME": 5,       # Same as PERSON
-            "ROOM": 4,                # High - used for patient identification
-            "PHONE_NUMBER": 2,        # Medium - occasionally spoken
-            "DATE_TIME": 2,           # Medium - admission dates, but often vague
-            "MEDICAL_RECORD_NUMBER": 1,  # Low - rarely spoken aloud
-            "EMAIL_ADDRESS": 0,       # Never spoken
-            "LOCATION": 0,            # Never spoken - addresses not relevant
-            "PEDIATRIC_AGE": 0,       # User decision - ages not PHI under HIPAA
+            "PERSON": 5.0,              # Constantly - patient name every handoff
+            "GUARDIAN_NAME": 4.0,       # Commonly - "mom Jessica at bedside"
+            "ROOM": 4.0,                # Constantly - primary identification
+            "DATE_TIME": 2.0,           # Sometimes - admission/illness onset dates
+            "PHONE_NUMBER": 1.0,        # Rarely - usually referenced, not spoken aloud
+            "MEDICAL_RECORD_NUMBER": 0.5,  # Almost never - on screen, not spoken
+            "LOCATION": 0.5,            # Almost never - but "transferred from Memorial" possible
+            "EMAIL_ADDRESS": 0.0,       # Never spoken in handoffs
+            "PEDIATRIC_AGE": 0.0,       # N/A - not PHI under HIPAA unless 90+
         },
-        description="Spoken handoff relevance weights for weighted recall calculation"
+        description="Frequency weights: how often each PHI type is spoken in handoffs"
+    )
+
+    # Risk weights: Severity if this PHI type leaks (how identifying is it?)
+    spoken_handoff_risk_weights: dict[str, float] = Field(
+        default={
+            "MEDICAL_RECORD_NUMBER": 5.0,  # THE unique identifier - most critical
+            "PERSON": 5.0,              # Directly identifies patient
+            "PHONE_NUMBER": 4.0,        # Personally identifying contact
+            "GUARDIAN_NAME": 4.0,       # Identifies family member
+            "LOCATION": 4.0,            # Addresses are very identifying
+            "EMAIL_ADDRESS": 4.0,       # Personally identifying
+            "ROOM": 2.0,                # Semi-identifying (hospital context only)
+            "DATE_TIME": 1.0,           # Rarely uniquely identifying alone
+            "PEDIATRIC_AGE": 0.0,       # Not PHI under HIPAA unless 90+
+        },
+        description="Risk weights: severity if each PHI type leaks (how identifying)"
     )
 
     # =========================================================================

@@ -92,34 +92,46 @@ class EvaluationMetrics:
         """Safety check: no PHI leaks (100% recall)."""
         return self.false_negatives == 0
 
-    def weighted_recall(self, weights: dict[str, int]) -> float:
-        """Calculate recall weighted by spoken handoff relevance."""
-        weighted_tp = 0
-        weighted_total = 0
+    def weighted_recall(self, weights: dict[str, float]) -> float:
+        """Calculate recall weighted by spoken handoff frequency."""
+        weighted_tp = 0.0
+        weighted_total = 0.0
         for entity_type, stats in self.entity_stats.items():
-            weight = weights.get(entity_type, 0)
+            weight = weights.get(entity_type, 0.0)
             weighted_tp += stats["tp"] * weight
             weighted_total += (stats["tp"] + stats["fn"]) * weight
         return weighted_tp / weighted_total if weighted_total > 0 else 0.0
 
-    def weighted_precision(self, weights: dict[str, int]) -> float:
-        """Calculate precision weighted by spoken handoff relevance."""
-        weighted_tp = 0
-        weighted_detected = 0
+    def weighted_precision(self, weights: dict[str, float]) -> float:
+        """Calculate precision weighted by spoken handoff frequency."""
+        weighted_tp = 0.0
+        weighted_detected = 0.0
         for entity_type, stats in self.entity_stats.items():
-            weight = weights.get(entity_type, 0)
+            weight = weights.get(entity_type, 0.0)
             weighted_tp += stats["tp"] * weight
             weighted_detected += (stats["tp"] + stats["fp"]) * weight
         return weighted_tp / weighted_detected if weighted_detected > 0 else 0.0
 
-    def weighted_f2(self, weights: dict[str, int]) -> float:
-        """Calculate F2 score weighted by spoken handoff relevance."""
+    def weighted_f2(self, weights: dict[str, float]) -> float:
+        """Calculate F2 score weighted by spoken handoff frequency."""
         p = self.weighted_precision(weights)
         r = self.weighted_recall(weights)
         beta = 2.0
         if p + r == 0:
             return 0.0
         return (1 + beta**2) * (p * r) / (beta**2 * p + r)
+
+    def risk_weighted_recall(self, risk_weights: dict[str, float]) -> float:
+        """Calculate recall weighted by PHI leak severity/risk."""
+        return self.weighted_recall(risk_weights)
+
+    def risk_weighted_precision(self, risk_weights: dict[str, float]) -> float:
+        """Calculate precision weighted by PHI leak severity/risk."""
+        return self.weighted_precision(risk_weights)
+
+    def risk_weighted_f2(self, risk_weights: dict[str, float]) -> float:
+        """Calculate F2 score weighted by PHI leak severity/risk."""
+        return self.weighted_f2(risk_weights)
 
     def bootstrap_recall_ci(
         self,
@@ -472,16 +484,34 @@ class PresidioEvaluator:
         # Add weighted metrics if requested
         if weighted:
             from app.config import settings
-            weights = settings.spoken_handoff_weights
+            freq_weights = settings.spoken_handoff_weights
+            risk_weights = settings.spoken_handoff_risk_weights
 
-            lines.append("WEIGHTED METRICS (spoken handoff relevance):")
-            lines.append(f"  Weighted Recall:    {metrics.weighted_recall(weights):.1%}")
-            lines.append(f"  Weighted Precision: {metrics.weighted_precision(weights):.1%}")
-            lines.append(f"  Weighted F2 Score:  {metrics.weighted_f2(weights):.1%}  ← PRIMARY METRIC")
+            lines.append("FREQUENCY-WEIGHTED METRICS (how often spoken in handoffs):")
+            lines.append(f"  Recall:    {metrics.weighted_recall(freq_weights):.1%}")
+            lines.append(f"  Precision: {metrics.weighted_precision(freq_weights):.1%}")
+            lines.append(f"  F2 Score:  {metrics.weighted_f2(freq_weights):.1%}")
             lines.append("")
+
+            lines.append("RISK-WEIGHTED METRICS (severity if leaked):")
+            lines.append(f"  Recall:    {metrics.risk_weighted_recall(risk_weights):.1%}")
+            lines.append(f"  Precision: {metrics.risk_weighted_precision(risk_weights):.1%}")
+            lines.append(f"  F2 Score:  {metrics.risk_weighted_f2(risk_weights):.1%}")
+            lines.append("")
+
+            lines.append("METRIC SUMMARY:")
+            lines.append(f"  Unweighted Recall:        {metrics.recall:.1%}  ← Safety floor")
+            lines.append(f"  Frequency-weighted:       {metrics.weighted_recall(freq_weights):.1%}  ← What's actually spoken")
+            lines.append(f"  Risk-weighted:            {metrics.risk_weighted_recall(risk_weights):.1%}  ← Severity if leaked")
+            lines.append("")
+
             lines.append("  Weights applied:")
-            for entity, weight in sorted(weights.items(), key=lambda x: -x[1]):
-                lines.append(f"    {entity}: {weight}")
+            lines.append("  Entity                 Frequency  Risk")
+            lines.append("  " + "-" * 42)
+            for entity in sorted(freq_weights.keys()):
+                freq = freq_weights.get(entity, 0)
+                risk = risk_weights.get(entity, 0)
+                lines.append(f"  {entity:<20} {freq:>8.1f}  {risk:>5.1f}")
             lines.append("")
 
         # Safety check

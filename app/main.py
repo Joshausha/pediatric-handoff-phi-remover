@@ -7,6 +7,7 @@ All processing happens locally - no patient data leaves the server.
 import logging
 import time
 from contextlib import asynccontextmanager
+from datetime import datetime
 from pathlib import Path
 from typing import Annotated, Optional
 
@@ -91,6 +92,8 @@ class ProcessResponse(BaseModel):
     entities: list
     audio_duration_seconds: Optional[float]
     warnings: list
+    request_id: str
+    processing_timestamp: str
 
 
 class DeidentifyResponse(BaseModel):
@@ -394,7 +397,9 @@ async def process_audio(request: Request, file: Annotated[UploadFile, File()]):
                 phi_removed={"total_count": 0, "by_type": {}},
                 entities=[],
                 audio_duration_seconds=metadata.get("duration"),
-                warnings=["No speech detected in audio"]
+                warnings=["No speech detected in audio"],
+                request_id=request_id,
+                processing_timestamp=datetime.utcnow().isoformat()
             )
 
         # Step 2: De-identify
@@ -438,7 +443,9 @@ async def process_audio(request: Request, file: Annotated[UploadFile, File()]):
                 for e in result.entities_found
             ],
             audio_duration_seconds=metadata.get("duration"),
-            warnings=warnings
+            warnings=warnings,
+            request_id=request_id,
+            processing_timestamp=datetime.utcnow().isoformat()
         )
 
     except TranscriptionError as e:
