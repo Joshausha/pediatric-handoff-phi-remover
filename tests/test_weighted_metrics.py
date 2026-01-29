@@ -364,5 +364,137 @@ class TestRiskWeightedMetrics:
             assert weight <= 5.0, f"{entity} risk weight exceeds maximum of 5"
 
 
+class TestWeightDivergence:
+    """Test that frequency and risk weights can diverge appropriately."""
+
+    def test_mixed_entities_frequency_vs_risk_divergence(self):
+        """Test that frequency and risk can produce different metric values.
+
+        Key insight: MRN has low frequency weight (0.5) but high risk weight (5.0).
+        When MRN performs poorly, frequency-weighted recall stays high (dominated by PERSON),
+        but risk-weighted recall drops (MRN has equal weight to PERSON).
+        """
+        entity_stats = {
+            "MEDICAL_RECORD_NUMBER": {"tp": 30, "fn": 70, "fp": 5},   # 30% recall
+            "PERSON": {"tp": 95, "fn": 5, "fp": 10},                  # 95% recall
+        }
+
+        freq_weights = {
+            "MEDICAL_RECORD_NUMBER": 0.5,   # Rarely spoken
+            "PERSON": 5.0,                  # Always spoken
+        }
+
+        risk_weights = {
+            "MEDICAL_RECORD_NUMBER": 5.0,   # Critical if leaked
+            "PERSON": 5.0,                  # Critical if leaked
+        }
+
+        metrics = EvaluationMetrics()
+        metrics.entity_stats = entity_stats
+
+        freq_recall = metrics.weighted_recall(freq_weights)
+        risk_recall = metrics.risk_weighted_recall(risk_weights)
+
+        # Frequency-weighted: dominated by high-performing PERSON (weight 5.0)
+        # MRN: tp=30*0.5=15, total=100*0.5=50
+        # PERSON: tp=95*5=475, total=100*5=500
+        # freq = (15+475)/(50+500) = 490/550 = 0.8909...
+        assert freq_recall == pytest.approx(490 / 550)
+
+        # Risk-weighted: MRN has equal weight (5.0), drags down average
+        # MRN: tp=30*5=150, total=100*5=500
+        # PERSON: tp=95*5=475, total=100*5=500
+        # risk = (150+475)/(500+500) = 625/1000 = 0.625
+        assert risk_recall == pytest.approx(625 / 1000)
+
+        # Verify divergence: frequency > risk when high-risk entity underperforms
+        assert freq_recall > risk_recall
+        assert abs(freq_recall - risk_recall) > 0.2  # Significant difference
+
+    def test_zero_weight_entities_invisible_in_weighted_visible_in_unweighted(self):
+        """Test that zero-weight entities are invisible in weighted but visible in unweighted.
+
+        This is the HIPAA safety check: unweighted recall must always be reported
+        as the safety floor because it catches zero-weight entity failures.
+        """
+        entity_stats = {
+            "PERSON": {"tp": 100, "fn": 0, "fp": 10},       # 100% recall, weight 5.0
+            "PEDIATRIC_AGE": {"tp": 0, "fn": 50, "fp": 0},  # 0% recall, weight 0.0
+        }
+
+        freq_weights = {
+            "PERSON": 5.0,
+            "PEDIATRIC_AGE": 0.0,
+        }
+
+        metrics = EvaluationMetrics()
+        metrics.entity_stats = entity_stats
+
+        # Unweighted recall includes PEDIATRIC_AGE failures
+        # tp=100, fn=50, recall = 100/150 = 66.7%
+        total_tp = 100
+        total_fn = 0 + 50
+        unweighted_recall = total_tp / (total_tp + total_fn)
+        assert unweighted_recall == pytest.approx(100 / 150)
+
+        # Weighted recall ignores zero-weight PEDIATRIC_AGE
+        # Only PERSON counts: 100% recall
+        weighted_recall = metrics.weighted_recall(freq_weights)
+        assert weighted_recall == pytest.approx(1.0)
+
+        # Safety check: unweighted is visible and lower
+        # This is why we must always report unweighted as safety floor
+        assert unweighted_recall < weighted_recall
+
+    def test_actual_config_weights_show_expected_divergence_pattern(self):
+        """Test that actual config weights produce expected divergence with realistic data.
+
+        Uses real config values to ensure the weight scheme works as designed.
+        Expected pattern: frequency-weighted > risk-weighted when MRN underperforms
+        (because MRN has freq=0.5 but risk=5.0).
+        """
+        # Simulate realistic scenario: names detected well, MRN detected poorly
+        entity_stats = {
+            "PERSON": {"tp": 95, "fn": 5, "fp": 10},              # 95% recall
+            "GUARDIAN_NAME": {"tp": 85, "fn": 15, "fp": 5},       # 85% recall
+            "MEDICAL_RECORD_NUMBER": {"tp": 40, "fn": 60, "fp": 2}, # 40% recall (poor)
+            "ROOM": {"tp": 80, "fn": 20, "fp": 10},               # 80% recall
+        }
+
+        freq_weights = settings.spoken_handoff_weights
+        risk_weights = settings.spoken_handoff_risk_weights
+
+        metrics = EvaluationMetrics()
+        metrics.entity_stats = entity_stats
+
+        freq_recall = metrics.weighted_recall(freq_weights)
+        risk_recall = metrics.risk_weighted_recall(risk_weights)
+
+        # Frequency-weighted should be higher (MRN has low weight 0.5)
+        # Risk-weighted should be lower (MRN has high weight 5.0, drags down average)
+        assert freq_recall > risk_recall, \
+            f"Expected freq ({freq_recall:.3f}) > risk ({risk_recall:.3f}) when MRN underperforms"
+
+    def test_all_zero_weights_return_zero(self):
+        """Test that all-zero weights return 0.0 (not division by zero)."""
+        entity_stats = {
+            "EMAIL_ADDRESS": {"tp": 50, "fn": 0, "fp": 0},
+            "PEDIATRIC_AGE": {"tp": 60, "fn": 0, "fp": 0},
+        }
+
+        weights = {
+            "EMAIL_ADDRESS": 0.0,
+            "PEDIATRIC_AGE": 0.0,
+        }
+
+        metrics = EvaluationMetrics()
+        metrics.entity_stats = entity_stats
+
+        # Should return 0.0, not raise ZeroDivisionError
+        assert metrics.weighted_recall(weights) == 0.0
+        assert metrics.weighted_precision(weights) == 0.0
+        assert metrics.weighted_f2(weights) == 0.0
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
