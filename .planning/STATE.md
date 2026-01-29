@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-28)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** v2.2 Dual-Weight Recall Framework - Phase 13 (Test Suite Migration)
+**Current focus:** v2.2 Dual-Weight Recall Framework - Phase 13 complete, ready for Phase 14
 
 ## Current Position
 
 Phase: 13 of 16 (Test Suite Migration)
-Plan: Ready to plan
-Status: Ready to plan Phase 13
-Last activity: 2026-01-29 — Roadmap created for v2.2 (4 phases, 20 requirements)
+Plan: 1 of 1 COMPLETE
+Status: Phase 13 complete
+Last activity: 2026-01-29 — Completed 13-01-PLAN.md (test suite migration)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [░░░░░░░░░░] 0% v2.2
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##░░░░░░░░] 25% v2.2
 
 ## Milestones Shipped
 
@@ -28,12 +28,12 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 
 **4 phases (13-16) covering 20 requirements:**
 
-- Phase 13: Test Suite Migration (TEST-01 to TEST-06) - Complete test coverage for dual-weighting
-- Phase 14: Report Generation Refinement (REPT-01 to REPT-06) - Polish three-metric display
-- Phase 15: Documentation Updates (DOCS-01 to DOCS-05) - Document dual-weighting rationale
-- Phase 16: Integration Validation (CONF-01 to CONF-03 validation) - End-to-end verification
+- Phase 13: Test Suite Migration (TEST-01 to TEST-06) - COMPLETE
+- Phase 14: Report Generation Refinement (REPT-01 to REPT-06) - Ready to plan
+- Phase 15: Documentation Updates (DOCS-01 to DOCS-05) - Pending
+- Phase 16: Integration Validation (CONF-01 to CONF-03 validation) - Pending
 
-**Key insight from research:** Implementation 80% complete in working tree. Remaining work is verification and polish (1-2 hours), not new development.
+**Phase 13 completed:** 20 tests passing, complete coverage for dual-weight framework.
 
 ## CI/CD Status
 
@@ -67,22 +67,24 @@ Recent decisions affecting v2.2:
 - **Dual-weight framework**: Separate frequency (spoken) from risk (severity) metrics for complementary evaluation lenses
 - **Float weights**: Migrated from int to float for finer granularity (0.5 weights for low-risk entities)
 - **Three-metric reporting**: Always show unweighted as HIPAA safety floor alongside both weighted schemes
+- **TEST-FLOAT-COMPARISON**: Use pytest.approx() for all float weight comparisons
+- **TEST-DIVERGENCE-VALIDATION**: Add explicit tests for frequency vs risk weight divergence
 
 ### Pending Todos
 
-None - ready to plan Phase 13.
+None - ready to plan Phase 14.
 
 ### Blockers/Concerns
 
-**Critical safety requirement:** Zero-weight entities (EMAIL_ADDRESS, PEDIATRIC_AGE) invisible in weighted metrics. Must always report unweighted recall as HIPAA compliance floor.
+**Critical safety requirement:** Zero-weight entities (EMAIL_ADDRESS, PEDIATRIC_AGE) invisible in weighted metrics. Must always report unweighted recall as HIPAA compliance floor. (Now validated by `test_zero_weight_entities_invisible_in_weighted_visible_in_unweighted`)
 
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Roadmap created, ready to plan Phase 13
+Stopped at: Completed 13-01-PLAN.md
 Resume file: None
-Next: `/gsd:plan-phase 13`
+Next: `/gsd:plan-phase 14`
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-29 after v2.2 roadmap created*
+*Last updated: 2026-01-29 after Phase 13 complete*
