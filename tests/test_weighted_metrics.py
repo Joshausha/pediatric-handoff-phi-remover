@@ -257,5 +257,112 @@ class TestWeightConfiguration:
         assert weights["LOCATION"] == pytest.approx(0.5), "LOCATION should have weight 0.5"
 
 
+class TestRiskWeightedMetrics:
+    """Test risk-weighted metrics calculations (severity if leaked)."""
+
+    def test_risk_weighted_recall_calculation(self):
+        """Test risk-weighted recall with HIPAA severity weights."""
+        entity_stats = {
+            "MEDICAL_RECORD_NUMBER": {"tp": 70, "fn": 30, "fp": 10},  # 70% recall, risk=5.0
+            "PERSON": {"tp": 95, "fn": 5, "fp": 10},                  # 95% recall, risk=5.0
+        }
+
+        risk_weights = {
+            "MEDICAL_RECORD_NUMBER": 5.0,
+            "PERSON": 5.0,
+        }
+
+        metrics = EvaluationMetrics()
+        metrics.entity_stats = entity_stats
+
+        risk_recall = metrics.risk_weighted_recall(risk_weights)
+
+        # Manual calculation:
+        # MRN: tp=70*5=350, total=100*5=500
+        # PERSON: tp=95*5=475, total=100*5=500
+        # risk_recall = (350+475)/(500+500) = 825/1000 = 0.825
+        expected_recall = 825 / 1000
+
+        assert risk_recall == pytest.approx(expected_recall)
+
+    def test_risk_weighted_precision_calculation(self):
+        """Test risk-weighted precision with HIPAA severity weights."""
+        entity_stats = {
+            "PHONE_NUMBER": {"tp": 80, "fn": 20, "fp": 20},  # 80% precision, risk=4.0
+            "LOCATION": {"tp": 60, "fn": 40, "fp": 15},      # 80% precision, risk=4.0
+        }
+
+        risk_weights = {
+            "PHONE_NUMBER": 4.0,
+            "LOCATION": 4.0,
+        }
+
+        metrics = EvaluationMetrics()
+        metrics.entity_stats = entity_stats
+
+        risk_precision = metrics.risk_weighted_precision(risk_weights)
+
+        # Manual calculation:
+        # PHONE: tp=80*4=320, detected=100*4=400
+        # LOCATION: tp=60*4=240, detected=75*4=300
+        # precision = (320+240)/(400+300) = 560/700 = 0.8
+        expected_precision = 560 / 700
+
+        assert risk_precision == pytest.approx(expected_precision)
+
+    def test_risk_weighted_f2_calculation(self):
+        """Test risk-weighted F2 score (recall-weighted)."""
+        entity_stats = {
+            "GUARDIAN_NAME": {"tp": 85, "fn": 15, "fp": 10},  # risk=4.0
+        }
+
+        risk_weights = {"GUARDIAN_NAME": 4.0}
+
+        metrics = EvaluationMetrics()
+        metrics.entity_stats = entity_stats
+
+        risk_f2 = metrics.risk_weighted_f2(risk_weights)
+
+        # Calculate expected F2
+        # precision = 85/95 = 0.894...
+        # recall = 85/100 = 0.85
+        # F2 = (1 + 4) * (p * r) / (4 * p + r)
+        p = 85 / 95
+        r = 85 / 100
+        beta = 2.0
+        expected_f2 = (1 + beta**2) * (p * r) / (beta**2 * p + r)
+
+        assert risk_f2 == pytest.approx(expected_f2)
+
+    def test_risk_weights_loaded_from_config(self):
+        """Test that risk weights are properly loaded from config."""
+        risk_weights = settings.spoken_handoff_risk_weights
+
+        # Verify all expected entities have risk weights
+        expected_entities = [
+            "PERSON",
+            "GUARDIAN_NAME",
+            "ROOM",
+            "PHONE_NUMBER",
+            "DATE_TIME",
+            "MEDICAL_RECORD_NUMBER",
+            "EMAIL_ADDRESS",
+            "LOCATION",
+            "PEDIATRIC_AGE",
+        ]
+
+        for entity in expected_entities:
+            assert entity in risk_weights, f"{entity} missing from risk weights config"
+
+    def test_risk_weight_values_in_valid_range(self):
+        """Test that all risk weights are non-negative floats in valid range."""
+        risk_weights = settings.spoken_handoff_risk_weights
+
+        for entity, weight in risk_weights.items():
+            assert isinstance(weight, (int, float)), f"{entity} risk weight is not numeric"
+            assert weight >= 0.0, f"{entity} risk weight is negative"
+            assert weight <= 5.0, f"{entity} risk weight exceeds maximum of 5"
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v"])
