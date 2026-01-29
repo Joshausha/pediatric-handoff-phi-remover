@@ -4,7 +4,7 @@
 
 - ✅ **v1.0 PHI Detection Overhaul** - Phases 1-8 (shipped 2026-01-25)
 - ✅ **v2.0 CI/CD Pipeline Fix** - Phase 9 (shipped 2026-01-26)
-- 🚧 **v2.1 Over-Detection Quality Pass** - Phases 10-12 (in progress)
+- ✅ **v2.1 Over-Detection Quality Pass** - Phases 10-12 (shipped 2026-01-28)
 
 ## Phases
 
@@ -68,11 +68,10 @@
 
 </details>
 
-### 🚧 v2.1 Over-Detection Quality Pass (In Progress)
+<details>
+<summary>✅ v2.1 Over-Detection Quality Pass (Phases 10-12) - SHIPPED 2026-01-28</summary>
 
-**Milestone Goal:** Reduce false positives by expanding deny lists based on systematic testing with realistic and edge-case handoff scripts.
-
-#### Phase 10: Test Script Generation and Recording
+### Phase 10: Test Script Generation and Recording
 **Goal**: Realistic and edge-case handoff test data created and processed
 **Depends on**: Phase 9 (CI/CD working)
 **Requirements**: TEST-01, TEST-02, TEST-03, TEST-04, TEST-05
@@ -88,7 +87,7 @@ Plans:
 - [x] 10-01-PLAN.md — Prepare test scripts and documentation infrastructure
 - [x] 10-02-PLAN.md — Record, process, and document false positives
 
-#### Phase 11: Deny List Expansion and Unit Preservation
+### Phase 11: Deny List Expansion and Unit Preservation
 **Goal**: False positives eliminated via targeted deny list additions and config fixes
 **Depends on**: Phase 10 (test data processed)
 **Requirements**: DENY-01, DENY-02, DENY-03, DENY-04
@@ -105,7 +104,7 @@ Plans:
 - [x] 11-03-PLAN.md — Unit name preservation in ROOM redaction
 - [x] 11-04-PLAN.md — False positive verification and regression tests
 
-#### Phase 12: Regression Validation and CI Verification
+### Phase 12: Regression Validation and CI Verification
 **Goal**: No regressions on real handoffs and green CI with expanded deny lists
 **Depends on**: Phase 11 (deny lists expanded)
 **Requirements**: VAL-01, VAL-02, VAL-03
@@ -116,12 +115,14 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 12-01-PLAN.md — Final validation, CI verification, and v2.1 milestone completion
+- [x] 12-01-PLAN.md — Final validation, CI verification, and v2.1 milestone completion
+
+</details>
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 10 → 11 → 12
+Phases execute in numeric order: 1 → 2 → ... → 12
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -136,8 +137,8 @@ Phases execute in numeric order: 10 → 11 → 12
 | 9. CI/CD Pipeline Fix | v2.0 | 2/2 | Complete | 2026-01-26 |
 | 10. Test Script Generation | v2.1 | 2/2 | Complete | 2026-01-28 |
 | 11. Deny List Expansion | v2.1 | 4/4 | Complete | 2026-01-28 |
-| 12. Regression Validation | v2.1 | 0/1 | Not started | - |
+| 12. Regression Validation | v2.1 | 1/1 | Complete | 2026-01-28 |
 
 ---
 *Roadmap created: 2026-01-28*
-*Last updated: 2026-01-28 (Phase 12 planning complete)*
+*Last updated: 2026-01-28 (v2.1 shipped)*

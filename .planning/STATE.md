@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-28)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 11 complete - ready for Phase 12 (Docker deployment)
+**Current focus:** v2.1 complete - over-detection quality pass shipped
 
 ## Current Position
 
-Phase: 11 of 12 (Deny List Expansion)
-Plan: 4 of 4 (complete)
-Status: Phase complete
-Last activity: 2026-01-28 — Completed 11-04-PLAN.md (verification and regression testing)
+Phase: 12 of 12 (Regression Validation)
+Plan: 1 of 1 (complete)
+Status: Phase complete - v2.1 shipped
+Last activity: 2026-01-28 — Completed 12-01-PLAN.md (regression validation and v2.1 milestone)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [#######░░░] 70% v2.1
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1
 
 ## Milestones Shipped
 
@@ -22,6 +22,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [#######░░░] 7
 |---------|------|--------|-------|---------|
 | v1.0 | PHI Detection Overhaul | 1-8 | 11 | 2026-01-25 |
 | v2.0 | CI/CD Pipeline Fix | 9 | 2 | 2026-01-26 |
+| v2.1 | Over-Detection Quality Pass | 10-12 | 7 | 2026-01-28 |
 
 ## CI/CD Status
 
@@ -40,6 +41,7 @@ Tracked via xfail markers in CI:
 - 7-digit phone numbers (555-0123)
 - Detailed ages (3 weeks 2 days)
 - Street addresses (425 Oak Street)
+- School names (Jefferson Elementary)
 
 **Over-detection:**
 - ~~All 45 documented false positives from Phase 10~~ FIXED in Phase 11 (100% elimination)
@@ -60,21 +62,23 @@ Recent decisions affecting current work:
 - **11-02: Dual deny list inclusion**: Added "flow" to both LOCATION and PERSON deny lists to prevent false positives in either entity type
 - **11-03: Unit preservation**: Use separate fixed-width lookbehind patterns per unit type instead of alternation for reliable regex matching
 - **11-04: Text-based verification**: Process test scripts through Presidio directly instead of re-recording audio - faster, more precise, removes transcription variables
+- **12-01: Regression baseline**: Phase 5 validation results used as baseline (86.4% recall, same as current - no regression)
+- **12-01: Precision improvement**: Phase 11 deny lists reduced false positives by 77 (11.6% improvement) while maintaining recall
 
 ### Pending Todos
 
-None yet.
+None - v2.1 complete.
 
 ### Blockers/Concerns
 
-None yet.
+None - system ready for production use.
 
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 11-04-PLAN.md (Phase 11 verification complete)
+Stopped at: Completed 12-01-PLAN.md (v2.1 Over-Detection Quality Pass shipped)
 Resume file: None
-Next: Phase 12 (Docker deployment) or Phase 13 (optional test recordings expansion)
+Next: Optional future work - see tech debt for enhancement opportunities
 
 ---
 *State initialized: 2026-01-23*
