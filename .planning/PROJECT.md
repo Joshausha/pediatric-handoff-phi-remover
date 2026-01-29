@@ -8,6 +8,16 @@ A HIPAA-compliant web application that transcribes pediatric patient handoff rec
 
 Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content.
 
+## Current Milestone: v2.2 Dual-Weight Recall Framework
+
+**Goal:** Implement three-metric recall evaluation that separates frequency (how often spoken) from risk (severity if leaked) for spoken handoffs.
+
+**Target features:**
+- Report THREE separate recall metrics (unweighted, frequency-weighted, risk-weighted)
+- Risk weights capture PHI leak severity (MRN=5, PERSON=5, PHONE=4, etc.)
+- Frequency weights capture spoken prevalence (PERSON=5, ROOM=4, MRN=0.5, etc.)
+- Float-based weights (replacing int) for finer granularity
+
 ## Current State
 
 **v2.1 Over-Detection Quality Pass shipped 2026-01-28**
@@ -58,7 +68,14 @@ Production-ready HIPAA-compliant PHI detection with:
 
 ### Active
 
-<!-- No current requirements — milestone complete, awaiting next milestone definition -->
+<!-- v2.2 Dual-Weight Recall Framework requirements -->
+
+- [ ] Risk-weighted recall/precision/F2 methods in EvaluationMetrics
+- [ ] Three-metric report output (unweighted, frequency-weighted, risk-weighted)
+- [ ] Float-based frequency weights (int→float migration)
+- [ ] Risk weight configuration in settings
+- [ ] Updated test suite for float weights and risk metrics
+- [ ] Documentation of dual-weighting rationale
 
 ### Out of Scope
 
@@ -116,4 +133,4 @@ Production-ready HIPAA-compliant PHI detection with:
 | Regression tests for false positives | 36 tests prevent future reintroduction of fixed issues | ✓ Good |
 
 ---
-*Last updated: 2026-01-28 after v2.1 milestone complete*
+*Last updated: 2026-01-29 after v2.2 milestone started*
