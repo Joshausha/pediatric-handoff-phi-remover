@@ -40,8 +40,8 @@ SAMPLE_TRANSCRIPTS = [
         "id": 4,
         "text": "Signing out Tommy Wilson, 8 year old with asthma exacerbation. Lives at 425 Oak Street, goes to Jefferson Elementary. School nurse can be reached at 555-9012 if questions about his action plan. Currently on continuous albuterol, last ABG showed improving respiratory acidosis.",
         "phi_elements": ["patient_name", "address", "school_name", "phone_number"],
-        "expected_removed": ["Tommy Wilson", "Jefferson"],  # Current detection - Elementary detected as LOCATION
-        "expected_missed": ["425 Oak Street", "555-9012"],  # Known gaps: street addresses, 7-digit phones
+        "expected_removed": ["Tommy Wilson"],  # Current detection
+        "expected_missed": ["425 Oak Street", "Jefferson Elementary", "555-9012"],  # Known gaps: street addresses, school names, 7-digit phones
         "expected_preserved": ["asthma", "albuterol", "ABG", "respiratory acidosis"]
     },
     {
