@@ -113,10 +113,10 @@ Plans:
   1. All 27 real handoff recordings still pass validation (no new false negatives)
   2. All false positives from test script processing are documented in research/ or tests/
   3. CI passes with expanded deny lists (all workflows green)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 12-01: TBD during planning
+- [ ] 12-01-PLAN.md — Final validation, CI verification, and v2.1 milestone completion
 
 ## Progress
 
@@ -136,8 +136,8 @@ Phases execute in numeric order: 10 → 11 → 12
 | 9. CI/CD Pipeline Fix | v2.0 | 2/2 | Complete | 2026-01-26 |
 | 10. Test Script Generation | v2.1 | 2/2 | Complete | 2026-01-28 |
 | 11. Deny List Expansion | v2.1 | 4/4 | Complete | 2026-01-28 |
-| 12. Regression Validation | v2.1 | 0/? | Not started | - |
+| 12. Regression Validation | v2.1 | 0/1 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-28*
-*Last updated: 2026-01-28 (Phase 11 complete)*
+*Last updated: 2026-01-28 (Phase 12 planning complete)*
