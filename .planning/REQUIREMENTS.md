@@ -17,10 +17,10 @@ Requirements for over-detection quality pass. Each maps to roadmap phases.
 
 ### Deny List Expansion
 
-- [ ] **DENY-01**: Add duration patterns to DATE_TIME deny list (one/two/three/etc. days, weeks, months)
-- [ ] **DENY-02**: Add medical flow terms to LOCATION deny list with word boundary protection
-- [ ] **DENY-03**: Switch LOCATION deny list from exact match to substring match with word boundaries
-- [ ] **DENY-04**: Preserve unit names (PICU, NICU) during ROOM entity redaction
+- [x] **DENY-01**: Add duration patterns to DATE_TIME deny list (one/two/three/etc. days, weeks, months)
+- [x] **DENY-02**: Add medical flow terms to LOCATION deny list with word boundary protection
+- [x] **DENY-03**: Switch LOCATION deny list from exact match to substring match with word boundaries
+- [x] **DENY-04**: Preserve unit names (PICU, NICU) during ROOM entity redaction
 
 ### Validation
 
@@ -56,10 +56,10 @@ Deferred to later milestones.
 | TEST-03 | Phase 10 | Complete |
 | TEST-04 | Phase 10 | Complete |
 | TEST-05 | Phase 10 | Complete |
-| DENY-01 | Phase 11 | Pending |
-| DENY-02 | Phase 11 | Pending |
-| DENY-03 | Phase 11 | Pending |
-| DENY-04 | Phase 11 | Pending |
+| DENY-01 | Phase 11 | Complete |
+| DENY-02 | Phase 11 | Complete |
+| DENY-03 | Phase 11 | Complete |
+| DENY-04 | Phase 11 | Complete |
 | VAL-01 | Phase 12 | Pending |
 | VAL-02 | Phase 12 | Pending |
 | VAL-03 | Phase 12 | Pending |
@@ -71,4 +71,4 @@ Deferred to later milestones.
 
 ---
 *Requirements defined: 2026-01-28*
-*Last updated: 2026-01-28 (Phase 10 complete - TEST-01 through TEST-05)*
+*Last updated: 2026-01-28 (Phase 11 complete - DENY-01 through DENY-04)*

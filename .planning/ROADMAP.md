@@ -97,10 +97,13 @@ Plans:
   2. Medical flow terms ("high flow", "on high", "placed on high") no longer flagged as LOCATION
   3. LOCATION deny list uses substring matching with word boundaries (like DATE_TIME)
   4. Unit names (PICU, NICU) preserved during ROOM redaction
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 11-01: TBD during planning
+- [x] 11-01-PLAN.md — Duration patterns and matching behavior fix
+- [x] 11-02-PLAN.md — Flow terms and PERSON deny list expansion
+- [x] 11-03-PLAN.md — Unit name preservation in ROOM redaction
+- [x] 11-04-PLAN.md — False positive verification and regression tests
 
 #### Phase 12: Regression Validation and CI Verification
 **Goal**: No regressions on real handoffs and green CI with expanded deny lists
@@ -132,9 +135,9 @@ Phases execute in numeric order: 10 → 11 → 12
 | 8. Validation | v1.0 | 3/3 | Complete | 2026-01-25 |
 | 9. CI/CD Pipeline Fix | v2.0 | 2/2 | Complete | 2026-01-26 |
 | 10. Test Script Generation | v2.1 | 2/2 | Complete | 2026-01-28 |
-| 11. Deny List Expansion | v2.1 | 0/? | Not started | - |
+| 11. Deny List Expansion | v2.1 | 4/4 | Complete | 2026-01-28 |
 | 12. Regression Validation | v2.1 | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-01-28*
-*Last updated: 2026-01-28 (Phase 10 complete)*
+*Last updated: 2026-01-28 (Phase 11 complete)*
