@@ -1,459 +1,586 @@
-# Pitfalls Research: Deny List Expansion
+# Pitfalls Research: Dual-Weight Recall Framework for NER Evaluation
 
-**Research Date**: 2026-01-28
-**Project**: Pediatric Handoff PHI Remover - Deny List Expansion
-**Focus**: Common mistakes when expanding deny lists for clinical NER/de-identification systems
-**Confidence**: HIGH (based on project history + Presidio best practices + clinical NER research)
-
-## Executive Summary
-
-Deny list expansion for clinical PHI detection has a **unique failure profile**: the goal is reducing false positives (over-redaction) WITHOUT introducing false negatives (missed PHI). This creates an asymmetric risk where mistakes can either:
-1. Allow PHI through (legal/compliance risk)
-2. Over-redact clinical content (usability risk)
-
-This research documents mistakes that cause both failure modes, with emphasis on **project-specific lessons learned** from Phases 3-6.
+**Domain**: Adding multi-dimensional weighting to existing NER evaluation system
+**Researched**: 2026-01-29
+**Context**: PHI detection system with existing unweighted metrics, adding frequency-weighted and risk-weighted evaluation
 
 ---
 
 ## Critical Pitfalls
 
-### Pitfall 1: Substring Matching Without Boundary Checking
+### Pitfall 1: Zero-Weight Entities Completely Ignored in Aggregation
 
-**What goes wrong**: Switching from exact match to substring match (e.g., `"months old" in detected_text`) causes unintended filtering of legitimate PHI that contains the substring.
+**What goes wrong**: Entities with weight=0 (like EMAIL_ADDRESS, PEDIATRIC_AGE) contribute nothing to weighted metrics, even if they have perfect or terrible performance. This can mask serious detection failures.
 
-**Real example from codebase**:
-```python
-# DATE_TIME deny list check (deidentification.py line 204-210)
-# Uses SUBSTRING match for clinical timeline patterns
-if result.entity_type == "DATE_TIME":
-    detected_lower = detected_text.lower()
-    if any(term.lower() in detected_lower for term in settings.deny_list_date_time):
-        logger.debug(f"Filtered out deny-listed DATE_TIME: {detected_text}")
-        continue
-```
+**Why it happens**:
+- Weighted calculations multiply by weight before summing: `weighted_tp += stats["tp"] * weight`
+- When weight=0, `0 * anything = 0`, completely eliminating that entity from the metric
+- This is mathematically correct for "spoken handoff frequency" but dangerous if misinterpreted
 
-**Why it's dangerous**:
-- "5 months old" matches "months old" → correctly filtered (age descriptor)
-- BUT: "admitted 5 months ago" matches "months old" → INCORRECTLY filtered
-- "birthday in 3 months" matches "months old" → INCORRECTLY filtered (missed PHI!)
+**Consequences**:
+- EMAIL_ADDRESS could have 0% recall (leaking PHI) but weighted recall shows 100%
+- Stakeholders might think the system is safe when it's leaking zero-weight PHI
+- Zero-weight entities become invisible to monitoring and alerts
 
-**Warning signs**:
-- Deny list term is multi-word phrase with generic words
-- False negative rate increases after deny list expansion
-- Test suite has exact matches but real transcripts have longer phrases
-- Pattern appears in middle of sentences, not just at boundaries
+**Prevention**:
+- **Always report both weighted AND unweighted metrics** side-by-side
+- Document that zero-weight entities are excluded from weighted calculations
+- Add explicit safety check: unweighted recall must still be 100% for HIPAA compliance
+- Consider separate "safety floor" metric that weights all PHI types equally at minimum 1.0
 
-**Prevention strategy**:
-1. **Use exact match by default**: `detected_text.lower() in [w.lower() for w in deny_list]`
-2. **Substring match ONLY when necessary**: Clinical timeline patterns like "5 months old" where numeric prefix varies
-3. **Add boundary tokens**: Include spaces in deny list terms (`" months old "` not `"months old"`) to prevent mid-word matches
-4. **Test negative cases**: For each deny list term, create test case where it appears IN a PHI phrase that should NOT be filtered
+**Detection**:
+- Warning sign: Weighted recall significantly higher than unweighted
+- Warning sign: Zero-weight entity has FN>0 but doesn't appear in alerts
+- Test: Add test case where only zero-weight entity fails, verify it's caught
 
-**Which phase addresses**:
-- Phase 3 (Deny List Refinement): When expanding deny lists beyond exact abbreviations
-- Phase 6 (Real Handoff Testing): When substring match bugs surface in production
+**Which phase should address it**: Phase 1 (initial implementation) - Add dual reporting and safety floor checks
 
-**Project-specific lesson**: Phase 6 added "days old", "months old" to deny list. This REQUIRES substring matching because prefix changes ("3 days old", "7 months old"). But must verify it doesn't match "3 days ago" (which IS potential PHI).
+**Reference**: Existing test `test_weighted_metrics_zero_weight_entities_ignored()` validates calculation but doesn't address the safety risk
 
 ---
 
-### Pitfall 2: Adding Terms Without False Positive Evidence
+### Pitfall 2: Weight Scheme Confusion - Using Wrong Weights for Wrong Purpose
 
-**What goes wrong**: Expanding deny lists based on hypothetical false positives rather than actual documented errors leads to bloat and potential security gaps.
+**What goes wrong**: Using frequency weights (how often spoken) when you need risk weights (severity if leaked), or vice versa. Results in misleading evaluation that doesn't match the decision context.
 
-**Real example from project**:
-- Phase 3 added "DKA", "CT", "MRI", "EEG" to PERSON deny list
-- These were found through **evidence**: real false positives in test transcripts
-- Contrast with temptation to pre-emptively add entire medical abbreviation dictionary
+**Why it happens**:
+- Two weight schemes look similar (both dict[str, float])
+- Similar function signatures: `weighted_recall(weights)` accepts either
+- No type distinction between frequency and risk weights
+- Function names like `weighted_recall()` don't indicate which weighting to use
 
-**Why it's dangerous**:
-- **Security risk**: Adding "Art" because it's a medical abbreviation (ART = antiretroviral therapy) but "Art Smith" is a real name
-- **Maintenance burden**: 500-item deny list is unmaintainable vs 50-item evidence-based list
-- **False confidence**: "We have 500 terms in deny list" doesn't mean better coverage
+**Consequences**:
+- Optimizing for frequency weights might ignore critical but rare PHI (MRN)
+- Using risk weights for handoff evaluation overweights never-spoken PHI
+- Dashboard shows wrong metric for the decision being made
+- Threshold tuning uses wrong objective function
 
-**Warning signs**:
-- Deny list grows >100 terms without proportional false positive reduction
-- Terms added "just in case" without specific test failure
-- Copy-pasting abbreviation dictionaries from external sources
-- No comments documenting why each term was added
+**Prevention**:
+- **Use explicit function names**: `frequency_weighted_recall()` vs `risk_weighted_recall()`
+- Add enum or type alias: `FrequencyWeights` vs `RiskWeights` with type hints
+- Document in config: which weight scheme to use for which decision
+- Add validation: warn if weights don't sum to expected range (frequency: ~17, risk: ~29)
 
-**Prevention strategy**:
-1. **Evidence-driven expansion**: Add term ONLY after documenting false positive
-2. **One term = one test case**: Each deny list entry should have corresponding regression test
-3. **Comment rationale**: Document which test case or production error drove each addition
-4. **Periodic pruning**: Review deny list quarterly, remove terms with no recent matches
+**Detection**:
+- Code review: Check weight dict name matches function intent
+- Test: Verify frequency and risk weights produce different results
+- Documentation audit: Each weighted metric call has rationale for weight choice
 
-**Which phase addresses**:
-- Phase 3 (Deny List Refinement): Establish evidence-driven process
-- Phase 6 (Real Handoff Testing): Document production errors that drive additions
-- Maintenance: Quarterly review of deny list effectiveness
-
-**Project-specific lesson**: Phase 6 found "bilirubin" → [NAME] false positive. Rather than adding all medical terms, added specific evidence-based terms: bilirubin, ARFID, citrus, diuresis.
+**Which phase should address it**: Phase 1 - Use separate function names from the start to prevent confusion
 
 ---
 
-### Pitfall 3: Case Sensitivity Inconsistencies Across Files
+### Pitfall 3: Integer vs Float Division (Already Fixed, But Fragile)
 
-**What goes wrong**: Fixing case-insensitive matching bug in `deidentification.py` but missing duplicate logic in `evaluate_presidio.py` and `calibrate_thresholds.py` causes test/production divergence.
+**What goes wrong**: Python 2-style integer division (`/`) used with integer weights causes incorrect calculations. Even in Python 3, mixing int and float types can cause subtle precision issues.
 
-**Real example from project** (Phase 3 fix):
-```python
-# Bug existed in 3 files simultaneously:
-# - app/deidentification.py line 185 (production)
-# - tests/evaluate_presidio.py line 173 (evaluation)
-# - tests/calibrate_thresholds.py line 135 (calibration)
+**Why it happens**:
+- Weights in config defined as `int` (0-5 range)
+- Counters (TP, FN, FP) are integers
+- Integer math: `100 / 3 = 33.333...` but `int(100) / int(3)` behavior varies by Python version
+- Python 3 fixed this, but type confusion remains
 
-# BEFORE (broken):
-if detected_text in settings.deny_list_location:  # "nc" won't match "NC"
+**Consequences**:
+- Weighted recall calculated as 91% instead of 91.5% (example)
+- Test expectations hardcoded to wrong values, masking the bug
+- Precision loss accumulates across multiple entity types
 
-# AFTER (fixed):
-if detected_text.lower() in [w.lower() for w in settings.deny_list_location]:
-```
+**Prevention**:
+- **Declare weights as `float` in Pydantic Field**: `dict[str, float]` not `dict[str, int]`
+- Use explicit float conversion in calculations: `float(stats["tp"]) * weight`
+- Add type hints everywhere: `def weighted_recall(weights: dict[str, float]) -> float`
+- Test with values that expose integer division: 1/3, 2/3 (should be 0.333, 0.666)
 
-**Why it's dangerous**:
-- Tests pass ("NC" filtered) but production fails ("nc" leaks through)
-- Threshold calibration uses different filtering than production
-- Metrics become unreliable - can't trust precision/recall numbers
+**Detection**:
+- Warning sign: Weighted metrics come out as exact integers (91% not 91.5%)
+- Warning sign: Test expectations use integers: `assert recall == 91` not `assert abs(recall - 0.915) < 0.01`
+- Static analysis: mypy catches type mismatches if hints present
 
-**Warning signs**:
-- Deny list logic copy-pasted across multiple files
-- Test performance differs significantly from production performance
-- Case variants ("NC" vs "nc" vs "Nc") show different behavior
-- Changes to deidentification.py require parallel changes elsewhere
+**Which phase should address it**: Phase 1 - Define types correctly from start, add precision tests
 
-**Prevention strategy**:
-1. **Grep before changes**: `grep -r "deny_list" app/ tests/` before modifying filtering logic
-2. **Shared function**: Extract deny list filtering to shared utility function (DRY principle)
-3. **Integration test**: Test that deidentification.py and evaluate_presidio.py produce identical results on same input
-4. **Code review checklist**: "Did you update all 3 files?"
-
-**Which phase addresses**:
-- Phase 3 (Deny List Refinement): Fix inconsistency across all files
-- Maintenance: Refactor to eliminate duplication
-
-**Project-specific lesson**: Phase 3 research identified this bug and documented all 3 locations requiring fix. Future: Extract shared `apply_deny_lists()` function.
+**Reference**: Existing project has weights as `int` in config (line 315-344 of config.py) but calculations use `float` return types - this type mismatch is risky
 
 ---
 
-### Pitfall 4: Server Configuration Caching
+### Pitfall 4: Missing Entities in Weight Dictionary (Silent Failure)
 
-**What goes wrong**: Config changes don't take effect because server uses `@lru_cache()` and wasn't restarted.
+**What goes wrong**: New entity type added to detection (e.g., "US_SSN") but not added to weight dictionaries. Code silently treats it as weight=0, hiding its performance.
 
-**Real example from project** (Phase 6, Session 1):
-```python
-# app/config.py line 286
-@lru_cache
-def get_settings() -> Settings:
-    """Get cached settings instance."""
-    return Settings()
-```
+**Why it happens**:
+- Weight dicts are manually maintained in config
+- Entity list (`phi_entities`) separate from weight dicts
+- `weights.get(entity_type, 0.0)` defaults to 0 instead of raising error
+- No validation that all detected entities have weights
 
-**Timeline**:
-- Phase 5: Added age patterns to DATE_TIME deny list (commit cfbd5b1)
-- Phase 6 Session 1: "18 year old" still redacted to `[DATE]`
-- Root cause: Server started Saturday, never restarted, running with stale config
-- Fix: Restart server → "18 year old" preserved correctly
+**Consequences**:
+- New entity types invisible in weighted metrics
+- Performance regression not caught until manual review
+- Weight misconfiguration goes unnoticed (typo: "PERSON" vs "PERSONS")
 
-**Why it's dangerous**:
-- **False negative detection**: Config has correct deny list but production uses old config with missing entries
-- **Wasted debugging time**: Investigate code when problem is cached config
-- **False confidence**: "I added the term but it's still detected" leads to wrong conclusions
+**Prevention**:
+- **Add Pydantic validator**: Check that all entities in `phi_entities` have weights
+- At runtime: Log warning if detected entity not in weights
+- In tests: Assert that weight keys match entity list exactly
+- Consider: Single source of truth - derive entity list from weight keys
 
-**Warning signs**:
-- Deny list changes don't affect production behavior
-- Restarting server "magically" fixes issues
-- Different behavior between test environment and production
-- Config file timestamps are recent but behavior unchanged
+**Detection**:
+- Test: Add entity to `phi_entities`, run without adding weights, verify error
+- CI check: Compare `phi_entities` list with weight dict keys
+- Runtime logging: "Entity X detected but has no weight assigned"
 
-**Prevention strategy**:
-1. **Document restart requirement**: "After changing config.py, restart server to pick up changes"
-2. **Add cache busting**: Development mode should disable `@lru_cache` or use short TTL
-3. **Health check endpoint**: `/health` endpoint shows config file timestamp vs server start time
-4. **Automated testing**: CI/CD should test with fresh config load (no cached settings)
-
-**Which phase addresses**:
-- Phase 6 (Real Handoff Testing): When discovered
-- CI/CD improvements: Add config cache detection to test suite
-
-**Project-specific lesson**: This cost 21 handoffs of false positive errors. Root cause was NOT code but cached config. Document restart requirement prominently.
+**Which phase should address it**: Phase 1 - Add validation before weights are used in production
 
 ---
 
-### Pitfall 5: Ambiguous Terms That Are Sometimes PHI
+## High-Risk Pitfalls
 
-**What goes wrong**: Adding terms to deny list that are context-dependent - sometimes PHI, sometimes not.
+### Pitfall 5: Backwards Compatibility - Existing Tests Break
 
-**Hypothetical dangerous examples**:
-```python
-# DON'T ADD THESE:
-deny_list_person = [
-    "gene",    # Gene Smith (name) vs gene therapy (medical)
-    "ed",      # Ed Johnson (name) vs ED (emergency dept)
-    "art",     # Art Williams (name) vs ART (antiretroviral therapy)
-    "bill",    # Bill Jones (name) vs medical bill
-]
-```
+**What goes wrong**: Adding weighted metrics changes function signatures, return types, or report formats. Existing tests and dashboards break, requiring extensive rework.
 
-**Why it's dangerous**:
-- "Contact Gene for updates" → Gene (person name) incorrectly preserved
-- "Patient Art Smith" → Art (name) incorrectly preserved
-- Creates **false negatives** (missed PHI) - the worst outcome for compliance
+**Why it happens**:
+- Weighted metrics added as new parameters to existing functions
+- Report format changes to include weighted metrics
+- Test fixtures hardcoded to old metric output format
+- Downstream consumers (CI checks, dashboards) expect specific format
 
-**Warning signs**:
-- Deny list term is common English word
-- Term appears in name databases (US Census names, SSA baby names)
-- Term has multiple meanings in medical vs general context
-- Capitalization changes meaning ("Bill" name vs "bill" invoice)
+**Consequences**:
+- Test suite fails after weighted metrics added
+- CI pipeline blocks deployment
+- Dashboard parsing breaks, losing monitoring
+- Time wasted updating test expectations instead of adding features
 
-**Prevention strategy**:
-1. **Never add ambiguous terms**: If term could be BOTH abbreviation AND name, don't add it
-2. **Rely on NER context**: Presidio's spaCy model uses sentence context - trust it for ambiguous cases
-3. **Check name databases**: Before adding term, search US SSA baby names database
-4. **Document non-ambiguous requirement**: Deny list policy: "Only add terms that are NEVER PHI in medical context"
+**Prevention**:
+- **Keep existing functions unchanged**, add new weighted versions
+- Old: `metrics.recall`, New: `metrics.weighted_recall(weights)`
+- Old: `generate_report()`, New: `generate_report(weighted=False)` (opt-in)
+- Add deprecation warnings if old functions need changes
+- Version report format: include format_version field
 
-**Which phase addresses**:
-- Phase 3 (Deny List Refinement): Establish deny list inclusion criteria
-- Code review: Reject deny list additions for ambiguous terms
+**Detection**:
+- Run existing test suite before/after weighted metric implementation
+- Check: Do unweighted metrics still match previous values?
+- Integration test: Does CI parsing still work?
 
-**Project-specific lesson**: "bilirubin", "ARFID", "DKA" are safe - not common names. "Gene", "Art", "Ed" are unsafe - common names. Document this distinction.
+**Which phase should address it**: Phase 1 - Design API to preserve backwards compatibility
+
+**Reference**: Project already has some good patterns - `weighted=False` parameter in `generate_report()` (line 439)
 
 ---
 
-### Pitfall 6: Test Script Generation Without Negative Cases
+### Pitfall 6: Weight Validation - Invalid Weight Values Accepted
 
-**What goes wrong**: When generating test scripts to validate deny list expansion, only creating positive cases ("term should be filtered") without negative cases ("term in PHI context should NOT be filtered").
+**What goes wrong**: Invalid weights (negative, NaN, Inf, out-of-range) silently accepted, causing nonsensical results or crashes.
 
-**Example of incomplete test**:
-```python
-# INCOMPLETE - Only tests positive case
-def test_months_old_not_redacted():
-    """Test that age descriptor is preserved."""
-    text = "This is a 5 months old infant."
-    result = deidentify_text(text)
-    assert "months old" in result.clean_text  # ✓ Tests preservation
+**Why it happens**:
+- Pydantic validation checks type (`int`) but not value range
+- No validation that weights are non-negative
+- No check that weight scale makes sense (0-5 expected, but 0-100 provided)
+- Float operations can produce NaN if division by zero occurs
 
-# MISSING - Negative case
-def test_months_ago_IS_redacted():
-    """Test that timeframe reference IS still caught as PHI."""
-    text = "Patient admitted 3 months ago on December 15th."
-    result = deidentify_text(text)
-    # Should redact "December 15th" even though "months ago" is present
-    assert "December" not in result.clean_text  # ✗ Not tested!
-```
+**Consequences**:
+- Negative weights flip interpretation (high TP reduces recall)
+- NaN weights propagate through calculations, producing NaN metrics
+- Weights on wrong scale (0-100 instead of 0-5) make comparison meaningless
+- Silent failures that surface in production
 
-**Why it's dangerous**:
-- Deny list expansion can inadvertently create false negatives
-- Substring matching can filter too broadly
-- False sense of security - "All tests pass" but PHI leaks through
+**Prevention**:
+- **Add Pydantic validators**:
+  ```python
+  @field_validator('spoken_handoff_weights')
+  def validate_weights(cls, v):
+      for entity, weight in v.items():
+          assert 0 <= weight <= 5, f"{entity} weight {weight} out of range [0-5]"
+      return v
+  ```
+- Add range checks in weighted calculation functions
+- Validate that denominator > 0 before division
+- Test edge cases: all zeros, all max, mixed, negative
 
-**Warning signs**:
-- Test suite only validates deny list filtering works
-- No tests for "this term SHOULD be detected despite deny list"
-- Real handoff testing finds false negatives not caught in test suite
-- Tests focus on precision improvement but don't verify recall maintained
+**Detection**:
+- Test: Try to load config with invalid weights, verify error
+- Runtime check: Log warning if weighted_total == 0
+- Unit test: Pass invalid weights to functions, verify graceful handling
 
-**Prevention strategy**:
-1. **Paired tests**: For each deny list term, write BOTH positive (filter) and negative (don't filter) test cases
-2. **Adversarial test generation**: "How could this deny list entry cause a false negative?"
-3. **Recall regression testing**: After deny list expansion, run full recall evaluation to detect false negatives
-4. **Real-world validation**: Test against actual PHI-containing transcripts (de-identified for testing)
+**Which phase should address it**: Phase 1 - Add validation before any weighted calculations
 
-**Which phase addresses**:
-- Phase 3 (Deny List Refinement): When creating test cases for new deny lists
-- Phase 6 (Real Handoff Testing): Validates no false negatives introduced
-
-**Project-specific lesson**: When adding "months old" to deny list, must also test "admitted 3 months ago on January 15" to ensure date still detected.
+**Reference**: Existing test `test_weight_values_in_valid_range()` (line 222) validates range, but only for already-loaded weights - need Pydantic validation at load time
 
 ---
 
-## Medium Risk Pitfalls
+### Pitfall 7: Per-Entity Stats Not Tracked (Can't Calculate Weighted Metrics)
 
-### Pitfall 7: Deny List Ordering Dependencies
+**What goes wrong**: Weighted metrics require per-entity TP/FN/FP counts, but evaluation only tracks global totals. Weighted calculations impossible.
 
-**What goes wrong**: Deny list filtering order matters if one term is substring of another.
+**Why it happens**:
+- Original design: aggregate metrics (total TP, total FN, total FP)
+- Weighted metrics need: per-entity breakdown for weighting
+- Adding `entity_stats` dict requires refactoring evaluation loop
+- Easy to forget to populate `entity_stats` in evaluation
 
-**Example**:
-```python
-deny_list_date_time = [
-    "day old",        # Matches "3 day old"
-    "days old",       # Matches "3 days old"
-    "day of life",    # Matches "day of life 5"
-    "dol",            # Matches "DOL 3"
-]
+**Consequences**:
+- Weighted metric functions exist but always return 0.0 (no data)
+- Must refactor entire evaluation pipeline to add tracking
+- Can't retrospectively analyze past results (no per-entity data)
 
-# Substring match with first match wins:
-"3 days old infant" → matches "day old" first (wrong!)
-```
+**Prevention**:
+- **Track per-entity stats from day one**, even before weights added
+- Structure: `entity_stats: dict[str, dict[str, int]]` with keys "tp", "fn", "fp"
+- Populate in evaluation loop, not post-processing
+- Add test: Verify entity_stats sum equals total metrics
 
-**Prevention strategy**:
-- Use exact match by default (order doesn't matter)
-- For substring match, sort deny list by length descending (longest first)
-- Document that order matters for substring matching
-- Test with terms that are substrings of each other
+**Detection**:
+- Test: Call weighted_recall() on empty entity_stats, verify returns 0.0
+- Test: Populate entity_stats, verify weighted != unweighted
+- Code review: Check evaluation loop populates entity_stats
 
-**Which phase addresses**: Phase 3 (Deny List Refinement)
-
----
-
-### Pitfall 8: Unicode and Accent Normalization
-
-**What goes wrong**: Medical terms with accents or special characters don't match deny list.
-
-**Example**:
-- "Café-au-lait spots" vs "Cafe-au-lait spots"
-- "José" (name) vs "Jose" (deny list entry - hypothetically)
-
-**Prevention strategy**:
-- Use Unicode normalization (NFKC) before comparison if multi-cultural patient population
-- Document whether deny list supports accented characters
-- For this project: English-only transcription, accents rare, accept limitation
-
-**Which phase addresses**: Phase 6 (Real Handoff Testing) - if non-English names appear
+**Which phase should address it**: Already addressed in existing code (lines 399-413 of evaluate_presidio.py), but critical to verify for other evaluation paths
 
 ---
 
-### Pitfall 9: Over-Reliance on Deny Lists vs Threshold Tuning
+### Pitfall 8: Confusion Between Micro, Macro, and Weighted Averaging
 
-**What goes wrong**: Using deny lists to compensate for poor threshold calibration instead of fixing root cause.
+**What goes wrong**: Weighted averaging confused with macro or micro averaging from sklearn. Different aggregation methods produce different results, causing misinterpretation.
 
-**Example**:
-- DATE_TIME threshold too low (0.3) → detects "today" as PHI
-- Add "today" to deny list instead of raising threshold to 0.4
+**Why it happens**:
+- Three distinct aggregation approaches in ML evaluation:
+  - **Micro**: Global TP/FN/FP (current unweighted approach)
+  - **Macro**: Average per-entity metrics (unweighted mean)
+  - **Weighted**: Average per-entity metrics weighted by support or custom weights
+- sklearn's `average='weighted'` weights by support (TP+FN), not custom weights
+- Custom weighting (by frequency/risk) is non-standard
+- Terminology overloaded: "weighted" means different things
 
-**Why it's problematic**:
-- Deny lists treat symptom, not disease
-- Hides underlying model performance issues
-- Deny list grows unbounded as more false positives discovered
+**Consequences**:
+- Stakeholder expects sklearn-style weighted (support-based)
+- System implements custom weighted (frequency-based)
+- Results don't match expectations or other tools
+- Can't compare to benchmarks using standard weighted metrics
 
-**Prevention strategy**:
-- Threshold tuning FIRST (Phase 2), deny lists SECOND (Phase 3)
-- Deny lists should be for domain-specific terms (medical abbreviations), not general words
-- If adding common English words to deny list, consider threshold adjustment instead
+**Prevention**:
+- **Use explicit terminology**: "frequency-weighted", "risk-weighted", not just "weighted"
+- Document difference from sklearn's `average='weighted'`
+- Consider adding standard macro/micro metrics for comparison
+- In reports: Label metrics clearly ("Frequency-weighted recall", not "Weighted recall")
 
-**Which phase addresses**: Phase 2 (Threshold Calibration) before Phase 3
+**Detection**:
+- Compare custom weighted to sklearn `classification_report(average='weighted')`
+- If they match, you're doing support-weighting not custom-weighting
+- Test: Create scenario where support-weighted != frequency-weighted
 
----
+**Which phase should address it**: Phase 1 - Use unambiguous naming from the start
 
-### Pitfall 10: Deny List vs Recognizer Pattern Conflicts
-
-**What goes wrong**: Adding term to deny list that conflicts with custom recognizer pattern.
-
-**Example from project**:
-```python
-# Custom recognizer pattern (pediatric.py):
-# Matches "Baby [NAME]" with lookbehind
-
-# Hypothetically adding to deny list:
-deny_list_person = ["baby"]  # DON'T DO THIS
-
-# Result: "Baby Smith" → neither custom recognizer fires (filtered)
-#         nor standard NER catches "Smith" (depends on context)
-```
-
-**Prevention strategy**:
-- Review custom recognizer patterns before expanding deny lists
-- Ensure deny list doesn't filter terms that trigger custom recognizers
-- Integration test: Custom recognizers should still fire after deny list expansion
-
-**Which phase addresses**: Phase 3 (Deny List Refinement) - review custom recognizers
+**Reference**: [sklearn weighted average](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_fscore_support.html) uses support, not custom weights
 
 ---
 
-## Prevention Checklist by Phase
+## Medium-Risk Pitfalls
 
-### Before Adding ANY Deny List Term
+### Pitfall 9: Over-Optimization on Weighted Metrics Hurts Unweighted Safety Floor
 
-- [ ] **Evidence documented**: False positive test case or production error documented
-- [ ] **Rationale comment**: Code comment explains why term was added
-- [ ] **Ambiguity check**: Term is not a common English name (check SSA database)
-- [ ] **Boundary check**: If substring match needed, verified it won't match PHI phrases
-- [ ] **Negative test case**: Created test where term SHOULD be detected (don't over-filter)
-- [ ] **All files updated**: Checked `deidentification.py`, `evaluate_presidio.py`, `calibrate_thresholds.py`
-- [ ] **Case normalization**: Uses `.lower()` comparison consistently
-- [ ] **Recognizer review**: Verified no conflict with custom recognizer patterns
+**What goes wrong**: Tuning detection thresholds to maximize weighted recall improves high-weight entities but degrades low-weight entities. Overall safety (unweighted recall) decreases.
 
-### After Deny List Expansion
+**Why it happens**:
+- Weighted objective function doesn't penalize low-weight entity failures
+- Optimizer finds local maximum: boost PERSON recall, let EMAIL drop
+- Zero-weight entities can drop to 0% recall without affecting weighted metric
+- Single-objective optimization ignores multi-objective tradeoffs
 
-- [ ] **Recall regression test**: Run full evaluation to check false negative rate unchanged
-- [ ] **Precision improvement**: Verify false positive rate decreased as expected
-- [ ] **Server restart**: If config.py changed, restart server to pick up changes
-- [ ] **Integration test**: Same behavior across deidentification and evaluation code paths
-- [ ] **Real handoff validation**: Test with actual clinical handoff transcripts
+**Consequences**:
+- EMAIL_ADDRESS recall drops from 100% to 50% (leaking PHI)
+- Weighted recall improves, but system is HIPAA-unsafe
+- Real PHI leaks in production from ignored entity types
 
-### Maintenance
+**Prevention**:
+- **Add hard constraint: unweighted recall >= 100%** (safety floor)
+- Use multi-objective optimization: maximize weighted subject to unweighted >= threshold
+- Report both metrics, make safety floor visible in tuning
+- Test: Verify threshold tuning doesn't degrade any entity below minimum
 
-- [ ] **Quarterly review**: Review deny list effectiveness, remove unused terms
-- [ ] **Performance check**: Ensure deny list size (<100 terms) doesn't impact performance
-- [ ] **Documentation update**: Keep rationale comments current with test evidence
+**Detection**:
+- Monitor both weighted and unweighted recall over time
+- Alert if unweighted recall decreases even if weighted increases
+- Test: Optimize on weighted, verify unweighted didn't drop
 
----
-
-## Key Takeaways
-
-1. **Substring matching is dangerous** - Use exact match by default, substring only when necessary with careful boundary checking
-2. **Evidence-driven expansion** - Never add terms without documented false positive
-3. **Test negative cases** - Ensure deny list doesn't create false negatives (missed PHI)
-4. **Case consistency across files** - Fix in all 3 code paths: production, evaluation, calibration
-5. **Server restart required** - Config changes don't take effect until server restart due to `@lru_cache`
-6. **Ambiguous terms are unsafe** - Don't add terms that could be both names and abbreviations
-7. **Recall is non-negotiable** - Deny list expansion must NOT reduce recall (missed PHI)
+**Which phase should address it**: Phase 2 (threshold tuning) - Add constraints before optimization
 
 ---
 
-## Project-Specific Lessons Learned
+### Pitfall 10: Weight Scheme Changes Break Historical Comparisons
 
-### Phase 3 Success
-- Fixed case-insensitive bug across 3 files simultaneously
-- Added DATE_TIME, GUARDIAN_NAME, PEDIATRIC_AGE deny lists
-- Evidence-based: Only added terms with documented false positives
+**What goes wrong**: Updating weight values (e.g., ROOM: 4→3) makes new results incomparable to old results. Historical trend analysis breaks.
 
-### Phase 6 Discovery
-- **Server restart requirement** caused 21 handoffs of false errors
-- Root cause: `@lru_cache()` on config meant changes didn't load
-- Lesson: Document restart requirement prominently
+**Why it happens**:
+- Weights are subjective and may need adjustment based on real-world usage
+- No versioning of weight schemes
+- Old results don't store which weights were used
+- Trend dashboards assume same weights over time
 
-### Phase 6 Medical Terms
-- Added "bilirubin", "ARFID", "citrus", "diuresis" to PERSON deny list
-- Evidence: Real false positives in handoff transcripts
-- Safe: Not common English names (checked SSA database)
+**Consequences**:
+- Can't tell if recall improved or weights changed
+- A/B tests invalid (different weight schemes)
+- Historical regression analysis meaningless
+
+**Prevention**:
+- **Version weight schemes**: Add `weight_scheme_version: str` to config
+- Store weight scheme version with evaluation results
+- When comparing results, verify same weight scheme or recompute
+- Changelog: Document when/why weights changed
+
+**Detection**:
+- Sudden jump/drop in weighted metrics with no code change = weight change
+- Check: Do old result files store weight values?
+
+**Which phase should address it**: Phase 1 - Add versioning before any weight changes occur
+
+---
+
+### Pitfall 11: Test Expectations Hardcoded to Specific Values
+
+**What goes wrong**: Tests check `assert weighted_recall == 0.915` with exact values. Small changes (new data, weight adjustments) break tests even though behavior is correct.
+
+**Why it happens**:
+- Easy to write: run code, copy output value into test
+- Feels rigorous: exact value matching
+- Doesn't account for: floating-point precision, data changes, weight updates
+
+**Consequences**:
+- Every weight change requires updating dozens of test expectations
+- Fragile tests that fail for wrong reasons
+- Developers start ignoring test failures ("just update the number")
+
+**Prevention**:
+- **Use tolerance-based assertions**: `assert abs(weighted_recall - 0.915) < 0.01`
+- Test properties, not exact values: `assert weighted_recall > unweighted_recall`
+- Test invariants: `assert 0.0 <= weighted_recall <= 1.0`
+- Only use exact values for synthetic data with known-correct answers
+
+**Detection**:
+- Count: How many tests have `==` for float metrics?
+- Try: Change a weight by 0.1, do tests break?
+
+**Which phase should address it**: Phase 1 - Write flexible tests from the start
+
+**Reference**: Existing test (line 54) uses `assert abs(weighted_recall - 0.915) < 0.01` - good pattern! But should be applied consistently.
+
+---
+
+### Pitfall 12: Bootstrap CI Calculation Incompatible with Weighted Metrics
+
+**What goes wrong**: Existing bootstrap confidence interval code works on binary arrays (TP/FN), but weighted metrics need per-entity data. CI calculation undefined for weighted metrics.
+
+**Why it happens**:
+- Bootstrap CI (lines 136-204) samples from flat TP/FN/FP arrays
+- Weighted metrics aggregate across entities with different weights
+- Sampling flattened data doesn't preserve per-entity structure
+- No clear definition of "confidence interval for weighted recall"
+
+**Consequences**:
+- Can't report CI for weighted metrics (uncertainty unknown)
+- Users compare weighted point estimate to unweighted CI (apples/oranges)
+- Weighted metrics appear more certain than they are
+
+**Prevention**:
+- **Option 1**: Bootstrap at handoff level (resample entire handoffs, recalculate weighted metrics)
+- **Option 2**: Don't compute CI for weighted metrics, only unweighted safety floor
+- **Option 3**: Use stratified bootstrap (preserve entity proportions)
+- Document which metrics have CIs and why
+
+**Detection**:
+- Try: Call `bootstrap_recall_ci()` with weighted metric, does it make sense?
+- Test: Verify bootstrap of weighted metric converges with increasing n_bootstrap
+
+**Which phase should address it**: Phase 2 (after basic weighted metrics work) - Add CI support for weighted if needed
+
+---
+
+### Pitfall 13: Report Format Changes Break Parsing
+
+**What goes wrong**: Adding weighted metrics to report changes line numbers, section headers, or metric order. Downstream parsers (CI scripts, dashboards) break.
+
+**Why it happens**:
+- Report format defined implicitly (list of strings)
+- Parsers use line numbers or regex to extract metrics
+- Adding 3 new lines shifts everything
+- No schema or contract for report format
+
+**Consequences**:
+- CI script can't find recall metric (looks at wrong line)
+- Dashboard shows wrong values (parsed wrong section)
+- Have to update multiple consumers, high coordination cost
+
+**Prevention**:
+- **Use structured output (JSON) for parsing**, human text for reading
+- Separate `generate_report_json()` from `generate_report_text()`
+- Version text format if needed for parsing
+- Add `--json` flag (already exists, line 593!) - good pattern
+- Keep text format flexible, don't parse it programmatically
+
+**Detection**:
+- Check: What consumes the report output? (CI, dashboard, human)
+- Test: Parse report with mock parser, verify it extracts correct values
+- Integration test: Run with weighted=True, verify CI still works
+
+**Which phase should address it**: Already addressed with `--json` flag, but verify CI uses JSON not text parsing
+
+---
+
+### Pitfall 14: Weighted Metrics Hide Class Imbalance Issues
+
+**What goes wrong**: Large weight on rare entity (MRN: weight=5, only 10 samples) causes high variance. Small data fluctuations swing weighted metric dramatically.
+
+**Why it happens**:
+- Weighted metrics amplify influence of high-weight entities
+- Small sample sizes have high variance
+- One MRN detection failure (-1 TP) = five PERSON failures in weighted calculation
+- Weighted metric becomes noisy, hard to interpret
+
+**Consequences**:
+- Weighted recall jumps from 85% to 92% with one fix (MRN detection)
+- Can't tell if system improved or got lucky
+- Optimization unstable (chasing noise)
+
+**Prevention**:
+- **Report sample sizes** alongside weighted metrics
+- Weight by importance AND reliability: `effective_weight = weight * sqrt(sample_size)`
+- Use confidence intervals to show uncertainty
+- Consider: Cap maximum weight ratio (no entity >3x another)
+
+**Detection**:
+- Check: What's the sample size for highest-weighted entities?
+- Test: Flip one MRN detection, how much does weighted metric change?
+- Monitor: Is weighted metric more volatile than unweighted over time?
+
+**Which phase should address it**: Phase 2 (after observing metric behavior) - Add sample size reporting
+
+---
+
+### Pitfall 15: Config Caching (@lru_cache) Prevents Weight Updates
+
+**What goes wrong**: Settings loaded once with `@lru_cache` on `get_settings()` (line 400). Changing weights in config doesn't take effect until restart.
+
+**Why it happens**:
+- `@lru_cache` decorator caches first `Settings()` instance
+- Subsequent calls return cached instance (for performance)
+- Config changes require cache clear or restart
+- Easy to forget during development/testing
+
+**Consequences**:
+- Update weight in config, re-run evaluation, results unchanged
+- Confusion: "Why didn't my weight change work?"
+- Tests that modify settings affect other tests (global state)
+- Production: Need restart to apply weight updates (not hot-reloadable)
+
+**Prevention**:
+- **Document**: "Changing weights requires restart due to @lru_cache"
+- Add: `clear_settings_cache()` function for testing
+- Consider: Remove `@lru_cache` if hot-reload needed (test performance impact)
+- Alternative: Pass weights as parameters, don't cache in config
+
+**Detection**:
+- Test: Modify weight, reload module, verify change takes effect
+- Warning in docs: "Config is cached, changes need restart"
+
+**Which phase should address it**: Phase 1 - Document behavior, add cache clear for tests
+
+**Reference**: Existing project has this pattern (line 400), documented as "prior pitfall" in project context
+
+---
+
+## Low-Risk Pitfalls
+
+### Pitfall 16: Unclear Documentation - Which Metric Should I Use?
+
+**What goes wrong**: Users see three metrics (unweighted, frequency-weighted, risk-weighted) and don't know which one to use for their decision. Each person picks different metric, can't align.
+
+**Why it happens**:
+- Multiple metrics presented without clear guidance
+- Context-dependent: different metrics for different questions
+- No decision tree: "Use X when deciding Y"
+
+**Consequences**:
+- Meetings waste time debating which metric is "right"
+- Different stakeholders optimize for different metrics (misalignment)
+- Incorrect metric used for high-stakes decision (threshold tuning)
+
+**Prevention**:
+- **Add decision guide to docs**:
+  - Safety compliance (HIPAA): Use unweighted recall (must be 100%)
+  - Handoff improvement: Use frequency-weighted (what's actually spoken)
+  - Leak severity assessment: Use risk-weighted (how bad if leaked)
+- In report: Label each metric with use case
+- Default to safety floor in production alerts
+
+**Detection**:
+- Ask stakeholders: Which metric do you use? Why?
+- Check: Is there a decision guide in the docs?
+
+**Which phase should address it**: Phase 1 - Document alongside metric implementation
+
+---
+
+### Pitfall 17: Weight Schemes Not Validated Against Domain Expert Feedback
+
+**What goes wrong**: Weights assigned based on intuition ("MRN seems important"), but domain experts (pediatric residents) disagree. Weights don't reflect actual handoff practice.
+
+**Why it happens**:
+- Initial weights from analyst's best guess
+- No formal elicitation process with clinicians
+- Weights never reviewed after initial implementation
+- Assumption that analyst knows handoff better than practitioners
+
+**Consequences**:
+- ROOM weighted too high (actually varies by unit culture)
+- DATE_TIME weighted too low (illness onset critical for triage)
+- Weighted metrics don't align with clinical priorities
+
+**Prevention**:
+- **Survey domain experts**: "How often do you say [entity] in handoffs?" (1-5 scale)
+- Use expert consensus, not single person's opinion
+- Document rationale for each weight assignment
+- Review weights quarterly with clinical users
+
+**Detection**:
+- Present weights to clinician, ask "Does this match your experience?"
+- Compare to recorded handoff transcripts (if available)
+
+**Which phase should address it**: Phase 3 (after initial implementation, before optimization)
 
 ---
 
 ## Sources
 
-**HIGH Confidence:**
-- [Presidio Deny List Documentation](https://microsoft.github.io/presidio/tutorial/01_deny_list/) - Official guidance on deny list implementation
-- [Presidio Best Practices](https://microsoft.github.io/presidio/analyzer/developing_recognizers/) - Recognizer development and false positive management
-- Project codebase analysis - Direct inspection of `deidentification.py`, `config.py`, test files
-- Phase 3 Research (03-RESEARCH.md) - Documented case-insensitive bug and deny list expansion
-- Phase 6 Pattern Analysis (patterns_identified.md) - Real production errors documented
+### NER Evaluation Challenges
+- [nervaluate - Entity-level NER evaluation](https://github.com/MantisAI/nervaluate)
+- [Skeptric - How not to Evaluate NER Systems](https://skeptric.com/ner-evaluate/)
+- [David's Batista - Named-Entity Evaluation Metrics](https://www.davidsbatista.net/blog/2018/05/09/Named_Entity_Evaluation/)
+- [ScienceDirect - Statistical dataset evaluation for NER](https://www.cambridge.org/core/journals/natural-language-processing/article/statistical-dataset-evaluation-a-case-study-on-named-entity-recognition/BF7FA3EF95004830F233CF5D743D98B2)
 
-**MEDIUM Confidence:**
-- [Clinical NER Challenges](https://pmc.ncbi.nlm.nih.gov/articles/PMC10651400/) - Named Entity Recognition in Electronic Health Records methodological review
-- [String Matching Methods](https://note.nkmk.me/en/python-str-compare/) - Python string comparison best practices
-- [NER Evaluation Metrics](https://github.com/MantisAI/nervaluate) - Exact vs partial matching in NER evaluation
-- [Sensitive Data Discovery](https://www.docontrol.io/blog/sensitive-data-discovery-tools) - Why exact matching causes false negatives
+### Weighted Metrics and Zero Division
+- [scikit-learn precision_score documentation](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html)
+- [scikit-learn f1_score documentation](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html)
+- [scikit-learn precision_recall_fscore_support](https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_recall_fscore_support.html)
+- [Number Analytics - F1 Score for Imbalanced Classes](https://www.numberanalytics.com/blog/f1-score-imbalanced-classes-guide)
 
-**LOW Confidence (general guidance):**
-- Web search results on medical abbreviation misinterpretation (general issues, not deny list specific)
-- HIPAA guidance on de-identification (legal requirements, not technical implementation)
+### Implementation Integration Pitfalls
+- [Deepchecks - Evaluating Agentic Workflows](https://www.deepchecks.com/agentic-workflow-evaluation-key-metrics-methods/)
+- [MIT Press - Classification Evaluation Metrics](https://direct.mit.edu/tacl/article/doi/10.1162/tacl_a_00675/122720/A-Closer-Look-at-Classification-Evaluation-Metrics)
+- [Savio - Weighted Scoring Model Guide](https://www.savio.io/product-roadmap/weighted-scoring-model/)
+- [R-bloggers - Weighting Confusion Matrices](https://www.r-bloggers.com/2020/12/weighting-confusion-matrices-by-outcomes-and-observations/)
 
----
-
-## Confidence Assessment
-
-| Area | Confidence | Rationale |
-|------|------------|-----------|
-| Substring matching pitfalls | HIGH | Project experienced this issue, well-documented in research |
-| Evidence-driven expansion | HIGH | Phase 3 established this pattern, Phase 6 validated it |
-| Case sensitivity bugs | HIGH | Found and fixed in Phase 3 across 3 files |
-| Server caching issue | HIGH | Phase 6 Session 1 documented this root cause |
-| Ambiguous terms | MEDIUM | General best practice, not project-specific experience yet |
-| Test negative cases | MEDIUM | General testing principle, project hasn't had false negative incidents |
-| Unicode normalization | LOW | Not yet encountered in English-only transcripts |
+### Backward Compatibility
+- [TutorialsPoint - Backward Compatibility Testing](https://www.tutorialspoint.com/software_testing_dictionary/backward_compatibility_testing.htm)
+- [Medium - API Versioning and Backward Compatibility](https://medium.com/qualitynexus/api-versioning-and-backward-compatibility-complete-testing-guide-for-quality-engineers-669d46d204d7)
 
 ---
 
-*Research completed: 2026-01-28*
-*Document version: 2.0 (Deny List Expansion Focus)*
-*Primary researcher: Claude Code (Research Agent)*
+## Phase-Specific Risk Summary
+
+| Phase | Critical Pitfalls | High-Risk Pitfalls | Mitigation Priority |
+|-------|-------------------|---------------------|---------------------|
+| **Phase 1: Implementation** | #1 (Zero-weight safety), #2 (Weight confusion), #3 (Int/float), #4 (Missing entities) | #5 (Backwards compat), #6 (Weight validation), #8 (Terminology) | HIGH - Must solve before production |
+| **Phase 2: Threshold Tuning** | #9 (Over-optimization hurts safety floor) | #12 (Bootstrap CI), #14 (Class imbalance) | MEDIUM - Affects optimization quality |
+| **Phase 3: Production Deploy** | #15 (Config caching) | #10 (Weight versioning), #13 (Report parsing) | MEDIUM - Operational concerns |
+| **Phase 4: Maintenance** | None | #17 (Domain expert validation) | LOW - Continuous improvement |
+
+**Highest Priority**: Pitfalls #1, #2, #4 must be addressed in Phase 1 to prevent PHI leaks from zero-weight entities and weight scheme confusion.
