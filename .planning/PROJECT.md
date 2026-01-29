@@ -2,34 +2,25 @@
 
 ## What This Is
 
-A HIPAA-compliant web application that transcribes pediatric patient handoff recordings and removes all Protected Health Information (PHI) before displaying the transcript. All processing happens locally—no patient data ever leaves the user's machine. Validated on 27 real clinical handoffs with 94.4% weighted recall and zero false negatives. CI/CD pipeline now fully operational with automated regression testing.
+A HIPAA-compliant web application that transcribes pediatric patient handoff recordings and removes all Protected Health Information (PHI) before displaying the transcript. All processing happens locally—no patient data ever leaves the user's machine. Validated on 27 real clinical handoffs with 94.4% weighted recall and zero false negatives. Over-detection issues eliminated via systematic test-driven deny list expansion (v2.1).
 
 ## Core Value
 
 Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content.
 
-## Current Milestone: v2.1 Over-Detection Quality Pass
-
-**Goal:** Reduce false positives by expanding deny lists based on systematic testing with realistic and edge-case handoff scripts.
-
-**Target features:**
-- Generate realistic and edge-case I-PASS handoff test scripts
-- Record and process to discover over-detection issues
-- Fix deny lists for duration phrases, medical flow terminology, unit preservation
-- Validate no regressions
-
 ## Current State
 
-**v2.0 CI/CD Pipeline Fix shipped 2026-01-26**
+**v2.1 Over-Detection Quality Pass shipped 2026-01-28**
 
 Production-ready HIPAA-compliant PHI detection with:
 - 94.4% weighted recall on real clinical handoffs
 - Zero false negatives in validation dataset
-- Green CI/CD pipeline (test.yml + docker.yml)
+- 100% elimination of documented false positives (69% precision, up from 66.3%)
+- Green CI/CD pipeline with 36 new regression tests
 - Python 3.9, 3.10, 3.11 all passing
 
 **Tech stack:** FastAPI, faster-whisper, Presidio, spacy en_core_web_lg
-**LOC:** ~2,100 Python (app)
+**LOC:** ~7,500 Python (app + tests)
 
 ## Requirements
 
@@ -56,18 +47,18 @@ Production-ready HIPAA-compliant PHI detection with:
 - ✓ CI/CD: GitHub Actions Docker build workflow passes — v2.0
 - ✓ CI/CD: Dependency conflicts resolved (numpy, philter-ucsf) — v2.0
 - ✓ Tests: Expectations aligned with v1.0 behavior — v2.0
+- ✓ Realistic I-PASS handoff test scripts (6 scripts) — v2.1
+- ✓ Edge-case scripts targeting duration phrases, flow terminology (4 scripts) — v2.1
+- ✓ Duration patterns in DATE_TIME deny list (70+ patterns) — v2.1
+- ✓ Flow terminology in LOCATION deny list (high flow, low flow, etc.) — v2.1
+- ✓ Word-boundary matching for LOCATION deny list — v2.1
+- ✓ Unit name preservation during ROOM redaction (PICU, NICU) — v2.1
+- ✓ Regression tests for false positive prevention (36 new tests) — v2.1
+- ✓ No regressions on validation set (86.4% recall maintained) — v2.1
 
 ### Active
 
-<!-- v2.1 Over-Detection Quality Pass requirements -->
-
-- [ ] Generate realistic I-PASS handoff test scripts
-- [ ] Generate edge-case scripts targeting duration phrases, flow terminology, unit names
-- [ ] Record and process test handoffs to discover over-detection issues
-- [ ] Add duration patterns to DATE_TIME deny list (one day, two days, three days, etc.)
-- [ ] Add medical flow terminology to LOCATION deny list (high flow, placed on high, etc.)
-- [ ] Preserve unit names (PICU, NICU) during ROOM redaction
-- [ ] Validate no regressions on 27 real handoffs
+<!-- No current requirements — milestone complete, awaiting next milestone definition -->
 
 ### Out of Scope
 
@@ -84,14 +75,14 @@ Production-ready HIPAA-compliant PHI detection with:
 **Milestones shipped:**
 - v1.0 PHI Detection Overhaul (2026-01-25): 8 phases, 24 plans, 3 days
 - v2.0 CI/CD Pipeline Fix (2026-01-26): 1 phase, 2 plans, 1 day
+- v2.1 Over-Detection Quality Pass (2026-01-28): 3 phases, 7 plans, 1 day
 
 **CI/CD status:** ALL GREEN
-- test.yml: 172 passed, 8 xfailed, 1 xpassed
+- test.yml: 208 passed, 8 xfailed, 1 xpassed
 - docker.yml: Build completes in ~24s
 
 **Known issues tracked via xfail:**
-- Under-detection: 7-digit phones, detailed ages, street addresses
-- Over-detection: "Currently on high" as LOCATION
+- Under-detection: 7-digit phones, detailed ages, street addresses, school names
 
 ## Constraints
 
@@ -118,6 +109,11 @@ Production-ready HIPAA-compliant PHI detection with:
 | Remove presidio-evaluator | Requires numpy>=2.0, irreconcilable with spacy | ✓ Good |
 | Direct pip URL for spacy | Avoids version resolution bugs in CI | ✓ Good |
 | xfail for known issues | CI passes while tracking quality debt | ✓ Good |
+| Test-driven deny list expansion | Systematic recording → analysis → fix cycle catches issues human review misses | ✓ Good |
+| Word-boundary regex for LOCATION | Prevents "ER" matching "Jefferson"; preserves NC/RA/OR filtering | ✓ Good |
+| 70+ duration patterns | Broad coverage for clinical timeline phrases; acceptable to block rare true dates | ✓ Good |
+| Standalone "high"/"low" in deny list | Overwhelmingly used for oxygen flow rates in pediatric handoffs | ✓ Good |
+| Regression tests for false positives | 36 tests prevent future reintroduction of fixed issues | ✓ Good |
 
 ---
-*Last updated: 2026-01-28 after v2.1 milestone start*
+*Last updated: 2026-01-28 after v2.1 milestone complete*

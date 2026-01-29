@@ -1,5 +1,45 @@
 # Project Milestones: Pediatric Handoff PHI Remover
 
+## v2.1 Over-Detection Quality Pass (Shipped: 2026-01-28)
+
+**Delivered:** 100% elimination of documented false positives via systematic test-driven deny list expansion, with no regression on recall.
+
+**Phases completed:** 10-12 (7 plans total)
+
+**Key accomplishments:**
+
+- Generated 10 realistic/edge-case I-PASS handoff test scripts targeting over-detection patterns
+- Documented 45 false positives across 4 categories via systematic recording and analysis
+- Added 70+ duration patterns to DATE_TIME deny list eliminating 58% of false positives
+- Fixed LOCATION deny list with word-boundary regex matching
+- Added flow terminology entries (high flow, low flow, on high, on low) to prevent medical context misdetection
+- Created 36 regression tests protecting against future false positive introduction
+
+**Stats:**
+
+- 53 files modified
+- +6,544/-41 lines changed
+- 3 phases, 7 plans
+- 1 day from milestone start to ship (2026-01-28)
+
+**Metrics Improvement:**
+
+| Metric | Before | After | Change |
+|--------|--------|-------|--------|
+| False Positives | 45 documented | 0 remaining | -100% |
+| Precision | 66.3% | 69.0% | +2.7% |
+| Recall | 86.4% | 86.4% | No change |
+
+**Git range:** `60b3b0f` → `c46d670`
+
+**CI Status:**
+- test.yml: PASSING (208 passed, 8 xfailed, 1 xpassed)
+- docker.yml: PASSING
+
+**What's next:** Under-detection improvements (7-digit phones, detailed ages, street addresses) tracked as tech debt via xfail markers. System ready for production use.
+
+---
+
 ## v2.0 CI/CD Pipeline Fix (Shipped: 2026-01-26)
 
 **Delivered:** Green CI/CD pipeline with automated regression testing across Python 3.9, 3.10, 3.11.
