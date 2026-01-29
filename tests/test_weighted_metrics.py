@@ -66,8 +66,8 @@ class TestWeightedMetrics:
         }
 
         weights = {
-            "PERSON": 5,
-            "ROOM": 4,
+            "PERSON": 5.0,
+            "ROOM": 4.0,
         }
 
         metrics = EvaluationMetrics()
@@ -91,7 +91,7 @@ class TestWeightedMetrics:
             "PERSON": {"tp": 100, "fn": 10, "fp": 20},
         }
 
-        weights = {"PERSON": 5}
+        weights = {"PERSON": 5.0}
 
         metrics = EvaluationMetrics()
         metrics.entity_stats = entity_stats
@@ -117,8 +117,8 @@ class TestWeightedMetrics:
         }
 
         weights = {
-            "PERSON": 5,
-            "EMAIL_ADDRESS": 0,
+            "PERSON": 5.0,
+            "EMAIL_ADDRESS": 0.0,
         }
 
         metrics = EvaluationMetrics()
@@ -220,32 +220,41 @@ class TestWeightConfiguration:
             assert entity in weights, f"{entity} missing from weights config"
 
     def test_weight_values_in_valid_range(self):
-        """Test that all weights are non-negative integers."""
+        """Test that all weights are non-negative floats in valid range."""
         weights = settings.spoken_handoff_weights
 
         for entity, weight in weights.items():
-            assert isinstance(weight, int), f"{entity} weight is not an integer"
-            assert weight >= 0, f"{entity} weight is negative"
-            assert weight <= 5, f"{entity} weight exceeds maximum of 5"
+            assert isinstance(weight, (int, float)), f"{entity} weight is not numeric"
+            assert weight >= 0.0, f"{entity} weight is negative"
+            assert weight <= 5.0, f"{entity} weight exceeds maximum of 5"
 
     def test_critical_entities_have_high_weights(self):
-        """Test that frequently spoken entities have high weights."""
+        """Test that frequently spoken entities have high weights (>=4.0)."""
         weights = settings.spoken_handoff_weights
 
-        # PERSON and GUARDIAN_NAME should have highest weight (5)
-        assert weights["PERSON"] == 5, "PERSON should have weight 5 (critical)"
-        assert weights["GUARDIAN_NAME"] == 5, "GUARDIAN_NAME should have weight 5 (critical)"
+        # PERSON should have highest weight (5.0 - constantly spoken)
+        assert weights["PERSON"] == pytest.approx(5.0), "PERSON should have weight 5.0 (critical)"
 
-        # ROOM should have high weight (4)
-        assert weights["ROOM"] == 4, "ROOM should have weight 4 (high)"
+        # GUARDIAN_NAME and ROOM should have high weights (4.0 - commonly spoken)
+        assert weights["GUARDIAN_NAME"] == pytest.approx(4.0), "GUARDIAN_NAME should have weight 4.0 (high)"
+        assert weights["ROOM"] == pytest.approx(4.0), "ROOM should have weight 4.0 (high)"
 
-    def test_never_spoken_entities_have_zero_weight(self):
-        """Test that never-spoken entities have zero weight."""
+    def test_rarely_or_never_spoken_entities_have_low_weights(self):
+        """Test that rarely/never-spoken entities have low weights (<=0.5).
+
+        EMAIL_ADDRESS (0.0) and PEDIATRIC_AGE (0.0) are never spoken.
+        LOCATION (0.5) is rarely spoken but possible ("transferred from Memorial").
+        """
         weights = settings.spoken_handoff_weights
 
-        # EMAIL and LOCATION never spoken during handoffs
-        assert weights["EMAIL_ADDRESS"] == 0, "EMAIL_ADDRESS should have weight 0"
-        assert weights["LOCATION"] == 0, "LOCATION should have weight 0"
+        # EMAIL_ADDRESS never spoken in handoffs (weight 0.0)
+        assert weights["EMAIL_ADDRESS"] == pytest.approx(0.0), "EMAIL_ADDRESS should have weight 0.0"
+
+        # PEDIATRIC_AGE not PHI under HIPAA (weight 0.0)
+        assert weights["PEDIATRIC_AGE"] == pytest.approx(0.0), "PEDIATRIC_AGE should have weight 0.0"
+
+        # LOCATION rarely spoken but possible (weight 0.5)
+        assert weights["LOCATION"] == pytest.approx(0.5), "LOCATION should have weight 0.5"
 
 
 if __name__ == "__main__":
