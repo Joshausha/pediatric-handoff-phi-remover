@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-28)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** Phase 11 - Deny List Expansion
+**Current focus:** Phase 11 complete - ready for Phase 12 (Docker deployment)
 
 ## Current Position
 
 Phase: 11 of 12 (Deny List Expansion)
-Plan: 02 of 3
-Status: In progress
-Last activity: 2026-01-28 — Completed 11-02-PLAN.md (flow terms and PERSON deny list expansion)
+Plan: 4 of 4 (complete)
+Status: Phase complete
+Last activity: 2026-01-28 — Completed 11-04-PLAN.md (verification and regression testing)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [####░░░░░░] 40% v2.1
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [#######░░░] 70% v2.1
 
 ## Milestones Shipped
 
@@ -29,7 +29,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [####░░░░░
 
 | Workflow | Status | Details |
 |----------|--------|---------|
-| test.yml | PASSING | 172 passed, 8 xfailed, 1 xpassed |
+| test.yml | PASSING | 208 passed, 8 xfailed, 1 xpassed |
 | docker.yml | PASSING | Build completes in ~24s |
 
 ## Known Issues (Tech Debt)
@@ -42,9 +42,7 @@ Tracked via xfail markers in CI:
 - Street addresses (425 Oak Street)
 
 **Over-detection:**
-- ~~"Currently on high" as LOCATION~~ FIXED in 11-02
-- ~~Duration phrases ("three days of symptoms") as DATE_TIME~~ FIXED in 11-01
-- ~~Unit names lost during ROOM redaction~~ FIXED in 11-03
+- ~~All 45 documented false positives from Phase 10~~ FIXED in Phase 11 (100% elimination)
 
 ## Accumulated Context
 
@@ -61,6 +59,7 @@ Recent decisions affecting current work:
 - **11-02: Broad deny terms justified**: Added standalone "high" and "low" to LOCATION deny list despite being broad - overwhelmingly used for oxygen flow rates in pediatric handoffs, minimal risk of missing legitimate location PHI
 - **11-02: Dual deny list inclusion**: Added "flow" to both LOCATION and PERSON deny lists to prevent false positives in either entity type
 - **11-03: Unit preservation**: Use separate fixed-width lookbehind patterns per unit type instead of alternation for reliable regex matching
+- **11-04: Text-based verification**: Process test scripts through Presidio directly instead of re-recording audio - faster, more precise, removes transcription variables
 
 ### Pending Todos
 
@@ -73,9 +72,9 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Completed 11-02-PLAN.md (flow terms and PERSON deny list expansion)
+Stopped at: Completed 11-04-PLAN.md (Phase 11 verification complete)
 Resume file: None
-Next: Phase 11 complete - ready for final validation
+Next: Phase 12 (Docker deployment) or Phase 13 (optional test recordings expansion)
 
 ---
 *State initialized: 2026-01-23*
