@@ -9,12 +9,12 @@ Requirements for Dual-Weight Recall Framework milestone. Each maps to roadmap ph
 
 ### Test Suite
 
-- [ ] **TEST-01**: Existing weighted metric tests pass with float weights
-- [ ] **TEST-02**: Risk-weighted recall calculation has test coverage
-- [ ] **TEST-03**: Risk-weighted precision calculation has test coverage
-- [ ] **TEST-04**: Risk-weighted F2 calculation has test coverage
-- [ ] **TEST-05**: Float assertions use tolerance (not exact comparison)
-- [ ] **TEST-06**: Test validates frequency vs risk weight divergence behavior
+- [x] **TEST-01**: Existing weighted metric tests pass with float weights
+- [x] **TEST-02**: Risk-weighted recall calculation has test coverage
+- [x] **TEST-03**: Risk-weighted precision calculation has test coverage
+- [x] **TEST-04**: Risk-weighted F2 calculation has test coverage
+- [x] **TEST-05**: Float assertions use tolerance (not exact comparison)
+- [x] **TEST-06**: Test validates frequency vs risk weight divergence behavior
 
 ### Report Generation
 
@@ -67,12 +67,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TEST-01 | Phase 13 | Pending |
-| TEST-02 | Phase 13 | Pending |
-| TEST-03 | Phase 13 | Pending |
-| TEST-04 | Phase 13 | Pending |
-| TEST-05 | Phase 13 | Pending |
-| TEST-06 | Phase 13 | Pending |
+| TEST-01 | Phase 13 | Complete |
+| TEST-02 | Phase 13 | Complete |
+| TEST-03 | Phase 13 | Complete |
+| TEST-04 | Phase 13 | Complete |
+| TEST-05 | Phase 13 | Complete |
+| TEST-06 | Phase 13 | Complete |
 | REPT-01 | Phase 14 | Pending |
 | REPT-02 | Phase 14 | Pending |
 | REPT-03 | Phase 14 | Pending |
@@ -95,4 +95,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 after roadmap creation*
+*Last updated: 2026-01-29 after Phase 13 complete*

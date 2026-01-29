@@ -141,7 +141,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 13-01-PLAN.md — Fix float assertions, add risk-weighted tests, add divergence validation
+- [x] 13-01-PLAN.md — Fix float assertions, add risk-weighted tests, add divergence validation
 
 #### Phase 14: Report Generation Refinement
 **Goal**: Polish three-metric report display with clear explanations
@@ -207,11 +207,11 @@ Phases execute in numeric order: 13 → 14 → 15 → 16
 | 10. Test Scripts | v2.1 | 2/2 | Complete | 2026-01-28 |
 | 11. False Positive Analysis | v2.1 | 3/3 | Complete | 2026-01-28 |
 | 12. Regression Tests | v2.1 | 2/2 | Complete | 2026-01-28 |
-| 13. Test Suite Migration | v2.2 | 0/1 | Ready | - |
+| 13. Test Suite Migration | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 14. Report Refinement | v2.2 | 0/TBD | Not started | - |
 | 15. Documentation | v2.2 | 0/TBD | Not started | - |
 | 16. Integration Validation | v2.2 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-29 after Phase 13 planned*
+*Last updated: 2026-01-29 after Phase 13 complete*
