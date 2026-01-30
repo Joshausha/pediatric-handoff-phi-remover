@@ -1,0 +1,23 @@
+{
+  "f1": 0.7674,
+  "f2": 0.8226,
+  "false_negatives": 205,
+  "false_positives": 585,
+  "freq_weighted_f2": 0.8804,
+  "freq_weighted_precision": 0.7109,
+  "freq_weighted_recall": 0.9363,
+  "precision": 0.6901,
+  "precision_ci_lower": 0.6695,
+  "precision_ci_upper": 0.7114,
+  "precision_mean": 0.6898,
+  "recall": 0.8641,
+  "recall_ci_lower": 0.8484,
+  "recall_ci_upper": 0.8818,
+  "recall_mean": 0.8645,
+  "risk_weighted_f2": 0.8521,
+  "risk_weighted_precision": 0.7662,
+  "risk_weighted_recall": 0.8767,
+  "total_detected": 1888,
+  "total_expected": 1508,
+  "true_positives": 1303
+}
