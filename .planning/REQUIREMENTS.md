@@ -33,11 +33,11 @@ Requirements for Dual-Weight Recall Framework milestone. Each maps to roadmap ph
 
 ### Documentation
 
-- [ ] **DOCS-01**: SPOKEN_HANDOFF_ANALYSIS.md updated with dual-weighting rationale
-- [ ] **DOCS-02**: SPOKEN_HANDOFF_ANALYSIS.md documents frequency weight purpose
-- [ ] **DOCS-03**: SPOKEN_HANDOFF_ANALYSIS.md documents risk weight purpose
-- [ ] **DOCS-04**: PROJECT.md updated with v2.2 milestone completion
-- [ ] **DOCS-05**: Key Decisions table updated with dual-weighting decision
+- [x] **DOCS-01**: SPOKEN_HANDOFF_ANALYSIS.md updated with dual-weighting rationale
+- [x] **DOCS-02**: SPOKEN_HANDOFF_ANALYSIS.md documents frequency weight purpose
+- [x] **DOCS-03**: SPOKEN_HANDOFF_ANALYSIS.md documents risk weight purpose
+- [x] **DOCS-04**: PROJECT.md updated with v2.2 milestone completion
+- [x] **DOCS-05**: Key Decisions table updated with dual-weighting decision
 
 ## Future Requirements (v2.3+)
 
@@ -82,11 +82,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CONF-01 | Phase 16 | Pending |
 | CONF-02 | Phase 16 | Pending |
 | CONF-03 | Phase 16 | Pending |
-| DOCS-01 | Phase 15 | Pending |
-| DOCS-02 | Phase 15 | Pending |
-| DOCS-03 | Phase 15 | Pending |
-| DOCS-04 | Phase 15 | Pending |
-| DOCS-05 | Phase 15 | Pending |
+| DOCS-01 | Phase 15 | Complete |
+| DOCS-02 | Phase 15 | Complete |
+| DOCS-03 | Phase 15 | Complete |
+| DOCS-04 | Phase 15 | Complete |
+| DOCS-05 | Phase 15 | Complete |
 
 **Coverage:**
 - v2.2 requirements: 20 total
@@ -95,4 +95,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 after Phase 14 complete*
+*Last updated: 2026-01-29 after Phase 15 complete*
