@@ -199,9 +199,9 @@ Plans:
 **Milestone Goal:** Close critical recall gaps in ROOM (32%), LOCATION (20%), PHONE (76%), and MRN (72%) entities while maintaining precision.
 
 **Current Recall Targets:**
-| Entity | v2.2 Recall | v2.3 Target | Revised Target |
-|--------|-------------|-------------|----------------|
-| ROOM | 32.1% | ~~80%~~ | **55%** (pattern-based limit) |
+| Entity | v2.2 Recall | v2.3 Target | Achieved |
+|--------|-------------|-------------|----------|
+| ROOM | 32.1% | ~~80%~~ 55% interim | **95.6%** ✓ |
 | LOCATION | 20.0% | ≥60% | TBD |
 | PHONE_NUMBER | 75.7% | ≥90% | TBD |
 | MRN | 72.3% | ≥85% | TBD |
@@ -321,7 +321,7 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 14. Report Refinement | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 15. Documentation | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 16. Integration Validation | v2.2 | 2/2 | Complete | 2026-01-30 |
-| 17. Room Pattern Expansion | v2.3 | 1/3 | In Progress | - |
+| 17. Room Pattern Expansion | v2.3 | 3/3 | Complete | 2026-01-30 |
 | 18. Guardian Edge Cases | v2.3 | 0/? | Not started | - |
 | 19. Provider Name Detection | v2.3 | 0/? | Not started | - |
 | 20. Phone/Pager Patterns | v2.3 | 0/? | Not started | - |
@@ -330,4 +330,4 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-30 — Phase 17 gap closure plans added (3 total plans)*
+*Last updated: 2026-01-30 — Phase 17 complete (ROOM: 95.6% recall, 52.4% precision)*
