@@ -1,6 +1,6 @@
 # Spoken I-PASS Handoff: Relevance-Weighted PHI Analysis
 
-**Date:** 2026-01-25
+**Date:** 2026-01-29
 **Author:** Josh Pankin, MD (with Claude analysis)
 
 ## Executive Summary
@@ -14,6 +14,56 @@ Standard PHI detection metrics evaluate all entity types equally. However, spoke
 | **Recall** | 77.9% | **91.5%** | +13.5% |
 | **Precision** | 73.7% | **79.7%** | +6.0% |
 | **F2 Score** | 77.0% | **88.8%** | +11.8% |
+
+## Dual-Weighting Methodology
+
+Version 2.2 introduced a dual-weighting evaluation system to capture two complementary perspectives on PHI detection performance: how often each PHI type is spoken in practice (frequency), and how severe a leak would be if detected improperly (risk). These two lenses provide different—yet both essential—views of system quality.
+
+### Frequency Weights: Operational Reality
+
+Frequency weights measure **how often each PHI type is actually spoken** during I-PASS handoffs. This captures the operational reality of clinical communication: patient names are spoken constantly, room numbers are used for identification, but MRNs are almost always displayed on screen rather than spoken aloud.
+
+**Key frequency weights** (from `app/config.py` lines 315-328):
+
+- **PERSON (5.0)**: Patient names spoken in every handoff, often multiple times
+- **ROOM (4.0)**: Primary identification method ("the kid in bed 3")
+- **PHONE_NUMBER (1.0)**: Rarely spoken aloud—usually just "call the family"
+- **MEDICAL_RECORD_NUMBER (0.5)**: Almost never spoken; clinicians read it from screens
+
+Frequency-weighted metrics answer: *"How well does the system perform on PHI that's actually spoken during real handoffs?"*
+
+### Risk Weights: HIPAA Compliance
+
+Risk weights measure **severity if each PHI type leaks**—how uniquely identifying it is if the system fails to redact it. A leaked MRN is catastrophic (THE unique patient identifier), while a leaked admission date is rarely identifying on its own.
+
+**Key risk weights** (from `app/config.py` lines 330-344):
+
+- **MEDICAL_RECORD_NUMBER (5.0)**: The definitive unique identifier—most critical to protect
+- **PERSON (5.0)**: Directly identifies the patient
+- **PHONE_NUMBER (4.0)**: Personally identifying contact information
+- **ROOM (2.0)**: Semi-identifying (requires hospital context to be useful)
+
+Risk-weighted metrics answer: *"How well does the system protect against the most severe PHI leaks?"*
+
+### Why Two Weight Schemes?
+
+**Core insight:** PHI that's rarely spoken can still be highly identifying if it leaks.
+
+Consider MRNs:
+- **Frequency weight:** 0.5 (almost never spoken aloud)
+- **Risk weight:** 5.0 (THE unique patient identifier)
+
+Without dual-weighting, a system that misses 50% of MRNs would show good frequency-weighted performance (because MRNs contribute little to that metric), but terrible risk-weighted performance (because missing MRNs creates severe HIPAA violations). Both perspectives are necessary for a complete evaluation.
+
+### Metric Interpretation Guidance
+
+When reviewing evaluation reports, use each metric type for its intended purpose:
+
+- **Unweighted recall:** HIPAA compliance floor—all PHI types treated equally regardless of context
+- **Frequency-weighted recall:** Operational effectiveness—system performance on PHI actually spoken in practice
+- **Risk-weighted recall:** Critical vulnerabilities—protection against the most severe potential leaks
+
+All three metrics are reported side-by-side to provide complete visibility into system behavior.
 
 ## PHI Categories in Spoken Handoffs
 
