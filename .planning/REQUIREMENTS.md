@@ -18,12 +18,12 @@ Requirements for Dual-Weight Recall Framework milestone. Each maps to roadmap ph
 
 ### Report Generation
 
-- [ ] **REPT-01**: Evaluation report displays unweighted metrics
-- [ ] **REPT-02**: Evaluation report displays frequency-weighted metrics
-- [ ] **REPT-03**: Evaluation report displays risk-weighted metrics
-- [ ] **REPT-04**: Unweighted recall labeled as "Safety floor"
-- [ ] **REPT-05**: Report includes side-by-side weight comparison table (entity, frequency, risk)
-- [ ] **REPT-06**: Report explains metric divergence (what each metric captures)
+- [x] **REPT-01**: Evaluation report displays unweighted metrics
+- [x] **REPT-02**: Evaluation report displays frequency-weighted metrics
+- [x] **REPT-03**: Evaluation report displays risk-weighted metrics
+- [x] **REPT-04**: Unweighted recall labeled as "Safety floor"
+- [x] **REPT-05**: Report includes side-by-side weight comparison table (entity, frequency, risk)
+- [x] **REPT-06**: Report explains metric divergence (what each metric captures)
 
 ### Configuration
 
@@ -73,12 +73,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TEST-04 | Phase 13 | Complete |
 | TEST-05 | Phase 13 | Complete |
 | TEST-06 | Phase 13 | Complete |
-| REPT-01 | Phase 14 | Pending |
-| REPT-02 | Phase 14 | Pending |
-| REPT-03 | Phase 14 | Pending |
-| REPT-04 | Phase 14 | Pending |
-| REPT-05 | Phase 14 | Pending |
-| REPT-06 | Phase 14 | Pending |
+| REPT-01 | Phase 14 | Complete |
+| REPT-02 | Phase 14 | Complete |
+| REPT-03 | Phase 14 | Complete |
+| REPT-04 | Phase 14 | Complete |
+| REPT-05 | Phase 14 | Complete |
+| REPT-06 | Phase 14 | Complete |
 | CONF-01 | Phase 16 | Pending |
 | CONF-02 | Phase 16 | Pending |
 | CONF-03 | Phase 16 | Pending |
@@ -95,4 +95,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 after Phase 13 complete*
+*Last updated: 2026-01-29 after Phase 14 complete*

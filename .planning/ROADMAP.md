@@ -156,7 +156,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 14-01-PLAN.md — Three-metric summary table, side-by-side weights, divergence explanation
+- [x] 14-01-PLAN.md — Three-metric summary table, side-by-side weights, divergence explanation
 
 #### Phase 15: Documentation Updates
 **Goal**: Document dual-weighting rationale and usage guidance
@@ -208,10 +208,10 @@ Phases execute in numeric order: 13 → 14 → 15 → 16
 | 11. False Positive Analysis | v2.1 | 3/3 | Complete | 2026-01-28 |
 | 12. Regression Tests | v2.1 | 2/2 | Complete | 2026-01-28 |
 | 13. Test Suite Migration | v2.2 | 1/1 | Complete | 2026-01-29 |
-| 14. Report Refinement | v2.2 | 0/1 | Planning complete | - |
+| 14. Report Refinement | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 15. Documentation | v2.2 | 0/TBD | Not started | - |
 | 16. Integration Validation | v2.2 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-29 after Phase 14 planning complete*
+*Last updated: 2026-01-29 after Phase 14 complete*
