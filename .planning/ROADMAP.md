@@ -183,10 +183,11 @@ Plans:
   3. Risk weights properly loaded from pydantic settings
   4. Expected metric divergence observed (frequency > risk recall pattern)
   5. No regressions on v2.1 validation set (86.4% recall maintained)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 16-01: TBD during phase planning
+- [ ] 16-01-PLAN.md — Integration test infrastructure, regression baselines, tiered CI
+- [ ] 16-02-PLAN.md — Metric comparison charts, v2.2 completion verification
 
 ## Progress
 
@@ -210,8 +211,8 @@ Phases execute in numeric order: 13 → 14 → 15 → 16
 | 13. Test Suite Migration | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 14. Report Refinement | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 15. Documentation | v2.2 | 1/1 | Complete | 2026-01-29 |
-| 16. Integration Validation | v2.2 | 0/TBD | Not started | - |
+| 16. Integration Validation | v2.2 | 0/2 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-29 after Phase 15 complete*
+*Last updated: 2026-01-30 after Phase 16 planned*
