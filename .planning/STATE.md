@@ -2,19 +2,19 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-29)
+See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** v2.2 Dual-Weight Recall Framework - Phase 16 complete, ready to ship
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 16 of 16 (Integration Validation)
-Plan: 2 of 2 COMPLETE
-Status: Phase 16 complete - v2.2 SHIPPED ✓
-Last activity: 2026-01-30 — Completed 16-02-PLAN.md (metric comparison charts and v2.2 finalization)
+Phase: 17 of 22 (Room Pattern Expansion) - NOT STARTED
+Plan: 0 of ? (needs planning)
+Status: v2.2 shipped, v2.3 milestone defined, ready to plan phases
+Last activity: 2026-01-30 — v2.2 milestone completed and archived
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [          ] 0% v2.3
 
 ## Milestones Shipped
 
@@ -25,16 +25,20 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 | v2.1 | Over-Detection Quality Pass | 10-12 | 7 | 2026-01-28 |
 | v2.2 | Dual-Weight Recall Framework | 13-16 | 4 | 2026-01-30 |
 
-## v2.2 Roadmap Overview
+## v2.3 Roadmap Overview
 
-**4 phases (13-16) covering 20 requirements - ALL COMPLETE:**
+**6 phases (17-22) targeting recall improvements:**
 
-- Phase 13: Test Suite Migration (TEST-01 to TEST-06) - COMPLETE
-- Phase 14: Report Generation Refinement (REPT-01 to REPT-06) - COMPLETE
-- Phase 15: Documentation Updates (DOCS-01 to DOCS-05) - COMPLETE
-- Phase 16: Integration Validation (CONF-01 to CONF-03 validation) - COMPLETE
+- Phase 17: Room Pattern Expansion (32% → ≥80%) - NOT STARTED
+- Phase 18: Guardian Edge Cases (possessive/appositive patterns) - NOT STARTED
+- Phase 19: Provider Name Detection (attending/nurse names) - NOT STARTED
+- Phase 20: Phone/Pager Patterns (76% → ≥90%) - NOT STARTED
+- Phase 21: Location/Transfer Patterns (20% → ≥60%) - NOT STARTED
+- Phase 22: Validation & Recall Targets (end-to-end validation) - NOT STARTED
 
-**Phase 16 completed:** Integration test suite with regression baselines, tiered CI workflow, and 85% recall floor enforcement. v2.2 ready for production deployment.
+**Phases 17-21 can execute in parallel** (no dependencies). Phase 22 validates all improvements.
+
+**Brainstorm source:** Sequential thinking session analyzing recall gaps and proposing pattern improvements.
 
 ## CI/CD Status
 
@@ -86,21 +90,35 @@ Recent decisions affecting v2.2:
 
 ### Pending Todos
 
-None - v2.2 shipped! Ready for production deployment.
+- Plan Phase 17 (Room Pattern Expansion)
+- Plan Phase 18 (Guardian Edge Cases)
+- Plan Phase 19 (Provider Name Detection)
+- Plan Phase 20 (Phone/Pager Patterns)
+- Plan Phase 21 (Location/Transfer Patterns)
 
 ### Blockers/Concerns
 
-None - v2.2 complete and production-ready.
+None - ready to start v2.3 planning.
 
 **Critical safety requirement validated:** Zero-weight entities (EMAIL_ADDRESS, PEDIATRIC_AGE) invisible in weighted metrics but protected by unweighted recall floor. Integration test `test_unweighted_recall_floor` enforces this with clear error message explaining why weighted metrics cannot replace unweighted.
+
+### Roadmap Evolution
+
+- 2026-01-30: v2.3 Recall Improvements milestone created (Phases 17-22)
+  - Phase 17: Room Pattern Expansion
+  - Phase 18: Guardian Edge Cases
+  - Phase 19: Provider Name Detection
+  - Phase 20: Phone/Pager Patterns
+  - Phase 21: Location/Transfer Patterns
+  - Phase 22: Validation & Recall Targets
 
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 16-02-PLAN.md (metric comparison charts and v2.2 finalization)
+Stopped at: v2.2 milestone completed and archived
 Resume file: None
-Next: Celebrate v2.2 ship! 🎉 Then deploy to production or plan next feature development
+Next: Start v2.3 planning with /gsd:new-milestone or plan phases 17-21 directly
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-30 after Phase 16 Plan 02 complete - v2.2 SHIPPED ✓*
+*Last updated: 2026-01-30 — v2.2 Dual-Weight Recall Framework shipped and archived*

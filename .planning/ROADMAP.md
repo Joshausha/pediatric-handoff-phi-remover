@@ -5,7 +5,8 @@
 - ✅ **v1.0 PHI Detection Overhaul** - Phases 1-8 (shipped 2026-01-25)
 - ✅ **v2.0 CI/CD Pipeline Fix** - Phase 9 (shipped 2026-01-26)
 - ✅ **v2.1 Over-Detection Quality Pass** - Phases 10-12 (shipped 2026-01-28)
-- ✅ **v2.2 Dual-Weight Recall Framework** - Phases 13-16 (shipped 2026-01-30)
+- ✅ **v2.2 Dual-Weight Recall Framework** - Phases 13-16 (shipped 2026-01-30) → [archived](milestones/v2.2-ROADMAP.md)
+- 🚧 **v2.3 Recall Improvements** - Phases 17-22 (in progress)
 
 ## Phases
 
@@ -192,10 +193,110 @@ Plans:
 
 </details>
 
+<details open>
+<summary>🚧 v2.3 Recall Improvements (Phases 17-22) - IN PROGRESS</summary>
+
+**Milestone Goal:** Close critical recall gaps in ROOM (32%), LOCATION (20%), PHONE (76%), and MRN (72%) entities while maintaining precision.
+
+**Current Recall Targets:**
+| Entity | v2.2 Recall | v2.3 Target |
+|--------|-------------|-------------|
+| ROOM | 32.1% | ≥80% |
+| LOCATION | 20.0% | ≥60% |
+| PHONE_NUMBER | 75.7% | ≥90% |
+| MRN | 72.3% | ≥85% |
+
+### Phase 17: Room Pattern Expansion
+**Goal**: Improve ROOM recall from 32% to ≥80% with conversational patterns
+**Depends on**: Nothing (can start immediately)
+**Success Criteria**:
+  1. "in [number]" context pattern catches informal room references
+  2. "space", "pod", "cubicle", "crib" variations detected
+  3. Hyphenated "3-22" format with context confirmation
+  4. ROOM recall ≥80% on validation set
+  5. No regression on PICU/NICU unit preservation
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 17 to break down)
+
+### Phase 18: Guardian Edge Cases
+**Goal**: Catch possessive and appositive guardian name patterns
+**Depends on**: Nothing (can start immediately)
+**Success Criteria**:
+  1. "his mom Sarah" / "her dad Tom" (possessive + relationship) detected
+  2. "the mom, Jessica" (appositive with comma) detected
+  3. "grandma's here, her name is Maria" detected
+  4. GUARDIAN_NAME recall improved without new false positives
+  5. Existing guardian patterns unaffected
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 18 to break down)
+
+### Phase 19: Provider Name Detection
+**Goal**: Detect provider names in clinical handoff context
+**Depends on**: Nothing (can start immediately)
+**Success Criteria**:
+  1. "with Dr. [Name]", "paged Dr. [Name]" patterns detected
+  2. "the attending is [Name]" (no Dr. prefix) detected
+  3. "his nurse is Sarah" and similar nursing staff patterns
+  4. Provider deny list prevents over-detection of titles
+  5. PERSON recall improvement measured
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 19 to break down)
+
+### Phase 20: Phone/Pager Patterns
+**Goal**: Improve PHONE_NUMBER recall from 76% to ≥90%
+**Depends on**: Nothing (can start immediately)
+**Success Criteria**:
+  1. "pager 12345", "page to 55555" patterns detected
+  2. "ext. 1234", "extension 1234" variations covered
+  3. 5-digit internal numbers with "call" context
+  4. PHONE_NUMBER recall ≥90% on validation set
+  5. No false positives on clinical numbers (vitals, doses)
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 20 to break down)
+
+### Phase 21: Location/Transfer Patterns
+**Goal**: Improve LOCATION recall from 20% to ≥60%
+**Depends on**: Nothing (can start immediately)
+**Success Criteria**:
+  1. "from [Hospital Name]", "transferred from [Place]" detected
+  2. "lives in [City]", "from [Town]" patterns added
+  3. PCP office names detected with clinic context
+  4. LOCATION recall ≥60% on validation set
+  5. Hospital unit names (PICU, ED) remain on deny list
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 21 to break down)
+
+### Phase 22: Validation & Recall Targets
+**Goal**: End-to-end validation confirming all recall targets met
+**Depends on**: Phases 17-21
+**Success Criteria**:
+  1. ROOM recall ≥80%
+  2. LOCATION recall ≥60%
+  3. PHONE_NUMBER recall ≥90%
+  4. MRN recall ≥85%
+  5. Overall weighted recall improvement documented
+  6. No precision regression (false positives stay low)
+**Plans**: 0 plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 22 to break down)
+
+</details>
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 13 → 14 → 15 → 16
+Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -215,7 +316,13 @@ Phases execute in numeric order: 13 → 14 → 15 → 16
 | 14. Report Refinement | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 15. Documentation | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 16. Integration Validation | v2.2 | 2/2 | Complete | 2026-01-30 |
+| 17. Room Pattern Expansion | v2.3 | 0/? | Not started | - |
+| 18. Guardian Edge Cases | v2.3 | 0/? | Not started | - |
+| 19. Provider Name Detection | v2.3 | 0/? | Not started | - |
+| 20. Phone/Pager Patterns | v2.3 | 0/? | Not started | - |
+| 21. Location/Transfer Patterns | v2.3 | 0/? | Not started | - |
+| 22. Validation & Recall Targets | v2.3 | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-30 after Phase 16 complete - v2.2 SHIPPED ✓*
+*Last updated: 2026-01-30 — v2.2 archived, v2.3 in progress*

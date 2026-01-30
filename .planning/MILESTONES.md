@@ -1,5 +1,45 @@
 # Project Milestones: Pediatric Handoff PHI Remover
 
+## v2.2 Dual-Weight Recall Framework (Shipped: 2026-01-30)
+
+**Delivered:** Three-metric evaluation system separating frequency (spoken prevalence) from risk (leak severity) with unified reporting, divergence indicators, and CI enforcement.
+
+**Phases completed:** 13-16 (5 plans total)
+
+**Key accomplishments:**
+
+- Migrated weighted metrics tests from int to float with 9 new tests (13→20 total test coverage)
+- Implemented unified three-metric summary table with side-by-side weight comparison and divergence markers
+- Documented dual-weighting methodology explaining frequency vs risk weight purposes
+- Created integration test suite with regression baselines and 85% unweighted recall floor enforcement
+- Added tiered CI workflow (smoke tests on PRs, full validation on main branch)
+- Generated metric comparison charts for visual validation of dual-weight framework
+
+**Stats:**
+
+- 15 files created/modified
+- +1,200 lines changed (tests, config, docs, CI)
+- 4 phases, 5 plans
+- 2 days from milestone start to ship (2026-01-29 → 2026-01-30)
+
+**Metrics:**
+
+| Metric Type | Recall | Precision | F2 |
+|-------------|--------|-----------|-----|
+| Unweighted (Safety Floor) | 86.4% | 69.0% | 82.3% |
+| Frequency-weighted | 93.6% | 71.1% | 88.0% |
+| Risk-weighted | 87.7% | 76.6% | 85.2% |
+
+**Git range:** `4449d9f` → `7ee8a38`
+
+**CI Status:**
+- test.yml: PASSING (208 passed + 6 integration tests, 8 xfailed, 1 xpassed)
+- docker.yml: PASSING
+
+**What's next:** v2.3 Recall Improvements targeting critical gaps: ROOM (32%→≥80%), LOCATION (20%→≥60%), PHONE (76%→≥90%).
+
+---
+
 ## v2.1 Over-Detection Quality Pass (Shipped: 2026-01-28)
 
 **Delivered:** 100% elimination of documented false positives via systematic test-driven deny list expansion, with no regression on recall.
