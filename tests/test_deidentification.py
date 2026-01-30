@@ -827,6 +827,48 @@ class TestRoomContextualPatterns:
         room_entities = [e for e in result.entities_found if e.entity_type == "ROOM"]
         assert len(room_entities) >= 1, "Expected ROOM entity for 'bed 7'"
 
+    @pytest.mark.parametrize("text,description", [
+        # Phone number digits should NOT be detected as ROOM
+        ("Contact dad at +1-808-738-6379 for updates.", "phone international format"),
+        ("Call mom at 555-123-4567 extension 890.", "phone with extension"),
+        ("Reach nurse at (212) 555-0123.", "phone with parens"),
+
+        # Date components should NOT be detected as ROOM
+        ("Born January 11, admitted January 19.", "date day numbers"),
+        ("Previous admission on 01/15/2024.", "date slash format"),
+        ("DOB: December 25, 2023.", "date with month name"),
+
+        # Time components should NOT be detected as ROOM
+        ("Albuterol given at 08:46 AM.", "time HH:MM format"),
+        ("Next dose at 14:30.", "24-hour time"),
+        ("Started continuous at 3:15 PM.", "12-hour time"),
+
+        # Street addresses should NOT be detected as ROOM
+        ("Patient from 6247 Hickman Cliffs.", "street number"),
+        ("Lives at 1565 Brooks Drive Suite 111.", "address with suite"),
+        ("Transferred from 425 Oak Street.", "street address"),
+
+        # List numbers should NOT be detected as ROOM
+        ("Action items: 1) GI consult 2) Labs 3) Imaging.", "list markers"),
+        ("To do: 1. Call mom 2. Check vitals.", "numbered list dots"),
+    ], ids=lambda case: case[1])
+    def test_room_false_positive_prevention(self, text, description):
+        """Numbers in non-room context should NOT be detected as ROOM.
+
+        Phase 17-02: Regression tests to prevent reintroduction of false positives
+        that were fixed by tightening the contextual pattern.
+
+        False positive categories addressed:
+        - Phone number digits (e.g., "808" from "+1-808-738-6379")
+        - Date components (e.g., "11" from "January 11")
+        - Time components (e.g., "08:46", "14:30")
+        - Street address numbers (e.g., "6247" from "6247 Hickman Cliffs")
+        - List markers (e.g., "1" from "1) GI consult")
+        """
+        result = deidentify_text(text)
+        # Should not contain [ROOM] marker for non-room numbers
+        assert "[ROOM]" not in result.clean_text, f"False positive ROOM in {description}: {result.clean_text}"
+
 
 # =============================================================================
 # GUARDIAN AND BABY NAME EDGE CASE TESTS (Phase 04-01)
