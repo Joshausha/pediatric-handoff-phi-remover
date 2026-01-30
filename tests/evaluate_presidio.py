@@ -496,6 +496,83 @@ class PresidioEvaluator:
             lines.append(f"  Risk-weighted              {metrics.risk_weighted_recall(risk_weights):.1%}     {metrics.risk_weighted_precision(risk_weights):.1%}  {metrics.risk_weighted_f2(risk_weights):.1%}")
             lines.append("")
 
+            # Side-by-side weight comparison tables
+            lines.append("WEIGHT COMPARISON:")
+            lines.append("")
+
+            # Build sorted lists for both weight schemes
+            freq_sorted = sorted(freq_weights.items(), key=lambda x: (-x[1], x[0]))
+            risk_sorted = sorted(risk_weights.items(), key=lambda x: (-x[1], x[0]))
+
+            # Mark entities with divergence >2.0
+            divergent = set()
+            for entity in freq_weights.keys():
+                freq = freq_weights.get(entity, 0.0)
+                risk = risk_weights.get(entity, 0.0)
+                if abs(freq - risk) > 2.0:
+                    divergent.add(entity)
+
+            lines.append("  Frequency (How Often Spoken)      Risk (Severity If Leaked)")
+            lines.append("  --------------------------        -------------------------")
+
+            # Display side-by-side (pad to equal length)
+            max_len = max(len(freq_sorted), len(risk_sorted))
+            for i in range(max_len):
+                left_entity = freq_sorted[i][0] if i < len(freq_sorted) else ""
+                left_weight = freq_sorted[i][1] if i < len(freq_sorted) else 0.0
+                left_marker = "* " if left_entity in divergent else "  "
+
+                right_entity = risk_sorted[i][0] if i < len(risk_sorted) else ""
+                right_weight = risk_sorted[i][1] if i < len(risk_sorted) else 0.0
+                right_marker = "* " if right_entity in divergent else "  "
+
+                left_str = f"{left_marker}{left_entity:<24} {left_weight:>4.1f}" if left_entity else " " * 32
+                right_str = f"{right_marker}{right_entity:<24} {right_weight:>4.1f}" if right_entity else ""
+
+                lines.append(f"{left_str}      {right_str}")
+
+            lines.append("")
+            lines.append("* = Weight divergence >2.0 between frequency and risk")
+            lines.append("")
+
+            # Zero-weight entity note
+            zero_weight = [entity for entity, weight in freq_weights.items() if weight == 0.0]
+            if zero_weight:
+                lines.append("NOTE: Zero-weight entities")
+                for entity in sorted(zero_weight):
+                    if entity == "EMAIL_ADDRESS":
+                        lines.append(f"  {entity} (0.0): Never spoken in verbal handoffs")
+                    elif entity == "PEDIATRIC_AGE":
+                        lines.append(f"  {entity} (0.0): Not PHI under HIPAA unless age 90+")
+                    else:
+                        lines.append(f"  {entity} (0.0): Zero weight in both schemes")
+                lines.append("  These entities count in unweighted metrics but are excluded from weighted calculations.")
+                lines.append("")
+
+            # Metric divergence explanation
+            freq_recall = metrics.weighted_recall(freq_weights)
+            risk_recall = metrics.risk_weighted_recall(risk_weights)
+            gap = freq_recall - risk_recall
+
+            lines.append("METRIC DIVERGENCE EXPLANATION:")
+            lines.append("")
+            lines.append(f"  Frequency-weighted recall: {freq_recall:.1%}")
+            lines.append(f"  Risk-weighted recall:      {risk_recall:.1%}")
+            lines.append(f"  Gap: {gap:+.1%} percentage points")
+            lines.append("")
+            lines.append("  Why they differ:")
+            lines.append("  - MEDICAL_RECORD_NUMBER has low frequency weight (0.5) but high risk weight (5.0)")
+            lines.append("  - When MRN detection underperforms, frequency recall stays high")
+            lines.append("    (dominated by PERSON with weight 5.0)")
+            lines.append("  - But risk-weighted recall drops significantly")
+            lines.append("    (MRN and PERSON have equal weight, MRN drags down average)")
+            lines.append("")
+            lines.append("  Guidance:")
+            lines.append("  - Unweighted recall is your HIPAA compliance floor (all entities equal)")
+            lines.append("  - Frequency-weighted reflects operational reality (what's actually spoken)")
+            lines.append("  - Risk-weighted highlights critical vulnerabilities (severity if leaked)")
+            lines.append("")
+
         # Safety check
         if metrics.is_safe:
             lines.append("✅ SAFETY CHECK: PASSED (100% recall, no PHI leaks)")
