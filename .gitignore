@@ -51,3 +51,7 @@ logs/
 # Temp files
 /tmp/
 *.tmp
+
+# Test artifacts (generated files, keep directory)
+tests/artifacts/*.png
+tests/artifacts/*.md
