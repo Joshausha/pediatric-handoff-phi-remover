@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** v2.2 Dual-Weight Recall Framework - Phase 15 complete, ready for Phase 16
+**Current focus:** v2.2 Dual-Weight Recall Framework - Phase 16 complete, ready to ship
 
 ## Current Position
 
-Phase: 15 of 16 (Documentation Updates)
+Phase: 16 of 16 (Integration Validation)
 Plan: 1 of 1 COMPLETE
-Status: Phase 15 complete
-Last activity: 2026-01-29 — Completed 15-01-PLAN.md (dual-weighting documentation)
+Status: Phase 16 complete - v2.2 READY TO SHIP
+Last activity: 2026-01-30 — Completed 16-01-PLAN.md (integration test suite with regression baselines)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [#######░░░] 75% v2.2
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2
 
 ## Milestones Shipped
 
@@ -23,26 +23,32 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 | v1.0 | PHI Detection Overhaul | 1-8 | 11 | 2026-01-25 |
 | v2.0 | CI/CD Pipeline Fix | 9 | 2 | 2026-01-26 |
 | v2.1 | Over-Detection Quality Pass | 10-12 | 7 | 2026-01-28 |
+| v2.2 | Dual-Weight Recall Framework | 13-16 | 4 | 2026-01-30 |
 
 ## v2.2 Roadmap Overview
 
-**4 phases (13-16) covering 20 requirements:**
+**4 phases (13-16) covering 20 requirements - ALL COMPLETE:**
 
 - Phase 13: Test Suite Migration (TEST-01 to TEST-06) - COMPLETE
 - Phase 14: Report Generation Refinement (REPT-01 to REPT-06) - COMPLETE
 - Phase 15: Documentation Updates (DOCS-01 to DOCS-05) - COMPLETE
-- Phase 16: Integration Validation (CONF-01 to CONF-03 validation) - Ready to plan
+- Phase 16: Integration Validation (CONF-01 to CONF-03 validation) - COMPLETE
 
-**Phase 15 completed:** Dual-weighting methodology documented (frequency=spoken prevalence, risk=leak severity), v2.2 milestone marked as shipped.
+**Phase 16 completed:** Integration test suite with regression baselines, tiered CI workflow, and 85% recall floor enforcement. v2.2 ready for production deployment.
 
 ## CI/CD Status
 
-**GitHub Actions:** ALL GREEN
+**GitHub Actions:** ALL GREEN (with new integration tests)
 
 | Workflow | Status | Details |
 |----------|--------|---------|
-| test.yml | PASSING | 208 passed, 8 xfailed, 1 xpassed |
+| test.yml | PASSING | 208 passed + 6 integration tests, 8 xfailed, 1 xpassed |
 | docker.yml | PASSING | Build completes in ~24s |
+
+**Integration test coverage:**
+- Smoke tests (test_regression.py) run on all PRs
+- Full validation (test_full_evaluation.py) runs on main branch
+- Unweighted recall >=85% enforced as CI failure condition
 
 ## Known Issues (Tech Debt)
 
@@ -73,22 +79,28 @@ Recent decisions affecting v2.2:
 - **Side-by-side weight tables**: Frequency-sorted and risk-sorted columns shown simultaneously
 - **Divergence threshold 2.0**: Mark entities with asterisk when abs(freq_weight - risk_weight) > 2.0
 - **Dual-weighting documentation**: SPOKEN_HANDOFF_ANALYSIS.md explains WHY two weight schemes exist (frequency vs risk) and WHEN to use each metric
+- **JSON baselines over pytest-regressions**: Simple JSON files for regression detection (fewer dependencies, easier to understand)
+- **Module-scoped fixtures**: Run validation once per test file for efficiency
+- **1% tolerance for metric comparisons**: Allows bootstrap sampling variation without spurious failures
+- **Tiered CI workflow**: Smoke tests on all PRs, full validation only on main (balance thoroughness with speed)
 
 ### Pending Todos
 
-None - ready to plan Phase 16.
+None - v2.2 complete and ready for production deployment.
 
 ### Blockers/Concerns
 
-**Critical safety requirement:** Zero-weight entities (EMAIL_ADDRESS, PEDIATRIC_AGE) invisible in weighted metrics. Must always report unweighted recall as HIPAA compliance floor. (Now validated by `test_zero_weight_entities_invisible_in_weighted_visible_in_unweighted`)
+None - v2.2 complete and production-ready.
+
+**Critical safety requirement validated:** Zero-weight entities (EMAIL_ADDRESS, PEDIATRIC_AGE) invisible in weighted metrics but protected by unweighted recall floor. Integration test `test_unweighted_recall_floor` enforces this with clear error message explaining why weighted metrics cannot replace unweighted.
 
 ## Session Continuity
 
-Last session: 2026-01-29
-Stopped at: Completed 15-01-PLAN.md
+Last session: 2026-01-30
+Stopped at: Completed 16-01-PLAN.md (integration validation)
 Resume file: None
-Next: `/gsd:plan-phase 16`
+Next: Deploy v2.2 or plan next feature development
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-29 after Phase 15 complete*
+*Last updated: 2026-01-30 after Phase 16 complete - v2.2 SHIPPED*
