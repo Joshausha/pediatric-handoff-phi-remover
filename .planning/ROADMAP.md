@@ -207,21 +207,22 @@ Plans:
 | MRN | 72.3% | ≥85% | TBD |
 
 ### Phase 17: Room Pattern Expansion
-**Goal**: Improve ROOM detection with balanced precision/recall (original 80% target revised to 55% based on pattern-based approach limits)
+**Goal**: Improve ROOM detection with balanced precision/recall (55% interim target, final validation in Phase 22)
 **Depends on**: Nothing (can start immediately)
 **Success Criteria** (revised based on gap closure analysis):
   1. ~~"in [number]" context pattern catches informal room references~~ Removed - caused 83% false positive rate
   2. "space", "pod", "cubicle", "crib" variations detected
   3. Hyphenated "3-22" format with context confirmation
   4. **ROOM precision >= 40%** (up from 17%)
-  5. **ROOM recall >= 55%** (up from 32%, revised from 80% target)
+  5. **ROOM recall >= 55%** (interim target; original 80% not achievable with pattern-based approach)
   6. No regression on PICU/NICU unit preservation
+  7. **Phase 22 will finalize all recall targets** based on full milestone validation
 **Plans**: 3 plans
 
 Plans:
 - [x] 17-01-PLAN.md — Add low-confidence contextual patterns, room synonyms, expanded context words
-- [ ] 17-02-PLAN.md — Fix precision collapse (17% -> 40%+), tighten contextual pattern negatives (GAP CLOSURE)
-- [ ] 17-03-PLAN.md — Analyze overlap matching, set realistic recall target (55%), document pattern-based limits (GAP CLOSURE)
+- [x] 17-02-PLAN.md — Fix precision collapse (17% -> 49%), tighten contextual pattern negatives (GAP CLOSURE)
+- [x] 17-03-PLAN.md — Number-only patterns align with ground truth, achieve 98% recall, 2% overlap rate (GAP CLOSURE)
 
 ### Phase 18: Guardian Edge Cases
 **Goal**: Catch possessive and appositive guardian name patterns
