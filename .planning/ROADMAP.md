@@ -168,10 +168,10 @@ Plans:
   3. Risk weight purpose clearly explained (leak severity)
   4. PROJECT.md updated with v2.2 completion status
   5. Key Decisions table includes dual-weighting decision with rationale
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 15-01: TBD during phase planning
+- [ ] 15-01-PLAN.md — Add dual-weighting methodology section, update PROJECT.md
 
 #### Phase 16: Integration Validation
 **Goal**: End-to-end validation with regression baselines established
@@ -209,9 +209,9 @@ Phases execute in numeric order: 13 → 14 → 15 → 16
 | 12. Regression Tests | v2.1 | 2/2 | Complete | 2026-01-28 |
 | 13. Test Suite Migration | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 14. Report Refinement | v2.2 | 1/1 | Complete | 2026-01-29 |
-| 15. Documentation | v2.2 | 0/TBD | Not started | - |
+| 15. Documentation | v2.2 | 0/1 | Ready | - |
 | 16. Integration Validation | v2.2 | 0/TBD | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-29 after Phase 14 complete*
+*Last updated: 2026-01-29 after Phase 15 planned*
