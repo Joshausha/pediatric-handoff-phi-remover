@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 17 of 22 (Room Pattern Expansion) - IN PROGRESS
-Plan: 1 of 1 (17-01-PLAN.md completed)
-Status: v2.3 in progress, Phase 17 Plan 01 complete with partial recall improvement
-Last activity: 2026-01-30 — Completed 17-01-PLAN.md (ROOM recall 32% → 45%, target 80%)
+Plan: 2 of 2 (17-02-PLAN.md completed)
+Status: v2.3 in progress, Phase 17 Plans 01-02 complete (recall/precision balance)
+Last activity: 2026-01-30 — Completed 17-02-PLAN.md (ROOM precision 17% → 48.9%, recall 51.1%)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [##        ] 17% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [###       ] 33% v2.3
 
 ## Milestones Shipped
 
@@ -29,7 +29,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 
 **6 phases (17-22) targeting recall improvements:**
 
-- Phase 17: Room Pattern Expansion (32% → 45% achieved, 80% target) - IN PROGRESS (1/1 plans complete)
+- Phase 17: Room Pattern Expansion (Precision 17% → 48.9%, Recall 32% → 51%) - COMPLETE (2/2 plans)
 - Phase 18: Guardian Edge Cases (possessive/appositive patterns) - NOT STARTED
 - Phase 19: Provider Name Detection (attending/nurse names) - NOT STARTED
 - Phase 20: Phone/Pager Patterns (76% → ≥90%) - NOT STARTED
@@ -87,34 +87,36 @@ Recent decisions affecting v2.2-v2.3:
 - **Module-scoped fixtures**: Run validation once per test file for efficiency
 - **1% tolerance for metric comparisons**: Allows bootstrap sampling variation without spurious failures
 - **Tiered CI workflow**: Smoke tests on all PRs, full validation only on main (balance thoroughness with speed)
-- **ROOM-CONTEXT-BOOST-STRATEGY** (Phase 17): Use score=0.30 for standalone numbers, rely on Presidio context enhancement (+0.35 boost)
-- **ROOM-NEGATIVE-PATTERNS** (Phase 17): Comprehensive negative lookahead/lookbehind to exclude clinical units (mg, ml, kg, %, old, day, etc.)
-- **ROOM-CONTEXT-EXPANSION** (Phase 17): Expanded context word list to 35+ terms (prepositions, verbs, synonyms) for conversational handoff patterns
+- **ROOM-CONTEXT-BOOST-STRATEGY** (Phase 17-01): Use score=0.30 for standalone numbers, rely on Presidio context enhancement (+0.35 boost)
+- **ROOM-NEGATIVE-PATTERNS** (Phase 17-01): Comprehensive negative lookahead/lookbehind to exclude clinical units (mg, ml, kg, %, old, day, etc.)
+- **ROOM-CONTEXT-EXPANSION** (Phase 17-01): Expanded context word list to 35+ terms (prepositions, verbs, synonyms) for conversational handoff patterns
+- **ROOM-EXPLICIT-CONTEXT** (Phase 17-02): Replace broad contextual pattern with explicit context requirement (score=0.60), achieving 48.9% precision (up from 17%)
+- **ROOM-ADDRESS-EXCLUSION** (Phase 17-02): Use negative lookahead to exclude street addresses from "transferred from" pattern
 
 ### Pending Todos
 
-- Investigate ROOM recall gap (44.9% vs 80% target) - analyze 27 missed cases
-- Plan Phase 18 (Guardian Edge Cases)
-- Plan Phase 19 (Provider Name Detection)
-- Plan Phase 20 (Phone/Pager Patterns)
-- Plan Phase 21 (Location/Transfer Patterns)
-- Consider recall target adjustment in Phase 22 based on feasibility analysis
+- Decide next direction: Continue recall improvements (Phase 18-21) OR focus on other milestones
+- Plan Phase 18 (Guardian Edge Cases) - if proceeding with recall improvements
+- Plan Phase 19 (Provider Name Detection) - if proceeding with recall improvements
+- Plan Phase 20 (Phone/Pager Patterns) - if proceeding with recall improvements
+- Plan Phase 21 (Location/Transfer Patterns) - if proceeding with recall improvements
+- Consider ROOM recall target adjustment in Phase 22 (51% achieved vs 80% target)
 
 ### Blockers/Concerns
 
 **ROOM Recall Gap (Phase 17):**
 - Target: 80% recall
-- Achieved: 44.9% recall (40% improvement over 32% baseline)
-- Gap: 35 percentage points
-- Root causes:
-  - Context enhancement may not boost low-confidence patterns sufficiently
-  - Standalone number pattern (score=0.30) may need stronger context or higher score
-  - Test methodology (synthetic handoffs) may not match real handoff patterns
+- Achieved: 51.1% recall after precision fix (Phase 17-02)
+- Gap: 29 percentage points
+- Trade-off: Precision improved from 17% → 48.9% (79.7% reduction in false positives)
+- Analysis:
+  - Phase 17-01 broad pattern (score=0.30) achieved 54% recall but only 17% precision (236 FP)
+  - Phase 17-02 explicit context pattern (score=0.60) achieved 51% recall and 49% precision (48 FP)
+  - Trade-off: Removed 188 false positives at cost of 3 percentage points recall
 - Recommended next steps:
-  - Analyze 27 specific missed cases to identify pattern gaps
-  - Consider tuning context_similarity_factor above default 0.35
-  - Alternative: Focus on high-value patterns (60-70% coverage) rather than 80%
-  - Re-evaluate if 80% target realistic with pattern-based approach alone
+  - Phase 18-21: Improve recall for other entity types (Guardian, Provider, Phone, Location)
+  - Phase 22: Re-evaluate ROOM recall target (80% may require NER, not pattern-based approach)
+  - Alternative: Accept 50-60% ROOM recall as sufficient for v2.3 given precision constraints
 
 **Critical safety requirement validated:** Zero-weight entities (EMAIL_ADDRESS, PEDIATRIC_AGE) invisible in weighted metrics but protected by unweighted recall floor. Integration test `test_unweighted_recall_floor` enforces this with clear error message explaining why weighted metrics cannot replace unweighted.
 
@@ -131,9 +133,9 @@ Recent decisions affecting v2.2-v2.3:
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed Phase 17 Plan 01 (ROOM contextual patterns)
+Stopped at: Completed Phase 17 Plans 01-02 (ROOM precision/recall balance)
 Resume file: None
-Next: Investigate ROOM recall gap OR continue with Phase 18-21 planning
+Next: Continue with Phase 18-21 planning OR focus on other milestones (Phase 17 complete with acceptable balance)
 
 ---
 *State initialized: 2026-01-23*
