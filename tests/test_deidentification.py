@@ -741,6 +741,94 @@ class TestHyphenatedRoomEdgeCases:
 
 
 # =============================================================================
+# ROOM CONTEXTUAL PATTERN TESTS (Phase 17-01)
+# =============================================================================
+
+# Test data for new contextual ROOM patterns
+ROOM_CONTEXTUAL_POSITIVE_CASES = [
+    # (input_text, phi_that_must_be_removed, description)
+    ("Patient currently in 8, stable overnight.", "8", "prepositional_in"),
+    ("We moved to 512 this morning.", "512", "prepositional_to"),
+    ("Transferred from 302 in the ED.", "302", "prepositional_from"),
+    ("She's over in space 5 right now.", "5", "space_synonym"),
+    ("Assigned to pod 3 in PICU.", "3", "pod_synonym"),
+    ("Patient in cubicle 12.", "12", "cubicle_synonym"),
+    ("Baby in crib 8 in NICU.", "8", "crib_synonym"),
+    ("Patient moved to 3-22 in PICU.", "3-22", "hyphenated_with_context"),
+]
+
+# Test data for negative cases - should NOT detect as ROOM
+ROOM_CONTEXTUAL_NEGATIVE_CASES = [
+    # (input_text, clinical_value_that_should_remain, description)
+    ("Currently on O2 at 8 liters.", "8 liters", "oxygen_level"),
+    ("Give 512 mg of acetaminophen.", "512 mg", "medication_dose"),
+    ("She's a 3 year old with fever.", "3 year old", "age"),
+    ("This is day 5 of illness.", "day 5", "day_of_illness"),
+    ("Sats at 94% on room air.", "94%", "percentage"),
+]
+
+
+class TestRoomContextualPatterns:
+    """
+    Test new low-confidence contextual ROOM patterns added in Phase 17-01.
+
+    These tests verify that:
+    - Prepositional patterns detect room numbers (in 8, to 512, from 302)
+    - Room synonym patterns work (space 5, pod 3, cubicle 12, crib 8)
+    - Hyphenated rooms detected with context (3-22 in PICU)
+    - Clinical numbers NOT falsely detected (O2 levels, doses, ages, percentages)
+    - Unit names preserved (PICU, NICU)
+
+    Target: ROOM recall >=80% on validation set (up from 32%)
+    """
+
+    @pytest.mark.parametrize("text,phi,desc", ROOM_CONTEXTUAL_POSITIVE_CASES,
+                             ids=[case[2] for case in ROOM_CONTEXTUAL_POSITIVE_CASES])
+    def test_room_contextual_patterns_detected(self, text, phi, desc):
+        """Test that new contextual ROOM patterns are properly detected."""
+        result = deidentify_text(text)
+        # The PHI should be removed (either replaced with marker or redacted)
+        assert phi not in result.clean_text, (
+            f"Room number '{phi}' should be removed in: '{text}' ({desc})"
+        )
+        # Should have at least one ROOM entity detected
+        room_entities = [e for e in result.entities_found if e.entity_type == "ROOM"]
+        assert len(room_entities) >= 1, (
+            f"Expected ROOM entity in: '{text}' ({desc}), but found: {result.entities_found}"
+        )
+
+    @pytest.mark.parametrize("text,preserved,desc", ROOM_CONTEXTUAL_NEGATIVE_CASES,
+                             ids=[case[2] for case in ROOM_CONTEXTUAL_NEGATIVE_CASES])
+    def test_room_contextual_no_false_positives(self, text, preserved, desc):
+        """Test that clinical numbers are NOT falsely detected as ROOM."""
+        result = deidentify_text(text)
+        # The clinical value should be preserved in the output
+        assert preserved in result.clean_text, (
+            f"Clinical value '{preserved}' should be preserved in: '{text}' ({desc})"
+        )
+        # Should have zero ROOM entities detected
+        room_entities = [e for e in result.entities_found if e.entity_type == "ROOM"]
+        assert len(room_entities) == 0, (
+            f"No ROOM entities expected in: '{text}' ({desc}), but found: {room_entities}"
+        )
+
+    def test_picu_bed_preserved(self):
+        """Test that PICU unit name is preserved while bed number is redacted."""
+        text = "Patient in PICU bed 7, stable."
+        result = deidentify_text(text)
+
+        # PICU should be preserved (not redacted)
+        assert "PICU" in result.clean_text, "Unit name 'PICU' should be preserved"
+
+        # The bed number should be removed
+        assert "bed 7" not in result.clean_text, "Bed number should be redacted"
+
+        # Should have a ROOM entity detected
+        room_entities = [e for e in result.entities_found if e.entity_type == "ROOM"]
+        assert len(room_entities) >= 1, "Expected ROOM entity for 'bed 7'"
+
+
+# =============================================================================
 # GUARDIAN AND BABY NAME EDGE CASE TESTS (Phase 04-01)
 # =============================================================================
 
@@ -891,7 +979,7 @@ class TestPatternRegressions:
 
     @pytest.mark.bulk
     def test_room_recall_improved(self, generator, evaluator):
-        """ROOM recall should be >40% on standard templates (improved from 32.1%)."""
+        """ROOM recall should be >=80% on standard templates (Phase 17-01 target, improved from 32.1%)."""
         from tests.handoff_templates import HANDOFF_TEMPLATES
 
         room_templates = [t for t in HANDOFF_TEMPLATES if "room" in t.lower() or "bed" in t.lower()]
@@ -914,8 +1002,8 @@ class TestPatternRegressions:
 
         recall = tp / (tp + fn) if (tp + fn) > 0 else 0.0
         print(f"ROOM adversarial recall: {recall:.1%} ({tp}/{tp+fn})")
-        # Target: >40% recall (improved from 32.1% baseline)
-        assert recall >= 0.40, f"Room recall {recall:.1%} below 40%"
+        # Target: >=80% recall (Phase 17-01 target, improved from 32.1% baseline)
+        assert recall >= 0.80, f"Room recall {recall:.1%} below 80%"
 
     @pytest.mark.bulk
     def test_no_regression_on_standard_entities(self, generator, evaluator):

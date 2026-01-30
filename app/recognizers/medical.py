@@ -180,13 +180,14 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
             score=0.55
         ),
 
-        # Prepositional room reference (score=0.40)
-        # "in 8", "to 512", "from 302"
-        # Negative lookahead prevents matching clinical numbers
+        # Standalone number with context boost (score=0.30)
+        # Very low confidence pattern - relies on context words for confirmation
+        # Context boost: 0.30 + 0.35 (default) = 0.65 when room context present
+        # Negative lookahead/lookbehind prevent clinical number false positives
         Pattern(
-            name="room_prepositional",
-            regex=r"(?i)(?:in|to|from)\s+\d{1,4}(?!\s*(?:mg|ml|kg|%|liters?|L\b|days?|weeks?|months?|hours?|minutes?|years?|am|pm|doses?))",
-            score=0.40
+            name="room_number_contextual",
+            regex=r"(?<!\b(?:day|DOL|week|month|year|dose|at|FiO2|O2|sats)\s)\b\d{1,4}(?!\s*(?:mg|ml|mcg|kg|g|lbs?|oz|%|liters?|L\b|days?|weeks?|months?|hours?|minutes?|years?|am|pm|doses?|old|year|month|week|day|hour|minute))\b",
+            score=0.30
         ),
 
         # Standalone hyphenated room (without prefix): "3-22", "5-10", "2-25"
