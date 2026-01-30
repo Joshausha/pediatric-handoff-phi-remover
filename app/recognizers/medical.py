@@ -180,14 +180,13 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
             score=0.55
         ),
 
-        # Standalone number with context boost (score=0.30)
-        # Very low confidence pattern - relies on context words for confirmation
-        # Context boost: 0.30 + 0.35 (default) = 0.65 when room context present
-        # Negative lookahead/lookbehind prevent clinical number false positives
+        # Explicit room context patterns - replaces overly broad contextual pattern
+        # Requires explicit room context words to avoid false positives on dates/times/phones
+        # "patient in 8", "moved to 512", "transferred from 302"
         Pattern(
-            name="room_number_contextual",
-            regex=r"(?<!\b(?:day|DOL|week|month|year|dose|at|FiO2|O2|sats)\s)\b\d{1,4}(?!\s*(?:mg|ml|mcg|kg|g|lbs?|oz|%|liters?|L\b|days?|weeks?|months?|hours?|minutes?|years?|am|pm|doses?|old|year|month|week|day|hour|minute))\b",
-            score=0.30
+            name="room_number_with_location_prep",
+            regex=r"(?i)(?:patient\s+in|currently\s+in|over\s+in|moved\s+to|moving\s+to|transferred\s+to|transferred\s+from|placed\s+in|assigned\s+to|from)\s+(\d{1,4})\b",
+            score=0.60  # Higher score - explicit context required
         ),
 
         # Standalone hyphenated room (without prefix): "3-22", "5-10", "2-25"
