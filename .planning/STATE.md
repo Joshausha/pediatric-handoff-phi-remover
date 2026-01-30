@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 ## Current Position
 
-Phase: 17 of 22 (Room Pattern Expansion) - NOT STARTED
-Plan: 0 of ? (needs planning)
-Status: v2.2 shipped, v2.3 milestone defined, ready to plan phases
-Last activity: 2026-01-30 — v2.2 milestone completed and archived
+Phase: 17 of 22 (Room Pattern Expansion) - IN PROGRESS
+Plan: 1 of 1 (17-01-PLAN.md completed)
+Status: v2.3 in progress, Phase 17 Plan 01 complete with partial recall improvement
+Last activity: 2026-01-30 — Completed 17-01-PLAN.md (ROOM recall 32% → 45%, target 80%)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [          ] 0% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [##        ] 17% v2.3
 
 ## Milestones Shipped
 
@@ -29,7 +29,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 
 **6 phases (17-22) targeting recall improvements:**
 
-- Phase 17: Room Pattern Expansion (32% → ≥80%) - NOT STARTED
+- Phase 17: Room Pattern Expansion (32% → 45% achieved, 80% target) - IN PROGRESS (1/1 plans complete)
 - Phase 18: Guardian Edge Cases (possessive/appositive patterns) - NOT STARTED
 - Phase 19: Provider Name Detection (attending/nurse names) - NOT STARTED
 - Phase 20: Phone/Pager Patterns (76% → ≥90%) - NOT STARTED
@@ -73,7 +73,7 @@ Tracked via xfail markers in CI:
 
 See `.planning/PROJECT.md` Key Decisions table for full history.
 
-Recent decisions affecting v2.2:
+Recent decisions affecting v2.2-v2.3:
 - **Dual-weight framework**: Separate frequency (spoken) from risk (severity) metrics for complementary evaluation lenses
 - **Float weights**: Migrated from int to float for finer granularity (0.5 weights for low-risk entities)
 - **Three-metric reporting**: Always show unweighted as HIPAA safety floor alongside both weighted schemes
@@ -87,18 +87,34 @@ Recent decisions affecting v2.2:
 - **Module-scoped fixtures**: Run validation once per test file for efficiency
 - **1% tolerance for metric comparisons**: Allows bootstrap sampling variation without spurious failures
 - **Tiered CI workflow**: Smoke tests on all PRs, full validation only on main (balance thoroughness with speed)
+- **ROOM-CONTEXT-BOOST-STRATEGY** (Phase 17): Use score=0.30 for standalone numbers, rely on Presidio context enhancement (+0.35 boost)
+- **ROOM-NEGATIVE-PATTERNS** (Phase 17): Comprehensive negative lookahead/lookbehind to exclude clinical units (mg, ml, kg, %, old, day, etc.)
+- **ROOM-CONTEXT-EXPANSION** (Phase 17): Expanded context word list to 35+ terms (prepositions, verbs, synonyms) for conversational handoff patterns
 
 ### Pending Todos
 
-- Plan Phase 17 (Room Pattern Expansion)
+- Investigate ROOM recall gap (44.9% vs 80% target) - analyze 27 missed cases
 - Plan Phase 18 (Guardian Edge Cases)
 - Plan Phase 19 (Provider Name Detection)
 - Plan Phase 20 (Phone/Pager Patterns)
 - Plan Phase 21 (Location/Transfer Patterns)
+- Consider recall target adjustment in Phase 22 based on feasibility analysis
 
 ### Blockers/Concerns
 
-None - ready to start v2.3 planning.
+**ROOM Recall Gap (Phase 17):**
+- Target: 80% recall
+- Achieved: 44.9% recall (40% improvement over 32% baseline)
+- Gap: 35 percentage points
+- Root causes:
+  - Context enhancement may not boost low-confidence patterns sufficiently
+  - Standalone number pattern (score=0.30) may need stronger context or higher score
+  - Test methodology (synthetic handoffs) may not match real handoff patterns
+- Recommended next steps:
+  - Analyze 27 specific missed cases to identify pattern gaps
+  - Consider tuning context_similarity_factor above default 0.35
+  - Alternative: Focus on high-value patterns (60-70% coverage) rather than 80%
+  - Re-evaluate if 80% target realistic with pattern-based approach alone
 
 **Critical safety requirement validated:** Zero-weight entities (EMAIL_ADDRESS, PEDIATRIC_AGE) invisible in weighted metrics but protected by unweighted recall floor. Integration test `test_unweighted_recall_floor` enforces this with clear error message explaining why weighted metrics cannot replace unweighted.
 
@@ -115,9 +131,9 @@ None - ready to start v2.3 planning.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: v2.2 milestone completed and archived
+Stopped at: Completed Phase 17 Plan 01 (ROOM contextual patterns)
 Resume file: None
-Next: Start v2.3 planning with /gsd:new-milestone or plan phases 17-21 directly
+Next: Investigate ROOM recall gap OR continue with Phase 18-21 planning
 
 ---
 *State initialized: 2026-01-23*
