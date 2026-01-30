@@ -487,31 +487,13 @@ class PresidioEvaluator:
             freq_weights = settings.spoken_handoff_weights
             risk_weights = settings.spoken_handoff_risk_weights
 
-            lines.append("FREQUENCY-WEIGHTED METRICS (how often spoken in handoffs):")
-            lines.append(f"  Recall:    {metrics.weighted_recall(freq_weights):.1%}")
-            lines.append(f"  Precision: {metrics.weighted_precision(freq_weights):.1%}")
-            lines.append(f"  F2 Score:  {metrics.weighted_f2(freq_weights):.1%}")
-            lines.append("")
-
-            lines.append("RISK-WEIGHTED METRICS (severity if leaked):")
-            lines.append(f"  Recall:    {metrics.risk_weighted_recall(risk_weights):.1%}")
-            lines.append(f"  Precision: {metrics.risk_weighted_precision(risk_weights):.1%}")
-            lines.append(f"  F2 Score:  {metrics.risk_weighted_f2(risk_weights):.1%}")
-            lines.append("")
-
             lines.append("METRIC SUMMARY:")
-            lines.append(f"  Unweighted Recall:        {metrics.recall:.1%}  ← Safety floor")
-            lines.append(f"  Frequency-weighted:       {metrics.weighted_recall(freq_weights):.1%}  ← What's actually spoken")
-            lines.append(f"  Risk-weighted:            {metrics.risk_weighted_recall(risk_weights):.1%}  ← Severity if leaked")
             lines.append("")
-
-            lines.append("  Weights applied:")
-            lines.append("  Entity                 Frequency  Risk")
-            lines.append("  " + "-" * 42)
-            for entity in sorted(freq_weights.keys()):
-                freq = freq_weights.get(entity, 0)
-                risk = risk_weights.get(entity, 0)
-                lines.append(f"  {entity:<20} {freq:>8.1f}  {risk:>5.1f}")
+            lines.append("                            Recall  Precision    F2")
+            lines.append("  --------------------------------------------------")
+            lines.append(f"  Unweighted (Safety Floor)  {metrics.recall:.1%}     {metrics.precision:.1%}  {metrics.f2:.1%}")
+            lines.append(f"  Frequency-weighted         {metrics.weighted_recall(freq_weights):.1%}     {metrics.weighted_precision(freq_weights):.1%}  {metrics.weighted_f2(freq_weights):.1%}")
+            lines.append(f"  Risk-weighted              {metrics.risk_weighted_recall(risk_weights):.1%}     {metrics.risk_weighted_precision(risk_weights):.1%}  {metrics.risk_weighted_f2(risk_weights):.1%}")
             lines.append("")
 
         # Safety check
