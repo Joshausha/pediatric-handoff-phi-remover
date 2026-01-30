@@ -215,10 +215,10 @@ Plans:
   3. Hyphenated "3-22" format with context confirmation
   4. ROOM recall ≥80% on validation set
   5. No regression on PICU/NICU unit preservation
-**Plans**: 0 plans
+**Plans**: 1 plan
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 17 to break down)
+- [ ] 17-01-PLAN.md — Add low-confidence contextual patterns, room synonyms, expanded context words
 
 ### Phase 18: Guardian Edge Cases
 **Goal**: Catch possessive and appositive guardian name patterns
@@ -316,7 +316,7 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 14. Report Refinement | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 15. Documentation | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 16. Integration Validation | v2.2 | 2/2 | Complete | 2026-01-30 |
-| 17. Room Pattern Expansion | v2.3 | 0/? | Not started | - |
+| 17. Room Pattern Expansion | v2.3 | 0/1 | Planned | - |
 | 18. Guardian Edge Cases | v2.3 | 0/? | Not started | - |
 | 19. Provider Name Detection | v2.3 | 0/? | Not started | - |
 | 20. Phone/Pager Patterns | v2.3 | 0/? | Not started | - |
@@ -325,4 +325,4 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-30 — v2.2 archived, v2.3 in progress*
+*Last updated: 2026-01-30 — Phase 17 planned (1 plan)*
