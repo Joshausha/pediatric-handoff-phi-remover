@@ -151,6 +151,44 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
             regex=r"(?i)\b(?:room|rm)\s+\d{1,2}[-/]\d{1,2}\b",
             score=0.70
         ),
+
+        # =====================================================================
+        # NEW CONTEXTUAL PATTERNS - Phase 17-01
+        # Low-confidence patterns that rely on context words for confirmation
+        # =====================================================================
+
+        # Room synonym patterns (score=0.55)
+        # "space 5", "pod 3", "cubicle 12", "crib 8"
+        Pattern(
+            name="room_space",
+            regex=r"(?i)\bspace\s+\d{1,3}\b",
+            score=0.55
+        ),
+        Pattern(
+            name="room_pod",
+            regex=r"(?i)\bpod\s+\d{1,3}\b",
+            score=0.55
+        ),
+        Pattern(
+            name="room_cubicle",
+            regex=r"(?i)\bcubicle\s+\d{1,3}\b",
+            score=0.55
+        ),
+        Pattern(
+            name="room_crib",
+            regex=r"(?i)\bcrib\s+\d{1,3}\b",
+            score=0.55
+        ),
+
+        # Prepositional room reference (score=0.40)
+        # "in 8", "to 512", "from 302"
+        # Negative lookahead prevents matching clinical numbers
+        Pattern(
+            name="room_prepositional",
+            regex=r"(?i)(?:in|to|from)\s+\d{1,4}(?!\s*(?:mg|ml|kg|%|liters?|L\b|days?|weeks?|months?|hours?|minutes?|years?|am|pm|doses?))",
+            score=0.40
+        ),
+
         # Standalone hyphenated room (without prefix): "3-22", "5-10", "2-25"
         # Common in PICU/NICU settings where room format is floor-bed
         # Using word boundary and context to reduce false positives
@@ -172,8 +210,19 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
         supported_entity="ROOM",
         name="Room Number Recognizer",
         patterns=room_patterns,
-        context=["room", "bed", "floor", "unit", "located", "admitted to", "transferred to", "bay", "isolette",
-                 "picu", "nicu", "icu", "cvicu", "ccu", "pacu", "l&d"]
+        context=[
+            # Existing context words
+            "room", "bed", "floor", "unit", "located", "admitted to", "transferred to",
+            "bay", "isolette", "picu", "nicu", "icu", "cvicu", "ccu", "pacu", "l&d",
+            # NEW: Location prepositions (enable weak pattern detection)
+            "in", "to", "from",
+            # NEW: Movement verbs
+            "moved", "moving", "transferred", "placed", "assigned",
+            # NEW: Room synonyms
+            "space", "pod", "cubicle", "crib",
+            # NEW: Patient location phrases
+            "patient in", "currently in", "over in"
+        ]
     )
     recognizers.append(room_recognizer)
 
