@@ -181,11 +181,12 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
         ),
 
         # Explicit room context patterns - replaces overly broad contextual pattern
-        # Requires explicit room context words to avoid false positives on dates/times/phones
+        # Requires explicit room context words to avoid false positives on dates/times/phones/addresses
         # "patient in 8", "moved to 512", "transferred from 302"
+        # Negative lookahead prevents matching street addresses (numbers followed by street names)
         Pattern(
             name="room_number_with_location_prep",
-            regex=r"(?i)(?:patient\s+in|currently\s+in|over\s+in|moved\s+to|moving\s+to|transferred\s+to|transferred\s+from|placed\s+in|assigned\s+to|from)\s+(\d{1,4})\b",
+            regex=r"(?i)(?:patient\s+in|currently\s+in|over\s+in|moved\s+to|moving\s+to|transferred\s+to|transferred\s+from|placed\s+in|assigned\s+to)\s+(\d{1,4})(?!\s+\w+\s+(?:Street|Drive|Road|Avenue|Blvd|Lane|Way|Court|Place|Circle|Cliffs))\b",
             score=0.60  # Higher score - explicit context required
         ),
 
