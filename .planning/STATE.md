@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-28)
 
 ## Current Position
 
-Phase: 13 of 16 (Test Suite Migration)
+Phase: 14 of 16 (Report Generation Refinement)
 Plan: 1 of 1 COMPLETE
-Status: Phase 13 complete
-Last activity: 2026-01-29 — Completed 13-01-PLAN.md (test suite migration)
+Status: Phase 14 complete
+Last activity: 2026-01-29 — Completed 14-01-PLAN.md (report refinement)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##░░░░░░░░] 25% v2.2
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [#####░░░░░] 50% v2.2
 
 ## Milestones Shipped
 
@@ -29,11 +29,11 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 **4 phases (13-16) covering 20 requirements:**
 
 - Phase 13: Test Suite Migration (TEST-01 to TEST-06) - COMPLETE
-- Phase 14: Report Generation Refinement (REPT-01 to REPT-06) - Ready to plan
-- Phase 15: Documentation Updates (DOCS-01 to DOCS-05) - Pending
+- Phase 14: Report Generation Refinement (REPT-01 to REPT-06) - COMPLETE
+- Phase 15: Documentation Updates (DOCS-01 to DOCS-05) - Ready to plan
 - Phase 16: Integration Validation (CONF-01 to CONF-03 validation) - Pending
 
-**Phase 13 completed:** 20 tests passing, complete coverage for dual-weight framework.
+**Phase 14 completed:** Three-metric summary table with side-by-side weight comparison and divergence explanation.
 
 ## CI/CD Status
 
@@ -69,10 +69,13 @@ Recent decisions affecting v2.2:
 - **Three-metric reporting**: Always show unweighted as HIPAA safety floor alongside both weighted schemes
 - **TEST-FLOAT-COMPARISON**: Use pytest.approx() for all float weight comparisons
 - **TEST-DIVERGENCE-VALIDATION**: Add explicit tests for frequency vs risk weight divergence
+- **Unified summary table**: Single table displays all three metric types (Recall, Precision, F2) for easier comparison
+- **Side-by-side weight tables**: Frequency-sorted and risk-sorted columns shown simultaneously
+- **Divergence threshold 2.0**: Mark entities with asterisk when abs(freq_weight - risk_weight) > 2.0
 
 ### Pending Todos
 
-None - ready to plan Phase 14.
+None - ready to plan Phase 15.
 
 ### Blockers/Concerns
 
@@ -81,10 +84,10 @@ None - ready to plan Phase 14.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 13-01-PLAN.md
+Stopped at: Completed 14-01-PLAN.md
 Resume file: None
-Next: `/gsd:plan-phase 14`
+Next: `/gsd:plan-phase 15`
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-29 after Phase 13 complete*
+*Last updated: 2026-01-29 after Phase 14 complete*
