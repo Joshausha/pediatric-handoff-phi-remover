@@ -1047,6 +1047,64 @@ class TestPatternRegressions:
         # Target: >=80% recall (Phase 17-01 target, improved from 32.1% baseline)
         assert recall >= 0.80, f"Room recall {recall:.1%} below 80%"
 
+    @pytest.mark.diagnostic
+    def test_room_overlap_analysis(self, generator, evaluator):
+        """Diagnose overlap matching impact on ROOM metrics.
+
+        Completion criteria:
+        - Prints exact/partial/missed counts
+        - Calculates overlap_rate = partial_matches / total
+        - If overlap_rate > 20%: Document that partial matches inflate both FP and FN
+        - Effective recall = (exact + partial) / total is the true detection rate
+        """
+        from tests.handoff_templates import HANDOFF_TEMPLATES
+
+        room_templates = [t for t in HANDOFF_TEMPLATES if "room" in t.lower() or "bed" in t.lower()]
+        dataset = generator.generate_dataset(n_samples=50, templates=room_templates[:10])
+
+        exact_matches = 0
+        partial_matches = 0  # Detected more than ground truth (e.g., "bed 847" vs "847")
+        missed = 0
+
+        for handoff in dataset:
+            result = evaluator.evaluate_handoff(handoff)
+            for span in handoff.phi_spans:
+                if span.entity_type != "ROOM":
+                    continue
+
+                # Check if detected (either exact or partial)
+                detected_exact = any(
+                    s.start == span.start and s.end == span.end
+                    for s in result.true_positives if s.entity_type == "ROOM"
+                )
+                detected_partial = any(
+                    (det['start'] <= span.start and det['end'] >= span.end) or
+                    (span.start <= det['start'] and span.end >= det['end'])
+                    for det in result.detected_spans if det['entity_type'] == "ROOM"
+                )
+
+                if detected_exact:
+                    exact_matches += 1
+                elif detected_partial:
+                    partial_matches += 1
+                else:
+                    missed += 1
+
+        total = exact_matches + partial_matches + missed
+        overlap_rate = partial_matches / total if total > 0 else 0
+        effective_recall = (exact_matches + partial_matches) / total if total > 0 else 0
+
+        print(f"\nROOM Detection Analysis:")
+        print(f"  Exact matches: {exact_matches} ({exact_matches/total:.1%})")
+        print(f"  Partial matches: {partial_matches} ({partial_matches/total:.1%})")
+        print(f"  Missed: {missed} ({missed/total:.1%})")
+        print(f"  Overlap rate: {overlap_rate:.1%}")
+        print(f"  Effective recall (exact+partial): {effective_recall:.1%}")
+
+        if overlap_rate > 0.20:
+            print(f"  NOTE: High overlap rate ({overlap_rate:.1%}) inflates both FP and FN counts")
+            print(f"  TRUE detection rate is closer to {effective_recall:.1%} than reported recall")
+
     @pytest.mark.bulk
     def test_no_regression_on_standard_entities(self, generator, evaluator):
         """PERSON, EMAIL should maintain high recall (>90%)."""
