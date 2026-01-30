@@ -29,6 +29,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from tests.evaluate_presidio import PresidioEvaluator, EvaluationMetrics, load_dataset
 from tests.error_taxonomy import build_error_taxonomy, generate_error_report, FailureMode
 from tests.generate_test_data import SyntheticHandoff, PHISpan
+from app.config import settings
 
 # Entity types to exclude from validation (not considered PHI)
 # PEDIATRIC_AGE disabled in Phase 4 (04-03): Ages under 90 are not PHI under HIPAA
@@ -183,6 +184,22 @@ def run_validation(
             "recall_mean": float(recall_mean),
             "recall_ci_lower": float(recall_lower),
             "recall_ci_upper": float(recall_upper),
+            # Add entity stats for weighted metric calculation
+            "entity_stats": {
+                entity_type: {
+                    "tp": stats["tp"],
+                    "fn": stats["fn"],
+                    "fp": stats["fp"],
+                }
+                for entity_type, stats in metrics.entity_stats.items()
+            },
+            # Add pre-computed weighted metrics
+            "freq_weighted_recall": float(metrics.weighted_recall(settings.spoken_handoff_weights)),
+            "freq_weighted_precision": float(metrics.weighted_precision(settings.spoken_handoff_weights)),
+            "freq_weighted_f2": float(metrics.weighted_f2(settings.spoken_handoff_weights)),
+            "risk_weighted_recall": float(metrics.risk_weighted_recall(settings.spoken_handoff_risk_weights)),
+            "risk_weighted_precision": float(metrics.risk_weighted_precision(settings.spoken_handoff_risk_weights)),
+            "risk_weighted_f2": float(metrics.risk_weighted_f2(settings.spoken_handoff_risk_weights)),
         },
         "error_taxonomy": {
             mode.value: [
