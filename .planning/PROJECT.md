@@ -8,17 +8,21 @@ A HIPAA-compliant web application that transcribes pediatric patient handoff rec
 
 Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content.
 
-## Current Milestone: v2.2 Dual-Weight Recall Framework
+## Current Milestone: v2.2 Dual-Weight Recall Framework (SHIPPED 2026-01-29)
 
 **Goal:** Implement three-metric recall evaluation that separates frequency (how often spoken) from risk (severity if leaked) for spoken handoffs.
 
 **Target features:**
-- Report THREE separate recall metrics (unweighted, frequency-weighted, risk-weighted)
-- Risk weights capture PHI leak severity (MRN=5, PERSON=5, PHONE=4, etc.)
-- Frequency weights capture spoken prevalence (PERSON=5, ROOM=4, MRN=0.5, etc.)
-- Float-based weights (replacing int) for finer granularity
+- Report THREE separate recall metrics (unweighted, frequency-weighted, risk-weighted) ✓
+- Risk weights capture PHI leak severity (MRN=5, PERSON=5, PHONE=4, etc.) ✓
+- Frequency weights capture spoken prevalence (PERSON=5, ROOM=4, MRN=0.5, etc.) ✓
+- Float-based weights (replacing int) for finer granularity ✓
 
 ## Current State
+
+**v2.2 Dual-Weight Recall Framework shipped 2026-01-29**
+
+Three-metric evaluation system separating frequency (spoken prevalence) from risk (leak severity) with unified reporting table and divergence indicators.
 
 **v2.1 Over-Detection Quality Pass shipped 2026-01-28**
 
@@ -65,17 +69,16 @@ Production-ready HIPAA-compliant PHI detection with:
 - ✓ Unit name preservation during ROOM redaction (PICU, NICU) — v2.1
 - ✓ Regression tests for false positive prevention (36 new tests) — v2.1
 - ✓ No regressions on validation set (86.4% recall maintained) — v2.1
+- ✓ Risk-weighted recall/precision/F2 methods in EvaluationMetrics — v2.2
+- ✓ Three-metric report output (unweighted, frequency-weighted, risk-weighted) — v2.2
+- ✓ Float-based frequency weights (int→float migration) — v2.2
+- ✓ Risk weight configuration in settings — v2.2
+- ✓ Updated test suite for float weights and risk metrics — v2.2
+- ✓ Documentation of dual-weighting rationale — v2.2
 
 ### Active
 
-<!-- v2.2 Dual-Weight Recall Framework requirements -->
-
-- [ ] Risk-weighted recall/precision/F2 methods in EvaluationMetrics
-- [ ] Three-metric report output (unweighted, frequency-weighted, risk-weighted)
-- [ ] Float-based frequency weights (int→float migration)
-- [ ] Risk weight configuration in settings
-- [ ] Updated test suite for float weights and risk metrics
-- [ ] Documentation of dual-weighting rationale
+<!-- No active requirements - v2.2 complete -->
 
 ### Out of Scope
 
@@ -131,6 +134,7 @@ Production-ready HIPAA-compliant PHI detection with:
 | 70+ duration patterns | Broad coverage for clinical timeline phrases; acceptable to block rare true dates | ✓ Good |
 | Standalone "high"/"low" in deny list | Overwhelmingly used for oxygen flow rates in pediatric handoffs | ✓ Good |
 | Regression tests for false positives | 36 tests prevent future reintroduction of fixed issues | ✓ Good |
+| Dual-weighting (frequency + risk) | Frequency measures spoken prevalence; risk measures leak severity; both needed for complete evaluation | ✓ Good |
 
 ---
-*Last updated: 2026-01-29 after v2.2 milestone started*
+*Last updated: 2026-01-29 after v2.2 milestone shipped*
