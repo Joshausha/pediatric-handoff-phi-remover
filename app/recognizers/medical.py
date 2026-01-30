@@ -74,82 +74,143 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
     # Lookbehind (e.g., (?<=Room )) fails at start-of-line (position 0).
     # These patterns capture the full match but context ensures appropriate usage.
     room_patterns = [
+        # DEPRECATED: Full match patterns (score lowered to 0.50)
+        # These patterns match "bed 847" instead of just "847"
+        # Kept for fallback but number-only patterns (Phase 17-03) take priority
         # Standard room format: "Room 302", "Rm 404", "room 5A", "ROOM 12"
         # Case-insensitive, handles start-of-line
         Pattern(
             name="room_standard",
             regex=r"(?i)\b(?:room|rm)\s+\d{1,4}[A-Za-z]?\b",
-            score=0.70
+            score=0.50  # Lowered from 0.70 - number-only patterns preferred
         ),
         # Bed number: "Bed 5", "bed 12A"
         Pattern(
             name="bed_standard",
             regex=r"(?i)\bbed\s+\d{1,2}[A-Za-z]?\b",
-            score=0.65
+            score=0.50  # Lowered from 0.65 - number-only patterns preferred
         ),
         # ICU bed formats with unit names (preserve unit, redact number)
-        # Using lookbehind to match only "bed X" portion, preserving unit name
-        # "PICU bed 7" -> "PICU [ROOM]", "NICU bed 21" -> "NICU [ROOM]"
+        # Updated Phase 17-03: Now matches ONLY the number (not "bed X")
+        # "PICU bed 7" -> matches "7", "NICU bed 21" -> matches "21"
 
-        # PICU bed - match only "bed X" portion (PICU preserved)
+        # PICU bed - match only the number (PICU and "bed" preserved)
         Pattern(
             name="picu_bed",
-            regex=r"(?i)(?<=picu )bed\s+\d{1,3}[A-Za-z]?\b",
+            regex=r"(?i)(?<=picu bed )\d{1,3}[A-Za-z]?\b",
             score=0.80
         ),
-        # NICU bed - match only "bed X" portion (NICU preserved)
+        # NICU bed - match only the number (NICU and "bed" preserved)
         Pattern(
             name="nicu_bed",
-            regex=r"(?i)(?<=nicu )bed\s+\d{1,3}[A-Za-z]?\b",
+            regex=r"(?i)(?<=nicu bed )\d{1,3}[A-Za-z]?\b",
             score=0.80
         ),
-        # ICU bed - match only "bed X" portion (ICU preserved)
+        # ICU bed - match only the number (ICU and "bed" preserved)
         Pattern(
             name="icu_bed",
-            regex=r"(?i)(?<=icu )bed\s+\d{1,3}[A-Za-z]?\b",
+            regex=r"(?i)(?<=icu bed )\d{1,3}[A-Za-z]?\b",
             score=0.80
         ),
-        # CVICU bed - match only "bed X" portion (CVICU preserved)
+        # CVICU bed - match only the number (CVICU and "bed" preserved)
         Pattern(
             name="cvicu_bed",
-            regex=r"(?i)(?<=cvicu )bed\s+\d{1,3}[A-Za-z]?\b",
+            regex=r"(?i)(?<=cvicu bed )\d{1,3}[A-Za-z]?\b",
             score=0.80
         ),
-        # CCU bed - match only "bed X" portion (CCU preserved)
+        # CCU bed - match only the number (CCU and "bed" preserved)
         Pattern(
             name="ccu_bed",
-            regex=r"(?i)(?<=ccu )bed\s+\d{1,3}[A-Za-z]?\b",
+            regex=r"(?i)(?<=ccu bed )\d{1,3}[A-Za-z]?\b",
             score=0.80
         ),
-        # PACU bed - match only "bed X" portion (PACU preserved)
+        # PACU bed - match only the number (PACU and "bed" preserved)
         Pattern(
             name="pacu_bed",
-            regex=r"(?i)(?<=pacu )bed\s+\d{1,3}[A-Za-z]?\b",
+            regex=r"(?i)(?<=pacu bed )\d{1,3}[A-Za-z]?\b",
             score=0.75
         ),
-        # L&D room - match only "room X" portion (L&D preserved)
+        # L&D room - match only the number (L&D and "room" preserved)
         Pattern(
             name="ld_room",
-            regex=r"(?i)(?<=l&d )room\s+\d{1,4}[A-Za-z]?\b",
+            regex=r"(?i)(?<=l&d room )\d{1,4}[A-Za-z]?\b",
             score=0.75
         ),
         # Bay number (NICU specific): "bay 5", "Bay 12"
+        # Lowered score - number-only pattern preferred
         Pattern(
             name="bay_number",
             regex=r"(?i)\bbay\s+\d{1,2}[A-Za-z]?\b",
-            score=0.65
+            score=0.50  # Lowered from 0.65 - number-only patterns preferred
         ),
         # Isolette number (NICU specific): "isolette 21", "Isolette 3"
+        # DEPRECATED - number-only pattern (isolette_number_only) preferred
         Pattern(
             name="isolette_number",
             regex=r"(?i)\bisolette\s+\d{1,3}\b",
-            score=0.70
+            score=0.50  # Lowered from 0.70 - number-only patterns preferred
         ),
         # Multi-part room numbers: "Room 3-22", "room 4/11"
         Pattern(
             name="room_multipart",
             regex=r"(?i)\b(?:room|rm)\s+\d{1,2}[-/]\d{1,2}\b",
             score=0.70
+        ),
+
+        # =====================================================================
+        # NUMBER-ONLY PATTERNS - Phase 17-03
+        # Match only the number (not "bed 847", just "847") to align with ground truth
+        # Uses lookbehind to require context but not include it in match
+        # =====================================================================
+
+        # Pattern 1: Room number after "room" - match only the number
+        # "Room 228" -> matches "228", "room 16" -> matches "16"
+        # Uses lookbehind to require context but not include it in match
+        Pattern(
+            name="room_number_after_room",
+            regex=r"(?i)(?<=\broom\s)\d{1,4}[A-Za-z]?\b",
+            score=0.70
+        ),
+
+        # Pattern 2: Bed number after "bed" - match only the number
+        # "bed 17" -> matches "17", "PICU bed 847" -> matches "847"
+        Pattern(
+            name="bed_number_only",
+            regex=r"(?i)(?<=\bbed\s)\d{1,4}[A-Za-z]?\b",
+            score=0.70
+        ),
+
+        # Pattern 3: Isolette number after "isolette" - match only the number
+        # "isolette 907" -> matches "907"
+        Pattern(
+            name="isolette_number_only",
+            regex=r"(?i)(?<=\bisolette\s)\d{1,4}\b",
+            score=0.70
+        ),
+
+        # Pattern 4: Space/pod/cubicle/crib number only (match number after synonym)
+        # "space 5" -> matches "5", "pod 3" -> matches "3"
+        # NOTE: Python regex lookbehind has limitations with alternation
+        # Using separate patterns for reliability
+        Pattern(
+            name="space_number_only",
+            regex=r"(?i)(?<=\bspace\s)\d{1,3}\b",
+            score=0.65
+        ),
+        Pattern(
+            name="pod_number_only",
+            regex=r"(?i)(?<=\bpod\s)\d{1,3}\b",
+            score=0.65
+        ),
+        Pattern(
+            name="cubicle_number_only",
+            regex=r"(?i)(?<=\bcubicle\s)\d{1,3}\b",
+            score=0.65
+        ),
+        Pattern(
+            name="crib_number_only",
+            regex=r"(?i)(?<=\bcrib\s)\d{1,3}\b",
+            score=0.65
         ),
 
         # =====================================================================
