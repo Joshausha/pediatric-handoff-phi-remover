@@ -27,9 +27,9 @@ Requirements for Dual-Weight Recall Framework milestone. Each maps to roadmap ph
 
 ### Configuration
 
-- [ ] **CONF-01**: Risk weights defined in pydantic settings (spoken_handoff_risk_weights)
-- [ ] **CONF-02**: Frequency weights use float type (not int)
-- [ ] **CONF-03**: Both weight dicts cover all PHI entity types
+- [x] **CONF-01**: Risk weights defined in pydantic settings (spoken_handoff_risk_weights)
+- [x] **CONF-02**: Frequency weights use float type (not int)
+- [x] **CONF-03**: Both weight dicts cover all PHI entity types
 
 ### Documentation
 
@@ -79,9 +79,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | REPT-04 | Phase 14 | Complete |
 | REPT-05 | Phase 14 | Complete |
 | REPT-06 | Phase 14 | Complete |
-| CONF-01 | Phase 16 | Pending |
-| CONF-02 | Phase 16 | Pending |
-| CONF-03 | Phase 16 | Pending |
+| CONF-01 | Phase 16 | Complete |
+| CONF-02 | Phase 16 | Complete |
+| CONF-03 | Phase 16 | Complete |
 | DOCS-01 | Phase 15 | Complete |
 | DOCS-02 | Phase 15 | Complete |
 | DOCS-03 | Phase 15 | Complete |
@@ -95,4 +95,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-29*
-*Last updated: 2026-01-29 after Phase 15 complete*
+*Last updated: 2026-01-30 after Phase 16 complete - all v2.2 requirements validated*

@@ -5,7 +5,7 @@
 - ✅ **v1.0 PHI Detection Overhaul** - Phases 1-8 (shipped 2026-01-25)
 - ✅ **v2.0 CI/CD Pipeline Fix** - Phase 9 (shipped 2026-01-26)
 - ✅ **v2.1 Over-Detection Quality Pass** - Phases 10-12 (shipped 2026-01-28)
-- 🚧 **v2.2 Dual-Weight Recall Framework** - Phases 13-16 (in progress)
+- ✅ **v2.2 Dual-Weight Recall Framework** - Phases 13-16 (shipped 2026-01-30)
 
 ## Phases
 
@@ -124,7 +124,8 @@ Plans:
 
 </details>
 
-### 🚧 v2.2 Dual-Weight Recall Framework (In Progress)
+<details>
+<summary>✅ v2.2 Dual-Weight Recall Framework (Phases 13-16) - SHIPPED 2026-01-30</summary>
 
 **Milestone Goal:** Implement three-metric recall evaluation separating frequency (spoken prevalence) from risk (leak severity) for spoken handoffs.
 
@@ -186,8 +187,10 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 16-01-PLAN.md — Integration test infrastructure, regression baselines, tiered CI
-- [ ] 16-02-PLAN.md — Metric comparison charts, v2.2 completion verification
+- [x] 16-01-PLAN.md — Integration test infrastructure, regression baselines, tiered CI
+- [x] 16-02-PLAN.md — Metric comparison charts, v2.2 completion verification
+
+</details>
 
 ## Progress
 
@@ -211,8 +214,8 @@ Phases execute in numeric order: 13 → 14 → 15 → 16
 | 13. Test Suite Migration | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 14. Report Refinement | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 15. Documentation | v2.2 | 1/1 | Complete | 2026-01-29 |
-| 16. Integration Validation | v2.2 | 0/2 | Not started | - |
+| 16. Integration Validation | v2.2 | 2/2 | Complete | 2026-01-30 |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-30 after Phase 16 planned*
+*Last updated: 2026-01-30 after Phase 16 complete - v2.2 SHIPPED ✓*
