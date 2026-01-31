@@ -1,0 +1,35 @@
+{
+  "description": "Phase 22 entity-specific recall targets from Phases 17-21",
+  "created": "2026-01-31",
+  "targets": {
+    "ROOM": {
+      "floor": 0.55,
+      "achieved": 0.956,
+      "phase": 17,
+      "notes": "Number-only lookbehind patterns, interim target revised from 80%"
+    },
+    "PHONE_NUMBER": {
+      "floor": 0.90,
+      "achieved": 1.00,
+      "phase": 20,
+      "notes": "PhoneRecognizer with leniency=0"
+    },
+    "LOCATION": {
+      "floor": 0.40,
+      "achieved": 0.442,
+      "phase": 21,
+      "notes": "Pattern-based limit, original 60% target revised. 17 patterns added +24pp."
+    },
+    "MEDICAL_RECORD_NUMBER": {
+      "floor": 0.85,
+      "achieved": null,
+      "phase": 22,
+      "notes": "Phase 5 patterns, validated in Phase 22"
+    }
+  },
+  "weighted_baselines": {
+    "freq_weighted_recall": 0.9737,
+    "risk_weighted_recall": 0.9137,
+    "source": "regression.json from Phase 16"
+  }
+}
