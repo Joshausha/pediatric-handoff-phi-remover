@@ -228,6 +228,80 @@ def get_pediatric_recognizers() -> list[PatternRecognizer]:
             regex=r"(?i)(?<=dad dad )[a-z][a-z]+\b",
             score=0.75
         ),
+
+        # =================================================================
+        # Appositive patterns: "mom, Jessica", "dad - Mike" (score 0.85)
+        # Punctuation sets off the name from relationship word
+        # =================================================================
+
+        # --- Comma appositives: "relationship, name" ---
+        # "mom, " = 5 chars
+        Pattern(name="mom_comma_name", regex=r"(?i)(?<=mom, )[a-z][a-z]+\b", score=0.85),
+        # "mother, " = 8 chars
+        Pattern(name="mother_comma_name", regex=r"(?i)(?<=mother, )[a-z][a-z]+\b", score=0.85),
+        # "mommy, " = 7 chars
+        Pattern(name="mommy_comma_name", regex=r"(?i)(?<=mommy, )[a-z][a-z]+\b", score=0.85),
+        # "dad, " = 5 chars
+        Pattern(name="dad_comma_name", regex=r"(?i)(?<=dad, )[a-z][a-z]+\b", score=0.85),
+        # "father, " = 8 chars
+        Pattern(name="father_comma_name", regex=r"(?i)(?<=father, )[a-z][a-z]+\b", score=0.85),
+        # "daddy, " = 7 chars
+        Pattern(name="daddy_comma_name", regex=r"(?i)(?<=daddy, )[a-z][a-z]+\b", score=0.85),
+        # "grandma, " = 9 chars
+        Pattern(name="grandma_comma_name", regex=r"(?i)(?<=grandma, )[a-z][a-z]+\b", score=0.85),
+        # "grandmother, " = 13 chars
+        Pattern(name="grandmother_comma_name", regex=r"(?i)(?<=grandmother, )[a-z][a-z]+\b", score=0.85),
+        # "grandpa, " = 9 chars
+        Pattern(name="grandpa_comma_name", regex=r"(?i)(?<=grandpa, )[a-z][a-z]+\b", score=0.85),
+        # "grandfather, " = 13 chars
+        Pattern(name="grandfather_comma_name", regex=r"(?i)(?<=grandfather, )[a-z][a-z]+\b", score=0.85),
+        # "nana, " = 6 chars
+        Pattern(name="nana_comma_name", regex=r"(?i)(?<=nana, )[a-z][a-z]+\b", score=0.85),
+        # "papa, " = 6 chars
+        Pattern(name="papa_comma_name", regex=r"(?i)(?<=papa, )[a-z][a-z]+\b", score=0.85),
+        # "granny, " = 8 chars
+        Pattern(name="granny_comma_name", regex=r"(?i)(?<=granny, )[a-z][a-z]+\b", score=0.85),
+        # "aunt, " = 6 chars
+        Pattern(name="aunt_comma_name", regex=r"(?i)(?<=aunt, )[a-z][a-z]+\b", score=0.85),
+        # "auntie, " = 8 chars
+        Pattern(name="auntie_comma_name", regex=r"(?i)(?<=auntie, )[a-z][a-z]+\b", score=0.85),
+        # "uncle, " = 7 chars
+        Pattern(name="uncle_comma_name", regex=r"(?i)(?<=uncle, )[a-z][a-z]+\b", score=0.85),
+        # "guardian, " = 10 chars
+        Pattern(name="guardian_comma_name", regex=r"(?i)(?<=guardian, )[a-z][a-z]+\b", score=0.85),
+
+        # --- Dash appositives: "relationship - name" ---
+        # "mom - " = 6 chars (space + dash + space)
+        Pattern(name="mom_dash_name", regex=r"(?i)(?<=mom - )[a-z][a-z]+\b", score=0.85),
+        # "mother - " = 9 chars
+        Pattern(name="mother_dash_name", regex=r"(?i)(?<=mother - )[a-z][a-z]+\b", score=0.85),
+        # "dad - " = 6 chars
+        Pattern(name="dad_dash_name", regex=r"(?i)(?<=dad - )[a-z][a-z]+\b", score=0.85),
+        # "father - " = 9 chars
+        Pattern(name="father_dash_name", regex=r"(?i)(?<=father - )[a-z][a-z]+\b", score=0.85),
+        # "grandma - " = 10 chars
+        Pattern(name="grandma_dash_name", regex=r"(?i)(?<=grandma - )[a-z][a-z]+\b", score=0.85),
+        # "grandpa - " = 10 chars
+        Pattern(name="grandpa_dash_name", regex=r"(?i)(?<=grandpa - )[a-z][a-z]+\b", score=0.85),
+        # "guardian - " = 11 chars
+        Pattern(name="guardian_dash_name", regex=r"(?i)(?<=guardian - )[a-z][a-z]+\b", score=0.85),
+
+        # --- Parenthesis appositives: "relationship (name)" ---
+        # Note: escape the parenthesis in lookbehind
+        # "mom (" = 5 chars
+        Pattern(name="mom_paren_name", regex=r"(?i)(?<=mom \()[a-z][a-z]+\b", score=0.85),
+        # "mother (" = 8 chars
+        Pattern(name="mother_paren_name", regex=r"(?i)(?<=mother \()[a-z][a-z]+\b", score=0.85),
+        # "dad (" = 5 chars
+        Pattern(name="dad_paren_name", regex=r"(?i)(?<=dad \()[a-z][a-z]+\b", score=0.85),
+        # "father (" = 8 chars
+        Pattern(name="father_paren_name", regex=r"(?i)(?<=father \()[a-z][a-z]+\b", score=0.85),
+        # "grandma (" = 9 chars
+        Pattern(name="grandma_paren_name", regex=r"(?i)(?<=grandma \()[a-z][a-z]+\b", score=0.85),
+        # "grandpa (" = 9 chars
+        Pattern(name="grandpa_paren_name", regex=r"(?i)(?<=grandpa \()[a-z][a-z]+\b", score=0.85),
+        # "guardian (" = 10 chars
+        Pattern(name="guardian_paren_name", regex=r"(?i)(?<=guardian \()[a-z][a-z]+\b", score=0.85),
     ]
 
     guardian_recognizer = PatternRecognizer(
