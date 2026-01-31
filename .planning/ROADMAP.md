@@ -261,15 +261,15 @@ Plans:
 **Goal**: Improve PHONE_NUMBER recall from 76% to ≥90%
 **Depends on**: Nothing (can start immediately)
 **Success Criteria**:
-  1. "pager 12345", "page to 55555" patterns detected
-  2. "ext. 1234", "extension 1234" variations covered
-  3. 5-digit internal numbers with "call" context
-  4. PHONE_NUMBER recall ≥90% on validation set
-  5. No false positives on clinical numbers (vitals, doses)
-**Plans**: 0 plans
+  1. Phone numbers with extensions (264-517-0805x310) detected
+  2. Standard dash-separated phones (576-959-1803) detected
+  3. PHONE_NUMBER recall ≥90% on validation set
+  4. No false positives on clinical numbers (vitals, doses, weights)
+  5. No regression on existing phone detection (international formats)
+**Plans**: 1 plan
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 20 to break down)
+- [ ] 20-01-PLAN.md — Override PhoneRecognizer with leniency=0, add regression tests
 
 ### Phase 21: Location/Transfer Patterns
 **Goal**: Improve LOCATION recall from 20% to ≥60%
@@ -329,10 +329,10 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 17. Room Pattern Expansion | v2.3 | 3/3 | Complete | 2026-01-30 |
 | 18. Guardian Edge Cases | v2.3 | 3/3 | Complete | 2026-01-30 |
 | 19. Provider Name Detection | v2.3 | 0/4 | Planned | - |
-| 20. Phone/Pager Patterns | v2.3 | 0/? | Not started | - |
+| 20. Phone/Pager Patterns | v2.3 | 0/1 | Planned | - |
 | 21. Location/Transfer Patterns | v2.3 | 0/? | Not started | - |
 | 22. Validation & Recall Targets | v2.3 | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-30 — Phase 19 planned (4 plans for provider name detection)*
+*Last updated: 2026-01-30 — Phase 20 planned (1 plan for PhoneRecognizer leniency override)*
