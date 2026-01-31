@@ -46,6 +46,7 @@ class Settings(BaseSettings):
             "MEDICAL_RECORD_NUMBER",
             "ROOM",
             "GUARDIAN_NAME",
+            "PROVIDER_NAME",
             "PEDIATRIC_AGE",
         ],
         description="PHI entity types to detect"
@@ -68,6 +69,8 @@ class Settings(BaseSettings):
             "PEDIATRIC_AGE": 0.30,       # R=35.8%, P=85.1%, F2=40.5% - needs Phase 4 patterns
             # Guardian names mapped to PERSON threshold
             "GUARDIAN_NAME": 0.30,
+            # Provider names (Phase 19) - title-prefixed patterns
+            "PROVIDER_NAME": 0.30,
         },
         description="Per-entity confidence thresholds (Phase 2 calibrated 2026-01-23)"
     )
@@ -218,6 +221,18 @@ class Settings(BaseSettings):
         default=["infant", "toddler", "child", "adolescent", "teen", "newborn", "neonate"],
         description="Generic age categories not flagged as PEDIATRIC_AGE"
     )
+    deny_list_provider_name: list[str] = Field(
+        default=[
+            # Generic role terms (not names)
+            "attending", "fellow", "resident", "intern",
+            "doctor", "nurse", "nursing", "physician", "provider", "clinician",
+            # Title abbreviations (prevent standalone flagging)
+            "Dr", "NP", "PA", "RN", "LPN", "CNA", "MD",
+            # Speech artifacts
+            "uh", "um", "the",
+        ],
+        description="Generic provider terms not flagged as PROVIDER_NAME"
+    )
     deny_list_date_time: list[str] = Field(
         default=[
             # Relative time words
@@ -323,6 +338,7 @@ class Settings(BaseSettings):
             "LOCATION": 0.5,            # Almost never - but "transferred from Memorial" possible
             "EMAIL_ADDRESS": 0.0,       # Never spoken in handoffs
             "PEDIATRIC_AGE": 0.0,       # N/A - not PHI under HIPAA unless 90+
+            "PROVIDER_NAME": 3.0,       # Commonly - "Dr. Smith is primary"
         },
         description="Frequency weights: how often each PHI type is spoken in handoffs"
     )
@@ -339,6 +355,7 @@ class Settings(BaseSettings):
             "ROOM": 2.0,                # Semi-identifying (hospital context only)
             "DATE_TIME": 1.0,           # Rarely uniquely identifying alone
             "PEDIATRIC_AGE": 0.0,       # Not PHI under HIPAA unless 90+
+            "PROVIDER_NAME": 2.0,       # Moderate risk - providers less identifying than patients
         },
         description="Risk weights: severity if each PHI type leaks (how identifying)"
     )

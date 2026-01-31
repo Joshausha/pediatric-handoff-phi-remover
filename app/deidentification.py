@@ -18,7 +18,7 @@ from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
 from .config import settings
-from .recognizers import get_medical_recognizers, get_pediatric_recognizers
+from .recognizers import get_medical_recognizers, get_pediatric_recognizers, get_provider_recognizers
 
 logger = logging.getLogger(__name__)
 
@@ -104,6 +104,10 @@ def _get_engines() -> tuple[AnalyzerEngine, AnonymizerEngine]:
                         logger.debug(f"Added recognizer: {recognizer.name}")
 
                     for recognizer in get_pediatric_recognizers():
+                        registry.add_recognizer(recognizer)
+                        logger.debug(f"Added recognizer: {recognizer.name}")
+
+                    for recognizer in get_provider_recognizers():
                         registry.add_recognizer(recognizer)
                         logger.debug(f"Added recognizer: {recognizer.name}")
 
@@ -199,6 +203,11 @@ def deidentify_text(
             logger.debug(f"Filtered out deny-listed GUARDIAN_NAME: {detected_text}")
             continue
 
+        # Check PROVIDER_NAME deny list
+        if result.entity_type == "PROVIDER_NAME" and detected_text.lower() in [w.lower() for w in settings.deny_list_provider_name]:
+            logger.debug(f"Filtered out deny-listed PROVIDER_NAME: {detected_text}")
+            continue
+
         # Check PEDIATRIC_AGE deny list
         if result.entity_type == "PEDIATRIC_AGE" and detected_text.lower() in [w.lower() for w in settings.deny_list_pediatric_age]:
             logger.debug(f"Filtered out deny-listed PEDIATRIC_AGE: {detected_text}")
@@ -251,6 +260,7 @@ def deidentify_text(
                 "[Date Time]": "[DATE]",
                 "[Medical Record Number]": "[MRN]",
                 "[Guardian Name]": "[NAME]",
+                "[Provider Name]": "[NAME]",
                 "[Pediatric Age]": "[AGE]",
                 "[Room]": "[ROOM]",
                 "[Location]": "[LOCATION]",
