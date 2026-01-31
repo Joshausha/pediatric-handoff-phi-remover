@@ -10,6 +10,8 @@ Pattern Design Notes (Phase 19):
 - Lookahead patterns for suffix forms match ONLY the name before title
 - All patterns require [A-Z][a-z]+ to prevent matching verbs like "is", "at"
 - Score 0.85 for title-prefixed (common in speech), 0.80 for title-suffixed (less common)
+- CRITICAL: Presidio applies IGNORECASE by default, so we use (?-i:...) inline flag
+  to make the name portion case-sensitive (requires uppercase first letter)
 """
 
 from presidio_analyzer import Pattern, PatternRecognizer
@@ -35,7 +37,8 @@ def get_provider_recognizers() -> list[PatternRecognizer]:
     # Pattern strategy:
     # 1. Lookbehind (?<=) matches ONLY the name - preserves "Dr.", "NP", etc.
     # 2. Lookahead (?=) for suffix patterns - "Smith MD" matches "Smith"
-    # 3. All patterns require [A-Z][a-z]+ to prevent false positives on common words
+    # 3. All patterns use (?-i:[A-Z][a-z]+) to require uppercase first letter
+    #    (Presidio applies IGNORECASE by default, so we override with inline flag)
     # 4. Title-prefixed patterns score 0.85 (very common in speech)
     # 5. Title-suffixed patterns score 0.80 (less common in speech)
 
@@ -48,43 +51,43 @@ def get_provider_recognizers() -> list[PatternRecognizer]:
         # "Dr. " (4 chars: D-r-.-space)
         Pattern(
             name="dr_period_name",
-            regex=r"(?<=Dr\. )[A-Z][a-z]+\b",
+            regex=r"(?<=Dr\. )(?-i:[A-Z][a-z]+)\b",
             score=0.85
         ),
         # "Dr " (3 chars: D-r-space, no period)
         Pattern(
             name="dr_name",
-            regex=r"(?<=Dr )[A-Z][a-z]+\b",
+            regex=r"(?<=Dr )(?-i:[A-Z][a-z]+)\b",
             score=0.85
         ),
         # "Doctor " (7 chars)
         Pattern(
             name="doctor_name",
-            regex=r"(?<=Doctor )[A-Z][a-z]+\b",
+            regex=r"(?<=Doctor )(?-i:[A-Z][a-z]+)\b",
             score=0.85
         ),
         # "NP " (3 chars: nurse practitioner)
         Pattern(
             name="np_name",
-            regex=r"(?<=NP )[A-Z][a-z]+\b",
+            regex=r"(?<=NP )(?-i:[A-Z][a-z]+)\b",
             score=0.85
         ),
         # "PA " (3 chars: physician assistant)
         Pattern(
             name="pa_name",
-            regex=r"(?<=PA )[A-Z][a-z]+\b",
+            regex=r"(?<=PA )(?-i:[A-Z][a-z]+)\b",
             score=0.85
         ),
         # "RN " (3 chars: registered nurse)
         Pattern(
             name="rn_name",
-            regex=r"(?<=RN )[A-Z][a-z]+\b",
+            regex=r"(?<=RN )(?-i:[A-Z][a-z]+)\b",
             score=0.85
         ),
         # "Nurse " (6 chars)
         Pattern(
             name="nurse_name",
-            regex=r"(?<=Nurse )[A-Z][a-z]+\b",
+            regex=r"(?<=Nurse )(?-i:[A-Z][a-z]+)\b",
             score=0.85
         ),
 
@@ -96,25 +99,25 @@ def get_provider_recognizers() -> list[PatternRecognizer]:
         # " MD" suffix - match name before " MD"
         Pattern(
             name="name_md",
-            regex=r"\b[A-Z][a-z]+(?= MD\b)",
+            regex=r"\b(?-i:[A-Z][a-z]+)(?= MD\b)",
             score=0.80
         ),
         # " RN" suffix - match name before " RN" (as suffix)
         Pattern(
             name="name_rn_suffix",
-            regex=r"\b[A-Z][a-z]+(?= RN\b)",
+            regex=r"\b(?-i:[A-Z][a-z]+)(?= RN\b)",
             score=0.80
         ),
         # " NP" suffix - match name before " NP" (as suffix)
         Pattern(
             name="name_np_suffix",
-            regex=r"\b[A-Z][a-z]+(?= NP\b)",
+            regex=r"\b(?-i:[A-Z][a-z]+)(?= NP\b)",
             score=0.80
         ),
         # " PA" suffix - match name before " PA" (as suffix)
         Pattern(
             name="name_pa_suffix",
-            regex=r"\b[A-Z][a-z]+(?= PA\b)",
+            regex=r"\b(?-i:[A-Z][a-z]+)(?= PA\b)",
             score=0.80
         ),
     ]

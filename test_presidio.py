@@ -84,6 +84,33 @@ TEST_CASES = [
         "must_preserve": ["Primary", "Dr.", "fellow"],
     },
 
+    # === PROVIDER NAME PATTERNS (Phase 19) ===
+    {
+        "name": "Provider - Dr. with period",
+        "input": "Spoke with Dr. Martinez about the plan.",
+        "must_redact": ["Martinez"],
+        "must_preserve": ["Dr.", "Spoke", "plan"],
+    },
+    {
+        "name": "Provider - Dr without period",
+        "input": "Paged Dr Chen for the consult.",
+        "must_redact": ["Chen"],
+        "must_preserve": ["Dr", "Paged", "consult"],
+    },
+    {
+        "name": "Provider - NP title",
+        "input": "NP Williams did the admission.",
+        "must_redact": ["Williams"],
+        # Note: "NP" may be consumed by PERSON entity depending on NER
+        "must_preserve": ["admission"],
+    },
+    {
+        "name": "Provider - standalone title (should NOT redact)",
+        "input": "The attending is on call.",
+        "must_redact": [],
+        "must_preserve": ["attending", "call"],
+    },
+
     # === AGES (Pediatric-specific) ===
     {
         "name": "Age - weeks and days",
