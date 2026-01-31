@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 ## Current Position
 
-Phase: 17 of 22 (Room Pattern Expansion) - COMPLETE
-Plan: 3 of 3 (17-03-PLAN.md completed)
-Status: v2.3 in progress, Phase 17 complete (precision 52%, recall 98%)
-Last activity: 2026-01-30 — Completed 17-03-PLAN.md (number-only patterns achieve 98% recall, 2% overlap)
+Phase: 18 of 22 (Guardian Edge Cases) - IN PROGRESS
+Plan: 2 of 3 (18-02-PLAN.md completed)
+Status: v2.3 in progress, Phase 18 in progress (appositive patterns added)
+Last activity: 2026-01-31 — Completed 18-02-PLAN.md (41 appositive guardian patterns, 3 new tests passing)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [####      ] 40% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [#####     ] 50% v2.3
 
 ## Milestones Shipped
 
@@ -30,7 +30,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 **6 phases (17-22) targeting recall improvements:**
 
 - Phase 17: Room Pattern Expansion (Precision 52%, Recall 98%, F1 68%) - COMPLETE (3/3 plans)
-- Phase 18: Guardian Edge Cases (possessive/appositive patterns) - NOT STARTED
+- Phase 18: Guardian Edge Cases (possessive/appositive patterns) - IN PROGRESS (2/3 plans)
 - Phase 19: Provider Name Detection (attending/nurse names) - NOT STARTED
 - Phase 20: Phone/Pager Patterns (76% → ≥90%) - NOT STARTED
 - Phase 21: Location/Transfer Patterns (20% → ≥60%) - NOT STARTED
