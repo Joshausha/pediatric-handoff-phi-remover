@@ -95,6 +95,9 @@ Recent decisions affecting v2.2-v2.3:
 - **ROOM-NUMBER-ONLY-PATTERNS** (Phase 17-03): Use lookbehind to match only room numbers (not "bed 847", just "847"), achieving 98% exact match rate and 100% effective recall
 - **ROOM-PATTERN-PRIORITY** (Phase 17-03): Lower full-match pattern scores to 0.50, number-only patterns (0.70) take priority, reducing overlap from 55% to 2%
 - **ROOM-INTERIM-TARGET** (Phase 17-03): Document 55% as interim target (achieved 98%), defer final validation to Phase 22
+- **APPOSITIVE-SCORE-0.85** (Phase 18-02): Use same score as forward patterns for appositive constructions (punctuation provides clear signal)
+- **APPOSITIVE-LOOKBEHIND-FIXED-WIDTH** (Phase 18-02): Separate pattern for each relationship word + punctuation combination (Python regex lookbehind requires fixed width)
+- **APPOSITIVE-COVERAGE-PRIORITY** (Phase 18-02): Comprehensive comma coverage (17 patterns), selective dash/paren coverage (7 each) balances coverage vs pattern count
 
 ### Pending Todos
 
@@ -137,11 +140,11 @@ Recent decisions affecting v2.2-v2.3:
 
 ## Session Continuity
 
-Last session: 2026-01-30
-Stopped at: Completed Phase 17 (all 3 plans) — ROOM detection 98% recall, 52% precision
+Last session: 2026-01-31
+Stopped at: Completed Phase 18 Plan 02 — Appositive guardian patterns (41 patterns, 3 tests passing)
 Resume file: None
-Next: Continue with Phase 18-21 planning OR focus on other milestones (Phase 17 complete, far exceeding targets)
+Next: Continue Phase 18 (Plan 03 if exists) OR move to Phase 19-21
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-30 — Phase 17 complete (ROOM 98% recall, 52% precision)*
+*Last updated: 2026-01-31 — Phase 18-02 complete (appositive guardian patterns)*
