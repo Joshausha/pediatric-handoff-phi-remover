@@ -120,6 +120,62 @@ def get_provider_recognizers() -> list[PatternRecognizer]:
             regex=r"\b(?-i:[A-Z][a-z]+)(?= PA\b)",
             score=0.80
         ),
+
+        # =================================================================
+        # Role context patterns: "the [role] is [Name]" (score 0.85)
+        # Using lookbehind to match ONLY the name
+        # CRITICAL: Use (?-i:...) for case-sensitive matching despite
+        #           Presidio's default IGNORECASE
+        # =================================================================
+
+        # "the attending is " = 17 chars
+        Pattern(
+            name="attending_is_name",
+            regex=r"(?<=the attending is )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "the fellow is " = 14 chars
+        Pattern(
+            name="fellow_is_name",
+            regex=r"(?<=the fellow is )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "the resident is " = 16 chars
+        Pattern(
+            name="resident_is_name",
+            regex=r"(?<=the resident is )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "the intern is " = 14 chars
+        Pattern(
+            name="intern_is_name",
+            regex=r"(?<=the intern is )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "the nurse is " = 13 chars
+        Pattern(
+            name="nurse_is_name",
+            regex=r"(?<=the nurse is )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "the doctor is " = 14 chars
+        Pattern(
+            name="doctor_is_name",
+            regex=r"(?<=the doctor is )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "the NP is " = 10 chars
+        Pattern(
+            name="np_is_name",
+            regex=r"(?<=the NP is )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "the PA is " = 10 chars
+        Pattern(
+            name="pa_is_name",
+            regex=r"(?<=the PA is )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
     ]
 
     provider_recognizer = PatternRecognizer(
