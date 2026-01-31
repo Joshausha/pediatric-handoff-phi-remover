@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 18 of 22 (Guardian Edge Cases) - IN PROGRESS
-Plan: 2 of 3 (18-02-PLAN.md completed)
-Status: v2.3 in progress, Phase 18 in progress (appositive patterns added)
-Last activity: 2026-01-31 — Completed 18-02-PLAN.md (41 appositive guardian patterns, 3 new tests passing)
+Plan: 1 of 3 (18-01-PLAN.md completed)
+Status: v2.3 in progress, Phase 18 in progress (possessive patterns added)
+Last activity: 2026-01-31 — Completed 18-01-PLAN.md (60 possessive guardian patterns, 4 new tests passing)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [#####     ] 50% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [####      ] 43% v2.3
 
 ## Milestones Shipped
 
@@ -30,7 +30,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 **6 phases (17-22) targeting recall improvements:**
 
 - Phase 17: Room Pattern Expansion (Precision 52%, Recall 98%, F1 68%) - COMPLETE (3/3 plans)
-- Phase 18: Guardian Edge Cases (possessive/appositive patterns) - IN PROGRESS (2/3 plans)
+- Phase 18: Guardian Edge Cases (possessive/appositive patterns) - IN PROGRESS (1/3 plans)
 - Phase 19: Provider Name Detection (attending/nurse names) - NOT STARTED
 - Phase 20: Phone/Pager Patterns (76% → ≥90%) - NOT STARTED
 - Phase 21: Location/Transfer Patterns (20% → ≥60%) - NOT STARTED
@@ -95,9 +95,9 @@ Recent decisions affecting v2.2-v2.3:
 - **ROOM-NUMBER-ONLY-PATTERNS** (Phase 17-03): Use lookbehind to match only room numbers (not "bed 847", just "847"), achieving 98% exact match rate and 100% effective recall
 - **ROOM-PATTERN-PRIORITY** (Phase 17-03): Lower full-match pattern scores to 0.50, number-only patterns (0.70) take priority, reducing overlap from 55% to 2%
 - **ROOM-INTERIM-TARGET** (Phase 17-03): Document 55% as interim target (achieved 98%), defer final validation to Phase 22
-- **APPOSITIVE-SCORE-0.85** (Phase 18-02): Use same score as forward patterns for appositive constructions (punctuation provides clear signal)
-- **APPOSITIVE-LOOKBEHIND-FIXED-WIDTH** (Phase 18-02): Separate pattern for each relationship word + punctuation combination (Python regex lookbehind requires fixed width)
-- **APPOSITIVE-COVERAGE-PRIORITY** (Phase 18-02): Comprehensive comma coverage (17 patterns), selective dash/paren coverage (7 each) balances coverage vs pattern count
+- **POSSESSIVE-SCORE-0.85** (Phase 18-01): Use score 0.85 for possessive patterns (same as forward patterns) - possessive pronouns provide strong PHI context
+- **POSSESSIVE-FIXED-WIDTH-LOOKBEHIND** (Phase 18-01): Each possessive pronoun + relationship word combination needs separate pattern (Python regex requires fixed width)
+- **POSSESSIVE-CLINICAL-FORMS** (Phase 18-01): Clinical possessive forms (patient's, baby's, child's) limited to key relationships (mom, dad, mother, father, guardian)
 
 ### Pending Todos
 
@@ -141,10 +141,10 @@ Recent decisions affecting v2.2-v2.3:
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed Phase 18 Plan 02 — Appositive guardian patterns (41 patterns, 3 tests passing)
+Stopped at: Completed Phase 18 Plan 01 — Possessive guardian patterns (60 patterns, 4 tests passing)
 Resume file: None
-Next: Continue Phase 18 (Plan 03 if exists) OR move to Phase 19-21
+Next: Continue Phase 18 (Plan 02: Appositive patterns) OR move to Phase 19-21
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-31 — Phase 18-02 complete (appositive guardian patterns)*
+*Last updated: 2026-01-31 — Phase 18-01 complete (possessive guardian patterns)*
