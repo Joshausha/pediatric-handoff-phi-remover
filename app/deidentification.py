@@ -14,6 +14,7 @@ from typing import Optional
 
 from presidio_analyzer import AnalyzerEngine, RecognizerRegistry
 from presidio_analyzer.nlp_engine import NlpEngineProvider
+from presidio_analyzer.predefined_recognizers import PhoneRecognizer
 from presidio_anonymizer import AnonymizerEngine
 from presidio_anonymizer.entities import OperatorConfig
 
@@ -96,6 +97,17 @@ def _get_engines() -> tuple[AnalyzerEngine, AnonymizerEngine]:
                 # Create registry with predefined recognizers
                 registry = RecognizerRegistry()
                 registry.load_predefined_recognizers(nlp_engine=nlp_engine)
+
+                # Override default PhoneRecognizer with lenient matching (Phase 20)
+                # Default leniency=1 is too strict for clinical handoffs; leniency=0 catches
+                # extensions (x310) and standard dash-separated formats that were missed.
+                registry.remove_recognizer("PhoneRecognizer")
+                custom_phone = PhoneRecognizer(
+                    supported_regions=("US",),
+                    leniency=0,  # Most lenient - catches all valid formats
+                )
+                registry.add_recognizer(custom_phone)
+                logger.debug("Added custom PhoneRecognizer with leniency=0")
 
                 # Add custom recognizers
                 if settings.enable_custom_recognizers:
