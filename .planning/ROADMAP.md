@@ -249,10 +249,13 @@ Plans:
   3. "his nurse is Sarah" and similar nursing staff patterns
   4. Provider deny list prevents over-detection of titles
   5. PERSON recall improvement measured
-**Plans**: 0 plans
+**Plans**: 4 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 19 to break down)
+- [ ] 19-01-PLAN.md — Title-prefixed patterns (Dr., NP, PA, RN)
+- [ ] 19-02-PLAN.md — Role context patterns (attending, nurse, fellow, resident)
+- [ ] 19-03-PLAN.md — Action context patterns (paged, called, spoke with)
+- [ ] 19-04-PLAN.md — Validation and documentation
 
 ### Phase 20: Phone/Pager Patterns
 **Goal**: Improve PHONE_NUMBER recall from 76% to ≥90%
@@ -325,11 +328,11 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 16. Integration Validation | v2.2 | 2/2 | Complete | 2026-01-30 |
 | 17. Room Pattern Expansion | v2.3 | 3/3 | Complete | 2026-01-30 |
 | 18. Guardian Edge Cases | v2.3 | 3/3 | Complete | 2026-01-30 |
-| 19. Provider Name Detection | v2.3 | 0/? | Not started | - |
+| 19. Provider Name Detection | v2.3 | 0/4 | Planned | - |
 | 20. Phone/Pager Patterns | v2.3 | 0/? | Not started | - |
 | 21. Location/Transfer Patterns | v2.3 | 0/? | Not started | - |
 | 22. Validation & Recall Targets | v2.3 | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-30 — Phase 18 complete (Guardian: +2.65pp recall, 106 new patterns)*
+*Last updated: 2026-01-30 — Phase 19 planned (4 plans for provider name detection)*
