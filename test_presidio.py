@@ -158,6 +158,26 @@ TEST_CASES = [
         "must_redact": [],
         "must_preserve": ["bronchiolitis", "RSV", "pneumonia"],
     },
+
+    # === GUARDIAN APPOSITIVE PATTERNS ===
+    {
+        "name": "Guardian - appositive comma",
+        "input": "The mom, Jessica, is at bedside.",
+        "must_redact": ["Jessica"],
+        "must_preserve": ["The", "mom", "bedside"],
+    },
+    {
+        "name": "Guardian - appositive dash",
+        "input": "His dad - Mike - works nights.",
+        "must_redact": ["Mike"],
+        "must_preserve": ["His", "dad", "works"],
+    },
+    {
+        "name": "Guardian - appositive paren",
+        "input": "Their guardian (Sarah) is available.",
+        "must_redact": ["Sarah"],
+        "must_preserve": ["Their", "guardian", "available"],
+    },
 ]
 
 
