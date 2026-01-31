@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 ## Current Position
 
-Phase: 18 of 22 (Guardian Edge Cases) - IN PROGRESS
-Plan: 1 of 3 (18-01-PLAN.md completed)
-Status: v2.3 in progress, Phase 18 in progress (possessive patterns added)
-Last activity: 2026-01-31 — Completed 18-01-PLAN.md (60 possessive guardian patterns, 4 new tests passing)
+Phase: 18 of 22 (Guardian Edge Cases) - COMPLETE
+Plan: 3 of 3 (all plans completed)
+Status: v2.3 in progress, Phase 18 complete (101 guardian patterns, recall +2.65pp)
+Last activity: 2026-01-31 — Completed 18-03-PLAN.md (validation, recall 86.41% → 89.06%)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [####      ] 43% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [######    ] 57% v2.3
 
 ## Milestones Shipped
 
@@ -30,7 +30,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 **6 phases (17-22) targeting recall improvements:**
 
 - Phase 17: Room Pattern Expansion (Precision 52%, Recall 98%, F1 68%) - COMPLETE (3/3 plans)
-- Phase 18: Guardian Edge Cases (possessive/appositive patterns) - IN PROGRESS (1/3 plans)
+- Phase 18: Guardian Edge Cases (101 patterns, recall +2.65pp) - COMPLETE (3/3 plans)
 - Phase 19: Provider Name Detection (attending/nurse names) - NOT STARTED
 - Phase 20: Phone/Pager Patterns (76% → ≥90%) - NOT STARTED
 - Phase 21: Location/Transfer Patterns (20% → ≥60%) - NOT STARTED
@@ -98,6 +98,7 @@ Recent decisions affecting v2.2-v2.3:
 - **POSSESSIVE-SCORE-0.85** (Phase 18-01): Use score 0.85 for possessive patterns (same as forward patterns) - possessive pronouns provide strong PHI context
 - **POSSESSIVE-FIXED-WIDTH-LOOKBEHIND** (Phase 18-01): Each possessive pronoun + relationship word combination needs separate pattern (Python regex requires fixed width)
 - **POSSESSIVE-CLINICAL-FORMS** (Phase 18-01): Clinical possessive forms (patient's, baby's, child's) limited to key relationships (mom, dad, mother, father, guardian)
+- **CAPITAL-LETTER-REQUIREMENT** (Phase 18-03): All guardian name patterns require [A-Z][a-z]+ to prevent false positives on common verbs (is, for, at)
 
 ### Pending Todos
 
@@ -141,10 +142,10 @@ Recent decisions affecting v2.2-v2.3:
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed Phase 18 Plan 01 — Possessive guardian patterns (60 patterns, 4 tests passing)
+Stopped at: Completed Phase 18 — Guardian Edge Cases (101 patterns, recall +2.65pp, all tests passing)
 Resume file: None
-Next: Continue Phase 18 (Plan 02: Appositive patterns) OR move to Phase 19-21
+Next: Phase 19 (Provider Names), Phase 20 (Phone/Pager), or Phase 21 (Location) - all can run in parallel
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-31 — Phase 18-01 complete (possessive guardian patterns)*
+*Last updated: 2026-01-31 — Phase 18 complete (guardian edge cases, recall +2.65pp)*
