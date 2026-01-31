@@ -339,4 +339,164 @@ def get_medical_recognizers() -> list[PatternRecognizer]:
     )
     recognizers.append(phone_recognizer)
 
+    # =========================================================================
+    # Location Recognizer (Transfer/Medical Context)
+    # =========================================================================
+    # Pattern-based LOCATION detection for clinical handoff contexts.
+    # Supplements spaCy NER baseline (20% recall) with context-specific patterns.
+    # Target: ≥60% recall with lookbehind patterns preserving context words.
+
+    location_patterns = [
+        # === TRANSFER CONTEXT PATTERNS (50% of dataset) ===
+        # High confidence - explicit transfer language indicates location follows
+        # NOTE: Use (?-i:[A-Z]) to require uppercase first letter despite global (?i)
+        # This prevents matching lowercase words like "yesterday" after the location
+
+        # "transferred from Memorial Hospital" -> matches "Memorial Hospital"
+        # Also matches "home" as keyword since it's a valid location
+        # Fixed-width lookbehind: "transferred from " = 17 chars
+        Pattern(
+            name="transferred_from",
+            regex=r"(?i)(?<=transferred from )(home|(?-i:[A-Z])[a-z']*(?:\s+(?-i:[A-Z])[a-z']*)*(?:\s+(?:Hospital|Medical Center|Clinic|Urgent Care))?)",
+            score=0.80
+        ),
+        # "admitted from Springfield" -> matches "Springfield" or "home"
+        # Fixed-width lookbehind: "admitted from " = 14 chars
+        Pattern(
+            name="admitted_from",
+            regex=r"(?i)(?<=admitted from )(home|(?-i:[A-Z])[a-z']*(?:\s+(?-i:[A-Z])[a-z']*)*(?:\s+(?:Hospital|Clinic))?)",
+            score=0.80
+        ),
+        # "sent from Children's Hospital" -> matches "Children's Hospital"
+        # Fixed-width lookbehind: "sent from " = 10 chars
+        Pattern(
+            name="sent_from",
+            regex=r"(?i)(?<=sent from )(?-i:[A-Z])[a-z']*(?:\s+(?-i:[A-Z])[a-z']*)*(?:\s+(?:Hospital|Medical Center|Clinic))?",
+            score=0.75
+        ),
+        # "came from Mass General" -> matches "Mass General"
+        # Fixed-width lookbehind: "came from " = 10 chars
+        Pattern(
+            name="came_from",
+            regex=r"(?i)(?<=came from )(?-i:[A-Z])[a-z']*(?:\s+(?-i:[A-Z])[a-z']*)*(?:\s+(?:Hospital|Medical Center))?",
+            score=0.75
+        ),
+        # "en route from Boston" -> matches "Boston"
+        # Fixed-width lookbehind: "en route from " = 14 chars
+        Pattern(
+            name="en_route_from",
+            regex=r"(?i)(?<=en route from )(?-i:[A-Z])[a-z']*(?:\s+(?-i:[A-Z])[a-z']*)*",
+            score=0.75
+        ),
+
+        # === FACILITY NAME PATTERNS (19% of dataset) ===
+        # Detect medical facilities by explicit keywords (Hospital, Clinic, Medical Center)
+        # NOTE: Presidio uses IGNORECASE by default, so we use (?-i:[A-Z]) to force
+        # case-sensitive matching for capital letters. This prevents matching lowercase
+        # words like "was", "from" etc. between the first word and the facility keyword.
+
+        # "[Name] Hospital" -> matches entire phrase
+        # Examples: "Memorial Hospital", "Children's Hospital"
+        Pattern(
+            name="hospital_name",
+            regex=r"\b(?-i:[A-Z])[A-Za-z'\.]+(?:\s+(?-i:[A-Z])[A-Za-z'\.]+)*\s+Hospital\b",
+            score=0.70
+        ),
+        # "[Name] Medical Center" -> matches entire phrase
+        # Examples: "Boston Medical Center", "Children's Medical Center"
+        Pattern(
+            name="medical_center_name",
+            regex=r"\b(?-i:[A-Z])[A-Za-z'\.]+(?:\s+(?-i:[A-Z])[A-Za-z'\.]+)*\s+Medical Center\b",
+            score=0.70
+        ),
+        # "[Name] Clinic" -> matches entire phrase
+        # Examples: "Springfield Clinic", "Oak Street Clinic"
+        Pattern(
+            name="clinic_name",
+            regex=r"\b(?-i:[A-Z])[A-Za-z'\.]+(?:\s+(?-i:[A-Z])[A-Za-z'\.]+)*\s+Clinic\b",
+            score=0.65
+        ),
+        # "[Name] Pediatrics" -> matches entire phrase
+        # Examples: "Springfield Pediatrics", "Main Street Pediatrics"
+        Pattern(
+            name="pediatrics_office",
+            regex=r"\b(?-i:[A-Z])[A-Za-z'\.]+(?:\s+(?-i:[A-Z])[A-Za-z'\.]+)*\s+Pediatrics\b",
+            score=0.65
+        ),
+        # "[Name] Health System" / "[Name] Health Center" -> matches entire phrase
+        Pattern(
+            name="health_system",
+            regex=r"\b(?-i:[A-Z])[A-Za-z'\.]+(?:\s+(?-i:[A-Z])[A-Za-z'\.]+)*\s+Health\s+(?:System|Center)\b",
+            score=0.65
+        ),
+        # "Urgent Care" with name prefix -> matches entire phrase
+        Pattern(
+            name="urgent_care",
+            regex=r"\b(?-i:[A-Z])[A-Za-z'\.]+(?:\s+(?-i:[A-Z])[A-Za-z'\.]+)*\s+Urgent Care\b",
+            score=0.65
+        ),
+
+        # === RESIDENTIAL ADDRESS PATTERNS (16% of dataset) ===
+        # Detect addresses in residential context (lives at, discharge to)
+        # NOTE: Use (?-i:...) for case-sensitive capital letter requirements
+
+        # "lives at 123 Main Street" -> matches "123 Main Street"
+        # Fixed-width lookbehind: "lives at " = 9 chars
+        # Covers common street type suffixes
+        Pattern(
+            name="lives_at_address",
+            regex=r"(?i)(?<=lives at )\d+\s+(?-i:[A-Z])[A-Za-z'\s]+(?:Street|Drive|Avenue|Road|Lane|Way|Court|Place|Circle|Boulevard|Heights|Manor|Hill)\b(?:\s+(?:Apt|Suite|Unit)\.\s*\w+)?",
+            score=0.75
+        ),
+        # "lives in Boston" -> matches "Boston"
+        # Fixed-width lookbehind: "lives in " = 9 chars
+        # Only matches capitalized words (stops at lowercase like "with")
+        Pattern(
+            name="lives_in_city",
+            regex=r"(?i)(?<=lives in )(?-i:[A-Z])[a-z']*(?:\s+(?-i:[A-Z])[a-z']*)*",
+            score=0.70
+        ),
+        # "discharge to home" or "discharge to 456 Oak Lane" -> matches location
+        # Fixed-width lookbehind: "discharge to " = 13 chars
+        Pattern(
+            name="discharge_to",
+            regex=r"(?i)(?<=discharge to )(?:home|(?-i:[A-Z])[A-Za-z0-9'\s]+(?:Street|Drive|Avenue|Road|Lane|Way|Court|Home)?)\b",
+            score=0.70
+        ),
+        # "from [City]" with common city suffixes (ville, ton, port, etc.)
+        # Helps detect city names that spaCy might miss
+        # Fixed-width lookbehind: "from " = 5 chars
+        Pattern(
+            name="from_city",
+            regex=r"(?i)(?<=from )(?-i:[A-Z])[a-z]+(?:ville|ton|burg|port|haven|chester|wood|field|land)\b",
+            score=0.65
+        ),
+
+        # === PCP/CLINIC CONTEXT PATTERNS ===
+        # "PCP is Dr. Smith at Springfield Pediatrics" -> matches "Springfield Pediatrics"
+        # Fixed-width lookbehind: "at " = 3 chars (short, need facility keyword)
+        Pattern(
+            name="pcp_at_facility",
+            regex=r"(?i)(?<=\bat )(?-i:[A-Z])[A-Za-z'\s]+(?:Pediatrics|Clinic|Associates|Medical)\b",
+            score=0.60  # Lower score - indirect context
+        ),
+    ]
+
+    location_recognizer = PatternRecognizer(
+        supported_entity="LOCATION",
+        name="Location Recognizer",
+        patterns=location_patterns,
+        context=[
+            # Transfer context words (from 21-01)
+            "transferred", "admitted", "sent", "came", "en route",
+            # Medical facility keywords
+            "hospital", "clinic", "medical center", "urgent care", "pediatrics",
+            # Residential context
+            "home", "lives", "discharge", "address", "family",
+            # PCP context
+            "pcp", "doctor", "office"
+        ]
+    )
+    recognizers.append(location_recognizer)
+
     return recognizers

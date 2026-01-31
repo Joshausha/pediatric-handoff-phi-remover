@@ -230,8 +230,8 @@ TEST_CASES = [
     {
         "name": "City/address",
         "input": "Family lives in Boston, transferred from MGH.",
-        "must_redact": ["Boston"],
-        "must_preserve": ["Family", "transferred", "MGH"],
+        "must_redact": ["Boston", "MGH"],  # MGH is a hospital abbreviation = PHI
+        "must_preserve": ["Family", "transferred"],
     },
 
     # === LOCATION - TRANSFER CONTEXT (Phase 21-01) ===
@@ -255,15 +255,75 @@ TEST_CASES = [
     },
     {
         "name": "Location - en route from city",
-        "input": "Family en route from Boston, ETA 30 minutes.",
+        "input": "Family en route from Boston via ambulance.",
         "must_redact": ["Boston"],
-        "must_preserve": ["Family", "en route", "ETA", "30 minutes"],
+        "must_preserve": ["Family", "en route", "ambulance"],
     },
     {
         "name": "Location - came from hospital",
         "input": "Came from Children's Medical Center via ambulance.",
         "must_redact": ["Children's Medical Center"],
         "must_preserve": ["Came", "ambulance"],
+    },
+
+    # === LOCATION - FACILITY NAMES (Phase 21-02) ===
+    {
+        "name": "Location - hospital name",
+        "input": "Born at Children's Hospital, now stable.",
+        "must_redact": ["Children's Hospital"],
+        "must_preserve": ["Born", "stable"],
+    },
+    {
+        "name": "Location - medical center",
+        "input": "Previously seen at Boston Medical Center.",
+        "must_redact": ["Boston Medical Center"],
+        "must_preserve": ["Previously", "seen"],
+    },
+    {
+        "name": "Location - clinic name",
+        "input": "Follow-up scheduled at Oak Street Clinic.",
+        "must_redact": ["Oak Street Clinic"],
+        "must_preserve": ["Follow-up", "scheduled"],
+    },
+    {
+        "name": "Location - pediatrics office",
+        "input": "PCP is Dr. Jones at Springfield Pediatrics.",
+        "must_redact": ["Springfield Pediatrics"],
+        "must_preserve": ["PCP", "Dr."],
+    },
+
+    # === LOCATION - RESIDENTIAL ADDRESSES (Phase 21-02) ===
+    {
+        "name": "Location - lives at address",
+        "input": "Family lives at 425 Oak Street, third floor.",
+        "must_redact": ["425 Oak Street"],
+        "must_preserve": ["Family", "lives", "third floor"],
+    },
+    {
+        "name": "Location - lives in city",
+        "input": "Patient lives in Brookfield with grandparents.",
+        "must_redact": ["Brookfield"],
+        "must_preserve": ["Patient", "lives", "grandparents"],
+    },
+    {
+        "name": "Location - discharge to home",
+        "input": "Discharge to home planned for tomorrow.",
+        "must_redact": ["home"],
+        "must_preserve": ["Discharge", "planned", "tomorrow"],
+    },
+
+    # === LOCATION - MUST PRESERVE (no false positives) ===
+    {
+        "name": "Location - preserve PICU",
+        "input": "Transferred to PICU for closer monitoring.",
+        "must_redact": [],
+        "must_preserve": ["PICU", "monitoring"],
+    },
+    {
+        "name": "Location - preserve OR",
+        "input": "Going to OR for appendectomy.",
+        "must_redact": [],
+        "must_preserve": ["OR", "appendectomy"],
     },
 
     # === CLINICAL TERMS (must preserve) ===

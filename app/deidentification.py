@@ -8,6 +8,7 @@ Removes PHI from transcripts using:
 """
 
 import logging
+import re
 import threading
 from dataclasses import dataclass, field
 from typing import Optional
@@ -197,10 +198,14 @@ def deidentify_text(
 
         detected_text = text[result.start:result.end].strip()
 
-        # Check LOCATION deny list (uses substring matching like DATE_TIME)
+        # Check LOCATION deny list (uses word-boundary substring matching)
+        # NOTE: Word boundaries prevent "ER" matching "Memorial" or "transfer"
         if result.entity_type == "LOCATION":
             detected_lower = detected_text.lower()
-            is_denied = any(term.lower() in detected_lower for term in settings.deny_list_location)
+            is_denied = any(
+                re.search(r'\b' + re.escape(term.lower()) + r'\b', detected_lower)
+                for term in settings.deny_list_location
+            )
             if is_denied:
                 logger.debug(f"Filtered out deny-listed LOCATION: {detected_text}")
                 continue
