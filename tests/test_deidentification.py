@@ -146,6 +146,55 @@ class TestDeidentification:
         assert "cellulitis" in result.clean_text
         assert "antibiotics" in result.clean_text
 
+    def test_guardian_possessive_patterns(self):
+        """Test possessive guardian patterns in realistic context."""
+        text = "Patient admitted with his mom Sarah at bedside. Her phone is 617-555-1234."
+        result = deidentify_text(text)
+
+        # Name should be redacted
+        assert "Sarah" not in result.clean_text
+        # Possessive + relationship preserved
+        assert "his mom" in result.clean_text.lower()
+        # Phone also detected
+        assert "617-555-1234" not in result.clean_text
+        assert result.entity_count >= 2  # Guardian name + phone
+
+    def test_guardian_appositive_patterns(self):
+        """Test appositive guardian patterns with punctuation."""
+        text = "The mom, Jessica, brought medications from home."
+        result = deidentify_text(text)
+
+        # Name should be redacted
+        assert "Jessica" not in result.clean_text
+        # Relationship word preserved (with or without 'the')
+        assert "mom" in result.clean_text.lower()
+        # Context preserved
+        assert "medications" in result.clean_text
+
+    def test_guardian_mixed_patterns_handoff(self):
+        """Test realistic handoff with multiple guardian patterns."""
+        text = """
+    Patient is a 3 year old male admitted for bronchiolitis.
+    His mom Sarah is primary contact. Dad - Mike - works nights.
+    The grandmother, Rosa, helps with care during the day.
+    Contact mom at 617-555-1234 if any concerns.
+    """
+        result = deidentify_text(text)
+
+        # All names should be redacted
+        assert "Sarah" not in result.clean_text
+        assert "Mike" not in result.clean_text
+        assert "Rosa" not in result.clean_text
+
+        # Relationship words preserved
+        assert "mom" in result.clean_text.lower()
+        assert "dad" in result.clean_text.lower()
+        assert "grandmother" in result.clean_text.lower()
+
+        # Clinical content preserved
+        assert "bronchiolitis" in result.clean_text
+        assert "3 year old" in result.clean_text.lower() or "year old" in result.clean_text.lower()
+
 
 class TestSampleTranscripts:
     """Test de-identification against all sample transcripts."""
