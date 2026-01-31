@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 ## Current Position
 
-Phase: 18 of 22 (Guardian Edge Cases) - COMPLETE
-Plan: 3 of 3 (all plans completed)
-Status: v2.3 in progress, Phase 18 complete (101 guardian patterns, recall +2.65pp)
-Last activity: 2026-01-31 — Completed 18-03-PLAN.md (validation, recall 86.41% → 89.06%)
+Phase: 19 of 22 (Provider Name Detection) - IN PROGRESS
+Plan: 1 of 3 completed
+Status: v2.3 in progress, Phase 19 Plan 01 complete (11 title patterns, PROVIDER_NAME entity)
+Last activity: 2026-01-31 — Completed 19-01-PLAN.md (title-prefixed provider patterns)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [######    ] 57% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [#######   ] 64% v2.3
 
 ## Milestones Shipped
 
@@ -31,7 +31,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 
 - Phase 17: Room Pattern Expansion (Precision 52%, Recall 98%, F1 68%) - COMPLETE (3/3 plans)
 - Phase 18: Guardian Edge Cases (101 patterns, recall +2.65pp) - COMPLETE (3/3 plans)
-- Phase 19: Provider Name Detection (attending/nurse names) - NOT STARTED
+- Phase 19: Provider Name Detection (11 title patterns, plan 1/3 complete) - IN PROGRESS
 - Phase 20: Phone/Pager Patterns (76% → ≥90%) - NOT STARTED
 - Phase 21: Location/Transfer Patterns (20% → ≥60%) - NOT STARTED
 - Phase 22: Validation & Recall Targets (end-to-end validation) - NOT STARTED
@@ -99,6 +99,8 @@ Recent decisions affecting v2.2-v2.3:
 - **POSSESSIVE-FIXED-WIDTH-LOOKBEHIND** (Phase 18-01): Each possessive pronoun + relationship word combination needs separate pattern (Python regex requires fixed width)
 - **POSSESSIVE-CLINICAL-FORMS** (Phase 18-01): Clinical possessive forms (patient's, baby's, child's) limited to key relationships (mom, dad, mother, father, guardian)
 - **CAPITAL-LETTER-REQUIREMENT** (Phase 18-03): All guardian name patterns require [A-Z][a-z]+ to prevent false positives on common verbs (is, for, at)
+- **PROVIDER-CASE-SENSITIVITY** (Phase 19-01): Use (?-i:...) inline flag to require uppercase first letter despite Presidio default IGNORECASE
+- **PROVIDER-SCORE-0.85** (Phase 19-01): Title-prefixed patterns score 0.85 (common in speech), suffix patterns 0.80
 
 ### Pending Todos
 
@@ -142,10 +144,10 @@ Recent decisions affecting v2.2-v2.3:
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed Phase 18 — Guardian Edge Cases (101 patterns, recall +2.65pp, all tests passing)
+Stopped at: Completed 19-01-PLAN.md — Title-prefixed provider patterns (11 patterns, PROVIDER_NAME entity)
 Resume file: None
-Next: Phase 19 (Provider Names), Phase 20 (Phone/Pager), or Phase 21 (Location) - all can run in parallel
+Next: Phase 19 Plan 02 (context-based patterns), or Phase 20/21 (parallel execution possible)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-31 — Phase 18 complete (guardian edge cases, recall +2.65pp)*
+*Last updated: 2026-01-31 — Phase 19 Plan 01 complete (provider title patterns with case-sensitive matching)*
