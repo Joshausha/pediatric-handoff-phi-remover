@@ -50,6 +50,33 @@ TEST_CASES = [
         "must_redact": [],
         "must_preserve": ["Contact", "mom", "concerns"],
     },
+
+    # === GUARDIAN POSSESSIVE PATTERNS ===
+    {
+        "name": "Guardian - possessive his mom",
+        "input": "His mom Sarah is at bedside.",
+        "must_redact": ["Sarah"],
+        "must_preserve": ["His", "mom", "bedside"],
+    },
+    {
+        "name": "Guardian - possessive her dad",
+        "input": "Her dad Tom works nights.",
+        "must_redact": ["Tom"],
+        "must_preserve": ["Her", "dad", "works"],
+    },
+    {
+        "name": "Guardian - possessive their grandma",
+        "input": "Their grandma Maria helps with care.",
+        "must_redact": ["Maria"],
+        "must_preserve": ["Their", "grandma", "care"],
+    },
+    {
+        "name": "Guardian - possessive patient's mom",
+        "input": "The patient's mom Jessica brought supplies.",
+        "must_redact": ["Jessica"],
+        "must_preserve": ["patient's", "mom", "brought"],
+    },
+
     {
         "name": "Provider name",
         "input": "Primary is Dr. Johnson, fellow is Dr. Chen.",
