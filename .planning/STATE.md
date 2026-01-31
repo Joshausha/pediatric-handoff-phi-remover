@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 ## Current Position
 
-Phase: 20 of 22 (Phone/Pager Patterns) - COMPLETE (1/1 plan)
-Plan: 1 of 1 completed
-Status: v2.3 in progress, Phase 20 Plan 01 complete (PHONE_NUMBER recall 100%)
-Last activity: 2026-01-31 — Completed 20-01-PLAN.md (phone leniency override)
+Phase: 19 of 22 (Provider Name Detection) - COMPLETE (4/4 plans)
+Plan: 3 of 3 completed (19-01, 19-02, 19-03)
+Status: v2.3 in progress, Phase 19 Plan 03 complete (58 total provider patterns)
+Last activity: 2026-01-31 — Completed 19-03-PLAN.md (action context patterns)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [########  ] 79% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [########  ] 86% v2.3
 
 ## Milestones Shipped
 
@@ -31,7 +31,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 
 - Phase 17: Room Pattern Expansion (Precision 52%, Recall 98%, F1 68%) - COMPLETE (3/3 plans)
 - Phase 18: Guardian Edge Cases (101 patterns, recall +2.65pp) - COMPLETE (3/3 plans)
-- Phase 19: Provider Name Detection (34 patterns, plan 2/4 complete) - IN PROGRESS
+- Phase 19: Provider Name Detection (58 patterns, plan 3/3 complete) - COMPLETE
 - Phase 20: Phone/Pager Patterns (76% → 100%) - COMPLETE (1/1 plan)
 - Phase 21: Location/Transfer Patterns (20% → ≥60%) - NOT STARTED
 - Phase 22: Validation & Recall Targets (end-to-end validation) - NOT STARTED
@@ -102,6 +102,9 @@ Recent decisions affecting v2.2-v2.3:
 - **PROVIDER-SCORE-0.85** (Phase 19-01): Title-prefixed patterns score 0.85 (common in speech), suffix patterns 0.80
 - **ROLE-CONTEXT-SCORE-0.85** (Phase 19-02): Role context patterns ("the attending is") use 0.85 score (same as title-prefixed)
 - **POSSESSIVE-FIXED-WIDTH-REUSE** (Phase 19-02): Reused Phase 18 fixed-width lookbehind approach for possessive provider patterns
+- **ACTION-TITLE-SCORE-0.80** (Phase 19-03): Action + title patterns (paged Dr. Smith) score 0.80 (slightly lower than pure title patterns)
+- **ACTION-ROLE-SCORE-0.75** (Phase 19-03): Action + role patterns (paged the attending Smith) score 0.75 (less specific than title patterns)
+- **TIME-REDACTION-ACCEPTABLE** (Phase 19-03): Times like "3am" may be redacted as DATE_TIME - legitimate PHI detection
 - **PHONE-LENIENCY-0** (Phase 20-01): Use leniency=0 (most lenient) for PhoneRecognizer to catch all valid formats including extensions and standard dash-separated numbers
 - **PHONE-REGISTRY-OVERRIDE** (Phase 20-01): Remove default PhoneRecognizer before adding custom one to prevent duplicate entities
 
@@ -147,10 +150,10 @@ Recent decisions affecting v2.2-v2.3:
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 20-01-PLAN.md — Phone leniency override (PHONE_NUMBER recall 100%)
+Stopped at: Completed 19-03-PLAN.md — Action context patterns (58 total provider patterns)
 Resume file: None
-Next: Phase 19 Plan 03 (paged/called verb patterns), Phase 21 (Location/Transfer), or Phase 22 (validation)
+Next: Phase 19 Plan 04 (validation), Phase 21 (Location/Transfer), or Phase 22 (end-to-end validation)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-31 — Phase 20 Plan 01 complete (phone leniency override, recall 76%→100%)*
+*Last updated: 2026-01-31 — Phase 19 Plan 03 complete (action context patterns, 58 total provider patterns)*
