@@ -137,6 +137,27 @@ TEST_CASES = [
         "must_preserve": ["nurse", "busy", "patient"],
     },
 
+    # === PROVIDER ACTION CONTEXT PATTERNS (Phase 19-03) ===
+    {
+        "name": "Provider - paged Dr",
+        "input": "Paged Dr. Martinez at 3am for fever.",
+        "must_redact": ["Martinez"],
+        # Note: "3am" may be redacted as DATE_TIME (legitimate)
+        "must_preserve": ["Paged", "Dr.", "fever"],
+    },
+    {
+        "name": "Provider - spoke with",
+        "input": "Spoke with Dr Chen about discharge.",
+        "must_redact": ["Chen"],
+        "must_preserve": ["Spoke", "Dr", "discharge"],
+    },
+    {
+        "name": "Provider - by Dr passive",
+        "input": "Labs ordered by Dr. Williams earlier.",
+        "must_redact": ["Williams"],
+        "must_preserve": ["Labs", "ordered", "Dr.", "earlier"],
+    },
+
     # === AGES (Pediatric-specific) ===
     {
         "name": "Age - weeks and days",
@@ -211,6 +232,38 @@ TEST_CASES = [
         "input": "Family lives in Boston, transferred from MGH.",
         "must_redact": ["Boston"],
         "must_preserve": ["Family", "transferred", "MGH"],
+    },
+
+    # === LOCATION - TRANSFER CONTEXT (Phase 21-01) ===
+    {
+        "name": "Location - transferred from hospital",
+        "input": "Patient was transferred from Memorial Hospital yesterday.",
+        "must_redact": ["Memorial Hospital"],
+        "must_preserve": ["Patient", "transferred", "yesterday"],
+    },
+    {
+        "name": "Location - admitted from home",
+        "input": "Child admitted from home with respiratory distress.",
+        "must_redact": ["home"],
+        "must_preserve": ["Child", "admitted", "respiratory distress"],
+    },
+    {
+        "name": "Location - sent from clinic",
+        "input": "Sent from Springfield Pediatric Clinic for evaluation.",
+        "must_redact": ["Springfield Pediatric Clinic"],
+        "must_preserve": ["Sent", "evaluation"],
+    },
+    {
+        "name": "Location - en route from city",
+        "input": "Family en route from Boston, ETA 30 minutes.",
+        "must_redact": ["Boston"],
+        "must_preserve": ["Family", "en route", "ETA", "30 minutes"],
+    },
+    {
+        "name": "Location - came from hospital",
+        "input": "Came from Children's Medical Center via ambulance.",
+        "must_redact": ["Children's Medical Center"],
+        "must_preserve": ["Came", "ambulance"],
     },
 
     # === CLINICAL TERMS (must preserve) ===
