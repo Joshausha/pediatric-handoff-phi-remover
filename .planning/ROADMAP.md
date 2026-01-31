@@ -203,7 +203,7 @@ Plans:
 |--------|-------------|-------------|----------|
 | ROOM | 32.1% | ~~80%~~ 55% interim | **95.6%** ✓ |
 | LOCATION | 20.0% | ≥60% | TBD |
-| PHONE_NUMBER | 75.7% | ≥90% | TBD |
+| PHONE_NUMBER | 75.7% | ≥90% | **100%** ✓ |
 | MRN | 72.3% | ≥85% | TBD |
 
 ### Phase 17: Room Pattern Expansion
@@ -269,7 +269,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 20-01-PLAN.md — Override PhoneRecognizer with leniency=0, add regression tests
+- [x] 20-01-PLAN.md — Override PhoneRecognizer with leniency=0, add regression tests
 
 ### Phase 21: Location/Transfer Patterns
 **Goal**: Improve LOCATION recall from 20% to ≥60%
@@ -331,10 +331,10 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 17. Room Pattern Expansion | v2.3 | 3/3 | Complete | 2026-01-30 |
 | 18. Guardian Edge Cases | v2.3 | 3/3 | Complete | 2026-01-30 |
 | 19. Provider Name Detection | v2.3 | 0/4 | Planned | - |
-| 20. Phone/Pager Patterns | v2.3 | 0/1 | Planned | - |
+| 20. Phone/Pager Patterns | v2.3 | 1/1 | Complete | 2026-01-31 |
 | 21. Location/Transfer Patterns | v2.3 | 0/3 | Planned | - |
 | 22. Validation & Recall Targets | v2.3 | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-30 — Phase 21 planned (3 plans for LOCATION transfer/facility patterns)*
+*Last updated: 2026-01-31 — Phase 20 complete (PHONE_NUMBER recall 76% → 100%)*
