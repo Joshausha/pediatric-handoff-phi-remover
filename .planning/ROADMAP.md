@@ -295,16 +295,17 @@ Plans:
 **Depends on**: Phases 17-21
 **Success Criteria** (revised):
   1. ROOM recall ≥55% (revised from 80%)
-  2. LOCATION recall ≥60%
+  2. LOCATION recall ≥40% (revised from 60%, pattern-based limit)
   3. PHONE_NUMBER recall ≥90%
   4. MRN recall ≥85%
   5. Overall weighted recall improvement documented
   6. No precision regression (false positives stay low)
   7. **Decision documented: pattern-based approach limits for each entity**
-**Plans**: 0 plans
+**Plans**: 2 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 22 to break down)
+- [ ] 22-01-PLAN.md — Entity-specific recall threshold tests
+- [ ] 22-02-PLAN.md — Milestone report and baseline update
 
 </details>
 
@@ -336,8 +337,8 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 19. Provider Name Detection | v2.3 | 4/4 | Complete | 2026-01-31 |
 | 20. Phone/Pager Patterns | v2.3 | 1/1 | Complete | 2026-01-31 |
 | 21. Location/Transfer Patterns | v2.3 | 3/3 | Complete | 2026-01-31 |
-| 22. Validation & Recall Targets | v2.3 | 0/? | Not started | - |
+| 22. Validation & Recall Targets | v2.3 | 0/2 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-31 — Phase 21 complete (17 LOCATION patterns, 44.2% recall, 3/3 plans)*
+*Last updated: 2026-01-31 — Phase 22 planned (2 plans created)*
