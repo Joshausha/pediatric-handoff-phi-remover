@@ -6,7 +6,7 @@
 - ✅ **v2.0 CI/CD Pipeline Fix** - Phase 9 (shipped 2026-01-26)
 - ✅ **v2.1 Over-Detection Quality Pass** - Phases 10-12 (shipped 2026-01-28)
 - ✅ **v2.2 Dual-Weight Recall Framework** - Phases 13-16 (shipped 2026-01-30) → [archived](milestones/v2.2-ROADMAP.md)
-- 🚧 **v2.3 Recall Improvements** - Phases 17-22 (in progress)
+- ✅ **v2.3 Recall Improvements** - Phases 17-22 (shipped 2026-01-31)
 
 ## Phases
 
@@ -193,8 +193,8 @@ Plans:
 
 </details>
 
-<details open>
-<summary>🚧 v2.3 Recall Improvements (Phases 17-22) - IN PROGRESS</summary>
+<details>
+<summary>✅ v2.3 Recall Improvements (Phases 17-22) - SHIPPED 2026-01-31</summary>
 
 **Milestone Goal:** Close critical recall gaps in ROOM (32%), LOCATION (20%), PHONE (76%), and MRN (72%) entities while maintaining precision.
 
@@ -304,8 +304,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 22-01-PLAN.md — Entity-specific recall threshold tests
-- [ ] 22-02-PLAN.md — Milestone report and baseline update
+- [x] 22-01-PLAN.md — Entity-specific recall threshold tests
+- [x] 22-02-PLAN.md — Milestone report and baseline update
 
 </details>
 
@@ -337,8 +337,8 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 19. Provider Name Detection | v2.3 | 4/4 | Complete | 2026-01-31 |
 | 20. Phone/Pager Patterns | v2.3 | 1/1 | Complete | 2026-01-31 |
 | 21. Location/Transfer Patterns | v2.3 | 3/3 | Complete | 2026-01-31 |
-| 22. Validation & Recall Targets | v2.3 | 0/2 | Not started | - |
+| 22. Validation & Recall Targets | v2.3 | 2/2 | Complete | 2026-01-31 |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-31 — Phase 22 planned (2 plans created)*
+*Last updated: 2026-01-31 — v2.3 Recall Improvements milestone complete (shipped)*
