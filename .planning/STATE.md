@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 ## Current Position
 
-Phase: 19 of 22 (Provider Name Detection) - IN PROGRESS
-Plan: 2 of 4 completed
-Status: v2.3 in progress, Phase 19 Plan 02 complete (34 total patterns, role context + possessive)
-Last activity: 2026-01-31 — Completed 19-02-PLAN.md (role context patterns)
+Phase: 20 of 22 (Phone/Pager Patterns) - COMPLETE (1/1 plan)
+Plan: 1 of 1 completed
+Status: v2.3 in progress, Phase 20 Plan 01 complete (PHONE_NUMBER recall 100%)
+Last activity: 2026-01-31 — Completed 20-01-PLAN.md (phone leniency override)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [########  ] 71% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [########  ] 79% v2.3
 
 ## Milestones Shipped
 
@@ -32,7 +32,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 - Phase 17: Room Pattern Expansion (Precision 52%, Recall 98%, F1 68%) - COMPLETE (3/3 plans)
 - Phase 18: Guardian Edge Cases (101 patterns, recall +2.65pp) - COMPLETE (3/3 plans)
 - Phase 19: Provider Name Detection (34 patterns, plan 2/4 complete) - IN PROGRESS
-- Phase 20: Phone/Pager Patterns (76% → ≥90%) - NOT STARTED
+- Phase 20: Phone/Pager Patterns (76% → 100%) - COMPLETE (1/1 plan)
 - Phase 21: Location/Transfer Patterns (20% → ≥60%) - NOT STARTED
 - Phase 22: Validation & Recall Targets (end-to-end validation) - NOT STARTED
 
@@ -59,7 +59,6 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 Tracked via xfail markers in CI:
 
 **Under-detection:**
-- 7-digit phone numbers (555-0123)
 - Detailed ages (3 weeks 2 days)
 - Street addresses (425 Oak Street)
 - School names (Jefferson Elementary)
@@ -103,6 +102,8 @@ Recent decisions affecting v2.2-v2.3:
 - **PROVIDER-SCORE-0.85** (Phase 19-01): Title-prefixed patterns score 0.85 (common in speech), suffix patterns 0.80
 - **ROLE-CONTEXT-SCORE-0.85** (Phase 19-02): Role context patterns ("the attending is") use 0.85 score (same as title-prefixed)
 - **POSSESSIVE-FIXED-WIDTH-REUSE** (Phase 19-02): Reused Phase 18 fixed-width lookbehind approach for possessive provider patterns
+- **PHONE-LENIENCY-0** (Phase 20-01): Use leniency=0 (most lenient) for PhoneRecognizer to catch all valid formats including extensions and standard dash-separated numbers
+- **PHONE-REGISTRY-OVERRIDE** (Phase 20-01): Remove default PhoneRecognizer before adding custom one to prevent duplicate entities
 
 ### Pending Todos
 
@@ -146,10 +147,10 @@ Recent decisions affecting v2.2-v2.3:
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 19-02-PLAN.md — Role context patterns (23 new patterns: 8 role "is" + 15 possessive)
+Stopped at: Completed 20-01-PLAN.md — Phone leniency override (PHONE_NUMBER recall 100%)
 Resume file: None
-Next: Phase 19 Plan 03 (paged/called verb patterns), or Phase 20/21 (parallel execution possible)
+Next: Phase 19 Plan 03 (paged/called verb patterns), Phase 21 (Location/Transfer), or Phase 22 (validation)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-31 — Phase 19 Plan 02 complete (role context + possessive provider patterns)*
+*Last updated: 2026-01-31 — Phase 20 Plan 01 complete (phone leniency override, recall 76%→100%)*
