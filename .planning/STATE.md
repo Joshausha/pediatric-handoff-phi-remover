@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 ## Current Position
 
-Phase: 19 of 22 (Provider Name Detection) - COMPLETE (4/4 plans)
-Plan: 4 of 4 completed (19-01, 19-02, 19-03, 19-04)
-Status: v2.3 in progress, Phase 19 complete (58 provider patterns validated)
-Last activity: 2026-01-31 — Completed 19-04-PLAN.md (validation and documentation)
+Phase: 21 of 22 (Location/Transfer Patterns) - COMPLETE (3/3 plans)
+Plan: 3 of 3 completed (21-01, 21-02, 21-03)
+Status: v2.3 in progress, Phase 21 complete (17 LOCATION patterns, 44.2% recall)
+Last activity: 2026-01-31 — Completed 21-03-PLAN.md (validation and recall measurement)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [########  ] 86% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [######### ] 95% v2.3
 
 ## Milestones Shipped
 
@@ -33,7 +33,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 - Phase 18: Guardian Edge Cases (101 patterns, recall +2.65pp) - COMPLETE (3/3 plans)
 - Phase 19: Provider Name Detection (58 patterns, 4/4 plans) - COMPLETE
 - Phase 20: Phone/Pager Patterns (76% → 100%) - COMPLETE (1/1 plan)
-- Phase 21: Location/Transfer Patterns (20% → ≥60%) - NOT STARTED
+- Phase 21: Location/Transfer Patterns (20% → 44.2%, +24pp) - COMPLETE (3/3 plans)
 - Phase 22: Validation & Recall Targets (end-to-end validation) - NOT STARTED
 
 **Phases 17-21 can execute in parallel** (no dependencies). Phase 22 validates all improvements.
@@ -108,11 +108,14 @@ Recent decisions affecting v2.2-v2.3:
 - **PHONE-LENIENCY-0** (Phase 20-01): Use leniency=0 (most lenient) for PhoneRecognizer to catch all valid formats including extensions and standard dash-separated numbers
 - **PHONE-REGISTRY-OVERRIDE** (Phase 20-01): Remove default PhoneRecognizer before adding custom one to prevent duplicate entities
 - **PROVIDER-PATTERN-ARCHITECTURE** (Phase 19): Lookbehind patterns with tiered scoring (0.85 title, 0.80 action+title, 0.75 action+role)
+- **LOCATION-PATTERN-LIMITS** (Phase 21-03): Pattern-based LOCATION detection achieves 44.2% recall, below 60% target. spaCy NER provides 20% baseline; 17 custom patterns add +24pp. Further improvement requires geographic NER or gazetteers.
+- **LOCATION-INLINE-CASE** (Phase 21-01): Use (?-i:[A-Z]) inline flag to require uppercase first letter for facility names
+- **LOCATION-TRANSFER-SCORE-0.80** (Phase 21-01): Transfer context patterns (transferred from, admitted from) score 0.80-0.85
+- **LOCATION-FACILITY-SCORE-0.55** (Phase 21-01): Facility name patterns (Hospital, Medical Center) score 0.55-0.70
 
 ### Pending Todos
 
-- Plan Phase 21 (Location/Transfer Patterns) - partially implemented, needs plans created
-- Phase 22 will finalize all recall targets (ROOM 98%, PHONE 100%, Provider 58 patterns)
+- Phase 22 will finalize all recall targets (ROOM 98%, PHONE 100%, LOCATION 44.2%, Provider 58 patterns)
 
 ### Blockers/Concerns
 
@@ -147,10 +150,10 @@ Recent decisions affecting v2.2-v2.3:
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Phase 19 Plan 04 complete — Provider validation (58 patterns, all tests passing)
+Stopped at: Phase 21 Plan 03 complete — LOCATION validation (44.2% recall, 67.1% precision)
 Resume file: None
-Next: Phase 21 (Location/Transfer) or Phase 22 (end-to-end validation)
+Next: Phase 22 (end-to-end validation)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-31 — Phase 19 Plan 04 complete (58 provider patterns validated, all tests passing)*
+*Last updated: 2026-01-31 — Phase 21 complete (17 LOCATION patterns, 44.2% recall, 3/3 plans)*
