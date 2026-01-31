@@ -176,6 +176,108 @@ def get_provider_recognizers() -> list[PatternRecognizer]:
             regex=r"(?<=the PA is )(?-i:[A-Z][a-z]+)\b",
             score=0.85
         ),
+
+        # =================================================================
+        # Possessive role patterns: "his/her/their [role] [Name]" (score 0.85)
+        # Each pronoun length requires separate pattern (fixed-width lookbehind)
+        # CRITICAL: Use (?-i:...) for case-sensitive name matching
+        # =================================================================
+
+        # --- his [role] patterns (3 char pronoun) ---
+        # "his nurse " = 10 chars
+        Pattern(
+            name="his_nurse_name",
+            regex=r"(?<=his nurse )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "his doctor " = 11 chars
+        Pattern(
+            name="his_doctor_name",
+            regex=r"(?<=his doctor )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "his attending " = 14 chars
+        Pattern(
+            name="his_attending_name",
+            regex=r"(?<=his attending )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "his fellow " = 11 chars
+        Pattern(
+            name="his_fellow_name",
+            regex=r"(?<=his fellow )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "his resident " = 13 chars
+        Pattern(
+            name="his_resident_name",
+            regex=r"(?<=his resident )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+
+        # --- her [role] patterns (3 char pronoun) ---
+        # "her nurse " = 10 chars
+        Pattern(
+            name="her_nurse_name",
+            regex=r"(?<=her nurse )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "her doctor " = 11 chars
+        Pattern(
+            name="her_doctor_name",
+            regex=r"(?<=her doctor )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "her attending " = 14 chars
+        Pattern(
+            name="her_attending_name",
+            regex=r"(?<=her attending )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "her fellow " = 11 chars
+        Pattern(
+            name="her_fellow_name",
+            regex=r"(?<=her fellow )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "her resident " = 13 chars
+        Pattern(
+            name="her_resident_name",
+            regex=r"(?<=her resident )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+
+        # --- their [role] patterns (5 char pronoun) ---
+        # "their nurse " = 12 chars
+        Pattern(
+            name="their_nurse_name",
+            regex=r"(?<=their nurse )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "their doctor " = 13 chars
+        Pattern(
+            name="their_doctor_name",
+            regex=r"(?<=their doctor )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "their attending " = 16 chars
+        Pattern(
+            name="their_attending_name",
+            regex=r"(?<=their attending )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "their fellow " = 13 chars
+        Pattern(
+            name="their_fellow_name",
+            regex=r"(?<=their fellow )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
+        # "their resident " = 15 chars
+        Pattern(
+            name="their_resident_name",
+            regex=r"(?<=their resident )(?-i:[A-Z][a-z]+)\b",
+            score=0.85
+        ),
     ]
 
     provider_recognizer = PatternRecognizer(
