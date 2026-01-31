@@ -278,6 +278,119 @@ def get_provider_recognizers() -> list[PatternRecognizer]:
             regex=r"(?<=their resident )(?-i:[A-Z][a-z]+)\b",
             score=0.85
         ),
+
+        # =================================================================
+        # Action context patterns: "paged/called/with Dr. [Name]" (score 0.80)
+        # Communication verbs provide strong context for provider names
+        # Using lookbehind to match ONLY the name
+        # CRITICAL: Use (?-i:...) for case-sensitive matching
+        # =================================================================
+
+        # --- "paged Dr" patterns ---
+        # "paged Dr. " = 10 chars
+        Pattern(
+            name="paged_dr_period_name",
+            regex=r"(?<=paged Dr\. )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "paged Dr " = 9 chars
+        Pattern(
+            name="paged_dr_name",
+            regex=r"(?<=paged Dr )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+
+        # --- "called Dr" patterns ---
+        # "called Dr. " = 11 chars
+        Pattern(
+            name="called_dr_period_name",
+            regex=r"(?<=called Dr\. )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "called Dr " = 10 chars
+        Pattern(
+            name="called_dr_name",
+            regex=r"(?<=called Dr )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+
+        # --- "with Dr" patterns (common in "spoke with", "discussed with", etc.) ---
+        # "with Dr. " = 9 chars
+        Pattern(
+            name="with_dr_period_name",
+            regex=r"(?<=with Dr\. )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "with Dr " = 8 chars
+        Pattern(
+            name="with_dr_name",
+            regex=r"(?<=with Dr )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+
+        # --- "by Dr" patterns (passive voice: "ordered by Dr. Smith") ---
+        # "by Dr. " = 7 chars
+        Pattern(
+            name="by_dr_period_name",
+            regex=r"(?<=by Dr\. )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "by Dr " = 6 chars
+        Pattern(
+            name="by_dr_name",
+            regex=r"(?<=by Dr )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+
+        # --- Action + NP/PA patterns ---
+        # "paged NP " = 9 chars
+        Pattern(
+            name="paged_np_name",
+            regex=r"(?<=paged NP )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "called NP " = 10 chars
+        Pattern(
+            name="called_np_name",
+            regex=r"(?<=called NP )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "with NP " = 8 chars
+        Pattern(
+            name="with_np_name",
+            regex=r"(?<=with NP )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "by NP " = 6 chars
+        Pattern(
+            name="by_np_name",
+            regex=r"(?<=by NP )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "paged PA " = 9 chars
+        Pattern(
+            name="paged_pa_name",
+            regex=r"(?<=paged PA )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "called PA " = 10 chars
+        Pattern(
+            name="called_pa_name",
+            regex=r"(?<=called PA )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "with PA " = 8 chars
+        Pattern(
+            name="with_pa_name",
+            regex=r"(?<=with PA )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
+        # "by PA " = 6 chars
+        Pattern(
+            name="by_pa_name",
+            regex=r"(?<=by PA )(?-i:[A-Z][a-z]+)\b",
+            score=0.80
+        ),
     ]
 
     provider_recognizer = PatternRecognizer(
