@@ -164,6 +164,143 @@ def get_pediatric_recognizers() -> list[PatternRecognizer]:
         ),
 
         # =================================================================
+        # Possessive patterns: "his mom Sarah", "her dad Tom" (score 0.85)
+        # Using lookbehind to match ONLY the name
+        # =================================================================
+
+        # --- his + relationship (3 + space + relationship + space) ---
+        # "his mom " = 8 chars
+        Pattern(name="his_mom_name", regex=r"(?i)(?<=his mom )[a-z][a-z]+\b", score=0.85),
+        # "his mother " = 11 chars
+        Pattern(name="his_mother_name", regex=r"(?i)(?<=his mother )[a-z][a-z]+\b", score=0.85),
+        # "his mommy " = 10 chars
+        Pattern(name="his_mommy_name", regex=r"(?i)(?<=his mommy )[a-z][a-z]+\b", score=0.85),
+        # "his dad " = 8 chars
+        Pattern(name="his_dad_name", regex=r"(?i)(?<=his dad )[a-z][a-z]+\b", score=0.85),
+        # "his father " = 11 chars
+        Pattern(name="his_father_name", regex=r"(?i)(?<=his father )[a-z][a-z]+\b", score=0.85),
+        # "his daddy " = 10 chars
+        Pattern(name="his_daddy_name", regex=r"(?i)(?<=his daddy )[a-z][a-z]+\b", score=0.85),
+        # "his grandma " = 12 chars
+        Pattern(name="his_grandma_name", regex=r"(?i)(?<=his grandma )[a-z][a-z]+\b", score=0.85),
+        # "his grandmother " = 16 chars
+        Pattern(name="his_grandmother_name", regex=r"(?i)(?<=his grandmother )[a-z][a-z]+\b", score=0.85),
+        # "his grandpa " = 12 chars
+        Pattern(name="his_grandpa_name", regex=r"(?i)(?<=his grandpa )[a-z][a-z]+\b", score=0.85),
+        # "his grandfather " = 16 chars
+        Pattern(name="his_grandfather_name", regex=r"(?i)(?<=his grandfather )[a-z][a-z]+\b", score=0.85),
+        # "his nana " = 9 chars
+        Pattern(name="his_nana_name", regex=r"(?i)(?<=his nana )[a-z][a-z]+\b", score=0.85),
+        # "his papa " = 9 chars
+        Pattern(name="his_papa_name", regex=r"(?i)(?<=his papa )[a-z][a-z]+\b", score=0.85),
+        # "his granny " = 11 chars
+        Pattern(name="his_granny_name", regex=r"(?i)(?<=his granny )[a-z][a-z]+\b", score=0.85),
+        # "his aunt " = 9 chars
+        Pattern(name="his_aunt_name", regex=r"(?i)(?<=his aunt )[a-z][a-z]+\b", score=0.85),
+        # "his auntie " = 11 chars
+        Pattern(name="his_auntie_name", regex=r"(?i)(?<=his auntie )[a-z][a-z]+\b", score=0.85),
+        # "his uncle " = 10 chars
+        Pattern(name="his_uncle_name", regex=r"(?i)(?<=his uncle )[a-z][a-z]+\b", score=0.85),
+        # "his guardian " = 13 chars
+        Pattern(name="his_guardian_name", regex=r"(?i)(?<=his guardian )[a-z][a-z]+\b", score=0.85),
+
+        # --- her + relationship (3 + space + relationship + space) ---
+        # "her mom " = 8 chars
+        Pattern(name="her_mom_name", regex=r"(?i)(?<=her mom )[a-z][a-z]+\b", score=0.85),
+        # "her mother " = 11 chars
+        Pattern(name="her_mother_name", regex=r"(?i)(?<=her mother )[a-z][a-z]+\b", score=0.85),
+        # "her mommy " = 10 chars
+        Pattern(name="her_mommy_name", regex=r"(?i)(?<=her mommy )[a-z][a-z]+\b", score=0.85),
+        # "her dad " = 8 chars
+        Pattern(name="her_dad_name", regex=r"(?i)(?<=her dad )[a-z][a-z]+\b", score=0.85),
+        # "her father " = 11 chars
+        Pattern(name="her_father_name", regex=r"(?i)(?<=her father )[a-z][a-z]+\b", score=0.85),
+        # "her daddy " = 10 chars
+        Pattern(name="her_daddy_name", regex=r"(?i)(?<=her daddy )[a-z][a-z]+\b", score=0.85),
+        # "her grandma " = 12 chars
+        Pattern(name="her_grandma_name", regex=r"(?i)(?<=her grandma )[a-z][a-z]+\b", score=0.85),
+        # "her grandmother " = 16 chars
+        Pattern(name="her_grandmother_name", regex=r"(?i)(?<=her grandmother )[a-z][a-z]+\b", score=0.85),
+        # "her grandpa " = 12 chars
+        Pattern(name="her_grandpa_name", regex=r"(?i)(?<=her grandpa )[a-z][a-z]+\b", score=0.85),
+        # "her grandfather " = 16 chars
+        Pattern(name="her_grandfather_name", regex=r"(?i)(?<=her grandfather )[a-z][a-z]+\b", score=0.85),
+        # "her nana " = 9 chars
+        Pattern(name="her_nana_name", regex=r"(?i)(?<=her nana )[a-z][a-z]+\b", score=0.85),
+        # "her papa " = 9 chars
+        Pattern(name="her_papa_name", regex=r"(?i)(?<=her papa )[a-z][a-z]+\b", score=0.85),
+        # "her granny " = 11 chars
+        Pattern(name="her_granny_name", regex=r"(?i)(?<=her granny )[a-z][a-z]+\b", score=0.85),
+        # "her aunt " = 9 chars
+        Pattern(name="her_aunt_name", regex=r"(?i)(?<=her aunt )[a-z][a-z]+\b", score=0.85),
+        # "her auntie " = 11 chars
+        Pattern(name="her_auntie_name", regex=r"(?i)(?<=her auntie )[a-z][a-z]+\b", score=0.85),
+        # "her uncle " = 10 chars
+        Pattern(name="her_uncle_name", regex=r"(?i)(?<=her uncle )[a-z][a-z]+\b", score=0.85),
+        # "her guardian " = 13 chars
+        Pattern(name="her_guardian_name", regex=r"(?i)(?<=her guardian )[a-z][a-z]+\b", score=0.85),
+
+        # --- their + relationship (5 + space + relationship + space) ---
+        # "their mom " = 10 chars
+        Pattern(name="their_mom_name", regex=r"(?i)(?<=their mom )[a-z][a-z]+\b", score=0.85),
+        # "their mother " = 13 chars
+        Pattern(name="their_mother_name", regex=r"(?i)(?<=their mother )[a-z][a-z]+\b", score=0.85),
+        # "their mommy " = 12 chars
+        Pattern(name="their_mommy_name", regex=r"(?i)(?<=their mommy )[a-z][a-z]+\b", score=0.85),
+        # "their dad " = 10 chars
+        Pattern(name="their_dad_name", regex=r"(?i)(?<=their dad )[a-z][a-z]+\b", score=0.85),
+        # "their father " = 13 chars
+        Pattern(name="their_father_name", regex=r"(?i)(?<=their father )[a-z][a-z]+\b", score=0.85),
+        # "their daddy " = 12 chars
+        Pattern(name="their_daddy_name", regex=r"(?i)(?<=their daddy )[a-z][a-z]+\b", score=0.85),
+        # "their grandma " = 14 chars
+        Pattern(name="their_grandma_name", regex=r"(?i)(?<=their grandma )[a-z][a-z]+\b", score=0.85),
+        # "their grandmother " = 18 chars
+        Pattern(name="their_grandmother_name", regex=r"(?i)(?<=their grandmother )[a-z][a-z]+\b", score=0.85),
+        # "their grandpa " = 14 chars
+        Pattern(name="their_grandpa_name", regex=r"(?i)(?<=their grandpa )[a-z][a-z]+\b", score=0.85),
+        # "their grandfather " = 18 chars
+        Pattern(name="their_grandfather_name", regex=r"(?i)(?<=their grandfather )[a-z][a-z]+\b", score=0.85),
+        # "their nana " = 11 chars
+        Pattern(name="their_nana_name", regex=r"(?i)(?<=their nana )[a-z][a-z]+\b", score=0.85),
+        # "their papa " = 11 chars
+        Pattern(name="their_papa_name", regex=r"(?i)(?<=their papa )[a-z][a-z]+\b", score=0.85),
+        # "their granny " = 13 chars
+        Pattern(name="their_granny_name", regex=r"(?i)(?<=their granny )[a-z][a-z]+\b", score=0.85),
+        # "their aunt " = 11 chars
+        Pattern(name="their_aunt_name", regex=r"(?i)(?<=their aunt )[a-z][a-z]+\b", score=0.85),
+        # "their auntie " = 13 chars
+        Pattern(name="their_auntie_name", regex=r"(?i)(?<=their auntie )[a-z][a-z]+\b", score=0.85),
+        # "their uncle " = 12 chars
+        Pattern(name="their_uncle_name", regex=r"(?i)(?<=their uncle )[a-z][a-z]+\b", score=0.85),
+        # "their guardian " = 15 chars
+        Pattern(name="their_guardian_name", regex=r"(?i)(?<=their guardian )[a-z][a-z]+\b", score=0.85),
+
+        # --- patient's + relationship ---
+        # "patient's mom " = 14 chars
+        Pattern(name="patients_mom_name", regex=r"(?i)(?<=patient's mom )[a-z][a-z]+\b", score=0.85),
+        # "patient's dad " = 14 chars
+        Pattern(name="patients_dad_name", regex=r"(?i)(?<=patient's dad )[a-z][a-z]+\b", score=0.85),
+        # "patient's mother " = 17 chars
+        Pattern(name="patients_mother_name", regex=r"(?i)(?<=patient's mother )[a-z][a-z]+\b", score=0.85),
+        # "patient's father " = 17 chars
+        Pattern(name="patients_father_name", regex=r"(?i)(?<=patient's father )[a-z][a-z]+\b", score=0.85),
+        # "patient's guardian " = 19 chars
+        Pattern(name="patients_guardian_name", regex=r"(?i)(?<=patient's guardian )[a-z][a-z]+\b", score=0.85),
+
+        # --- baby's + relationship ---
+        # "baby's mom " = 11 chars
+        Pattern(name="babys_mom_name", regex=r"(?i)(?<=baby's mom )[a-z][a-z]+\b", score=0.85),
+        # "baby's dad " = 11 chars
+        Pattern(name="babys_dad_name", regex=r"(?i)(?<=baby's dad )[a-z][a-z]+\b", score=0.85),
+
+        # --- child's + relationship ---
+        # "child's mom " = 12 chars
+        Pattern(name="childs_mom_name", regex=r"(?i)(?<=child's mom )[a-z][a-z]+\b", score=0.85),
+        # "child's dad " = 12 chars
+        Pattern(name="childs_dad_name", regex=r"(?i)(?<=child's dad )[a-z][a-z]+\b", score=0.85),
+
+        # =================================================================
         # Bidirectional patterns: "Jessica is Mom" (score 0.80)
         # Using lookahead to match ONLY the name before "is [relationship]"
         # =================================================================
