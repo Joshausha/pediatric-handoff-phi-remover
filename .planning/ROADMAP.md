@@ -228,15 +228,17 @@ Plans:
 **Goal**: Catch possessive and appositive guardian name patterns
 **Depends on**: Nothing (can start immediately)
 **Success Criteria**:
-  1. "his mom Sarah" / "her dad Tom" (possessive + relationship) detected
-  2. "the mom, Jessica" (appositive with comma) detected
-  3. "grandma's here, her name is Maria" detected
-  4. GUARDIAN_NAME recall improved without new false positives
-  5. Existing guardian patterns unaffected
-**Plans**: 0 plans
+  1. "his mom Sarah" / "her dad Tom" (possessive + relationship) detected ✓
+  2. "the mom, Jessica" (appositive with comma) detected ✓
+  3. "grandma's here, her name is Maria" detected ✓
+  4. GUARDIAN_NAME recall improved without new false positives ✓ (86.4% → 89.1%)
+  5. Existing guardian patterns unaffected ✓
+**Plans**: 3 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 18 to break down)
+- [x] 18-01-PLAN.md — Possessive guardian patterns (his/her/their + relationship words)
+- [x] 18-02-PLAN.md — Appositive guardian patterns (comma, dash, parenthesis)
+- [x] 18-03-PLAN.md — Validation and recall measurement
 
 ### Phase 19: Provider Name Detection
 **Goal**: Detect provider names in clinical handoff context
@@ -322,7 +324,7 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 15. Documentation | v2.2 | 1/1 | Complete | 2026-01-29 |
 | 16. Integration Validation | v2.2 | 2/2 | Complete | 2026-01-30 |
 | 17. Room Pattern Expansion | v2.3 | 3/3 | Complete | 2026-01-30 |
-| 18. Guardian Edge Cases | v2.3 | 0/? | Not started | - |
+| 18. Guardian Edge Cases | v2.3 | 3/3 | Complete | 2026-01-30 |
 | 19. Provider Name Detection | v2.3 | 0/? | Not started | - |
 | 20. Phone/Pager Patterns | v2.3 | 0/? | Not started | - |
 | 21. Location/Transfer Patterns | v2.3 | 0/? | Not started | - |
@@ -330,4 +332,4 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-30 — Phase 17 complete (ROOM: 95.6% recall, 52.4% precision)*
+*Last updated: 2026-01-30 — Phase 18 complete (Guardian: +2.65pp recall, 106 new patterns)*
