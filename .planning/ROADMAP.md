@@ -280,10 +280,12 @@ Plans:
   3. PCP office names detected with clinic context
   4. LOCATION recall ≥60% on validation set
   5. Hospital unit names (PICU, ED) remain on deny list
-**Plans**: 0 plans
+**Plans**: 3 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 21 to break down)
+- [ ] 21-01-PLAN.md — Transfer context patterns (transferred from, admitted from, etc.)
+- [ ] 21-02-PLAN.md — Facility names and residential address patterns
+- [ ] 21-03-PLAN.md — Validation and recall measurement
 
 ### Phase 22: Validation & Recall Targets
 **Goal**: End-to-end validation confirming all recall targets met
@@ -330,9 +332,9 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 18. Guardian Edge Cases | v2.3 | 3/3 | Complete | 2026-01-30 |
 | 19. Provider Name Detection | v2.3 | 0/4 | Planned | - |
 | 20. Phone/Pager Patterns | v2.3 | 0/1 | Planned | - |
-| 21. Location/Transfer Patterns | v2.3 | 0/? | Not started | - |
+| 21. Location/Transfer Patterns | v2.3 | 0/3 | Planned | - |
 | 22. Validation & Recall Targets | v2.3 | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-30 — Phase 20 planned (1 plan for PhoneRecognizer leniency override)*
+*Last updated: 2026-01-30 — Phase 21 planned (3 plans for LOCATION transfer/facility patterns)*
