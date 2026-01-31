@@ -252,10 +252,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 19-01-PLAN.md — Title-prefixed patterns (Dr., NP, PA, RN)
-- [ ] 19-02-PLAN.md — Role context patterns (attending, nurse, fellow, resident)
-- [ ] 19-03-PLAN.md — Action context patterns (paged, called, spoke with)
-- [ ] 19-04-PLAN.md — Validation and documentation
+- [x] 19-01-PLAN.md — Title-prefixed patterns (Dr., NP, PA, RN)
+- [x] 19-02-PLAN.md — Role context patterns (attending, nurse, fellow, resident)
+- [x] 19-03-PLAN.md — Action context patterns (paged, called, spoke with)
+- [x] 19-04-PLAN.md — Validation and documentation
 
 ### Phase 20: Phone/Pager Patterns
 **Goal**: Improve PHONE_NUMBER recall from 76% to ≥90%
@@ -330,11 +330,11 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 16. Integration Validation | v2.2 | 2/2 | Complete | 2026-01-30 |
 | 17. Room Pattern Expansion | v2.3 | 3/3 | Complete | 2026-01-30 |
 | 18. Guardian Edge Cases | v2.3 | 3/3 | Complete | 2026-01-30 |
-| 19. Provider Name Detection | v2.3 | 0/4 | Planned | - |
+| 19. Provider Name Detection | v2.3 | 4/4 | Complete | 2026-01-31 |
 | 20. Phone/Pager Patterns | v2.3 | 1/1 | Complete | 2026-01-31 |
 | 21. Location/Transfer Patterns | v2.3 | 0/3 | Planned | - |
 | 22. Validation & Recall Targets | v2.3 | 0/? | Not started | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-31 — Phase 20 complete (PHONE_NUMBER recall 76% → 100%)*
+*Last updated: 2026-01-31 — Phase 19 complete (58 provider patterns, 4/4 plans)*

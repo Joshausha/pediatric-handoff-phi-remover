@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 19 of 22 (Provider Name Detection) - COMPLETE (4/4 plans)
-Plan: 3 of 3 completed (19-01, 19-02, 19-03)
-Status: v2.3 in progress, Phase 19 Plan 03 complete (58 total provider patterns)
-Last activity: 2026-01-31 — Completed 19-03-PLAN.md (action context patterns)
+Plan: 4 of 4 completed (19-01, 19-02, 19-03, 19-04)
+Status: v2.3 in progress, Phase 19 complete (58 provider patterns validated)
+Last activity: 2026-01-31 — Completed 19-04-PLAN.md (validation and documentation)
 
 Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [########  ] 86% v2.3
 
@@ -31,7 +31,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 
 - Phase 17: Room Pattern Expansion (Precision 52%, Recall 98%, F1 68%) - COMPLETE (3/3 plans)
 - Phase 18: Guardian Edge Cases (101 patterns, recall +2.65pp) - COMPLETE (3/3 plans)
-- Phase 19: Provider Name Detection (58 patterns, plan 3/3 complete) - COMPLETE
+- Phase 19: Provider Name Detection (58 patterns, 4/4 plans) - COMPLETE
 - Phase 20: Phone/Pager Patterns (76% → 100%) - COMPLETE (1/1 plan)
 - Phase 21: Location/Transfer Patterns (20% → ≥60%) - NOT STARTED
 - Phase 22: Validation & Recall Targets (end-to-end validation) - NOT STARTED
@@ -107,15 +107,12 @@ Recent decisions affecting v2.2-v2.3:
 - **TIME-REDACTION-ACCEPTABLE** (Phase 19-03): Times like "3am" may be redacted as DATE_TIME - legitimate PHI detection
 - **PHONE-LENIENCY-0** (Phase 20-01): Use leniency=0 (most lenient) for PhoneRecognizer to catch all valid formats including extensions and standard dash-separated numbers
 - **PHONE-REGISTRY-OVERRIDE** (Phase 20-01): Remove default PhoneRecognizer before adding custom one to prevent duplicate entities
+- **PROVIDER-PATTERN-ARCHITECTURE** (Phase 19): Lookbehind patterns with tiered scoring (0.85 title, 0.80 action+title, 0.75 action+role)
 
 ### Pending Todos
 
-- Decide next direction: Continue recall improvements (Phase 18-21) OR focus on other milestones
-- Plan Phase 18 (Guardian Edge Cases) - if proceeding with recall improvements
-- Plan Phase 19 (Provider Name Detection) - if proceeding with recall improvements
-- Plan Phase 20 (Phone/Pager Patterns) - if proceeding with recall improvements
-- Plan Phase 21 (Location/Transfer Patterns) - if proceeding with recall improvements
-- Phase 22 will finalize all recall targets (ROOM far exceeds interim 55% target at 98%)
+- Plan Phase 21 (Location/Transfer Patterns) - partially implemented, needs plans created
+- Phase 22 will finalize all recall targets (ROOM 98%, PHONE 100%, Provider 58 patterns)
 
 ### Blockers/Concerns
 
@@ -150,10 +147,10 @@ Recent decisions affecting v2.2-v2.3:
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Phase 20 complete — PHONE_NUMBER recall 76% → 100% (leniency=0)
+Stopped at: Phase 19 Plan 04 complete — Provider validation (58 patterns, all tests passing)
 Resume file: None
 Next: Phase 21 (Location/Transfer) or Phase 22 (end-to-end validation)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-31 — Phase 20 complete (PhoneRecognizer leniency=0, PHONE_NUMBER recall 100%)*
+*Last updated: 2026-01-31 — Phase 19 Plan 04 complete (58 provider patterns validated, all tests passing)*
