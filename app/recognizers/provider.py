@@ -391,6 +391,64 @@ def get_provider_recognizers() -> list[PatternRecognizer]:
             regex=r"(?<=by PA )(?-i:[A-Z][a-z]+)\b",
             score=0.80
         ),
+
+        # =================================================================
+        # Action + role patterns: "paged the [role] [Name]" (score 0.75)
+        # Less specific than title patterns, so slightly lower score
+        # Using lookbehind to match ONLY the name
+        # =================================================================
+
+        # --- "paged the [role]" patterns ---
+        # "paged the attending " = 20 chars
+        Pattern(
+            name="paged_attending_name",
+            regex=r"(?<=paged the attending )(?-i:[A-Z][a-z]+)\b",
+            score=0.75
+        ),
+        # "paged the fellow " = 17 chars
+        Pattern(
+            name="paged_fellow_name",
+            regex=r"(?<=paged the fellow )(?-i:[A-Z][a-z]+)\b",
+            score=0.75
+        ),
+        # "paged the resident " = 19 chars
+        Pattern(
+            name="paged_resident_name",
+            regex=r"(?<=paged the resident )(?-i:[A-Z][a-z]+)\b",
+            score=0.75
+        ),
+        # "paged the nurse " = 16 chars
+        Pattern(
+            name="paged_nurse_name",
+            regex=r"(?<=paged the nurse )(?-i:[A-Z][a-z]+)\b",
+            score=0.75
+        ),
+
+        # --- "called the [role]" patterns ---
+        # "called the attending " = 21 chars
+        Pattern(
+            name="called_attending_name",
+            regex=r"(?<=called the attending )(?-i:[A-Z][a-z]+)\b",
+            score=0.75
+        ),
+        # "called the fellow " = 18 chars
+        Pattern(
+            name="called_fellow_name",
+            regex=r"(?<=called the fellow )(?-i:[A-Z][a-z]+)\b",
+            score=0.75
+        ),
+        # "called the resident " = 20 chars
+        Pattern(
+            name="called_resident_name",
+            regex=r"(?<=called the resident )(?-i:[A-Z][a-z]+)\b",
+            score=0.75
+        ),
+        # "called the nurse " = 17 chars
+        Pattern(
+            name="called_nurse_name",
+            regex=r"(?<=called the nurse )(?-i:[A-Z][a-z]+)\b",
+            score=0.75
+        ),
     ]
 
     provider_recognizer = PatternRecognizer(
