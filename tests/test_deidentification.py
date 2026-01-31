@@ -1279,6 +1279,12 @@ PHONE_NUMBER_EDGE_CASES = [
     ("Contact number 2385860868", "2385860868", "unformatted_10digit_contact"),
     ("Reach parent at pager 5551234567", "5551234567", "unformatted_10digit_pager"),
     ("Cell 9876543210 for mom", "9876543210", "unformatted_10digit_cell"),
+    # Phase 20: Leniency=0 fixes for false negatives
+    ("Contact dad at 264-517-0805x310 for updates", "264-517-0805x310", "domestic_ext_x"),
+    ("Call Mark Warner at 576-959-1803 for pickup", "576-959-1803", "standard_dash"),
+    ("Call Dr. Scott at 291-938-0003", "291-938-0003", "standard_dash_2"),
+    ("Reach Dr. Huang at 560-913-6730x371", "560-913-6730x371", "domestic_ext_x_2"),
+    ("Dr. Carson at 394-678-7300x2447", "394-678-7300x2447", "domestic_ext_long"),
 ]
 
 
