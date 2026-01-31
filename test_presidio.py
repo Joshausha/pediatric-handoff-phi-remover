@@ -111,6 +111,32 @@ TEST_CASES = [
         "must_preserve": ["attending", "call"],
     },
 
+    # === PROVIDER ROLE CONTEXT PATTERNS (Phase 19-02) ===
+    {
+        "name": "Provider - the attending is",
+        "input": "The attending is Rodriguez and covering all admissions.",
+        "must_redact": ["Rodriguez"],
+        "must_preserve": ["attending", "covering", "admissions"],
+    },
+    {
+        "name": "Provider - his nurse",
+        "input": "His nurse Sarah gave meds at 2pm.",
+        "must_redact": ["Sarah"],
+        "must_preserve": ["His", "nurse", "meds"],
+    },
+    {
+        "name": "Provider - her doctor",
+        "input": "Her doctor Dr. Patel ordered labs.",
+        "must_redact": ["Patel"],
+        "must_preserve": ["Her", "doctor", "Dr.", "labs"],
+    },
+    {
+        "name": "Provider - standalone role (should NOT redact)",
+        "input": "The nurse is busy with another patient.",
+        "must_redact": [],
+        "must_preserve": ["nurse", "busy", "patient"],
+    },
+
     # === AGES (Pediatric-specific) ===
     {
         "name": "Age - weeks and days",
