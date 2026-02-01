@@ -158,7 +158,8 @@ def _get_entity_threshold(entity_type: str) -> float:
 
 def deidentify_text(
     text: str,
-    strategy: str = "type_marker"
+    strategy: str = "type_marker",
+    transfer_facility_mode: str | None = None
 ) -> DeidentificationResult:
     """
     Remove PHI from text using Presidio.
@@ -169,10 +170,18 @@ def deidentify_text(
             - "type_marker": [NAME], [PHONE], [DATE], etc. (default, most readable)
             - "redact": [REDACTED] for all PHI
             - "mask": **** asterisks
+        transfer_facility_mode: Transfer facility handling mode
+            - None (default): Use settings.transfer_facility_mode
+            - "conservative": Redact all LOCATION entities (HIPAA Safe Harbor)
+            - "clinical": Preserve LOCATION entities (care coordination)
 
     Returns:
         DeidentificationResult with clean text and entity details
     """
+    # Resolve transfer facility mode (use setting if not specified)
+    if transfer_facility_mode is None:
+        transfer_facility_mode = settings.transfer_facility_mode
+
     analyzer, anonymizer = _get_engines()
 
     # Analyze text for PHI entities with minimum threshold (get all candidates)
@@ -283,7 +292,16 @@ def deidentify_text(
                 "[Location]": "[LOCATION]",
             }
             marker = marker_map.get(marker, marker)
-            operators[entity_type] = OperatorConfig("replace", {"new_value": marker})
+
+            # LOCATION handling: conditional on transfer_facility_mode (Phase 23)
+            if entity_type == "LOCATION" and transfer_facility_mode == "clinical":
+                # Clinical mode: preserve LOCATION entities (for transfer facilities)
+                # Uses Presidio "keep" operator which leaves text unchanged
+                operators[entity_type] = OperatorConfig("keep", {})
+                logger.debug("Clinical mode: LOCATION entities will be preserved")
+            else:
+                # Conservative mode (default): redact all PHI
+                operators[entity_type] = OperatorConfig("replace", {"new_value": marker})
 
     elif strategy == "redact":
         operators = {
