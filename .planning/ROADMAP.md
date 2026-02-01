@@ -7,6 +7,7 @@
 - ✅ **v2.1 Over-Detection Quality Pass** - Phases 10-12 (shipped 2026-01-28)
 - ✅ **v2.2 Dual-Weight Recall Framework** - Phases 13-16 (shipped 2026-01-30) → [archived](milestones/v2.2-ROADMAP.md)
 - ✅ **v2.3 Recall Improvements** - Phases 17-22 (shipped 2026-01-31)
+- 🚧 **v2.4 Clinical Utility Refinement** - Phase 23+ (in progress)
 
 ## Phases
 
@@ -309,10 +310,37 @@ Plans:
 
 </details>
 
+<details open>
+<summary>🚧 v2.4 Clinical Utility Refinement (Phase 23+) - IN PROGRESS</summary>
+
+**Milestone Goal:** Improve clinical utility by preserving context that aids care coordination without compromising PHI protection.
+
+### Phase 23: Transfer Facility Preservation
+**Goal**: Configurable preservation of transfer facility names for clinical workflows
+**Depends on**: Nothing (can start immediately)
+**Success Criteria**:
+  1. Conservative mode (default): "Transferred from Children's Hospital" → [LOCATION]
+  2. Clinical mode: "Transferred from Children's Hospital" preserves facility name
+  3. Patient home addresses redacted in conservative mode
+  4. Other PHI types still redacted in clinical mode
+  5. Configurable via UI radio buttons with clear HIPAA warning
+**Plans**: 2 plans
+
+Plans:
+- [ ] 23-01-PLAN.md — Backend config, conditional LOCATION operator, unit tests
+- [ ] 23-02-PLAN.md — Frontend UI, API parameter, verification
+
+**Details:**
+UAT feedback indicated transfer facility names are clinically relevant for care coordination and may not constitute direct patient PHI. This phase implements a two-mode configuration:
+- **Conservative mode** (default): HIPAA Safe Harbor compliant, redacts all LOCATION entities
+- **Clinical mode**: Preserves LOCATION entities for care coordination, with clear warning
+
+</details>
+
 ## Progress
 
 **Execution Order:**
-Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
+Phase 23 plans execute sequentially (01 → 02) due to backend dependency.
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -338,7 +366,8 @@ Phases 17-21 can execute in parallel (no dependencies). Phase 22 validates all.
 | 20. Phone/Pager Patterns | v2.3 | 1/1 | Complete | 2026-01-31 |
 | 21. Location/Transfer Patterns | v2.3 | 3/3 | Complete | 2026-01-31 |
 | 22. Validation & Recall Targets | v2.3 | 2/2 | Complete | 2026-01-31 |
+| 23. Transfer Facility Preservation | v2.4 | 0/2 | Planned | - |
 
 ---
 *Roadmap created: 2026-01-29*
-*Last updated: 2026-01-31 — v2.3 Recall Improvements milestone complete (shipped)*
+*Last updated: 2026-01-31 — Phase 23 planned (2 plans in 2 waves)*
