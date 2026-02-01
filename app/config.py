@@ -6,7 +6,7 @@ All settings can be overridden via environment variables or .env file.
 
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings
 
 
@@ -383,6 +383,29 @@ class Settings(BaseSettings):
         default="en_core_web_lg",
         description="SpaCy model for NER. Options: en_core_web_sm, en_core_web_md, en_core_web_lg"
     )
+
+    # =========================================================================
+    # Transfer Facility Configuration (Phase 23 - v2.4)
+    # =========================================================================
+    transfer_facility_mode: str = Field(
+        default="conservative",
+        description=(
+            "Transfer facility handling mode:\n"
+            "- 'conservative' (default): Redact all locations per HIPAA Safe Harbor\n"
+            "- 'clinical': Preserve transfer facility names for care coordination\n"
+            "WARNING: Clinical mode does not meet HIPAA Safe Harbor requirements"
+        )
+    )
+
+    @field_validator("transfer_facility_mode")
+    @classmethod
+    def validate_transfer_mode(cls, v):
+        allowed = ["conservative", "clinical"]
+        if v not in allowed:
+            raise ValueError(
+                f"transfer_facility_mode must be one of {allowed}, got '{v}'"
+            )
+        return v
 
     # =========================================================================
     # Security Configuration
