@@ -11,7 +11,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Annotated, Optional
 
-from fastapi import FastAPI, File, HTTPException, Query, Request, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -326,7 +326,11 @@ async def deidentify_only(
 
 @app.post("/api/process", response_model=ProcessResponse, tags=["processing"])
 @limiter.limit(f"{settings.rate_limit_requests}/{settings.rate_limit_window_seconds}seconds")
-async def process_audio(request: Request, file: Annotated[UploadFile, File()]):
+async def process_audio(
+    request: Request,
+    file: Annotated[UploadFile, File()],
+    transfer_mode: Annotated[str, Form()] = "conservative"  # NEW: Phase 23
+):
     """
     **Main endpoint**: Transcribe audio and remove all PHI.
 
@@ -366,6 +370,16 @@ async def process_audio(request: Request, file: Annotated[UploadFile, File()]):
     # Log request start
     audit_logger.log_request_start(request_id, file_size, client_ip_hash)
 
+    # Validate transfer mode (Phase 23)
+    allowed_modes = ["conservative", "clinical"]
+    if transfer_mode not in allowed_modes:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid transfer_mode '{transfer_mode}'. Must be one of: {allowed_modes}"
+        )
+
+    logger.info(f"[{request_id}] Transfer facility mode: {transfer_mode}")
+
     if size_mb > settings.max_audio_size_mb:
         raise HTTPException(
             status_code=413,
@@ -404,7 +418,7 @@ async def process_audio(request: Request, file: Annotated[UploadFile, File()]):
 
         # Step 2: De-identify
         logger.info(f"[{request_id}] Step 2: De-identifying PHI...")
-        result = deidentify_text(transcript, "type_marker")
+        result = deidentify_text(transcript, "type_marker", transfer_facility_mode=transfer_mode)
 
         # Step 3: Validate
         logger.info(f"[{request_id}] Step 3: Validating de-identification...")
