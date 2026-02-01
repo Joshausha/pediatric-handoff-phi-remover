@@ -49,6 +49,11 @@ class DeidentificationResult:
     entity_count: int = 0
     entity_counts_by_type: dict[str, int] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
+    # Phase 23: Track preserved vs removed entities for clinical mode
+    entities_removed_count: int = 0
+    entities_preserved_count: int = 0
+    entities_removed_by_type: dict[str, int] = field(default_factory=dict)
+    entities_preserved_by_type: dict[str, int] = field(default_factory=dict)
 
 
 def _mask_text_preview(text: str, max_reveal: int = 3) -> str:
@@ -271,6 +276,9 @@ def deidentify_text(
         # Count by type
         entity_counts[result.entity_type] = entity_counts.get(result.entity_type, 0) + 1
 
+    # Phase 23: Track which entities will be preserved vs removed
+    preserved_types = set()
+
     # Configure replacement operator based on strategy
     if strategy == "type_marker":
         # Replace with type marker: [NAME], [PHONE], etc.
@@ -298,6 +306,7 @@ def deidentify_text(
                 # Clinical mode: preserve LOCATION entities (for transfer facilities)
                 # Uses Presidio "keep" operator which leaves text unchanged
                 operators[entity_type] = OperatorConfig("keep", {})
+                preserved_types.add(entity_type)
                 logger.debug("Clinical mode: LOCATION entities will be preserved")
             else:
                 # Conservative mode (default): redact all PHI
@@ -331,14 +340,35 @@ def deidentify_text(
         operators=operators
     )
 
-    logger.info(f"De-identification complete: {len(results)} PHI entities found")
+    # Phase 23: Calculate removed vs preserved counts
+    entities_removed_by_type = {}
+    entities_preserved_by_type = {}
+    entities_removed_count = 0
+    entities_preserved_count = 0
+
+    for entity_type, count in entity_counts.items():
+        if entity_type in preserved_types:
+            entities_preserved_by_type[entity_type] = count
+            entities_preserved_count += count
+        else:
+            entities_removed_by_type[entity_type] = count
+            entities_removed_count += count
+
+    logger.info(
+        f"De-identification complete: {len(results)} PHI entities found "
+        f"({entities_removed_count} removed, {entities_preserved_count} preserved)"
+    )
 
     return DeidentificationResult(
         clean_text=anonymized.text,
         original_text=text,
         entities_found=entities_found,
         entity_count=len(results),
-        entity_counts_by_type=entity_counts
+        entity_counts_by_type=entity_counts,
+        entities_removed_count=entities_removed_count,
+        entities_preserved_count=entities_preserved_count,
+        entities_removed_by_type=entities_removed_by_type,
+        entities_preserved_by_type=entities_preserved_by_type
     )
 
 

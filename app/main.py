@@ -88,7 +88,8 @@ class HealthResponse(BaseModel):
 class ProcessResponse(BaseModel):
     original_transcript: str
     clean_transcript: str
-    phi_removed: dict
+    phi_removed: dict  # Legacy: includes total_count and by_type
+    phi_detected: dict  # Phase 23: New - includes removed/preserved breakdown
     entities: list
     audio_duration_seconds: Optional[float]
     warnings: list
@@ -409,6 +410,13 @@ async def process_audio(
                 original_transcript="",
                 clean_transcript="",
                 phi_removed={"total_count": 0, "by_type": {}},
+                phi_detected={
+                    "total_count": 0,
+                    "removed_count": 0,
+                    "preserved_count": 0,
+                    "removed_by_type": {},
+                    "preserved_by_type": {}
+                },
                 entities=[],
                 audio_duration_seconds=metadata.get("duration"),
                 warnings=["No speech detected in audio"],
@@ -447,6 +455,13 @@ async def process_audio(
             phi_removed={
                 "total_count": result.entity_count,
                 "by_type": result.entity_counts_by_type
+            },
+            phi_detected={
+                "total_count": result.entity_count,
+                "removed_count": result.entities_removed_count,
+                "preserved_count": result.entities_preserved_count,
+                "removed_by_type": result.entities_removed_by_type,
+                "preserved_by_type": result.entities_preserved_by_type
             },
             entities=[
                 {

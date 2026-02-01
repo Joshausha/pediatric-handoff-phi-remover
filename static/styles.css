@@ -476,6 +476,20 @@ body {
     font-weight: 600;
 }
 
+/* Phase 23: Visual distinction for removed vs preserved entities */
+.phi-tag-removed .phi-tag-count {
+    background: var(--success);  /* Green - removed PHI (good) */
+}
+
+.phi-tag-preserved {
+    background: #fff9e6;  /* Light yellow background */
+    border: 1px solid #ffd700;
+}
+
+.phi-tag-preserved .phi-tag-count {
+    background: #ffa500;  /* Orange - preserved (clinical mode) */
+}
+
 .transcript-section {
     margin-bottom: var(--space-lg);
 }

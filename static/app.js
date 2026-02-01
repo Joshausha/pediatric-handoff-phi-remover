@@ -262,19 +262,64 @@ class HandoffTranscriber {
         this.processingPanel.classList.add('hidden');
         this.resultsPanel.classList.remove('hidden');
 
-        // PHI summary
-        this.phiTotal.textContent = result.phi_removed.total_count;
+        // Phase 23: Use new phi_detected structure for accurate removed count
+        const phiData = result.phi_detected || result.phi_removed; // Fallback for compatibility
 
-        // Breakdown by type
+        // PHI summary - show removed count (not total detected)
+        this.phiTotal.textContent = phiData.removed_count !== undefined
+            ? phiData.removed_count
+            : phiData.total_count;
+
+        // Update label based on whether entities were preserved
+        const phiLabel = document.querySelector('.phi-label');
+        if (phiData.preserved_count > 0) {
+            phiLabel.textContent = 'PHI elements removed';
+            phiLabel.title = `${phiData.preserved_count} location(s) preserved for clinical mode`;
+        } else {
+            phiLabel.textContent = 'PHI elements removed';
+            phiLabel.title = '';
+        }
+
+        // Breakdown by type - show removed entities first, then preserved
         this.phiBreakdown.innerHTML = '';
-        for (const [type, count] of Object.entries(result.phi_removed.by_type)) {
-            const tag = document.createElement('span');
-            tag.className = 'phi-tag';
-            tag.innerHTML = `
-                <span class="phi-tag-count">${count}</span>
-                ${this.formatEntityType(type)}
-            `;
-            this.phiBreakdown.appendChild(tag);
+
+        // Removed entities (redacted)
+        if (phiData.removed_by_type) {
+            for (const [type, count] of Object.entries(phiData.removed_by_type)) {
+                const tag = document.createElement('span');
+                tag.className = 'phi-tag phi-tag-removed';
+                tag.innerHTML = `
+                    <span class="phi-tag-count">${count}</span>
+                    ${this.formatEntityType(type)} (removed)
+                `;
+                this.phiBreakdown.appendChild(tag);
+            }
+        }
+
+        // Preserved entities (clinical mode)
+        if (phiData.preserved_by_type) {
+            for (const [type, count] of Object.entries(phiData.preserved_by_type)) {
+                const tag = document.createElement('span');
+                tag.className = 'phi-tag phi-tag-preserved';
+                tag.innerHTML = `
+                    <span class="phi-tag-count">${count}</span>
+                    ${this.formatEntityType(type)} (preserved)
+                `;
+                this.phiBreakdown.appendChild(tag);
+            }
+        }
+
+        // Fallback to legacy format if new structure not available
+        if (!phiData.removed_by_type && !phiData.preserved_by_type && phiData.by_type) {
+            for (const [type, count] of Object.entries(phiData.by_type)) {
+                const tag = document.createElement('span');
+                tag.className = 'phi-tag';
+                tag.innerHTML = `
+                    <span class="phi-tag-count">${count}</span>
+                    ${this.formatEntityType(type)}
+                `;
+                this.phiBreakdown.appendChild(tag);
+            }
         }
 
         // Clean transcript
