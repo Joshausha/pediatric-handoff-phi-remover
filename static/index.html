@@ -55,6 +55,29 @@
             </div>
         </section>
 
+        <!-- Transfer Mode Selection -->
+        <section class="panel mode-panel">
+            <h2>Processing Mode</h2>
+            <div class="mode-selection">
+                <label class="mode-option">
+                    <input type="radio" name="transfer-mode" value="conservative" checked>
+                    <div class="mode-content">
+                        <span class="mode-title">Conservative Mode</span>
+                        <span class="mode-desc">HIPAA Safe Harbor compliant - redacts all location information including transfer facilities</span>
+                        <span class="mode-badge mode-default">Default</span>
+                    </div>
+                </label>
+                <label class="mode-option">
+                    <input type="radio" name="transfer-mode" value="clinical">
+                    <div class="mode-content">
+                        <span class="mode-title">Clinical Mode</span>
+                        <span class="mode-desc">Preserves transfer facility names for care coordination</span>
+                        <span class="mode-badge mode-warning">Does not meet Safe Harbor</span>
+                    </div>
+                </label>
+            </div>
+        </section>
+
         <!-- Processing Panel -->
         <section id="processing-panel" class="panel processing-panel hidden">
             <h2>Processing</h2>
