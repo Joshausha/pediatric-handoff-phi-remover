@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** v2.4 Clinical Utility Refinement - Phase 23 planning
+**Current focus:** v2.4 Clinical Utility Refinement - SHIPPED
 
 ## Current Position
 
-Phase: 23 of 23+ (Transfer Facility Preservation) - IN PROGRESS
-Plan: 1 of 2 (backend complete, frontend pending)
-Status: v2.4 milestone in progress
-Last activity: 2026-01-31 — Completed Phase 23 Plan 01 (backend configuration)
+Phase: 23 of 23 (Transfer Facility Preservation) - COMPLETE
+Plan: 2 of 2 (all plans executed)
+Status: v2.4 milestone SHIPPED
+Last activity: 2026-01-31 — Phase 23 execution complete, v2.4 shipped
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [##########] 100% v2.3 | [█████░░░░░] 50% v2.4
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [##########] 100% v2.3 | [##########] 100% v2.4
 
 ## Milestones Shipped
 
@@ -25,6 +25,7 @@ Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2
 | v2.1 | Over-Detection Quality Pass | 10-12 | 7 | 2026-01-28 |
 | v2.2 | Dual-Weight Recall Framework | 13-16 | 4 | 2026-01-30 |
 | v2.3 | Recall Improvements | 17-22 | 18 | 2026-01-31 |
+| v2.4 | Clinical Utility Refinement | 23 | 2 | 2026-01-31 |
 
 ## v2.3 Milestone Results (SHIPPED)
 
@@ -167,13 +168,31 @@ Recent decisions affecting v2.2-v2.3:
   - Phase 21: Location/Transfer Patterns
   - Phase 22: Validation & Recall Targets
 
+## v2.4 Milestone Results (SHIPPED)
+
+**1 phase (23) delivered configurable transfer facility preservation:**
+
+- Phase 23: Transfer Facility Preservation — Two-mode LOCATION handling ✅
+  - Conservative mode (default): HIPAA Safe Harbor compliant, redacts all LOCATION
+  - Clinical mode: Preserves LOCATION for care coordination with warning
+
+**Key Achievements:**
+- Configurable transfer_facility_mode setting with Pydantic validation
+- Presidio "keep" operator for LOCATION preservation in clinical mode
+- Frontend radio button UI with clear HIPAA warning
+- Accurate preserved vs removed PHI count display
+- 15 unit tests covering both modes
+- 11/11 verification truths passed
+
+**See:** `.planning/phases/23-transfer-facility-preservation/23-VERIFICATION.md` for comprehensive Phase 23 analysis.
+
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Phase 23 Plan 01 complete — Backend transfer facility mode configuration implemented
+Stopped at: v2.4 milestone SHIPPED — All phases complete
 Resume file: None
-Next: Phase 23 Plan 02 (frontend mode selection UI)
+Next: New milestone planning (v2.5 or evaluate next priority)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-31 — Phase 23 Plan 01 COMPLETE (transfer facility mode backend configuration with 15 unit tests)*
+*Last updated: 2026-01-31 — v2.4 Clinical Utility Refinement SHIPPED (Phase 23 complete with transfer facility mode)*
