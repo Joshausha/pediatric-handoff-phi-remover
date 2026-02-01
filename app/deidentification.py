@@ -159,7 +159,7 @@ def _get_entity_threshold(entity_type: str) -> float:
 def deidentify_text(
     text: str,
     strategy: str = "type_marker",
-    transfer_facility_mode: str | None = None
+    transfer_facility_mode: Optional[str] = None
 ) -> DeidentificationResult:
     """
     Remove PHI from text using Presidio.
