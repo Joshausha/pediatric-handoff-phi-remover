@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Reliable PHI detection with balanced precision/recall — catch all PHI without over-redacting clinically useful content
-**Current focus:** v2.3 shipped - ready for deployment and next milestone planning
+**Current focus:** v2.4 Clinical Utility Refinement - Phase 23 planning
 
 ## Current Position
 
-Phase: 22 of 22 (Validation & Recall Targets) - COMPLETE (2/2 plans)
-Plan: 2 of 2 completed (22-02)
-Status: v2.3 SHIPPED - Milestone report generated, all documentation updated
-Last activity: 2026-01-31 — Completed 22-02-PLAN.md (v2.3 milestone completion)
+Phase: 23 of 23+ (Transfer Facility Preservation) - IN PROGRESS
+Plan: 1 of 2 (backend complete, frontend pending)
+Status: v2.4 milestone in progress
+Last activity: 2026-01-31 — Completed Phase 23 Plan 01 (backend configuration)
 
-Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [##########] 100% v2.3
+Progress: [##########] 100% v1.0 | [##########] 100% v2.0 | [##########] 100% v2.1 | [##########] 100% v2.2 | [##########] 100% v2.3 | [█████░░░░░] 50% v2.4
 
 ## Milestones Shipped
 
@@ -125,6 +125,9 @@ Recent decisions affecting v2.2-v2.3:
 - **PHASE22-MODULE-SCOPE** (Phase 22-01): Use module-scoped fixtures for validation to run expensive validation once per test file
 - **PHASE22-MRN-XFAIL** (Phase 22-01): Mark MRN test as xfail (70.9% vs 85% target) - documents gap without failing CI, 85% was aspirational
 - **PHASE22-TOLERANCE-1PCT** (Phase 22-01): Allow 1% tolerance for weighted metric comparisons to accommodate bootstrap sampling variation
+- **TRANSFER-FACILITY-DEFAULT-CONSERVATIVE** (Phase 23-01): Default transfer_facility_mode to "conservative" for HIPAA Safe Harbor compliance, require explicit opt-in for clinical mode
+- **TRANSFER-FACILITY-KEEP-OPERATOR** (Phase 23-01): Use Presidio "keep" operator for LOCATION entities in clinical mode, leveraging framework capabilities instead of custom filtering
+- **TRANSFER-FACILITY-ALL-LOCATION-TRADEOFF** (Phase 23-01): Clinical mode preserves ALL LOCATION entities (transfer facilities AND home addresses) - accepted tradeoff for care coordination use case
 
 ### Pending Todos
 
@@ -154,6 +157,8 @@ Recent decisions affecting v2.2-v2.3:
 
 ### Roadmap Evolution
 
+- 2026-01-31: v2.4 Clinical Utility Refinement milestone created
+  - Phase 23: Transfer Facility Preservation (from UAT feedback - facility names may be clinically relevant)
 - 2026-01-30: v2.3 Recall Improvements milestone created (Phases 17-22)
   - Phase 17: Room Pattern Expansion
   - Phase 18: Guardian Edge Cases
@@ -165,10 +170,10 @@ Recent decisions affecting v2.2-v2.3:
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Phase 22 Plan 02 complete — v2.3 Milestone Report generated, all documentation updated, v2.3 SHIPPED
+Stopped at: Phase 23 Plan 01 complete — Backend transfer facility mode configuration implemented
 Resume file: None
-Next: Next milestone planning (evaluate v2.4 focus areas)
+Next: Phase 23 Plan 02 (frontend mode selection UI)
 
 ---
 *State initialized: 2026-01-23*
-*Last updated: 2026-01-31 — v2.3 Recall Improvements milestone SHIPPED (18 plans across 6 phases, comprehensive milestone report generated)*
+*Last updated: 2026-01-31 — Phase 23 Plan 01 COMPLETE (transfer facility mode backend configuration with 15 unit tests)*
