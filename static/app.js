@@ -209,6 +209,11 @@ class HandoffTranscriber {
             const formData = new FormData();
             formData.append('file', this.audioBlob, 'recording.webm');
 
+            // Get selected transfer mode (Phase 23)
+            const transferModeInput = document.querySelector('input[name="transfer-mode"]:checked');
+            const transferMode = transferModeInput ? transferModeInput.value : 'conservative';
+            formData.append('transfer_mode', transferMode);
+
             // Use AbortController with 30-minute timeout for long recordings
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 30 * 60 * 1000);
